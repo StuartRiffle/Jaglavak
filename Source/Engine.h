@@ -59,10 +59,12 @@ struct Engine
 
     void Init()
     {
+        this->Reset();
     }
 
     void Reset()
     {
+       // mTree = new TreeSearcher( &mSearchOptions );
     }
 
     void SetPosition( const Position& pos )

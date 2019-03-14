@@ -46,10 +46,10 @@
     
     #define CORVID_CPU          (1)
     #define CORVID_MSVC         (1)
-    #define ENABLE_SSE2  (1)
-    #define ENABLE_SSE4  (1)
-    #define ENABLE_AVX2  (1)
-    #define ENABLE_AVX512 (0)
+    #define ENABLE_SSE2         (1)
+    #define ENABLE_SSE4         (1)
+    #define ENABLE_AVX2         (1)
+    #define ENABLE_AVX512       (0)
     #define CORVID_ALLOW_POPCNT (1)
     #define ALIGN( _N )  __declspec( align( _N ) )
     #define ALIGN_SIMD   __declspec( align( 32 ) )
@@ -185,7 +185,7 @@ INLINE PDECL u64 PlatCountBits64( const u64& val )
 #if CORVID_CUDA_DEVICE
     return( __popcll( val ) );
 #else
-    #if CORVID_ALLOW_POPCNT
+    #if ENABLE_POPCNT
         #if CORVID_MSVC
             if( POPCNT ) 
                 return( __popcnt64( val ) );
@@ -209,24 +209,6 @@ INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
     ::memset( mem, 0, bytes );
 #elif CORVID_GCC
     __builtin_memset( mem, 0, bytes );    
-#endif
-}
-
-INLINE PDECL void PlatPrefetch( void* mem )
-{
-#if CORVID_MSVC
-    _mm_prefetch( (char*) mem, _MM_HINT_NTA );
-#elif CORVID_GCC
-    __builtin_prefetch( mem );  
-#endif
-}
-
-INLINE PDECL void PlatMemoryFence()
-{
-#if CORVID_CUDA_DEVICE
-    __threadfence();
-#else
-    std::atomic_thread_fence( std::memory_order_seq_cst );
 #endif
 }
 

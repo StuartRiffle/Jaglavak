@@ -27,10 +27,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
-    <ClCompile Include="..\Source\CPU-AVX2.cpp" />
     <ClCompile Include="..\Source\CPU-AVX512.cpp" />
     <ClCompile Include="..\Source\CPU-SSE2.cpp" />
     <ClCompile Include="..\Source\CPU-SSE4.cpp" />
+    <ClCompile Include="..\Source\CPU-AVX2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\GPU-CUDA.cu" />

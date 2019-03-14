@@ -219,6 +219,32 @@ INLINE PDECL T CountBits( const T& val )
     return PlatCountBits64< POPCNT >( val ); 
 }
 
+template< typename SIMD, typename PACKED, typename UNPACKED >
+INLINE void Swizzle( const PACKED* srcStruct, UNPACKED* destStruct )
+{
+    const int LANES = SimdWidth< SIMD >::LANES;
+
+    int blockSize    = (int) LANES * sizeof( SIMD );
+    int blockCount   = (int) sizeof( PACKED ) / blockSize;
+
+    const SIMD* RESTRICT    src     = (SIMD*) srcStruct;
+    SIMD* RESTRICT          dest    = (SIMD*) destStruct;
+
+    while( blockCount-- )
+    {
+        Transpose< SIMD >( src, 1, dest, sizeof( UNPACKED ) / sizeof( SIMD ) );
+
+        src += LANES;
+        dest += 1;
+    }
+}
+
+template< typename SIMD, typename PACKED, typename UNPACKED >
+INLINE void Unswizzle( const UNPACKED* srcStruct, PACKED* destStruct )
+{
+    Swizzle< SIMD >( (PACKED*) srcStruct, (UNPACKED*) destStruct );
+}
+
 
 template< typename T > struct   MoveSpecT;
 template< typename T > struct   MoveMapT;

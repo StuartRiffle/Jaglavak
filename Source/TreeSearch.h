@@ -103,9 +103,9 @@ typedef list< TreeNode > TreeNodeList;
 
 struct SearchTree
 {
-    TreeNode*       mRoot;
-    TreeNodeList    mNodes;
-    SearchOptions*  mOptions;
+    list< TreeNode > mNodes;
+    TreeNode*        mRoot;
+    SearchOptions*   mOptions;
 
     SearchTree( SearchOptions* options, const char* fen = NULL )
     {
@@ -126,7 +126,7 @@ struct SearchTree
         DeleteAllNodes();
     }
 
-    void MoveToFront( TreeNodeList::iterator iter )
+    void MoveToFront( list< TreeNode >::iterator iter )
     {
         mNodes.splice( mNodes.begin(), mNodes, iter );
     }
@@ -183,15 +183,12 @@ struct SearchTree
         job.mNumGames = mOptions->mNumAsyncPlays;
         job.mPathFromRoot.assign( pathFromRoot.Moves, pathFromRoot.mMoves + pathFromRoot.mCount );
 
-        float gamePhase = Evaluation::CalcGamePhase( pos, mOptions->mUsePopcnt );
-        Evaluation::GenerateWeights( &job.mWeights, gamePhase );
-
         mPlayoutJobQueue.Push( job );
 
-        // Also do a more modest batch now
+        // Do a more modest batch immediately
 
         PlayoutProvider provider( &mOptions->mPlayoutOptions );
-        ScoreCard scores = provider.Play( pos, mOptions->mNumInitialPlays );
+        ScoreCard scores = provider.DoPlayouts( pos, mOptions->mNumInitialPlays );
 
         return scores;
     }
@@ -250,9 +247,6 @@ struct SearchTree
 
     void Step()
     {
-        if( mJobQueue.IsFull() )
-            std::thread::yield();
-
         if( !mJobQueue.IsFull() )
         {
             MoveList pathFromRoot;
