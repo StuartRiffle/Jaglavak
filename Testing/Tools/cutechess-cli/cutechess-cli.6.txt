@@ -1,0 +1,270 @@
+CUTECHESS-CLI(6)		 Games Manual		      CUTECHESS-CLI(6)
+
+NAME
+     cutechess-cli - Automate chess engine tournaments
+
+SYNOPSIS
+     cutechess-cli -engine engine-options -engine engine-options
+		   [-engine engine-options ...] [options]
+
+DESCRIPTION
+     The cutechess-cli utility automates chess engine tournaments.
+
+     Its options are as follows:
+
+     -engine engine-options
+	     Add an engine defined by engine-options to the tournament.  See
+	     Engine Options.
+
+     -each engine-options
+	     Apply engine-options to each engine in the tournament.  See
+	     Engine Options.
+
+     -variant variant
+	     Set the chess variant, where variant is one of:
+
+		  atomic	 Atomic Chess
+		  capablanca	 Capablanca Chess
+		  caparandom	 Capablanca Random Chess
+		  crazyhouse	 Crazyhouse / Drop Chess
+		  fischerandom	 Fischer Random Chess / Chess 960
+		  gothic	 Gothic Chess
+		  losers	 Loser's Chess
+		  standard	 Standard Chess (default)
+
+     -concurrency n
+	     Set the maximum number of concurrent games to n.
+
+     -draw movenumber=number movecount=count score=score
+	     Adjudicate the game as draw if the score of both engines is
+	     within score centipawns from zero for at least count consecutive
+	     moves, and at least number full moves have been played.
+
+     -resign movecount=count score=score
+	     Adjudicate the game as a loss if an engine's score is at least
+	     score centipawns below zero for at least count consecutive moves.
+
+     -gtb paths
+	     Adjudicate games using Gaviota tablebases.  Paths should be
+	     semicolon-delimited list of paths to the compressed tablebase
+	     files.  At the moment only scheme 4 compression is supported.
+
+     -tournament type
+	     Set the tournament type, where type is one of:
+
+		  round-robin	 Round-robin tournament (default)
+		  gauntlet	 First engine plays against the rest
+		  knockout	 Single-elimination tournament
+
+     -event arg
+	     Set the event name to arg.
+
+     -games n
+	     Play n games per encounter.  This value should be set to an even
+	     number in tournaments with more than two players to make sure
+	     that each player plays an equal number of games with white and
+	     black pieces.
+
+     -rounds n
+	     Multiply the number of rounds to play by n.  For two-player
+	     tournaments this option should be used to set the total number of
+	     games to play.
+
+     -sprt elo0=E0 elo1=E1 alpha=a beta=B
+	     Use a Sequential Probability Ratio Test as a termination
+	     criterion for the match.
+
+	     This option should only be used in matches between two players to
+	     test if engine P1 is stronger than engine P2.  Hypothesis H1 is
+	     that P1 is stronger than P2 by at least E0 ELO points, and H0
+	     (the null hypothesis) is that P1 is not stronger than P2 by at
+	     least E1 ELO points.  The maximum probabilities for type I and
+	     type II errors outside the interval [ E0, E1 ] are a and B.
+
+	     The match is stopped if either H0 or H1 is accepted or if the
+	     maximum number of games set by -rounds and / or -games is
+	     reached.
+
+     -ratinginterval n
+	     Set the interval for printing the ratings to n games.
+
+     -debug  Display all engine input and output.
+
+     -openings file=file format=[epd | pgn] order=[random | sequential]
+	     plies=plies start=start
+	     Pick game openings from file.  The file can be either in epd
+	     (Extended Position Description) or pgn (Portable Game Notation)
+	     format.  The default format is pgn.  Openings can be picked in
+	     random or sequential (default) order.  The opening depth is
+	     limited to plies number of plies.	If plies is not set the
+	     opening depth is unlimited.  In sequential mode start is the
+	     number of the first opening that will be played.  The minimum
+	     value for start is 1 (default).
+
+     -bookmode mode
+	     Set Polyglot book access mode, where mode is either ram (the
+	     whole book is loaded into RAM) or disk (the book is accessed
+	     directly on disk).  The default mode is ram.
+
+     -pgnout file [min]
+	     Save the games to file in PGN format. Use the min argument to
+	     save in a minimal PGN format.
+
+     -recover
+	     Restart crashed engines instead of stopping the game.
+
+     -repeat
+	     Play each opening twice so that both players get to play it on
+	     both sides.
+
+     -seeds n
+	     Set the first n engines as seeds in the tournament. The default
+	     is 0.
+
+     -site arg
+	     Set the site / location to arg.
+
+     -srand seed
+	     Set the random seed for the book move selector.
+
+     -wait n
+	     Wait n milliseconds between games. The default is 0.
+
+     -version
+	     Display the version information.
+
+     -help   Display help information.
+
+     -engines
+	     Display a list of configured engines and exit.
+
+   Engine Options
+     conf=arg
+	     Use an engine with the name arg from engine configuration file.
+
+     name=arg
+	     Set the name to arg.
+
+     cmd=arg
+	     Set the command to arg.
+
+     dir=arg
+	     Set the working directory to arg.
+
+     stderr=arg
+	     Redirect standard error output to file arg.
+
+     proto=[uci | xboard]
+	     Set the chess protocol.
+
+     tc=[tcformat | inf]
+	     Set the time control.  The format is moves/time+increment, where
+	     moves is the number of moves per tc, time is time per tc (either
+	     seconds or minutes:seconds), and increment is the time increment
+	     per move in seconds.
+
+	     Infinite time control can be set with inf.
+
+     option.name=value
+	     Set custom engine option.
+
+     arg=arg
+	     Pass arg to the engine as a command line argument.
+
+     initstr=arg
+	     Send arg to the engine's standard input at startup.
+
+     restart=[auto | on | off]
+	     Set the engine restart mode.  auto means the engine decides
+	     whether to restart (default), on means the engine is always
+	     restarted between games and off means the engine is never
+	     restarted between games.  Setting this option does not prevent
+	     engines from being restarted between rounds in a tournament
+	     featuring more than two engines.
+
+     trust   Trust result claims from the engine without validation.  By
+	     default all claims are validated.
+
+     st=n    Set the time limit for each move to n seconds.  This option
+	     cannot be used in combination with the tc option.
+
+     timemargin=n
+	     Let engines go n milliseconds over the time limit.
+
+     book=file
+	     Use file (Polyglot book file) as the opening book.
+
+     bookdepth=n
+	     Set the maximum book depth (in fullmoves) to n.
+
+     whitepov
+	     Invert the engine's scores when it plays black.  This option
+	     should be used with engines that always report scores from
+	     white's perspective.
+
+     ponder  Enable pondering if the engine supports it.
+
+     depth=plies
+	     Set the search depth limit.
+
+     nodes=count
+	     Set the node count limit.
+
+EXAMPLES
+     Play ten games between two Sloppy engines with a time control of 40 moves
+     in 60 seconds:
+
+	   $ cutechess-cli -engine cmd=sloppy -engine cmd=sloppy -each
+	   proto=xboard tc=40/60 -rounds 10
+
+     Play a single game between Atak and Glaurung engines with a time control
+     of 40 moves in one minute and 30 seconds with one second increment:
+
+	   $ cutechess-cli -engine name=Atak cmd=Atak32.exe dir=C:\atak
+	   proto=xboard -engine cmd=glaurung proto=uci option.Threads=1 -both
+	   tc=40/1:30+1
+
+     o	 Use the name=Atak parameter because it's a Xboard protocol 1 engine
+	 and doesn't tell its name.
+
+     o	 Use the dir=C:\atak parameter to point the location of the
+	 executable.
+
+     o	 Glaurung can tell its name and is in the PATH variable so only the
+	 command is needed.
+
+     o	 Set Glaurung to use 1 thread.
+
+     o	 Set the time control to 40 moves in one minute and 30 seconds with
+	 one second increment.
+
+     Play a Round-Robin tournament between Fruit, Crafty, Stockfish and
+     Sloppy:
+
+	   $ cutechess-cli -engine conf=Fruit -engine conf=Crafty -engine
+	   conf=Stockfish -engine conf=Sloppy -each tc=4 book=book.bin -games
+	   2 -rounds 10 -repeat
+
+     o	 Play two games per encounter, effectively multiplying the number of
+	 games by 2.
+
+     o	 Play 10 times the minimum amount of rounds (3). So the total number
+	 of rounds to play will be 30, and the total number of games 120.
+
+     o	 In each two-game encounter colors are switched between games and the
+	 same opening line is played in both games.
+
+SEE ALSO
+     engines.json(5)
+
+AUTHORS
+     The cutechess-cli utility was written by Ilari Pihlajisto,
+     ilari.pihlajisto@mbnet.fi; and
+     Arto Jonsson, ajonsson@kapsi.fi.
+
+RESOURCES
+     o	 Project page: http://github.com/cutechess/cutechess
+
+     o	 Mailing list: https://list.kapsi.fi/listinfo/cutechess
+
+Linux 4.2.0-36-generic	       October 27, 2015 	Linux 4.2.0-36-generic

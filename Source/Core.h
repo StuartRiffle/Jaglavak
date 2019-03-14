@@ -1,0 +1,16 @@
+#include "Platform.h"
+#include "Defs.h"
+#include "BitBoard.h"
+#include "CPU-X64.h"
+#include "CPU-SSE2.h"
+#include "CPU-SSE4.h"
+#include "CPU-AVX2.h"
+#include "CPU-AVX512.h"
+#include "MoveMap.h"
+#include "Position.h"
+#include "Evaluation.h"
+#include "MoveList.h"
+#include "Random.h"
+#include "Playout.h"
+
+

@@ -1,0 +1,37 @@
+cmake_minimum_required( VERSION 2.8 )
+if( POLICY CMP0025 )
+	# Enable compiler ID "AppleClang"
+	cmake_policy( SET CMP0025 NEW )
+endif()
+
+#################
+project( corvid )
+#################
+
+if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
+
+	add_compile_options( /GS- /GL /W3 /Gy- /Zc:wchar_t /Zi /Gm- /Ox /Ob2 /fp:fast /fp:except- /WX- /GR- /Gd /Oy /Oi /MT )
+	set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG" )
+
+elseif( (${CMAKE_CXX_COMPILER_ID} MATCHES GNU) OR (${CMAKE_CXX_COMPILER_ID} MATCHES Clang) )
+
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -w -std=c++11" )
+
+	if( ${CMAKE_CXX_COMPILER_ID} MATCHES AppleClang )
+		set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-deprecated-declarations" )
+	else()
+		set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--no-export-dynamic" )
+	endif()
+
+endif()
+
+add_subdirectory( contrib/gaviota-tb-0.4.5 )
+include_directories( contrib )
+
+add_executable( corvid src/corvid.cpp )
+target_link_libraries( corvid gaviota-tb )
+
+
+### find_package( CUDA QUIET REQUIRED )
+### set( CUDA_NVCC_FLAGS ${} -Xcudafe "--diag_suppress=negative_shift_count" -cudart static -use_fast_math -DCORVID_ENABLE_CUDA=1 )
+### cuda_add_executable( corvid-cuda src/corvid.cpp src/kernel.cu )

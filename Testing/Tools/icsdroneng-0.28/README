@@ -1,0 +1,362 @@
+ICSDRONENG(6)                                                    ICSDRONENG(6)
+
+
+
+NAME
+       icsdroneng -  Interface between an xboard chess engine and an ICS
+
+SYNOPSIS
+       icsdrone [options]
+
+DESCRIPTION
+       icsdroneng acts as an interface between an ICS (Internet Chess Server)
+       and a chess engine supporting the XBoard/WinBoard protocol. Unlike
+       XBoard/WinBoard it does not use a graphical interface so it is suitable
+       for use on embedded systems.
+
+       UCI engines may be used through the polyglot adapter.
+
+       icsdroneng started its life a fork of icsdrone by Henrik Gram.  It was
+       originally developed for FICS (the Free Internet Chess Server) but
+       currently ICC (the Internet Chess Club) works as well.
+
+       icsdroneng has the following new features.
+
+           - Feedback on commands.
+           - Builtin polyglot book support.
+           - Feedback on the current evaluation and principal variation
+             (through "whisper" or "kibitz" or the "proxyFeedback" option).
+           - "Daemon mode" (run in background).
+           - PGN logging.
+           - Auto reconnection in case of network problems.
+           - Support for resigning on behalf of the engine.
+           - Support for handling of draw offers.
+           - Support for autojoining tourneys.
+           - Builtin support for using timeseal.
+           - Optional "shortlog". E.g. for consulting via a webbrowser.
+           - Interactive console with readline support and colors.
+           - An ICS proxy.
+
+       When instructed via the "proxy" option, icsdroneng act as a proxy for
+       the ICS it is connected to. This is similar to using xboard with zippy
+       but now the "GUI" (xboard/winboard) can be closed without terminating
+       the engine.
+
+MANAGING ICSDRONENG
+       The managing options for icsdroneng are schematically described in the
+       following drawing
+
+                                                                                       V
+                                  console        xboard
+                                     A             A
+                                     |             |
+                                     |          (owner)
+                                     |             |
+                                     V             V
+            xboard<--(proxy)-->icsdroneng<--(C)-->ics
+                                     A
+                                     |
+                                     |
+                                     |
+                                     V
+                                  engine
+
+OPTIONS
+       All options take an argument. In the case of boolean options this is
+       on/off.
+
+       -icsHost (default: "freechess.org")
+           Hostname of the ICS server.
+
+       -icsPort (default: 23)
+           Port of the ICS server.
+
+       -timeseal
+           Path to timeseal binary.
+
+       -handle (default: "guest")
+           Login handle.
+
+       -password (default: "xxx")
+           ICS password
+
+       -loginScript
+           Script with login data and commands.
+
+       -owner
+           Specifies a ICS handle of a user which can send tell commands to
+           icsdroneng.
+
+       -autoReconnect (default: "on")
+           Autoreconnect to ICS on network failures.
+
+       -console (default: "on")
+           Start up with console enabled. The console looks somewhat nicer
+           when readline support is compiled in.
+
+       -daemonize (default: "off")
+           Go into background. This implies console off.
+
+       -feedback (default: "off")
+           Send info about the eval and principal variation.
+
+       -feedbackOnlyFinal (default: "on")
+           Give feedback info only before move.
+
+       -feedbackCommand (default "whisper")
+           The command to use to send feedback to observers. Use "kibitz" if
+           you want your opponent to also see the feedback.
+
+       -proxyFeedback (default: "off")
+           Make icsdroneng give PV feedback directly to the proxy (i.e.
+           without relying on kibitz/whisper).
+
+       -ownerQuiet (default: "off")
+           Send no tells to the owner about starting and finishing games.
+
+       -engineQuiet (default: "off")
+           Do no pass on most engine commands to the ICS. Some engines are
+           just too noisy.
+
+       -program (default: "gnuchess")
+           Command to start the engine. If the engine is an UCI engine then
+           this should be an appropriate polyglot command.
+
+       -nice
+           Run the engine at lower priority.
+
+       -searchDepth (default: 0)
+           Specifies the maximum search depth for the engine. 0 means
+           unlimited.
+
+       -secPerMove (default: 0)
+           Specifies the maximum time to search for the engine. 0 means
+           unlimited.
+
+       -easyMode (default: "on")
+           Specifies if the engine thinks on the opponents time or not.
+
+       -resign (default: "on")
+           Specifies if icsdroneng will resign on behalf of the engine.
+
+       -acceptDraw (default: "on")
+           Specifies if icsdroneng will accept draw offers on behalf of the
+           engine.
+
+       -scoreForWhite  (default: "off")
+           Specifies if the engine reports the score of white (like Crafty).
+           If the engine is Crafty then icsdroneng will turn this on
+           automatically.  This is important to handle resigns and draw offers
+           correctly.
+
+       -dontReuseEngine (default: "on")
+           If true then icsdroneng will restart the engine after each game.
+
+       -book
+           Path to an opening book in polyglot format.
+
+       -logFile (default: "<handle>.log")
+           Path to the logfile. If the name ends in .gz and zlib support is
+           compiled in then the logfile will be compressed.
+
+       -logAppend (default: "off")
+           Specifies if we should append to the logfile.
+
+       -logging (default: "on")
+           Specifies if logging is enabled. Note that logfiles are very large
+           so on an embedded system you probably want to disable this.
+
+       -pgnFile (default: "<handle>.pgn")
+           Log games to this file.
+
+           Optionally redirect the game through a shell command by beginning
+           the file name with a '|'-character (pipe).  For example: -pgnFile
+           "|process-game.py Data/games.db"
+
+       -pgnLogging (default: "on")
+           Specifies if logging of games is enabled.
+
+       -shortLogFile (default: "<handle>.txt")
+           Log start/end of games as well as received tells to this file.
+
+       -shortLogging (default: "on")
+           Specifies if short logging is enabled.
+
+       -sendLogin
+           Commands to send at login. Multiple commands can be separated by
+           \n.
+
+       -sendGameStart (default: "say this is <enginename>")
+           Commands to send at start of game. Multiple commands can be
+           separated by \n.
+
+       -sendGameEnd
+           Commands to send at end of game. Multiple commands can be separated
+           by \n.
+
+       -sendTimeout (default: "resume")
+           Commands to send when idle. Multiple commands can be separated by
+           \n.
+
+       -limitRematches  (default: 0)
+           After this number of rematches wait 60 seconds before accepting. 0
+           means disable.
+
+       -hardLimit (default: 0)
+           After this number of rematches automatically decline the next match
+           offer from the same opponent. 0 means disable.
+
+       -issueRematch (default: "off")
+           Send "rematch" at end of the game.
+
+       -acceptOnly
+           Accept only challenges from this user.
+
+       -noplay
+           Comma separated list of players to auto decline offers from (case
+           sensitive). Note this is not the same as the ICS "noplay" list.
+
+       -autoJoin (default: "on")
+           Autojoin tourneys. Currently this does not work on ICC.
+
+       -proxy (default: "off")
+           Proxy the ICS.
+
+       -proxyPort (default: 5000)
+           The port to listen on.
+
+       -proxyHost (default: "127.0.0.1")
+           The interface to listen on. This must be the numeric ip address of
+           the interface. The default ensures that only connections from
+           localhost are possible.  To allow connections from anywhere use
+           "0.0.0.0".  This is only recommended if you are behind a firewall
+           as icsdroneng is not designed for security.  Note that even if you
+           are only listening locally there are still a number of options to
+           connect remotely such as the xboard "gateway" option or ssh
+           tunneling.
+
+       -proxyLogin (default "off")
+           If this is true, icsdroneng will display a login prompt on the
+           proxy. User/password are derived from the -handle and -password
+           arguments and from the strings entered at the icsdrone login
+           prompt.
+
+       -variants (default is server specific)
+           This is a string of comma separated variant specifiers.  The
+           default for a generic ics is
+
+           "lightning,blitz,standard,wild/1=wildcastle,wild/2, \
+                 wild/3,wild/4,wild/5"
+
+           This means that almost all ics variants translate to the chess
+           variant "normal" except "wild/1" which translates to "wildcastle".
+
+       -colorTell
+       -colorAlert
+       -colorDefault
+           Some colors for use in the console when icsdroneng is compiled with
+           readline support.
+
+CONSOLE, PROXY AND TELL COMMANDS, SCRIPTS
+       While icsdroneng is running you can send commands to it via the console
+       or via the proxy and if you are the owner also via "tell". In addition
+       commands can be put in scripts which can be loaded or specified as a
+       login script (with the command line option "-loginScript").
+
+       If you use a login script the first two lines should be the username
+       and password.
+
+       The following commands are interpreted by icsdroneng.
+
+           help       Give some rudimentary help
+           set        Set an option (see below)
+           softquit   Quit at the end of this game
+           hardquit   Quit now
+           restart    Quit and reconnect if autoReconnect is enabled. Otherwise quit.
+           options    List the settable options
+           coptions   List all options including those not settable at runtime.
+           daemonize  Go into background
+           load       Execute a script (for security reasons the name should end with .icsdrone)
+
+       Other commands (e.g. "draw", "seek", "match") will be forwarded to the
+       ICS.  Unless they are prefixed by * in which case they will be sent to
+       the engine.
+
+       With the "set" command you can change some command line options at
+       runtime.  This applies to the following options.
+
+           easymode
+           searchdepth
+           secpermove
+           sendgameend
+           sendgamestart
+           sendtimeout
+           sendlogin
+           limitrematches
+           issuerematch
+           hardlimit
+           acceptonly
+           feedback
+           feedbackonlyfinal
+           feedbackcommand
+           proxyfeedback
+           ownerquiet
+           pgnlogging
+           shortlogging
+           noplay
+           autojoin
+           autoreconnect
+           resign
+           acceptdraw
+           scoreforwhite
+           colortell
+           coloralert
+           colordefault
+
+       In contrast to command line options, these options are not case
+       sensitive.
+
+ADITIONAL REMARKS
+       It is important to always issue manual seeks. E.g. seek 1 0 m.  In that
+       way icsdroneng can perform checks before accepting an opponent (like
+       verifying the noplay option). This is especially important when playing
+       as a guest on FICS since in that case FICS does not know you are a
+       computer and will auto match seeks (annoying the hell out of people who
+       do not expect to get a computer opponent).  icsdroneng defends against
+       this but this will only work if you issue manual seeks.
+
+EXAMPLES
+       An example command line
+
+           icsdrone -owner RoboOwner -program "polyglot engine.ini"  -loginScript engine.script -timeseal ./timeseal.Linux -book performance.bin -daemonize on -proxy on
+
+       Here is an example login script
+
+           RoboUser
+           xxxx
+           set sendgameend say thanks\nseek 2 12 m
+           seek 2 12 m
+
+       A command line to make crafty play blitz without further intervention
+
+          icsdrone -handle RoboUser -password xxx -program crafty -sendLogin "seek 2 12 m" -sendGameEnd "seek 2 12 m" -proxy on
+
+       an equivalent version
+
+          icsdrone -handle RoboUser -password xxx -program crafty -sendLogin "seek 2 12 m\n set sendgameend seek 2 12 m" -proxy on
+
+EXIT STATUS
+       icsdroneng returns 1 ("restart") if the autoReconnect option is off and
+       a network error occurs after a succesful login or a restart command is
+       executed.  In all other cases a value > 1 is returned.
+
+AUTHORS
+           Henrik Gram <henrik.gram@gmail.com>
+           Michel Van den Bergh <michel.vandenbergh@uhasselt.be>
+
+SEE ALSO
+       polyglot(6)
+
+
+
+                                  2012-09-10                     ICSDRONENG(6)

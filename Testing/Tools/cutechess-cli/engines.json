@@ -1,0 +1,9 @@
+[
+	{ "name": "Corvid-1.37",	"command": "corvid-1.37-x64.exe", 	"workingDirectory": "d:\\chess\\corvid-1.37", 	"protocol": "uci" },
+	{ "name": "Corvid-1.5.0", 	"command": "corvid-1.5.0.exe",		"workingDirectory": "d:\\chess\\corvid-1.5.0",	"protocol": "uci" },
+	{ "name": "Corvid-1.5.1", 	"command": "corvid.exe",		"workingDirectory": "d:\\chess\\corvid-1.5.1",	"protocol": "uci" },
+	{ "name": "Corvid-1.6.0", 	"command": "corvid.exe",		"workingDirectory": "d:\\chess\\corvid-1.6.0",	"protocol": "uci" },
+	{ "name": "Fruit-2.3.1", 	"command": "fruit-2-3-1.exe",		"workingDirectory": "d:\\chess\\misc",		"protocol": "uci" },
+	{ "name": "Chenard", 		"command": "xchenard64_1800.exe",	"workingDirectory": "d:\\chess",		"protocol": "xboard" },
+	{ "name": "Jumbo", 		"command": "jumbo-0.1.10.exe",		"workingDirectory": "d:\\chess",		"protocol": "xboard" }
+]
