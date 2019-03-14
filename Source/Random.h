@@ -8,6 +8,7 @@ struct RandomGen
     u64 mState;
 
     RandomGen( u64 seed = 1 ) : mState( seed ) {}
+    void SetSeed( u64 seed ) {  mState = seed; }
 
     u64 GetNext()
     {

@@ -29,19 +29,20 @@ struct MoveSpecT
     INLINE PDECL bool operator!=( const MoveSpecT& rhs ) const { return( (mSrc != rhs.mSrc) || (mDest != rhs.mDest) || (mType != rhs.mType) ); }
 
     template< typename SCALAR >
-    INLINE PDECL void Swizzle( const SCALAR* moves )
+    INLINE PDECL void Unpack( const SCALAR* moves )
     {
-        MoveSpecT ALIGN_SIMD unpacked[T::LANES];
+        const int LANES = SimdWidth< T >::LANES;
+        MoveSpecT ALIGN_SIMD unpacked[LANES];
 
-        for( int i = 0; i < T::LANES; i++ )
+        for( int i = 0; i < LANES; i++ )
         {
-            unpacked[i].mSrc   = src[i].mSrc;
-            unpacked[i].mDest  = src[i].mDest;
-            unpacked[i].mType  = src[i].mType;
-            unpacked[i].mFlags = src[i].mFlags;
+            unpacked[i].mSrc   = moves[i].mSrc;
+            unpacked[i].mDest  = moves[i].mDest;
+            unpacked[i].mType  = moves[i].mType;
+            unpacked[i].mFlags = moves[i].mFlags;
         }
 
-        TransposeBlock< T >( unpacked, this, sizeof( *this ) );
+        Swizzle< T >( unpacked, this );
     }
 };
 

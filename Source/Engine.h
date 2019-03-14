@@ -42,9 +42,10 @@ struct Engine
         static EngineOptionInfo sOptions[] = 
         {
             "OwnBook", 0, 1, 0,
-
             NULL
         };
+
+        return sOptions;
     }
 
     void SetOption( const char* name, int value )

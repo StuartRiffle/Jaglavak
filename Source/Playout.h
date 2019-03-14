@@ -32,6 +32,7 @@ struct PlayoutOptions
     int     mMovesToPeek;
     int     mMaxPlayoutMoves;
     int     mAutoAdjudicate;
+    u64     mRandomSeed;
 
     int     mMaxCpuLevel;
     int     mForceCpuLevel;
@@ -43,7 +44,6 @@ struct PlayoutJobInfo
 {
     Position            mPosition;
     PlayoutOptions      mOptions;
-    u64                 mRandomSeed;
     int                 mNumGames;
     MoveList            mPathFromRoot;
 };
@@ -62,11 +62,15 @@ struct PlayoutJobResult
 struct PlayoutProvider
 {
     PlayoutOptions* mOptions;
+    RandomGen       mRandom;
 
-    PlayoutProvider( PlayoutOptions* options ) : mOptions( options ) {}
+    PlayoutProvider( PlayoutOptions* options ) : mOptions( options )
+    {
+        mRandom.SetSeed( options->mRandomSeed );
+    }
 
     template< int POPCNT >
-    PDECL MoveSpec SelectRandomMove( const MoveMap& moveMap )
+    PDECL MoveSpec SelectRandomMove( const Position& pos, const MoveMap& moveMap )
     {
         MoveMap mmap = moveMap;
 
@@ -81,7 +85,7 @@ struct PlayoutProvider
         for( int i = 0; i < count; i++ )
             total += (int) CountBits< POPCNT >( buf[i] );
 
-        int bitsToSkip = (int) rand.GetRange( total );
+        int bitsToSkip = (int) mRandom.GetRange( total );
 
         int word = 0;
         while( word < count )
@@ -95,7 +99,7 @@ struct PlayoutProvider
             word++;
         }
 
-        int idx;
+        u64 idx;
         while( bitsToSkip-- )
             idx = ConsumeLowestBitIndex( buf[word] );
 
@@ -106,35 +110,36 @@ struct PlayoutProvider
             buf[word++] = 0;
 
         MoveList moveList;
-        this->UnpackMoveMap( &mmap );
+        moveList.UnpackMoveMap( pos, mmap );
 
         assert( (moveList.mCount == 1) || (moveList.mCount == 4) );
 
-        return moveList[0];
+        return moveList.mMove[0];
     }
 
     template< int POPCNT, typename SIMD >
-    MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet* weights )
+    MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
     {
         int movesToPeek = mOptions->mMovesToPeek;
-        bool makeError = (mOptions->mRandom.GetFloat() < mOptions->mErrorRate);
+        bool makeError = (mRandom.GetFloat() < mOptions->mErrorRate);
 
         if( (movesToPeek < 1) || makeError )
         {
             // Fast path: completely random move
 
-            return SelectRandomMove( moveMap );
+            return SelectRandomMove< POPCNT >( pos, moveMap );
         }
 
-        movesToPeek = Max( movesToPeek, moveList.mCount );
-        movesToPeek = Max( movesToPeek, MAX_PLAYOUT_EVAL );
+        MoveList moveList;
+        moveList.UnpackMoveMap( pos, moveMap );
 
-        MoveList moveList( moveMap );
         if( moveList.mCount == 0 )
         {
             MoveSpec nullMove( 0, 0, 0 );
             return nullMove;
         }
+
+        movesToPeek = Max( movesToPeek, moveList.mCount );
 
         // This has become a "heavy" playout, which means 
         // that we do static evaluation on a random subset 
@@ -145,16 +150,16 @@ struct PlayoutProvider
 
         while( movesToPeek > 0 )
         {
-            int numValid = Min( movesToPeek, SIMD::LANES );
+            const int LANES = SimdWidth< SIMD >::LANES;
+            int numValid = Min( movesToPeek, LANES );
 
             // Pick some moves to evaluate
 
-            const int LANES = SimdWidth< SIMD >::LANES;
             MoveSpec spec[LANES];
 
             for( int i = 0; i < numValid; i++ )
             {
-                int idx = mOptions->mRandom.GetRange( moveList.mCount );
+                int idx = (int) mRandom.GetRange( moveList.mCount );
                 spec[i] = moveList.Remove( idx );
             }
 
@@ -164,8 +169,8 @@ struct PlayoutProvider
             PositionT< SIMD > simdPos;
             MoveMapT< SIMD >  simdMoveMap;
 
+            simdSpec.Unpack( spec );
             simdPos.Broadcast( pos );
-            simdSpec.Swizzle( spec );
             simdPos.Step( simdSpec );
             simdPos.CalcMoveMap( &simdMoveMap );
 
@@ -177,7 +182,7 @@ struct PlayoutProvider
 			for( int lane = 0; lane < numValid; lane++ )
             {
                 eval[peekList.mCount] = (EvalTerm) laneScore[lane];
-                peekList.Add( moveSpec[lane] );
+                peekList.Append( spec[lane] );
             }
 
             movesToPeek -= numValid;
@@ -187,7 +192,7 @@ struct PlayoutProvider
 
         EvalTerm highestEval = eval[0];
 
-        for( int i = 1; i < movesToPeek, i++ )
+        for( int i = 1; i < movesToPeek; i++ )
             if( eval[i] > highestEval )
                 highestEval = eval[i];
 
@@ -195,14 +200,14 @@ struct PlayoutProvider
 
         MoveList candidates;
 
-        for( int i = 0; i < movesToPeek, i++ )
+        for( int i = 0; i < movesToPeek; i++ )
             if (eval[i] == highestEval )
-                candidates.Add( peekList.mMove[i] );
+                candidates.Append( peekList.mMove[i] );
 
         // Choose one of them at random
 
-        int idx = mOptions.mRandom.GetRange( candidates.mCount );
-        return moveList.mMoves[idx];
+        int idx = (int) mRandom.GetRange( candidates.mCount );
+        return moveList.mMove[idx];
     }
 
     template< int POPCNT, typename SIMD >
@@ -232,16 +237,16 @@ struct PlayoutProvider
             MoveSpec spec[LANES];
 
             for( int lane = 0; lane < LANES; lane++ )
-                spec[lane] = this->ChoosePlayoutMove< POPCNT, SIMD >( pos[lane], moveMap[lane], &weights );
+                spec[lane] = this->ChoosePlayoutMove< POPCNT, SIMD >( pos[lane], moveMap[lane], weights );
 
-            TransposeBlock< SIMD >( pos, &simdPos, sizeof( Position ) );
+            Swizzle< SIMD >( pos, &simdPos );
+            simdSpec.Unpack( spec );
 
-            simdSpec.Swizzle( spec );
             simdPos.Step( simdSpec );
             simdPos.CalcMoveMap( &simdMoveMap );
 
-            TransposeBlock< SIMD >( &simdPos,     pos,     sizeof( Position ) );
-            TransposeBlock< SIMD >( &simdMoveMap, moveMap, sizeof( MoveMap ) );
+            Unswizzle< SIMD >( &simdPos,     pos );
+            Unswizzle< SIMD >( &simdMoveMap, moveMap );
         }
 
         // Gather the results and judge them

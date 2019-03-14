@@ -130,10 +130,10 @@ struct Evaluation
     }
 
     template< typename SIMD >
-    PDECL static SIMD ApplyWeights( const SIMD* eval, const EvalWeightSet* weights ) 
+    PDECL static SIMD ApplyWeights( const SIMD* eval, const EvalWeightSet& weights ) 
     {
         SIMD score = MulSigned32( eval[0], weights.mWeights[0] );
-        for( int i = 1; i < EVAL_TERMS; i++ )
+        for( int i = 1; i < NUM_EVAL_TERMS; i++ )
             score += MulSigned32( eval[i], weights.mWeights[i] );
         
         return( score >> WEIGHT_SHIFT );
@@ -173,11 +173,11 @@ struct Evaluation
     template< int POPCNT, typename SIMD >
     PDECL static SIMD EvaluatePosition( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, const EvalWeightSet& weights ) 
     {
-        SIMD    eval[EVAL_TERMS];   
+        SIMD    eval[NUM_EVAL_TERMS];   
 
-        this->CalcEvalTerms< POPCNT, SIMD >( pos, mmap, eval );
+        CalcEvalTerms< POPCNT, SIMD >( pos, mmap, eval );
 
-        SIMD    evalScore           = this->ApplyWeights( eval, weights.mWeights );
+        SIMD    evalScore           = ApplyWeights( eval, weights );
         SIMD    score               = evalScore;
         SIMD    moveTargets         = mmap.CalcMoveTargets();
         SIMD    inCheck             = mmap.IsInCheck();
@@ -207,10 +207,10 @@ struct Evaluation
         SIMD    evalWhite[NUM_EVAL_TERMS];
         SIMD    evalBlack[NUM_EVAL_TERMS];
 
-        this->CalcSideEval< POPCNT, SIMD >( pos,     mmap, evalWhite );
-        this->CalcSideEval< POPCNT, SIMD >( flipped, mmap, evalBlack );
+        CalcSideEval< POPCNT, SIMD >( pos,     mmap, evalWhite );
+        CalcSideEval< POPCNT, SIMD >( flipped, mmap, evalBlack );
 
-        for( int i = 0; i < EVAL_TERMS; i++ )
+        for( int i = 0; i < NUM_EVAL_TERMS; i++ )
             eval[i] = evalWhite[i] - evalBlack[i];
     }
 
