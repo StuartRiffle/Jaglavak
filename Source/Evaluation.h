@@ -163,13 +163,6 @@ struct Evaluation
         return( (openingness > 0)? (1 - openingness) : (1 + endingness) );
     }
 
-    PDECL static float CalcGamePhase( const Position& pos, bool usePopcnt )
-    {
-        return usePopcnt? 
-            CalcGamePhase< ENABLE_POPCNT >(  pos ) : 
-            CalcGamePhase< DISABLE_POPCNT >( pos ); 
-    }
-
     template< int POPCNT, typename SIMD >
     PDECL static SIMD EvaluatePosition( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, const EvalWeightSet& weights ) 
     {

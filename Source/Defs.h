@@ -68,31 +68,6 @@ enum
     ENABLE_POPCNT
 };
 
-enum 
-{
-    OPTION_HASH_SIZE,    
-    OPTION_CLEAR_HASH,   
-    OPTION_OWN_BOOK,     
-    OPTION_NUM_THREADS,  
-    OPTION_ENABLE_SIMD,  
-    OPTION_ENABLE_POPCNT,
-    OPTION_ENABLE_CUDA, 
-    OPTION_EARLY_MOVE,
-    OPTION_USE_PVS,
-    OPTION_ALLOW_LMR,
-    OPTION_USE_ASPIRATION,
-    OPTION_ASPIRATION_WINDOW_SIZE,
-    OPTION_ASPIRATION_WINDOW_SCALE,
-    OPTION_GPU_HASH_SIZE,
-    OPTION_GPU_BATCH_SIZE,
-    OPTION_GPU_BATCH_COUNT,
-    OPTION_GPU_BLOCK_WARPS,
-    OPTION_GPU_PLIES,
-    OPTION_GPU_SPIN_TO_ALLOC,
-
-    OPTION_COUNT
-};
-
 
 typedef i32     HistoryTerm;
 typedef i16     EvalTerm;
@@ -102,6 +77,7 @@ const PDECL int         CORVID_VER_MAJOR        = 0;
 const PDECL int         CORVID_VER_MINOR        = 0;
 const PDECL int         CORVID_VER_PATCH        = 1;
          
+const PDECL int         UCI_COMMAND_BUFFER      = 8192;
 const PDECL int         TT_MEGS_DEFAULT         = 512;
 const PDECL int         TT_SAMPLE_SIZE          = 128;
 const PDECL int         MAX_SEARCH_DEPTH        = 32;

@@ -16,15 +16,16 @@ struct ScoreCard
         mWins  += sc.mWins;
         mDraws += sc.mDraws;
         mPlays += sc.mPlays;
+
         return *this;
     }
-};
 
-struct PlayoutProvider;
-extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutProvider* provider, const Position& pos, int simdCount );
-extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutProvider* provider, const Position& pos, int simdCount );
-extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutProvider* provider, const Position& pos, int simdCount );
-extern CDECL ScoreCard PlayGamesAVX512( const PlayoutProvider* provider, const Position& pos, int simdCount );
+    void FlipColor()
+    {
+        u64 losses = mPlays - (mWins + mDraws);
+        mWins = losses;
+    }
+};
 
 struct PlayoutOptions
 {
@@ -40,71 +41,31 @@ struct PlayoutOptions
 };
 
 
-struct PlayoutJobInfo
+
+
+template< typename SIMD >
+class GamePlayer
 {
-    Position            mPosition;
-    PlayoutOptions      mOptions;
-    int                 mNumGames;
-    MoveList            mPathFromRoot;
-};
+    const PlayoutOptions*   mOptions;
+    RandomGen               mRandom;
 
-struct PlayoutJobResult
-{
-    ScoreCard           mScores;
-    MoveList            mPathFromRoot;
-};
+public:
 
-
-
-
-
-
-struct PlayoutProvider
-{
-    PlayoutOptions* mOptions;
-    RandomGen       mRandom;
-
-    PlayoutProvider( PlayoutOptions* options ) : mOptions( options )
+    GamePlayer( const PlayoutOptions* options ) : mOptions( options )
     {
         mRandom.SetSeed( options->mRandomSeed );
     }
 
-    ScoreCard PlayGames( const Position& pos, int count )
-    {
-        int cpuLevel =
-            (count > 4)? CPU_AVX512 :
-            (count > 2)? CPU_AVX2 :
-            (count > 1)? CPU_SSE4 : 
-                         CPU_X64;
-
-        if( cpuLevel > mOptions->mMaxCpuLevel )
-            cpuLevel = mOptions->mMaxCpuLevel;
-
-        if( mOptions->mForceCpuLevel != CPU_INVALID )
-            cpuLevel = mOptions->mForceCpuLevel;
-
-        int lanes = PlatGetSimdWidth( cpuLevel );
-        int simdCount = (count + lanes - 1) / lanes;
-
-        switch( cpuLevel )
-        {
-        case CPU_SSE2:   return PlayGamesSSE2(   this, pos, simdCount );
-        case CPU_SSE4:   return PlayGamesSSE4(   this, pos, simdCount );
-        case CPU_AVX2:   return PlayGamesAVX2(   this, pos, simdCount );
-        case CPU_AVX512: return PlayGamesAVX512( this, pos, simdCount );
-        default:         return PlayGamesSimd< u64 >(  pos, simdCount );
-        }
-    }
-
-    template< typename SIMD >
-    ScoreCard PlayGamesSimd( const Position& pos, int simdCount )
+    ScoreCard PlayGames( const Position& pos, int simdCount )
     {
         return mOptions->mUsePopcnt?
-            PlayGamesThreaded< ENABLE_POPCNT,  SIMD >( pos, simdCount ) :
-            PlayGamesThreaded< DISABLE_POPCNT, SIMD >( pos, simdCount );
+            PlayGamesThreaded< ENABLE_POPCNT  >( pos, simdCount ) :
+            PlayGamesThreaded< DISABLE_POPCNT >( pos, simdCount );
     }
 
-    template< int POPCNT, typename SIMD >
+protected:
+
+    template< int POPCNT >
     ScoreCard PlayGamesThreaded( const Position& pos, int simdCount )
     {
         ScoreCard scores;
@@ -112,7 +73,7 @@ struct PlayoutProvider
         #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
         {
-            ScoreCard simdScores = PlayGames< POPCNT, SIMD >( pos );
+            ScoreCard simdScores = PlayGamesSimd< POPCNT >( pos );
 
             #pragma omp critical
             scores += simdScores;
@@ -121,8 +82,8 @@ struct PlayoutProvider
         return scores;
     }
 
-    template< int POPCNT, typename SIMD >
-    ScoreCard PlayGames( const Position& startPos )
+    template< int POPCNT >
+    ScoreCard PlayGamesSimd( const Position& startPos )
     {
         EvalWeightSet weights;
 
@@ -148,7 +109,7 @@ struct PlayoutProvider
             MoveSpec spec[LANES];
 
             for( int lane = 0; lane < LANES; lane++ )
-                spec[lane] = this->ChoosePlayoutMove< POPCNT, SIMD >( pos[lane], moveMap[lane], weights );
+                spec[lane] = this->ChoosePlayoutMove< POPCNT >( pos[lane], moveMap[lane], weights );
 
             Swizzle< SIMD >( pos, &simdPos );
             simdSpec.Unpack( spec );
@@ -163,7 +124,7 @@ struct PlayoutProvider
         // Gather the results and judge them
 
         SIMD simdScore = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
-        u64* laneScore = (u64*) simdScore;
+        u64* laneScore = (u64*) &simdScore;
 
         ScoreCard scores;
 
@@ -184,13 +145,7 @@ struct PlayoutProvider
         return scores;
     }
 
-
-
-
-
-
-
-    template< int POPCNT, typename SIMD >
+    template< int POPCNT >
     MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
     {
         int movesToPeek = mOptions->mMovesToPeek;
@@ -288,23 +243,25 @@ struct PlayoutProvider
     {
         MoveMap mmap = moveMap;
 
-        // Only look at fields before mCheckMask
+        // All the fields (up to mCheckMask) represent moves as bits
 
         u64* buf = (u64*) &mmap;
-        int count = (int) (((u64*) mmap.mCheckMask) - buf);
+        u64 count = (u64) (((u64*) mmap.mCheckMask) - buf);
 
         // Choose a random bit to keep
 
-        int total = 0;
+        u64 total = 0;
         for( int i = 0; i < count; i++ )
-            total += (int) CountBits< POPCNT >( buf[i] );
+            total += CountBits< POPCNT >( buf[i] );
 
-        int bitsToSkip = (int) mRandom.GetRange( total );
+        u64 bitsToSkip = mRandom.GetRange( total );
+
+        // Find the word it's in
 
         int word = 0;
         while( word < count )
         {
-            int bits = (int) CountBits< POPCNT >( buf[word] );
+            u64 bits = CountBits< POPCNT >( buf[word] );
             if( bits >= bitsToSkip )
                 break;
 
@@ -312,6 +269,8 @@ struct PlayoutProvider
             buf[word] = 0;
             word++;
         }
+
+        // Keep the lucky bit, clear the rest
 
         u64 idx;
         while( bitsToSkip-- )
@@ -323,16 +282,69 @@ struct PlayoutProvider
         while( word < count )
             buf[word++] = 0;
 
-        MoveList moveList;
-        moveList.UnpackMoveMap( pos, mmap );
-
-        // We should have exactly one move, unless it's a pawn being
+        // That should give us exactly one move, unless it's a pawn being
         // promoted, in which case there will be four, but we'll just
         // use first one anyway (queen).
 
+        MoveList moveList;
+        moveList.UnpackMoveMap( pos, mmap );
+
         assert( (moveList.mCount == 1) || (moveList.mCount == 4) );
+
         return moveList.mMove[0];
     }
 };
+
+
+extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutOptions& options, const Position& pos, int simdCount );
+extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutOptions& options, const Position& pos, int simdCount );
+extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutOptions& options, const Position& pos, int simdCount );
+extern CDECL ScoreCard PlayGamesAVX512( const PlayoutOptions& options, const Position& pos, int simdCount );
+
+static ScoreCard PlayGamesCpu( const PlayoutOptions& options, const Position& pos, int count )
+{
+    int cpuLevel =
+        (count > 4)? CPU_AVX512 :
+        (count > 2)? CPU_AVX2 :
+        (count > 1)? CPU_SSE4 : 
+                     CPU_SCALAR;
+
+    if( cpuLevel > options.mMaxCpuLevel )
+        cpuLevel = options.mMaxCpuLevel;
+
+    if( options.mForceCpuLevel != CPU_INVALID )
+        cpuLevel = options.mForceCpuLevel;
+
+    int lanes = PlatGetSimdWidth( cpuLevel );
+    int simdCount = (count + lanes - 1) / lanes;
+
+    switch( cpuLevel )
+    {
+#if ENABLE_SSE2
+    case CPU_SSE2:   
+        return PlayGamesSSE2( options, pos, simdCount );
+#endif
+#if ENABLE_SSE4
+    case CPU_SSE4:
+        return PlayGamesSSE4( options, pos, simdCount );
+#endif
+#if ENABLE_AVX2
+    case CPU_AVX2:
+        return PlayGamesAVX2( options, pos, simdCount );
+#endif
+#if ENABLE_AVX512
+    case CPU_AVX512: 
+        return PlayGamesAVX512( options, pos, simdCount );
+#endif
+    }
+
+    // Fall back to scalar
+
+    GamePlayer< u64 > player( &options );
+    return( player.PlayGames( pos, count ) );
+}
+
+
+
 
 #endif // CORVID_PLAYOUT_H__

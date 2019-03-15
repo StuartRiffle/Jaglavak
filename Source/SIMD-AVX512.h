@@ -200,22 +200,5 @@ INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, sim
     dest[destStep * 7] = col7;
 }
 
-template<>
-INLINE simd8_avx512 LoadIndirect32< simd8_avx512 >( const i32* ptr, const simd8_avx512& ofs )
-{
-    __m128i dwords = _mm512_i64gather_epi32( ptr, ofs, sizeof( i32 ) );
-    __m512i qwords = _mm512_cvtepi32_epi64( dwords );
-    return( qwords );
-}
-
-template<>
-INLINE simd8_avx512 LoadIndirectMasked32< simd8_avx512 >( const i32* ptr, const simd8_avx512& ofs, const simd8_avx512& mask )
-{
-    __m128i mask32 = _mm512_extracti128_si512( _mm512_unpacklo_epi32( mask, mask ), 0 );
-    __m128i dwords = _mm512_mask_i64gather_epi32( _mm_setzero_si128(), ptr, ofs, mask32, sizeof( i32 ) );
-    __m512i qwords = _mm512_cvtepi32_epi64( dwords );
-    return( qwords );
-}
-
 #endif // ENABLE_AVX512
 #endif // CORVID_CPU_AVX512_H__

@@ -53,8 +53,8 @@ class CpuWorker : public AsyncWorker
 {
     override void RunJob( PlayoutJobRef& job )
     {
-        PlayoutProvider provider( &job->mOptions );
+        GamePlayer player( &job->mOptions );
 
-        job->mResult = provider.Play( job->mPos, job->mNumPlays );
+        job->mResult = player.Play( job->mPos, job->mNumPlays );
     }
 }

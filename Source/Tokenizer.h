@@ -1,7 +1,7 @@
-// Tokens.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Tokenizer.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_TOKEN_H__
-#define CORVID_TOKEN_H__
+#ifndef CORVID_TOKENIZER_H__
+#define CORVID_TOKENIZER_H__
 
 
 class Tokenizer
@@ -123,4 +123,4 @@ public:
 	}
 };
 
-#endif // CORVID_TOKEN_H__
+#endif // CORVID_TOKENISER_H__

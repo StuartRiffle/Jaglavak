@@ -4,6 +4,7 @@ struct BranchInfo
 {
     TreeNode*   mNode;
     MoveSpec    mMove;
+    ScoreCard   mScores;
     float       mUCT;
 
     BranchInfo()
@@ -12,20 +13,6 @@ struct BranchInfo
         mUCT    = 1.0f;
     }
 };
-
-
-    /*
-float CalcUct(BranchInfo& branch, int childIndex)
-{
-    BranchInfo& child = branch.children[childIndex];
-
-    float childWinRatio = child.wins * 1.0f / child.plays;
-    float uct = childWinRatio + exploration * sqrtf(logf(branch.plays) / child.plays);
-
-    return uct;
-}
-*/
-
 
 struct TreeNode
 {
@@ -89,39 +76,21 @@ struct TreeNode
 };
 
 
-struct SearchOptions
+
+struct TreeSearcher
 {
-    int mMaxTreeNodes;
-    int mNumInitialPlays;
-    int mNumAsyncPlays;
+    list< TreeNode >    mNodes;
+    TreeNode*           mRoot;
+    UciSearchConfig     mUciConfig;
+    SearchOptions       mOptions;
 
-    PlayoutOptions mPlayout;
-};
-
-
-typedef list< TreeNode > TreeNodeList;
-
-struct SearchTree
-{
-    list< TreeNode > mNodes;
-    TreeNode*        mRoot;
-    SearchOptions*   mOptions;
-
-    SearchTree( SearchOptions* options, const char* fen = NULL )
+    TreeSearcher( SearchOptions* options )
     {
         mOptions = options;
-
-        Position pos;
-        pos.Reset();
-
-        if( fen )
-            FEN::StringToPosition( fen, &mRoot->mPos );
-
-        mRoot = AllocNode();
-        mRoot->Init( pos );
+        this->Reset();
     }
 
-    ~SearchTree()
+    ~TreeSearcher()
     {
         DeleteAllNodes();
     }
@@ -133,7 +102,7 @@ struct SearchTree
 
     TreeNode* AllocNode()
     {
-        int limit = mOptions->mNodeLimit;
+        int limit = mOptions.mNodeLimit;
 
         while( mNodes.size() > limit )
             mNodes.pop_back();
@@ -163,103 +132,198 @@ struct SearchTree
         mRoot = NULL;
     }
 
-    typedef std::shared_ptr< PlayoutJobInfo >   PlayoutJobInfoRef;
-    typedef std::shared_ptr< PlayoutJobResult > PlayoutJobResultRef;
-
-    typedef ThreadSafeQueue< PlayoutJobInfoRef >   PlayoutJobQueue;
-    typedef ThreadSafeQueue< PlayoutJobResultRef > PlayoutResultQueue;
-
-    ScoreCard PlaySomeGames( MoveList& pathFromRoot, BranchInfo& info )
+    void SetPosition( const Position& startPos, const MoveList* moveList = NULL )
     {
-        Position pos = info.mPos;
-        pos.ApplyMove( info.mMove );
+        // TODO: recognize position and don't terf the whole tree
 
-        // Queue some bulk async playouts
+        Position pos = startPos;
 
-        PlayoutJobInfo job;
+        if( moveList )
+            for( int i = 0; i < moveList->mCount; i++ )
+                pos.ApplyMove( moveList->mMove[i] );
 
-        job.mPosition = pos;
-        job.mOptions = mOptions->mPlayout;
-        job.mNumGames = mOptions->mNumAsyncPlays;
-        job.mPathFromRoot.assign( pathFromRoot.Moves, pathFromRoot.mMoves + pathFromRoot.mCount );
-
-        mPlayoutJobQueue.Push( job );
-
-        // Do a more modest batch immediately
-
-        PlayoutProvider provider( &mOptions->mPlayoutOptions );
-        ScoreCard scores = provider.DoPlayouts( pos, mOptions->mNumInitialPlays );
-
-        return scores;
+        mRoot = AllocNode();
+        mRoot->Init( pos );
     }
 
-
-
-    ScoreCard ExpandAtLeaf( TreeNode* node )
+    void Reset()
     {
+        this->DeleteAllNodes();
+
+        Position startPos;
+        startPos.Reset();
+
+        this->SetPosition( startPos );
+    }
+
+    float CalculateUct( BranchInfo& branch, int childIndex )
+    {
+        BranchInfo& child = branch.mBranch[childIndex];
+
+        float childWinRatio = child.mScores.mWins * 1.0f / child.mScores.mPlays;
+        float uct = childWinRatio + mOptions.mExplorationFactor * sqrtf( logf( branch.mScores.mPlays ) / child.mScores.mPlays );
+
+        return uct;
+    }
+
+    int SelectNextBranch( TreeNode* node )
+    {
+        // Just take the move with the highest UCT
+
+        float highestUct = node->mBranch[0].mUct;
+        int highestIdx = 0;
+
+        for( int i = 1; i < movesToPeek; i++ )
+        {
+            if( node->mBranch[i].mUct > highestUct )
+            {
+                highestUct = eval[i];
+                highestIdx = i;
+            }
+        }
+
+        return highestIdx;
+    }
+
+    ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
+    {
+        // Mark each node LRU as we walk up the tree
+
         MoveToFront( node );
 
-        int idx = SelectNextBranch( node );
-        BranchInfo& info = mNode->mBranch[idx];
+        int nextBranchIdx = SelectNextBranch( node );
+        BranchInfo& nextBranch = mNode->mBranch[nextBranchIdx];
 
-        pathFromRoot.Add( info.mMove );
+        pathFromRoot->Add( info.mMove );
 
-        if( !info.mNode )
+        if( !nextBranch.mNode )
         {
-            TreeNode* child = AllocNode();
-            child->Init( node->mPos, &info ); 
+            // This is a leaf, so create a new node 
 
-            info.mNode = child;
+            TreeNode* newNode = AllocNode();
+            newNode->Init( parent->mPos, &nextBranch ); 
+
+            nextBranch.mNode = newNode;
             node->mChildren++;
            
-            int randomIdx = mOptions->mRandom.Get( child->mBranch.size() );
+            // Expand one of its moves at random
 
-            BranchInfo& newBranch = child->mBranch[randomIdx];
+            int newBranchIdx = mOptions.mRandom.Get( newNode->mBranch.size() );
+
+            BranchInfo& newBranch = newNode->mBranch[newBranchIdx];
             pathFromRoot.Add( newBranch.mMove );
 
-            ScoreCard scores = PlaySomeGames( pathFromRoot, newBranch );
+            // Queue up the bulk async playouts
+
+            if( mOptions.mAllowAsyncPlayouts )
+            {
+                Position newPos = newBranch.mPos;
+                newPos.ApplyMove( newBranch.mMove );
+
+                PlayoutJobInfo job;
+
+                job.mPosition       = newPos;
+                job.mOptions        = mOptions.mPlayout;
+                job.mNumGames       = mOptions.mNumAsyncPlays;
+                job.mPathFromRoot   = pathFromRoot;
+
+                mPlayoutJobQueue.Push( job );
+            }
+
+            // Do the initial playouts
+
+            ScoreCard scores = PlayGamesCpu( mOptions.mPlayoutOptions, pos, mOptions.mNumInitialPlays );
+
+            newNode->mScores += scores;
+            newBranch.mUct = CalculateUct( newNode, newBranchIdx );
+
+            scores.FlipColor();
             return scores;
         }
 
-        ScoreCard scores = ExpandAtLeaf( pathFromRoot, info.mNode );
-        info.mNode->mScore += scores;
-        // TODO recalc UCT
+        ScoreCard branchScores = ExpandAtLeaf( pathFromRoot, nextBranch.mNode );
 
+        // Accumulate the scores on our way back down the tree
+
+        node->mScores += branchScores;
+        nextBranch.mUct = CalculateUct( node, nextBranchIdx );
+
+        branchScores.FlipColor();
         return scores;
     }
 
-    void ProcessPlayoutResult( const PlayoutResult& result )
+    void ProcessResult( TreeNode* node, const PlayoutJobResultRef& result, int depth = 0 )
     {
+        if( node == NULL )
+            return;
 
-            for( int i = 0; i < job->mMoveList, i++ )
-            {
+        MoveSpec move = result.mPathFromRoot.mMove[depth];
 
-                // TODO update the damned counts
+        int childIdx = node->FindMoveIndex( move );
+        if( childIdx < 0 )
+            return;
 
-                int nextIdx = node->FindMoveIndex( move );
-                if( nextIdx < 0 )
-                    break;
+        TreeNode* child = node->mBranch[childIdx].mNode;
+        if( child == NULL )
+            return;
 
-                node = node->mMoves[nextIdx];
-            }
-        }
+        ProcessResult( child, result, depth + 1 );
+
+        ScoreCard scores = result.mScores;
+
+        bool otherColor = (result.mPathFromRoot.mCount & 1) != 0;
+        if( otherColor )
+            scores.FlipColor();
+
+        node->mScores += scores;
+        node->mBranch[childIdx].mUct = CalculateUct( node, childIdx );
     }
 
-    void Step()
+    void ProcessAsyncResults()
     {
-        if( !mJobQueue.IsFull() )
-        {
-            MoveList pathFromRoot;
-            this->ExpandAtLeaf( pathFromRoot, mRoot );
-        }
-
         vector< PlayoutResult > results = mCompletedJobs->PopAll();
 
-        for( auto& result : results )
-            this->ProcessPlayoutResult( result );
+        for( const auto& result : results )
+            this->ProcessResult( mRoot, result );
     }
 
+    void UpdateSearchTree()
+    {
+        MoveList pathFromRoot;
 
+        this->ExpandAtLeaf( pathFromRoot, mRoot );
+    }
+
+    void SearchThreadProc()
+    {
+        while( !mExitSearch )
+        {
+            ProcessAsyncResults();
+
+            for( int i = 0; i < mOptions.mTreeUpdateBatch; i++ )
+                UpdateSearchTree();
+        }
+    }
+
+    void StartSearching( const UciSearchConfig& config )
+    {
+        this->StopSearching();
+
+        mUciConfig      = config;
+        mExitSearch     = false;
+        mSearchThread   = new std::thread( [] { this->SearchThreadProc(); } );
+    }
+
+    void StopSearching()
+    {
+        if( mSearchThread )
+        {
+            mExitSearch = true;
+
+            mSearchThread->join();
+            mSearchThread = NULL;
+        }
+    }
 };
 
 

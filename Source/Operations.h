@@ -1,13 +1,15 @@
-// CPU-X64.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Operations.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_CPU_X64_H__
-#define CORVID_CPU_X64_H__
+#ifndef CORVID_CPU_OPERATIONS_H__
+#define CORVID_CPU_OPERATIONS_H__
 
 template< typename T >
 struct SimdWidth
 {                                                       
     enum { LANES = 1 };
 };
+
+// These functions have to be implemented for SIMD types
 
 template< typename T > INLINE PDECL T       MaskAllClear()                                                      { return(  T( 0 ) ); }
 template< typename T > INLINE PDECL T       MaskAllSet()                                                        { return( ~T( 0 ) ); }
@@ -21,8 +23,6 @@ template< typename T > INLINE PDECL T       CmpEqual( const T& a, const T& b )  
 template< typename T > INLINE PDECL T       ByteSwap( const T& val )                                            { return PlatByteSwap64( val ); }
 template< typename T > INLINE PDECL T       MulSigned32( const T& val, i32 scale )                              { return( val * scale ); }
 template< typename T > INLINE PDECL T       SubClampZero( const T& a, const T& b )                              { return( (a > b)? (a - b) : 0 ); }
-template< typename T > INLINE PDECL T       LoadIndirect32( const i32* ptr, const T& ofs )                      { return( ((i64) ptr[ofs]) ); }
-template< typename T > INLINE PDECL T       LoadIndirectMasked32( const i32* ptr, const T& ofs, const T& mask ) { return( mask? (((i64) ptr[ofs]) & mask) : 0); }
 template< typename T > INLINE PDECL T       Min( const T& a, const T& b )                                       { return( (a < b)? a : b ); }
 template< typename T > INLINE PDECL T       Max( const T& a, const T& b )                                       { return( (b > a)? b : a ); }
 template< typename T > INLINE PDECL T       SignOrZero( const T& val )                                          { return( (val > 0) - (val < 0) ); }
@@ -41,4 +41,4 @@ template< typename T > INLINE PDECL void    Exchange( T& a, T& b )              
 template< typename T > INLINE PDECL void    Transpose( const T* src, int srcStep, T* dest, int destStep )       { *dest = *src; }
 template< typename T > INLINE PDECL void    SimdInsert( T& dest, u64 val, int lane )                            { dest = val; }
 
-#endif // CORVID_CPU_X64_H__
+#endif // CORVID_CPU_OPERATIONS_H__

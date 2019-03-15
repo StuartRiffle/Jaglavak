@@ -43,7 +43,7 @@ struct RandomGen
     float GetFloat()
     {
         u64 n = GetNext() >> 32;
-        return (n * 1.0f) / (1 << 32);
+        return (n * 1.0f) / (1ULL << 32);
     }
 };
 

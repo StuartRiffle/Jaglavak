@@ -10,7 +10,6 @@ INLINE __m128i _mm_select( const __m128i& a, const __m128i& b, const __m128i& ma
     return _mm_xor_si128( a, _mm_and_si128( mask, _mm_xor_si128( b, a ) ) ); // mask? b : a
 }
 
-
 inline __m128i _mm_sllv_epi64x( const __m128i& v, const __m128i& n )
 {
     __m128i lowCount  = _mm_move_epi64( n );
@@ -234,18 +233,6 @@ INLINE void Transpose< simd2_sse2 >( const simd2_sse2* src, int srcStep, simd2_s
 
     dest_r[0]         = _mm_unpacklo_epi64( src_r[0], src_r[srcStep] );
     dest_r[destStep]  = _mm_unpackhi_epi64( src_r[0], src_r[srcStep] );
-}
-
-template<>
-INLINE simd2_sse2 LoadIndirect32< simd2_sse2 >( const i32* ptr, const simd2_sse2& ofs )
-{
-    return( _mm_i64gather_epi32_sse2( ptr, ofs ) );
-}
-
-template<>
-INLINE simd2_sse2 LoadIndirectMasked32< simd2_sse2 >( const i32* ptr, const simd2_sse2& ofs, const simd2_sse2& mask )
-{
-    return( _mm_mask_i64gather_epi32_sse2( ptr, ofs, mask ) );
 }
 
 #endif // ENABLE_SSE2

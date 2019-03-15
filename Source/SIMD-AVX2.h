@@ -193,24 +193,6 @@ INLINE void Transpose< simd4_avx2 >( const simd4_avx2* src, int srcStep, simd4_a
     dest[destStep * 3] = dhlq;
 }
 
-template<>
-INLINE simd4_avx2 LoadIndirect32< simd4_avx2 >( const i32* ptr, const simd4_avx2& ofs )
-{
-    __m128i dwords = _mm256_i64gather_epi32( ptr, ofs, sizeof( i32 ) );
-    __m256i qwords = _mm256_cvtepi32_epi64( dwords );
-
-    return( qwords );
-}
-
-template<>
-INLINE simd4_avx2 LoadIndirectMasked32< simd4_avx2 >( const i32* ptr, const simd4_avx2& ofs, const simd4_avx2& mask )
-{
-    __m128i mask32 = _mm256_extracti128_si256( _mm256_unpacklo_epi32( mask, mask ), 0 );
-    __m128i dwords = _mm256_mask_i64gather_epi32( _mm_setzero_si128(), ptr, ofs, mask32, sizeof( i32 ) );
-    __m256i qwords = _mm256_cvtepi32_epi64( dwords );
-
-    return( qwords );
-}
 
 #endif // ENABLE_AVX2
 #endif // CORVID_CPU_AVX2_H__
