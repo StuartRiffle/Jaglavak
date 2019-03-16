@@ -1,3 +1,5 @@
+// Core.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+
 #include "Platform.h"
 #include "Defs.h"
 #include "BitBoard.h"

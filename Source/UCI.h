@@ -12,7 +12,7 @@ struct UciEngine
 public:
     UciEngine() : mDebugMode( false ) 
     {
-        this->SetDefaultOptions;
+        this->SetDefaultOptions();
     }
 
     const EngineOptionInfo* GetOptionInfo()
@@ -161,13 +161,13 @@ public:
 
             mSearcher.StartSearching( conf );
         }
-        else if( t.Consume( "ponderhit" ) )
-        {
-            printf( "info string WARNING: ponderhit not supported\n" );
-        }
         else if( t.Consume( "stop" ) )
         {
             mSearcher.StopSearching();
+        }
+        else if( t.Consume( "ponderhit" ) )
+        {
+            printf( "info string WARNING: ponderhit not supported\n" );
         }
         else if( t.Consume( "quit" ) )
         {

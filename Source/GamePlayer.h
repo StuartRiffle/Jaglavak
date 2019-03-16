@@ -27,22 +27,6 @@ struct ScoreCard
     }
 };
 
-struct PlayoutOptions
-{
-    int     mErrorRate;
-    int     mMovesToPeek;
-    int     mMaxPlayoutMoves;
-    int     mAutoAdjudicate;
-    u64     mRandomSeed;
-
-    int     mMaxCpuLevel;
-    int     mForceCpuLevel;
-    bool    mUsePopcnt;
-};
-
-
-
-
 template< typename SIMD >
 class GamePlayer
 {
@@ -58,9 +42,22 @@ public:
 
     ScoreCard PlayGames( const Position& pos, int simdCount )
     {
+    #if CORVID_CUDA_DEVICE
+
+        ScoreCard scores;
+
+        for( int i = 0; i < simdCount; i++ )
+            scores += PlayGamesSimd< ENABLE_POPCNT >( pos );
+
+        return scores;
+
+    #else
+
         return mOptions->mUsePopcnt?
             PlayGamesThreaded< ENABLE_POPCNT  >( pos, simdCount ) :
             PlayGamesThreaded< DISABLE_POPCNT >( pos, simdCount );
+
+    #endif
     }
 
 protected:
@@ -243,7 +240,7 @@ protected:
     {
         MoveMap mmap = moveMap;
 
-        // All the fields (up to mCheckMask) represent moves as bits
+        // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
 
         u64* buf = (u64*) &mmap;
         u64 count = (u64) (((u64*) mmap.mCheckMask) - buf);
@@ -256,7 +253,7 @@ protected:
 
         u64 bitsToSkip = mRandom.GetRange( total );
 
-        // Find the word it's in
+        // Find which word it's in
 
         int word = 0;
         while( word < count )
@@ -270,7 +267,7 @@ protected:
             word++;
         }
 
-        // Keep the lucky bit, clear the rest
+        // Keep just that one, and clear the rest
 
         u64 idx;
         while( bitsToSkip-- )
@@ -295,6 +292,7 @@ protected:
     }
 };
 
+#if !CORVID_CUDA_DEVICE
 
 extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutOptions& options, const Position& pos, int simdCount );
 extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutOptions& options, const Position& pos, int simdCount );
@@ -344,7 +342,7 @@ static ScoreCard PlayGamesCpu( const PlayoutOptions& options, const Position& po
     return( player.PlayGames( pos, count ) );
 }
 
-
+#endif // !CORVID_CUDA_DEVICE
 
 
 #endif // CORVID_PLAYOUT_H__

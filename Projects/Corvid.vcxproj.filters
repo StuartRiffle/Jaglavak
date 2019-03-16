@@ -4,11 +4,9 @@
     <ClInclude Include="..\Source\AsyncWorker.h" />
     <ClInclude Include="..\Source\Defs.h" />
     <ClInclude Include="..\Source\FEN.h" />
-    <ClInclude Include="..\Source\GPU-CUDA.h" />
     <ClInclude Include="..\Source\MoveList.h" />
     <ClInclude Include="..\Source\Perft.h" />
     <ClInclude Include="..\Source\Platform.h" />
-    <ClInclude Include="..\Source\Playout.h" />
     <ClInclude Include="..\Source\Position.h" />
     <ClInclude Include="..\Source\Threads.h" />
     <ClInclude Include="..\Source\BitBoard.h" />
@@ -16,17 +14,19 @@
     <ClInclude Include="..\Source\MoveMap.h" />
     <ClInclude Include="..\Source\Random.h" />
     <ClInclude Include="..\Source\Evaluation.h" />
-    <ClInclude Include="..\Source\TreeSearch.h" />
     <ClInclude Include="..\Source\Operations.h" />
     <ClInclude Include="..\Source\Tokenizer.h" />
     <ClInclude Include="..\Source\UCI.h" />
-    <ClInclude Include="..\Source\SearchConfig.h" />
-    <ClInclude Include="..\Source\Jobs.h" />
+    <ClInclude Include="..\Source\Options.h" />
+    <ClInclude Include="..\Source\TreeSearcher.h" />
+    <ClInclude Include="..\Source\CUDA.h" />
+    <ClInclude Include="..\Source\GamePlayer.h" />
+    <ClInclude Include="..\Source\PlayoutJob.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\GPU-CUDA.cu" />
+    <None Include="..\Source\CUDA.cu" />
   </ItemGroup>
 </Project>

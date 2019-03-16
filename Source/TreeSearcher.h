@@ -1,3 +1,5 @@
+// TreeSearcher.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+
 struct TreeNode;
 
 struct BranchInfo
@@ -83,16 +85,16 @@ struct TreeSearcher
     TreeNode*           mRoot;
     UciSearchConfig     mUciConfig;
     SearchOptions       mOptions;
+    unique_ptr< std::thread >   mSearchThread;
 
-    TreeSearcher( SearchOptions* options )
+    TreeSearcher( SearchOptions* options ) : mOptions( options )
     {
-        mOptions = options;
         this->Reset();
     }
 
     ~TreeSearcher()
     {
-        DeleteAllNodes();
+        this->Reset();
     }
 
     void MoveToFront( list< TreeNode >::iterator iter )
@@ -107,18 +109,16 @@ struct TreeSearcher
         while( mNodes.size() > limit )
             mNodes.pop_back();
 
-        if( mNodes.size() == limit )
+        if( mNodes.size() < limit )
+        {
+            mNodes.emplace_front();
+        }
+        else
         {
             // Recycle the last node
 
             MoveToFront( --mNodes.end() );
             mNodes.front().Clear();
-        }
-        else
-        {
-            // Create a new one
-
-            mNodes.emplace_front();
         }
 
         return &mNodes.front();
@@ -148,6 +148,7 @@ struct TreeSearcher
 
     void Reset()
     {
+        this->StopSearching();
         this->DeleteAllNodes();
 
         Position startPos;

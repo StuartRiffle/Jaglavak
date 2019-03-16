@@ -1,3 +1,8 @@
+// Options.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+
+#ifndef CORVID_OPTIONS_H__
+#define CORVID_OPTIONS_H__
+
 enum 
 {
     OPTION_ENABLE_POPCNT,
@@ -20,7 +25,7 @@ union EngineOptions
     int mOption[1];
 };
 
-struct EngineOptionInfo
+struct UciOptionInfo
 {
     int         mIndex;
     const char* mName;
@@ -46,6 +51,20 @@ struct UciSearchConfig
     void Clear()        { PlatClearMemory( this, sizeof( *this ) ); }
 };
 
+struct PlayoutOptions
+{
+    int     mErrorRate;
+    int     mMovesToPeek;
+    int     mMaxPlayoutMoves;
+    int     mAutoAdjudicate;
+    u64     mRandomSeed;
+
+    int     mMaxCpuLevel;
+    int     mForceCpuLevel;
+    bool    mUsePopcnt;
+};
+
+
 struct SearchOptions
 {
     int mMaxTreeNodes;
@@ -55,4 +74,9 @@ struct SearchOptions
 
     PlayoutOptions mPlayout;
 };
+
+                                       
+
+
+#endif // CORVID_OPTIONS_H__
 

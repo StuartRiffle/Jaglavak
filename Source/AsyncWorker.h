@@ -10,7 +10,7 @@ protected:
     volatile bool mExiting;
     Semaphore           mThreadExited;
 
-    virtual void RunJob( PlayoutJobRef& job ) = 0;
+    virtual void RunJob( PlayoutJobRef& job, PlayoutJobResult& result ) = 0;
 
     void RunJobs()
     {

@@ -1,15 +1,13 @@
 // Operations.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_CPU_OPERATIONS_H__
-#define CORVID_CPU_OPERATIONS_H__
+#ifndef CORVID_OPERATIONS_H__
+#define CORVID_OPERATIONS_H__
 
 template< typename T >
 struct SimdWidth
 {                                                       
     enum { LANES = 1 };
 };
-
-// These functions have to be implemented for SIMD types
 
 template< typename T > INLINE PDECL T       MaskAllClear()                                                      { return(  T( 0 ) ); }
 template< typename T > INLINE PDECL T       MaskAllSet()                                                        { return( ~T( 0 ) ); }
