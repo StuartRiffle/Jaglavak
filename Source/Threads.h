@@ -108,6 +108,27 @@ public:
         return( true );
     }
 
+    vector< T > PopMultiple( size_t limit )
+    {
+        mAvail.Wait();
+
+        Mutex::Scope lock( mMutex );
+        vector< T > result;
+
+        size_t count = Min( mQueue.size(), limit );
+
+        for( size_t i = 0; i < count; i++ )
+        {
+            result.push_back( mQueue.front() );
+            mQueue.pop_front();
+        }
+
+        mAvail.Wait( count - 1 );
+
+        return( result );
+    }
+
+
     vector< T > PopAll()
     {
         Mutex::Scope lock( mMutex );

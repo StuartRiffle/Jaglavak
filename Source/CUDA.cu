@@ -1,4 +1,4 @@
-// GPU-CUDA.cu - CORVID CHESS ENGINE (c) 2012-2016 Stuart Riffle
+// CUDA.cu - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Core.h"
 #include "Job.h"

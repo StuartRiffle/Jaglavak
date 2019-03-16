@@ -14,7 +14,7 @@ struct CudaJobMetrics
     float               mGpuTime;                   /// GPU time spent executing kernel (in ms)
 };
 
-struct CudaJobInfo
+struct CudaLaunchSlot
 {
     PlayoutJobInfo      mInfo;
     PlayoutJobResult    mResult;
@@ -47,13 +47,31 @@ struct CudaJobInfo
 
 class CudaAsyncWorker : public IAsyncWorker
 {
-    int                         mDeviceIndex;      
-
-    std::vector< CudaJobInfo >      mJobInfo;      
-    std::list< CudaJobInfo* >       mRunningJobs;
-    std::list< CudaJobInfo* >       mFreeSlots;
+    int                             mDeviceIndex;      
     std::unique_ptr< CudaThread >   mCudaThread;
+    std::vector< CudaLaunchSlot >      mJobInfo;      
+    std::list< CudaLaunchSlot* >       mActiveSlots;
+    std::list< CudaLaunchSlot* >       mFreeSlots;
     
+    int                         mDeviceIndex;       /// CUDA device index
+    cudaDeviceProp              mProp;              /// CUDA device properties
+
+    ThreadSafeQueue< CudaLaunchSlot* > mLaunchQueue;
+    cudaStream_t                mStreamId[CUDA_STREAM_COUNT];
+    int                         mStreamIndex;       /// Index of the next stream to be used for submitting a job
+    unique_ptr< std::thread >   mLaunchThread;
+
+    PlayoutJobInfo*             mInputHost;          /// Host-side job input buffer
+    PlayoutJobResult*           mOutputHost;         /// Host-side job output buffer
+
+    PlayoutJobInfo*             mInputDev;          /// Device-side job input buffer
+    PlayoutJobResult*           mOutputDev;         /// Device-side job output buffer
+
+    Semaphore                   mThreadStarted;
+    Semaphore                   mThreadExited;
+
+    Cuda
+
     ~CudaAsyncWorker()
     {
         this->Shutdown();
@@ -65,11 +83,13 @@ class CudaAsyncWorker : public IAsyncWorker
         mDeviceIndex  = deviceIndex;
         mCudaThread   = new CudaThread( deviceIndex );
 
+        cudaSetDevice( deviceIndex );
+
         mJobInfo.resize( jobSlots );
 
         for( int i = 0; i < jobSlots; i++ )
         {
-            CudaJobInfo& job  = mJobInfo[i];
+            CudaLaunchSlot& job  = mJobInfo[i];
 
             job.mDevice       = this;
             job.mStream       = (cudaStream_t) 0;
@@ -104,20 +124,53 @@ class CudaAsyncWorker : public IAsyncWorker
         }
     }
 
-    void Update()
+
+    void JobThread()
+    {
+        char threadName[80];
+        sprintf( threadName, "CUDA %d", mDeviceIndex );
+        PlatSetThreadName( threadName );
+
+        for( ;; )
+        {
+            vector< PlayoutJobRef > jobs = mIncoming->PopMultiple( mFreeSlots.size() );
+            for( auto& job : jobs )
+            {
+                if( job == NULL )
+                    break;
+
+                CudaLaunchSlot* slot = mFreeSlots.pop();
+                slot->mInfo = *job;
+
+                mStreamIndex = (mStreamIndex + 1) % mStreamId.size();
+                slot->mStream = mStreamId[mStreamIndex];
+
+                extern void QueuePlayoutJobCuda( CudaLaunchSlot* slot, int blockCount, int blockSize );
+                QueuePlayoutJobCuda( slot, blockCount, blockSize );
+
+                slot->mTickQueued = PlatGetClockTick();
+                mActiveSlots.push_back( slot );
+            }
+        }
+    }
+
+    override void Update()
     {
         vector< PlayoutJobResultRef > done;
+        done.reserve( mActiveSlots.size() );
 
-        while( !mRunningJobs.empty() )
+        while( !mActiveSlots.empty() )
         {
-            CudaJobInfo* job = mRunningJobs.front();
-            if( cudaEventQuery( job->mReadyEvent ) != cudaSuccess )
+            CudaLaunchSlot* slot = mActiveSlots.front();
+            if( cudaEventQuery( slot->mReadyEvent ) != cudaSuccess )
                 break;
 
-            mRunningJobs.pop_front();
+            mActiveSlots.pop_front();
 
             PlayoutJobResultRef result = new PlayoutJobResult();
-            done.emplace_back( job->mResult );
+            *result = slot->mResult;
+
+            done.push_back( result );
         }
 
         mResultQueue->Push( done.data(), done.size() );
@@ -128,36 +181,20 @@ class CudaAsyncWorker : public IAsyncWorker
 
 struct CudaThread
 {
-    int                         mDeviceIndex;       /// CUDA device index
-    cudaDeviceProp              mProp;              /// CUDA device properties
-
-    ThreadSafeQueue< CudaJobInfo* > mJobQueue;
-    cudaStream_t                mStreamId[CUDA_STREAM_COUNT];          /// A list of available execution streams, used round-robin
-    int                         mStreamIndex;       /// Index of the next stream to be used for submitting a job
-    unique_ptr< std::thread >   mSubmissionThread;
-    PlayoutJobInfo*             mInputHost;          /// Host-side job input buffer
-    PlayoutJobResult*           mOutputHost;         /// Host-side job output buffer
-
-    PlayoutJobInfo*             mInputDev;          /// Device-side job input buffer
-    PlayoutJobResult*           mOutputDev;         /// Device-side job output buffer
-
-    Semaphore mThreadStarted;
-    Semaphore mThreadExited;
-
-    CudaSubmissionThread( int deviceIndex )
+    CudaThread( int deviceIndex )
     {
         mDeviceIndex = deviceIndex;
 
-        mSubmissionThread = new std::thread( [] { this->SubmissionThread(); } );
+        mLaunchThread = new std::thread( [] { this->LaunchThread(); } );
         mThreadStarted.Wait();
     }
 
-    ~CudaSubmissionThread()
+    ~CudaThread()
     {
         mJobQueue.Push( NULL );
         mThreadExited.Wait();
 
-        mSubmissionThread.join();
+        mLaunchThread.join();
 
         if( mInputHost )
             cudaFreeHost( mInputHost );
@@ -171,7 +208,7 @@ struct CudaThread
         if( mOutputDev )
             cudaFree( mOutputDev );
 
-        for( size_t i = 0; i < mStreamId.size(); i++ )
+        for( size_t i = 0; i < CUDA_STREAM_COUNT; i++ )
             cudaStreamDestroy( mStreamId[i] );
     }
 
@@ -203,12 +240,8 @@ struct CudaThread
 
 
 
-    void SubmissionThread()
+    void LaunchThread()
     {
-        char threadName[80];
-        sprintf( threadName, "CUDA %d", device->mDeviceIndex );
-        PlatSetThreadName( threadName );
-
         this->InitCuda();
 
         mThreadStarted.Post();
@@ -217,20 +250,20 @@ struct CudaThread
 
         for( ;; )
         {
-            CudaJobInfo* job = mJobQueue.Pop();
-            if( job == NULL )
+            CudaLaunchSlot* slot = mLaunchQueue.Pop();
+            if( slot == NULL )
                 break;
 
             mStreamIndex = (mStreamIndex + 1) % mStreamId.size();
-            job->mStream = mStreamId[mStreamIndex];
+            slot->mStream = mStreamId[mStreamIndex];
 
-            extern void QueuePlayoutJobCuda( CudaJobInfo* job, int blockCount, int blockSize );
+            extern void QueuePlayoutJobCuda( CudaLaunchSlot* slot, int blockCount, int blockSize );
 
-            QueuePlayoutJobCuda( job, blockCount, blockSize, exitFlag );
-            job->mTickQueued = PlatGetClockTick();
+            QueuePlayoutJobCuda( slot, blockCount, blockSize );
+            slot->mTickQueued = PlatGetClockTick();
         }
 
-        mThreadDone.Post();
+        mThreadExited.Post();
     }
 
 

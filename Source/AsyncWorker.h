@@ -1,60 +1,51 @@
 
 
-class AsyncWorker
+class IAsyncWorker
 {
-protected:
+public:
+    virtual void Update() {}
+};
+
+
+class CpuAsyncWorker : public IAsyncWorker
+{
     PlayoutJobQueue*    mIncoming;
-    PlayoutJobQueue*    mOutgoing;
+    PlayoutResultQueue* mOutgoing;
 
     unique_ptr< std::thread > mWorkerThread;
-    volatile bool mExiting;
-    Semaphore           mThreadExited;
 
-    virtual void RunJob( PlayoutJobRef& job, PlayoutJobResult& result ) = 0;
-
-    void RunJobs()
+    void JobThread()
     {
-        while( !mExiting )
+        for( ;; )
         {
-            PlayoutJobRef job;
+            PlayoutJobRef job = mIncoming->Pop();
+            if( job == NULL )
+                break;
 
-            if( !mIncoming->TryPop( job, DEFAULT_ASYNC_POLL );
-                continue;
+            GamePlayer player( &job->mOptions );
+            ScoreCard scores = player.Play( job->mPos, job->mNumPlays );
 
-            this->RunJob( job );
+            PlayoutJobResultRef result = new PlayoutJobResult();
+            result->mScores = scores;
+            result->mPathFromRoot = job->mPathFromRoot;
 
-            mOutgoing->Push( job );
+            mOutgoing->Push( result );
         }
-
-        mThreadExited.Post();
     }
 
 public:
 
-    AsyncWorker( PlayoutJobQueue* workQueue, PlayoutJobQueue* doneQueue )
+    CpuAsyncWorker( PlayoutJobQueue* workQueue, PlayoutResultQueue* doneQueue )
     {
-        mWorkQueue = workQueue;
-        mDoneQueue = doneQueue;
-        mExiting  = false;
+        mIncoming = workQueue;
+        mOutgoing = doneQueue;
 
-        mWorkerThread = new std::thread( [] { this->RunJobs(); } );
+        mWorkerThread = new std::thread( [] { this->JobThread(); } );
     }
 
-    ~AsyncWorker()
+    ~CpuAsyncWorker()
     {
-        mExiting = true;
-        mThreadExited.Wait();
+        mWorkerThread.join();
     }
-
-
 };
 
-class CpuWorker : public AsyncWorker
-{
-    override void RunJob( PlayoutJobRef& job )
-    {
-        GamePlayer player( &job->mOptions );
-
-        job->mResult = player.Play( job->mPos, job->mNumPlays );
-    }
-}
