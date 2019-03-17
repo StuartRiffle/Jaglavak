@@ -1,9 +1,9 @@
 // FEN.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_FEN_H__
-#define CORVID_FEN_H__
+#ifndef CORVID_SERIALIZATION_H__
+#define CORVID_SERIALIZATION_H__
 
-class FEN
+class Serialization
 {
 public:
     static void PositionToString( const Position& pos, char* str )
@@ -211,33 +211,38 @@ public:
     }
 
 
-    static void PrintPosition( const Position& pos )
+    static std::string SerializePosition( const Position& pos )
     {
         char fen[MAX_FEN_LENGTH];
-        FEN::PositionToString( pos, fen );
+        PositionToString( pos, fen );
 
-        printf( fen );
+        return std::string( fen );
     }
-                                      
 
-    static void PrintMoveSpec( const MoveSpec& spec )
+    static std::string SerializeMoveSpec( const MoveSpec& spec )
     {
         char movetext[MAX_MOVETEXT];
-        FEN::MoveSpecToString( spec, movetext );
+        MoveSpecToString( spec, movetext );
 
-        printf( movetext );
+        return std::string( movetext );
     }
 
-
-    static void PrintMoveList( const MoveList& moves )
+    static std::string SerializeMoveList( const MoveList& moves )
     {
+        char result[(MAX_MOVETEXT + 1) * MAX_MOVE_LIST];
+        char* cursor = result;
+
         for( int i = 0; i < moves.mCount; i++ )
         {
             if( i > 0 )
-                printf( " " );
+                *cursor++ = ' ';
 
-            FEN::PrintMoveSpec( moves.mMove[i] );
+            MoveSpecToString( moves.mMove[i], cursor );
+            while( *cursor )
+                cursor++;
         }
+
+        return std::string( result );
     }
 
 };

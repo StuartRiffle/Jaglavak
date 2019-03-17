@@ -3,28 +3,28 @@
 #ifndef CORVID_JOB_H__
 #define CORVID_JOB_H__
 
-struct PlayoutJobInfo
+struct PlayoutJob
 {
-    Position            mPosition;
-    PlayoutOptions      mOptions;
-    int                 mNumGames;
-    MoveList            mPathFromRoot;
+    Position        mPosition;
+    GlobalOptions   mOptions;
+    int             mNumGames;
+    MoveList        mPathFromRoot;
 };
 
-struct PlayoutJobResult
+struct PlayoutResult
 {
-    MoveList    mPathFromRoot;
     ScoreCard   mScores;
+    MoveList    mPathFromRoot;
 };
 
 
 
 #if !CORVID_CUDA_DEVICE
-typedef std::shared_ptr< PlayoutJobInfo >       PlayoutJobInfoRef;
-typedef std::shared_ptr< PlayoutJobResult >     PlayoutJobResultRef;
+typedef std::shared_ptr< PlayoutJob >       PlayoutJobRef;
+typedef ThreadSafeQueue< PlayoutJobRef >    PlayoutJobQueue;
 
-typedef ThreadSafeQueue< PlayoutJobInfoRef >    PlayoutJobQueue;
-typedef ThreadSafeQueue< PlayoutJobResultRef >  PlayoutResultQueue;
+typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
+typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
 #endif
 
 #endif

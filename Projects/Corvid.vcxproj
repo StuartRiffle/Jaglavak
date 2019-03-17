@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\AsyncWorker.h" />
+    <ClInclude Include="..\Source\LocalWorker.h" />
     <ClInclude Include="..\Source\BitBoard.h" />
     <ClInclude Include="..\Source\Core.h" />
     <ClInclude Include="..\Source\Defs.h" />
     <ClInclude Include="..\Source\Evaluation.h" />
-    <ClInclude Include="..\Source\FEN.h" />
-    <ClInclude Include="..\Source\CUDA.h" />
+    <ClInclude Include="..\Source\Serialization.h" />
+    <ClInclude Include="..\Source\CudaWorker.h" />
     <ClInclude Include="..\Source\PlayoutJob.h" />
     <ClInclude Include="..\Source\MoveList.h" />
     <ClInclude Include="..\Source\MoveMap.h" />
@@ -34,18 +34,19 @@
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\GamePlayer.h" />
     <ClInclude Include="..\Source\Position.h" />
+    <ClInclude Include="..\Source\Profiler.h" />
     <ClInclude Include="..\Source\Random.h" />
     <ClInclude Include="..\Source\Options.h" />
     <ClInclude Include="..\Source\Threads.h" />
     <ClInclude Include="..\Source\Tokenizer.h" />
     <ClInclude Include="..\Source\TreeSearcher.h" />
-    <ClInclude Include="..\Source\UCI.h" />
+    <ClInclude Include="..\Source\UciEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\CUDA.cu" />
+    <None Include="..\Source\PlayoutKernel.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5CC63264-3586-4E61-ACF6-4B26850AACE6}</ProjectGuid>
@@ -122,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\contrib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FloatingPointExceptions>false</FloatingPointExceptions>
@@ -167,7 +168,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_VARIADIC_MAX=10;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\contrib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FloatingPointExceptions>false</FloatingPointExceptions>

@@ -9,6 +9,7 @@
 #include "Evaluation.h"
 #include "MoveList.h"
 #include "Random.h"
-#include "Playout.h"
+#include "Options.h"
+#include "GamePlayer.h"
 
 

@@ -3,10 +3,6 @@
 #ifndef CORVID_PLATFORM_H__
 #define CORVID_PLATFORM_H__
 
-#ifndef _HAS_EXCEPTIONS    
-#define _HAS_EXCEPTIONS   0
-#endif
-
 #include <stdint.h>
 #include <assert.h>
 
@@ -304,29 +300,6 @@ static u64 PlatGetClockFrequency()
     return( (u64) CLOCKS_PER_SEC );
 #endif
 }
-
-struct Timer
-{
-    u64 mStartTime;
-
-    Timer() { this->Reset(); }
-    Timer( const Timer& rhs ) : mStartTime( rhs.mStartTime ) {}
-
-    void Reset() 
-    { 
-        mStartTime = PlatGetClockTick(); 
-    }
-
-    i64 GetElapsedMillis() 
-    { 
-        return( ((i64) (PlatGetClockTick() - mStartTime) * 1000) / PlatGetClockFrequency() ); 
-    }
-
-    i64 GetElapsedMicross() 
-    { 
-        return( ((i64) (PlatGetClockTick() - mStartTime) * 1000000) / PlatGetClockFrequency() ); 
-    }
-};
 
 #endif // !CORVID_CUDA_DEVICE
 #endif // CORVID_PLATFORM_H__

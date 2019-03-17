@@ -230,6 +230,7 @@ typedef MoveSpecT< u8 >         MoveSpec;
 typedef MoveMapT<  u64 >        MoveMap;
 typedef PositionT< u64 >        Position;
 
+#define PROFILER_SCOPE( _STR )
 
 
 

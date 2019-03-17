@@ -9,25 +9,14 @@ struct Semaphore
     HANDLE      mHandle;
     Semaphore() : mHandle( CreateSemaphore( NULL, 0, LONG_MAX, NULL ) ) {}
     ~Semaphore() { CloseHandle( mHandle ); }
-    void Post( int count ) { ReleaseSemaphore( mHandle, count, NULL ); }
-    void Wait( int timeout = INFINITE ) { return( WaitForSingleObject( mHandle, timeout ) != WAIT_TIMEOUT); }
+    void Post( int count = 1 ) { ReleaseSemaphore( mHandle, count, NULL ); }
+    void Wait() { WaitForSingleObject( mHandle, INFINITE ); }
 #elif CORVID_GCC
     sem_t       mHandle;
     Semaphore()  { sem_init( &mHandle, 0, 0 ); }
     ~Semaphore() { sem_destroy( &mHandle ); }
-    void Post( int count )  { while( count-- ) sem_post( &mHandle ); }
-
-    bool Wait( int timeout = -1 )
-    { 
-        if( timeout < 0 )
-        {
-            while( sem_wait( &mHandle ) ) {}
-            return;
-        }
-
-        timespec tv = { 0, timeout * 1000000 };
-        return (sem_timedwait( &mHandle, &tv ) == 0);
-    }
+    void Post( int count = 1 )  { while( count-- ) sem_post( &mHandle ); }
+    bool Wait() { while( sem_wait( &mHandle ) ); }
 #endif
 };
 

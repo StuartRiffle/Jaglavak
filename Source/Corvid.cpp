@@ -15,20 +15,23 @@
 #include <map>
 #include <functional>
 #include <memory>
+#include <thread>
 
 using std::unique_ptr;
 using std::shared_ptr;
 using std::vector;
 using std::list;
 
-#include "FEN.h"
+
+#include "Serialization.h"
 #include "Tokenizer.h"
 #include "Perft.h"
-#include "SearchConfig.h"
+#include "Options.h"
 #include "Threads.h"
-#include "Jobs.h"
-#include "TreeSearch.h"
-#include "UCI.h"
+#include "PlayoutJob.h"
+#include "LocalWorker.h"
+#include "TreeSearcher.h"
+#include "UciEngine.h"
  
 int main( int argc, char** argv )
 {

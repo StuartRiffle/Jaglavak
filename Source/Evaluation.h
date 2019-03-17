@@ -109,6 +109,8 @@ struct Evaluation
 
     PDECL static void BlendWeights( const EvalWeightBlendInfo* blendInfo, EvalWeightSet* dest, float gamePhase ) 
     {
+        PROFILER_SCOPE( "Evaluation::BlendWeights" );
+
         float   openingPct  = 1 - Max( 0.0f, Min( 1.0f, gamePhase ) );
         float   endgamePct  = Max( 0.0f, Min( 1.0f, gamePhase - 1 ) );
         float   midgamePct  = 1 - (openingPct + endgamePct);
@@ -132,6 +134,8 @@ struct Evaluation
     template< typename SIMD >
     PDECL static SIMD ApplyWeights( const SIMD* eval, const EvalWeightSet& weights ) 
     {
+        PROFILER_SCOPE( "Evaluation::ApplyWeights" );
+
         SIMD score = MulSigned32( eval[0], weights.mWeights[0] );
         for( int i = 1; i < NUM_EVAL_TERMS; i++ )
             score += MulSigned32( eval[i], weights.mWeights[i] );
@@ -142,6 +146,8 @@ struct Evaluation
     template< int POPCNT >
     PDECL static float CalcGamePhase( const Position& pos ) 
     {
+        PROFILER_SCOPE( "Evaluation::CalcGamePhase" );
+
         // "openingness" starts at 1, then reduces to 0 over at most EVAL_OPENING_PLIES
         // "endingness" starts at 0, then increases as minor/major pieces are taken
 
@@ -166,6 +172,8 @@ struct Evaluation
     template< int POPCNT, typename SIMD >
     PDECL static SIMD EvaluatePosition( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, const EvalWeightSet& weights ) 
     {
+        PROFILER_SCOPE( "Evaluation::EvaluatePosition" );
+
         SIMD    eval[NUM_EVAL_TERMS];   
 
         CalcEvalTerms< POPCNT, SIMD >( pos, mmap, eval );
@@ -194,6 +202,8 @@ struct Evaluation
     template< int POPCNT, typename SIMD >
     PDECL static void CalcEvalTerms( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, SIMD* eval )
     {
+        PROFILER_SCOPE( "Evaluation::CalcEvalTerms" );
+
         PositionT< SIMD > flipped;
         flipped.FlipFrom( pos );
 

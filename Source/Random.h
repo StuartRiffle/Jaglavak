@@ -3,6 +3,7 @@
 #ifndef CORVID_RANDOM_H__
 #define CORVID_RANDOM_H__
 
+
 struct RandomGen
 {
     u64 mState;
@@ -19,16 +20,15 @@ struct RandomGen
         n *= 6364136223846793005ULL;
         n += 1442695040888963407ULL;
 
-        // 64-bit Wang mixing function
+        // 64-bit Wang mix function
 
-        n += ~(n << 32);
-        n ^=  (n >> 22);
-        n += ~(n << 13);
-        n ^=  (n >>  8);
-        n +=  (n <<  3);
-        n ^=  (n >> 15);
-        n += ~(n << 27);
-        n ^=  (n >> 31);
+        n = ~n + (n << 21);
+        n =  n ^ (n >> 24);
+        n =  n + (n << 3) + (n << 8);
+        n =  n ^ (n >> 14);
+        n =  n + (n << 2) + (n << 4);
+        n =  n ^ (n >> 28);
+        n =  n + (n << 31);
 
         mState = n;
         return n;

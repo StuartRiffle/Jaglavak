@@ -42,22 +42,9 @@ public:
 
     ScoreCard PlayGames( const Position& pos, int simdCount )
     {
-    #if CORVID_CUDA_DEVICE
-
-        ScoreCard scores;
-
-        for( int i = 0; i < simdCount; i++ )
-            scores += PlayGamesSimd< ENABLE_POPCNT >( pos );
-
-        return scores;
-
-    #else
-
-        return mOptions->mUsePopcnt?
+        return mOptions->mEnablePopcnt?
             PlayGamesThreaded< ENABLE_POPCNT  >( pos, simdCount ) :
             PlayGamesThreaded< DISABLE_POPCNT >( pos, simdCount );
-
-    #endif
     }
 
 protected:
@@ -65,6 +52,8 @@ protected:
     template< int POPCNT >
     ScoreCard PlayGamesThreaded( const Position& pos, int simdCount )
     {
+        PROFILER_SCOPE( "GamePlayer::PlayGamesThreaded" );
+
         ScoreCard scores;
 
         #pragma omp parallel for schedule(dynamic)
@@ -82,6 +71,8 @@ protected:
     template< int POPCNT >
     ScoreCard PlayGamesSimd( const Position& startPos )
     {
+        PROFILER_SCOPE( "GamePlayer::PlayGamesSimd" );
+
         EvalWeightSet weights;
 
         float gamePhase = Evaluation::CalcGamePhase< POPCNT >( startPos );
@@ -100,7 +91,7 @@ protected:
 
         // This is the gameplay loop
 
-        for( int i = 0; i < mOptions->mMaxPlayoutMoves; i++ )
+        for( int i = 0; i < mOptions->mMaxMoves; i++ )
         {
             MoveSpecT< SIMD > simdSpec;
             MoveSpec spec[LANES];
@@ -127,8 +118,8 @@ protected:
 
         for( int lane = 0; lane < LANES; lane++ )
         {
-            bool whiteWon = (laneScore[lane] > mOptions->mAutoAdjudicate);
-            bool blackWon = (laneScore[lane] < mOptions->mAutoAdjudicate);
+            bool whiteWon = (laneScore[lane] >  mOptions->mWinningMaterial);
+            bool blackWon = (laneScore[lane] < -mOptions->mWinningMaterial);
 
             if( (whiteWon && pos[lane].mWhiteToMove) || (blackWon && !pos[lane].mWhiteToMove) )
                 scores.mWins++;
@@ -145,7 +136,9 @@ protected:
     template< int POPCNT >
     MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
     {
-        int movesToPeek = mOptions->mMovesToPeek;
+        PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
+
+        int movesToPeek = mOptions->mPeekMoves;
         bool makeErrorNow = (mRandom.GetFloat() < mOptions->mErrorRate);
 
         if( (movesToPeek < 1) || makeErrorNow )
@@ -201,7 +194,9 @@ protected:
 
             // Evaluate the resulting positions
 
-            SIMD simdScore = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
+            SIMD simdScore;
+            simdScore = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
+
             u64* laneScore = (u64*) &simdScore;
 
 			for( int lane = 0; lane < numValid; lane++ )
@@ -238,6 +233,8 @@ protected:
     template< int POPCNT >
     PDECL MoveSpec SelectRandomMove( const Position& pos, const MoveMap& moveMap )
     {
+        PROFILER_SCOPE( "GamePlayer::SelectRandomMove" );
+
         MoveMap mmap = moveMap;
 
         // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
@@ -292,48 +289,49 @@ protected:
     }
 };
 
-#if !CORVID_CUDA_DEVICE
-
 extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutOptions& options, const Position& pos, int simdCount );
 extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutOptions& options, const Position& pos, int simdCount );
 extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutOptions& options, const Position& pos, int simdCount );
 extern CDECL ScoreCard PlayGamesAVX512( const PlayoutOptions& options, const Position& pos, int simdCount );
 
-static ScoreCard PlayGamesCpu( const PlayoutOptions& options, const Position& pos, int count )
+ScoreCard PlayGamesCpu( const PlayoutOptions& options, const Position& pos, int count )
 {
-    int cpuLevel =
-        (count > 4)? CPU_AVX512 :
-        (count > 2)? CPU_AVX2 :
-        (count > 1)? CPU_SSE4 : 
-                     CPU_SCALAR;
-
-    if( cpuLevel > options.mMaxCpuLevel )
-        cpuLevel = options.mMaxCpuLevel;
-
-    if( options.mForceCpuLevel != CPU_INVALID )
-        cpuLevel = options.mForceCpuLevel;
-
-    int lanes = PlatGetSimdWidth( cpuLevel );
-    int simdCount = (count + lanes - 1) / lanes;
-
-    switch( cpuLevel )
+    if( options.mEnableSimd )
     {
-#if ENABLE_SSE2
-    case CPU_SSE2:   
-        return PlayGamesSSE2( options, pos, simdCount );
-#endif
-#if ENABLE_SSE4
-    case CPU_SSE4:
-        return PlayGamesSSE4( options, pos, simdCount );
-#endif
-#if ENABLE_AVX2
-    case CPU_AVX2:
-        return PlayGamesAVX2( options, pos, simdCount );
-#endif
-#if ENABLE_AVX512
-    case CPU_AVX512: 
-        return PlayGamesAVX512( options, pos, simdCount );
-#endif
+        int cpuLevel =
+            (count > 4)? CPU_AVX512 :
+            (count > 2)? CPU_AVX2 :
+            (count > 1)? CPU_SSE4 : 
+                         CPU_SCALAR;
+
+        if( cpuLevel > options.mMaxCpuLevel )
+            cpuLevel = options.mMaxCpuLevel;
+
+        if( options.mForceCpuLevel != CPU_INVALID )
+            cpuLevel = options.mForceCpuLevel;
+
+        int lanes = PlatGetSimdWidth( cpuLevel );
+        int simdCount = (count + lanes - 1) / lanes;
+
+        switch( cpuLevel )
+        {
+    #if ENABLE_SSE2
+        case CPU_SSE2:   
+            return PlayGamesSSE2( options, pos, simdCount );
+    #endif
+    #if ENABLE_SSE4
+        case CPU_SSE4:
+            return PlayGamesSSE4( options, pos, simdCount );
+    #endif
+    #if ENABLE_AVX2
+        case CPU_AVX2:
+            return PlayGamesAVX2( options, pos, simdCount );
+    #endif
+    #if ENABLE_AVX512
+        case CPU_AVX512: 
+            return PlayGamesAVX512( options, pos, simdCount );
+    #endif
+        }
     }
 
     // Fall back to scalar
@@ -341,8 +339,5 @@ static ScoreCard PlayGamesCpu( const PlayoutOptions& options, const Position& po
     GamePlayer< u64 > player( &options );
     return( player.PlayGames( pos, count ) );
 }
-
-#endif // !CORVID_CUDA_DEVICE
-
 
 #endif // CORVID_PLAYOUT_H__

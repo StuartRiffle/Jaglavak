@@ -71,7 +71,7 @@ public:
 
     bool ConsumePosition( Position& pos )
     {
-        const char* after = FEN::StringToPosition( mCursor, pos );
+        const char* after = Serialization::StringToPosition( mCursor, pos );
         if( after == NULL )
             return( false );
 

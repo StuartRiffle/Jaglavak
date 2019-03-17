@@ -5,8 +5,10 @@
 
 struct UciEngine
 {
-    TreeSearcher    mSearcher;
-    EngineOptions   mOptions;
+    unique_ptr< TreeSearcher >  mSearcher;
+    GlobalOptions   mOptions;
+    SearchOptions   mSearchOptions;
+    PlayoutOptions  mPlayoutOptions;
     bool            mDebugMode;
 
 public:
@@ -15,14 +17,27 @@ public:
         this->SetDefaultOptions();
     }
 
-    const EngineOptionInfo* GetOptionInfo()
+    const UciOptionInfo* GetOptionInfo()
     {
-        static EngineOptionInfo sOptions[] = 
+        #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _FIELD ) / sizeof( int ))
+
+        static UciOptionInfo sOptions[] = 
         {
-            OPTION_ENABLE_POPCNT, "EnablePopcnt", 0, 1, 1,
-            OPTION_ENABLE_SIMD,   "EnableSimd",   0, 1, 1,
-            OPTION_ENABLE_CUDA,   "EnableCuda",   0, 1, 1,
-            -1
+            OPTION_INDEX( mEnablePopcnt ),      "EnablePopcnt",         0, 1, 1,
+            OPTION_INDEX( mEnableSimd ),        "EnableSimd",           0, 1, 1,
+            OPTION_INDEX( mEnableCuda ),        "EnableCuda",           0, 1, 1,
+            OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1, 1,
+            OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
+            OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
+            OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64, 8,
+            OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 8192, 1024,
+            OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
+            OPTION_INDEX( mWinningMaterial ),   "WinningMaterial",      0, 1000, 600,
+            OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16, 4,
+            OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 1024,
+            OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 8,
+            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate"      0, 100, 100,
+            OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 50,
         };
 
         return sOptions;
@@ -30,13 +45,13 @@ public:
 
     void SetDefaultOptions()
     {
-        for( const EngineOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
-            mOptions[info->mIndex] = info->mDefault;
+        for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
+            mOptions.mOption[info->mIndex] = info->mDefault;
     }
 
     void SetOptionByName( const char* name, int value )
     {
-        for( const EngineOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
+        for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
         {
             if( !stricmp( name, info->mName ) )
             {
@@ -46,7 +61,7 @@ public:
         }
     }
 
-    bool ProcessCommand( Engine* engine, const char* cmd )
+    bool ProcessCommand( const char* cmd )
     {
         Tokenizer t( cmd );
 
@@ -55,7 +70,7 @@ public:
             printf( "id name Corvid %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
             printf( "id author Stuart Riffle\n" );
 
-            const EngineOptionInfo* option = engine->GetOptionInfo();
+            const UciOptionInfo* option = engine->GetOptionInfo();
             while( option->mName )
             {
                 if( (option->mMin == 0) && (option->mMax == 1) )
@@ -91,7 +106,8 @@ public:
         }
         else if( t.Consume( "ucinewgame" ) )
         {
-            mSearcher.Reset();
+            if( mSearcher )
+                mSearcher.Reset();
         }
         else if( t.Consume( "position" ) )
         {
@@ -110,7 +126,7 @@ public:
                 for( const char* movetext = t.ConsumeNext(); movetext; movetext = t.ConsumeNext() )
                 {
                     MoveSpec move;
-                    if( !FEN::StringToMoveSpec( movetext, move ) )
+                    if( !Serialization::StringToMoveSpec( movetext, move ) )
                         printf( "info string ERROR: unable to parse move" );
 
                     moveList.Append( move );
@@ -140,7 +156,7 @@ public:
                     for( const char* movetext = t.ConsumeNext(); movetext; movetext = t.ConsumeNext() )
                     {
                         MoveSpec spec;
-                        FEN::StringToMoveSpec( movetext, spec );
+                        Serialization::StringToMoveSpec( movetext, spec );
 
                         conf.mLimitMoves.Append( spec );
                     }

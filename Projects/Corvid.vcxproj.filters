@@ -1,32 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\Source\AsyncWorker.h" />
-    <ClInclude Include="..\Source\Defs.h" />
-    <ClInclude Include="..\Source\FEN.h" />
-    <ClInclude Include="..\Source\MoveList.h" />
     <ClInclude Include="..\Source\Perft.h" />
+    <ClInclude Include="..\Source\Threads.h" />
+    <ClInclude Include="..\Source\Core.h" />
+    <ClInclude Include="..\Source\Tokenizer.h" />
+    <ClInclude Include="..\Source\TreeSearcher.h" />
+    <ClInclude Include="..\Source\PlayoutJob.h" />
+    <ClInclude Include="..\Source\BitBoard.h" />
+    <ClInclude Include="..\Source\Defs.h" />
+    <ClInclude Include="..\Source\Evaluation.h" />
+    <ClInclude Include="..\Source\GamePlayer.h" />
+    <ClInclude Include="..\Source\MoveList.h" />
+    <ClInclude Include="..\Source\MoveMap.h" />
+    <ClInclude Include="..\Source\Operations.h" />
+    <ClInclude Include="..\Source\Options.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Position.h" />
-    <ClInclude Include="..\Source\Threads.h" />
-    <ClInclude Include="..\Source\BitBoard.h" />
-    <ClInclude Include="..\Source\Core.h" />
-    <ClInclude Include="..\Source\MoveMap.h" />
     <ClInclude Include="..\Source\Random.h" />
-    <ClInclude Include="..\Source\Evaluation.h" />
-    <ClInclude Include="..\Source\Operations.h" />
-    <ClInclude Include="..\Source\Tokenizer.h" />
-    <ClInclude Include="..\Source\UCI.h" />
-    <ClInclude Include="..\Source\Options.h" />
-    <ClInclude Include="..\Source\TreeSearcher.h" />
-    <ClInclude Include="..\Source\CUDA.h" />
-    <ClInclude Include="..\Source\GamePlayer.h" />
-    <ClInclude Include="..\Source\PlayoutJob.h" />
+    <ClInclude Include="..\Source\CudaWorker.h" />
+    <ClInclude Include="..\Source\Profiler.h" />
+    <ClInclude Include="..\Source\LocalWorker.h" />
+    <ClInclude Include="..\Source\UciEngine.h" />
+    <ClInclude Include="..\Source\Serialization.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\CUDA.cu" />
+    <None Include="..\Source\PlayoutKernel.cu" />
   </ItemGroup>
 </Project>

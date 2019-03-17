@@ -104,8 +104,9 @@ struct Perft
             total += count;
 
             printf( "info string divide %d ", depth );
-            FEN::PrintMoveSpec( valid.mMove[i] );
-            printf( "  %" PRId64 "\n", count );
+            std::string moveText = Serialization::SerializeMoveSpec( valid.mMove[i] );
+
+            printf( "%s  %" PRId64 "\n", moveText.c_str(), count );
         }
 
         printf( "info string divide %d total %" PRId64 "\n", depth, total );
