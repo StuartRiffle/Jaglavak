@@ -29,7 +29,7 @@ struct TreeNode : public TreeLink
     int                 mNumChildren;
     std::vector<BranchInfo>  mBranch;
 
-    TreeNode() : mInfo( NULL ) {}
+    TreeNode() : mInfo( NULL ), mNumChildren( 0 ) {}
     ~TreeNode() { Clear(); }
 
     void Init( const Position& pos, BranchInfo* info = NULL )
@@ -58,8 +58,6 @@ struct TreeNode : public TreeLink
             mInfo->mNode = NULL;
         }
 
-        mPrev = NULL;
-        mNext = NULL;
         mInfo = NULL;
         mNumChildren = 0;
         mBranch.clear();

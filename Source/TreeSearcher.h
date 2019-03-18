@@ -68,15 +68,17 @@ struct TreeSearcher
         node->mNext->mPrev = node->mPrev;
         node->mPrev->mNext = node->mNext;
 
-        node->mNext = oldFront;
-        node->mPrev = (TreeNode*) &mMruListHead;
 
+
+        node->mNext = mMruListHead.mNext;
         node->mNext->mPrev = node;
+
+        node->mPrev = (TreeNode*) &mMruListHead;
         node->mPrev->mNext = node;
 
         assert( mMruListHead.mNext == node );
 
-        //this->DebugVerifyMruList();
+        this->DebugVerifyMruList();
     }
 
     TreeNode* AllocNode()
@@ -199,8 +201,6 @@ struct TreeSearcher
             newPos.Step( newBranch.mMove );
 
             ScoreCard scores;
-            scores.Clear();
-
             PlayoutJob job;
 
             job.mOptions        = *mOptions;
@@ -218,7 +218,7 @@ struct TreeSearcher
             }
             else
             {
-                // ...or just pretend we did
+                // (or just pretend we did)
                 
                 scores.mPlays = 1;
                 scores.mDraws = 1;

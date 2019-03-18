@@ -38,6 +38,10 @@
     <ClInclude Include="..\Source\Profiler.h" />
     <ClInclude Include="..\Source\Random.h" />
     <ClInclude Include="..\Source\Options.h" />
+    <ClInclude Include="..\Source\SIMD-AVX2.h" />
+    <ClInclude Include="..\Source\SIMD-AVX512.h" />
+    <ClInclude Include="..\Source\SIMD-SSE2.h" />
+    <ClInclude Include="..\Source\SIMD-SSE4.h" />
     <ClInclude Include="..\Source\Threads.h" />
     <ClInclude Include="..\Source\Tokenizer.h" />
     <ClInclude Include="..\Source\TreeNode.h" />
@@ -46,6 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
+    <ClCompile Include="..\Source\SIMD-AVX2.cpp" />
+    <ClCompile Include="..\Source\SIMD-AVX512.cpp" />
+    <ClCompile Include="..\Source\SIMD-SSE2.cpp" />
+    <ClCompile Include="..\Source\SIMD-SSE4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\PlayoutKernel.cu" />
@@ -135,8 +143,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\SIMD-AVX512\$(Configuration)\;$(SolutionDir)..\Build\SIMD-AVX2\$(Configuration)\;$(SolutionDir)..\Build\SIMD-SSE4\$(Configuration)\;$(SolutionDir)..\Build\SIMD-SSE2\$(Configuration)\;$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cudart.lib;SIMD-SSE2.lib;SIMD-SSE4.lib;SIMD-AVX2.lib;SIMD-AVX512.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\SIMD-AVX512\$(Configuration);$(SolutionDir)..\Build\SIMD-AVX2\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE4\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE2\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>CorvidMapFile.txt</MapFileName>
@@ -198,8 +206,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>CorvidMapFile.txt</MapFileName>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\SIMD-AVX512\$(Configuration)\;$(SolutionDir)..\Build\SIMD-AVX2\$(Configuration)\;$(SolutionDir)..\Build\SIMD-SSE4\$(Configuration)\;$(SolutionDir)..\Build\SIMD-SSE2\$(Configuration)\;$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cudart.lib;SIMD-SSE2.lib;SIMD-SSE4.lib;SIMD-AVX2.lib;SIMD-AVX512.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\SIMD-AVX512\$(Configuration);$(SolutionDir)..\Build\SIMD-AVX2\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE4\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE2\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

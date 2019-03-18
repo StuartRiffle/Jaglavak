@@ -13,6 +13,11 @@ public:
     UciEngine() : mDebugMode( false ) 
     {
         this->SetDefaultOptions();
+
+        mOptions.mDetectedCpuLevel  = PlatDetectCpuLevel();
+        mOptions.mForceCpuLevel     = CPU_INVALID;
+        mOptions.mPopcntDetected    = PlatDetectPopcnt();
+
         mSearcher = std::unique_ptr< TreeSearcher >( new TreeSearcher( &mOptions ) );
     }
 
@@ -75,7 +80,7 @@ public:
             while( option->mIndex >= 0 )
             {
                 if( (option->mMin == 0) && (option->mMax == 1) )
-                    printf( "option name %s type check default %d\n", option->mName, option->mDefault? "true" : "false" );
+                    printf( "option name %s type check default %s\n", option->mName, option->mDefault? "true" : "false" );
                 else
                     printf( "option name %s type spin min %d max %d default %d\n", option->mName, option->mMin, option->mMax, option->mDefault );
 

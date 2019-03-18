@@ -9,10 +9,7 @@ struct ScoreCard
     u64 mDraws;
     u64 mPlays;
 
-    void Clear()
-    {
-        mWins = mDraws = mPlays = 0;
-    }
+    ScoreCard() : mWins( 0 ), mDraws( 0 ), mPlays( 0 ) {}
 
     void FlipColor()
     {
@@ -58,17 +55,14 @@ protected:
         PROFILER_SCOPE( "GamePlayer::PlayGamesThreaded" );
 
         ScoreCard scores;
-        scores.Clear();
 
-        #pragma omp parallel for schedule(dynamic)
+        //#pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
         {
             ScoreCard simdScores = PlayGamesSimd< POPCNT >( pos );
 
-            #pragma omp critical
-            scores.mWins  += simdScores.mWins;
-            scores.mDraws += simdScores.mDraws;
-            scores.mPlays += simdScores.mPlays;
+            //#pragma omp critical
+            scores += simdScores;
         }
 
         return scores;
@@ -102,6 +96,11 @@ protected:
             MoveSpecT< SIMD > simdSpec;
             MoveSpec spec[LANES];
 
+            Unswizzle< SIMD >( &simdPos,     pos );
+            Unswizzle< SIMD >( &simdMoveMap, moveMap );
+
+            // FIXME Unswizzle SSE4 corruption
+            
             for( int lane = 0; lane < LANES; lane++ )
                 spec[lane] = this->ChoosePlayoutMove< POPCNT >( pos[lane], moveMap[lane], weights );
 
@@ -110,9 +109,6 @@ protected:
 
             simdPos.Step( simdSpec );
             simdPos.CalcMoveMap( &simdMoveMap );
-
-            Unswizzle< SIMD >( &simdPos,     pos );
-            Unswizzle< SIMD >( &simdMoveMap, moveMap );
         }
 
         // Gather the results and judge them
@@ -121,7 +117,6 @@ protected:
         u64* laneScore = (u64*) &simdScore;
 
         ScoreCard scores;
-        scores.Clear();
 
         for( int lane = 0; lane < LANES; lane++ )
         {
@@ -247,7 +242,7 @@ protected:
         // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
 
         u64* buf = (u64*) &mmap;
-        u64 count = (u64) (((u64*) mmap.mCheckMask) - buf);
+        u64 count = (u64) (((u64*) &mmap.mCheckMask) - buf);
 
         // Choose a random bit to keep
 
