@@ -20,6 +20,14 @@ struct ScoreCard
         mWins = losses;
     }
 
+    ScoreCard& operator+=( const ScoreCard& sc )
+    {
+        mWins  += sc.mWins;
+        mDraws += sc.mDraws;
+        mPlays += sc.mPlays;
+        return *this;
+    }
+
 };
 
 template< typename SIMD >

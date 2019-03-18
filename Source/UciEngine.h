@@ -5,7 +5,7 @@
 
 struct UciEngine
 {
-    TreeSearcher    mSearcher;
+    std::unique_ptr< TreeSearcher >   mSearcher;
     GlobalOptions   mOptions;
     bool            mDebugMode;
 
@@ -13,6 +13,7 @@ public:
     UciEngine() : mDebugMode( false ) 
     {
         this->SetDefaultOptions();
+        mSearcher = std::unique_ptr< TreeSearcher >( new TreeSearcher( &mOptions ) );
     }
 
     const UciOptionInfo* GetOptionInfo()
@@ -31,10 +32,10 @@ public:
             OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 8192, 1024,
             OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
             OPTION_INDEX( mWinningMaterial ),   "WinningMaterial",      0, 1000, 600,
-            OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16, 4,
+            OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16, 4,            
             OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 1024,
             OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 8,
-            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate"      0, 100, 100,
+            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100, 100,
             OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 50,
             -1
         };
@@ -70,7 +71,7 @@ public:
             printf( "id name Corvid %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
             printf( "id author Stuart Riffle\n" );
 
-            const UciOptionInfo* option = engine->GetOptionInfo();
+            const UciOptionInfo* option = this->GetOptionInfo();
             while( option->mIndex >= 0 )
             {
                 if( (option->mMin == 0) && (option->mMax == 1) )
@@ -106,7 +107,7 @@ public:
         }
         else if( t.Consume( "ucinewgame" ) )
         {
-            mSearcher.Reset();
+            mSearcher->Reset();
         }
         else if( t.Consume( "position" ) )
         {
@@ -132,7 +133,7 @@ public:
                 }
             }
 
-            mSearcher.SetPosition( pos, moveList );
+            mSearcher->SetPosition( pos, &moveList );
         }
         else if( t.Consume( "go" ) )
         {
@@ -174,11 +175,11 @@ public:
             if( conf.mNodesLimit )
                 printf( "info string WARNING: limiting by node count is not supported\n" );
 
-            mSearcher.StartSearching( conf );
+            mSearcher->StartSearching( conf );
         }
         else if( t.Consume( "stop" ) )
         {
-            mSearcher.StopSearching();
+            mSearcher->StopSearching();
         }
         else if( t.Consume( "ponderhit" ) )
         {

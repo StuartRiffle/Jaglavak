@@ -65,8 +65,8 @@ public:
     {
         MUTEX_SCOPE( mMutex );
 
-        mQueue.append( objs, objs + count );
-        mAvail.Post( count );
+        mQueue.insert( mQueue.end(), objs, objs + count );
+        mAvail.Post( (int) count );
     }
 
     T Pop()
@@ -99,7 +99,7 @@ public:
         return( true );
     }
 
-    vector< T > PopMultiple( size_t limit )
+    std::vector< T > PopMultiple( size_t limit )
     {
         // Blocking
 
@@ -109,7 +109,7 @@ public:
 
             size_t count = Min( mQueue.size(), limit );
 
-            vector< T > result;
+            std::vector< T > result;
             result.reserve( count );
 
             for( size_t i = 0; i < count; i++ )
@@ -124,21 +124,23 @@ public:
         }
     }
 
-    vector< T > PopAll()
+    std::vector< T > PopAll()
     {
         MUTEX_SCOPE( mMutex );
 
-        vector< T > result;
+        std::vector< T > result;
 
         if( !mQueue.empty() )
         {
             size_t count = mQueue.size();
 
             result.reserve( count );
-            result.append( mQueue.begin(), mQueue.end() );
+            result.insert( result.end(), mQueue.begin(), mQueue.end() );
 
             mQueue.clear();
-            mAvail.Wait( count );
+
+            while( count-- )
+                mAvail.Wait();
         }
 
         return( result );

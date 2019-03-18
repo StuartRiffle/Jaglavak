@@ -27,7 +27,7 @@ struct TreeNode : public TreeLink
     Position            mPos;
     BranchInfo*         mInfo;
     int                 mNumChildren;
-    vector<BranchInfo>  mBranch;
+    std::vector<BranchInfo>  mBranch;
 
     TreeNode() : mInfo( NULL ) {}
     ~TreeNode() { Clear(); }

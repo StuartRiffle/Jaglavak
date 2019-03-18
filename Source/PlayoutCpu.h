@@ -11,10 +11,10 @@ typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
 typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
 
 
-extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutJob& job, int simdCount )
-extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutJob& job, int simdCount )
-extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutJob& job, int simdCount )
-extern CDECL ScoreCard PlayGamesAVX512( const PlayoutJob& job, int simdCount )
+extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutJob& job, int simdCount );
+extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutJob& job, int simdCount );
+extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutJob& job, int simdCount );
+extern CDECL ScoreCard PlayGamesAVX512( const PlayoutJob& job, int simdCount );
 
 
 int ChooseCpuLevelForPlayout( const GlobalOptions& options, int count )
@@ -74,7 +74,7 @@ ScoreCard PlayGamesCpu( int cpuLevel, const PlayoutJob& job )
     }
 
     assert( cpuLevel == CPU_SCALAR );
-    GamePlayer< u64 > scalarPlayer( &job.mOptions, mRandom.GetNext() );
+    GamePlayer< u64 > scalarPlayer( &job.mOptions, job.mRandomSeed );
 
     return scalarPlayer.PlayGames( job.mPosition, count );
 }
@@ -83,7 +83,7 @@ PlayoutResult RunPlayoutJobCpu( const PlayoutJob& job )
 {
     int cpuLevel = ChooseCpuLevelForPlayout( job.mOptions, job.mNumGames );
 
-    JobResult result;
+    PlayoutResult result;
     result.mScores = PlayGamesCpu( cpuLevel, job );
     result.mPathFromRoot = job.mPathFromRoot;
 

@@ -17,9 +17,9 @@ struct TreeSearcher
     PlayoutJobQueue         mJobQueue;
     PlayoutResultQueue      mResultQueue;
 
-    vector< shared_ptr< IAsyncWorker > > mAsyncWorkers;
+    std::vector< std::shared_ptr< IAsyncWorker > > mAsyncWorkers;
 
-    TreeSearcher( GlobalOptions* options, u64 randomSeed ) : mOptions( options )
+    TreeSearcher( GlobalOptions* options, u64 randomSeed = 1 ) : mOptions( options )
     {
         mShuttingDown  = false;
         mSearchRunning = false;
@@ -136,10 +136,10 @@ struct TreeSearcher
         u64 childWins       = childInfo.mScores.mWins;
         u64 childPlays      = childInfo.mScores.mPlays;
         u64 nodePlays       = nodeInfo->mScores.mPlays;
-        float exploringness = mOptions->mExplorationFactor;
+        float exploringness = mOptions->mExplorationFactor * 1.0f / 100;
 
         float childWinRatio = childWins * 1.0f / childPlays;
-        float uct = childWinRatio + exploringness * sqrtf( logf( nodePlays ) / childPlays );
+        float uct = childWinRatio + exploringness * sqrtf( logf( nodePlays * 1.0f ) / childPlays );
 
         return uct;
     }
@@ -190,7 +190,7 @@ struct TreeSearcher
            
             // Expand one of its moves at random
 
-            int newBranchIdx = mRandom.GetRange( newNode->mBranch.size() );
+            int newBranchIdx = (int) mRandom.GetRange( newNode->mBranch.size() );
 
             BranchInfo& newBranch = newNode->mBranch[newBranchIdx];
             pathFromRoot.Append( newBranch.mMove );
@@ -203,7 +203,7 @@ struct TreeSearcher
 
             PlayoutJob job;
 
-            job.mOptions        = mOptions;
+            job.mOptions        = *mOptions;
             job.mRandomSeed     = mRandom.GetNext();
             job.mPosition       = newPos;
             job.mNumGames       = mOptions->mNumInitialPlays;
@@ -213,7 +213,7 @@ struct TreeSearcher
             {
                 // Do the initial playouts
 
-                JobResult jobResult = RunPlayoutJobCpu( job );
+                PlayoutResult jobResult = RunPlayoutJobCpu( job );
                 scores += jobResult.mScores;
             }
             else
@@ -235,7 +235,7 @@ struct TreeSearcher
 
                 // This will BLOCK when the job queue fills up
 
-                mJobQueue.Push( job );
+                mJobQueue.Push( asyncJob );
             }
 
             newBranch.mScores += scores;
@@ -295,7 +295,7 @@ struct TreeSearcher
     {
         PROFILER_SCOPE( "TreeSearcher::ProcessAsyncResults" );
 
-        vector< PlayoutResultRef > results = mResultQueue.PopAll();
+        std::vector< PlayoutResultRef > results = mResultQueue.PopAll();
 
         for( const auto& result : results )
             this->ProcessResult( mSearchRoot, result );

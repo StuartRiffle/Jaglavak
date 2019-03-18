@@ -5,11 +5,6 @@
 
 #if ENABLE_CUDA
 
-
-struct CudaJobMetrics
-{
-};
-
 struct CudaLaunchSlot
 {
     PlayoutJob      mInfo;
@@ -236,7 +231,7 @@ class CudaAsyncWorker : public IAsyncWorker
     {
         for( ;; )
         {
-            vector< PlayoutJobRef > jobs = mJobQueue->PopMultiple( mFreeSlots.size() );
+            std::vector< PlayoutJobRef > jobs = mJobQueue->PopMultiple( mFreeSlots.size() );
             for( auto& job : jobs )
             {
                 if( job == NULL )
@@ -259,7 +254,7 @@ class CudaAsyncWorker : public IAsyncWorker
 
     override void Update()
     {
-        vector< PlayoutResultRef > completed;
+        std::vector< PlayoutResultRef > completed;
 
         for( auto& kv : mActiveSlotsByStream )
         {
