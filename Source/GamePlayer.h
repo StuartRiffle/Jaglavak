@@ -9,15 +9,9 @@ struct ScoreCard
     u64 mDraws;
     u64 mPlays;
 
-    ScoreCard() : mWins( 0 ), mDraws( 0 ), mPlays( 0 ) {}
-
-    ScoreCard& operator+=( const ScoreCard& sc )
+    void Clear()
     {
-        mWins  += sc.mWins;
-        mDraws += sc.mDraws;
-        mPlays += sc.mPlays;
-
-        return *this;
+        mWins = mDraws = mPlays = 0;
     }
 
     void FlipColor()
@@ -25,19 +19,20 @@ struct ScoreCard
         u64 losses = mPlays - (mWins + mDraws);
         mWins = losses;
     }
+
 };
 
 template< typename SIMD >
 class GamePlayer
 {
-    const PlayoutOptions*   mOptions;
+    const GlobalOptions*    mOptions;
     RandomGen               mRandom;
 
 public:
 
-    GamePlayer( const PlayoutOptions* options ) : mOptions( options )
+    GamePlayer( const GlobalOptions* options, u64 randomSeed ) : mOptions( options )
     {
-        mRandom.SetSeed( options->mRandomSeed );
+        mRandom.SetSeed( randomSeed );
     }
 
     ScoreCard PlayGames( const Position& pos, int simdCount )
@@ -55,6 +50,7 @@ protected:
         PROFILER_SCOPE( "GamePlayer::PlayGamesThreaded" );
 
         ScoreCard scores;
+        scores.Clear();
 
         #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
@@ -62,7 +58,9 @@ protected:
             ScoreCard simdScores = PlayGamesSimd< POPCNT >( pos );
 
             #pragma omp critical
-            scores += simdScores;
+            scores.mWins  += simdScores.mWins;
+            scores.mDraws += simdScores.mDraws;
+            scores.mPlays += simdScores.mPlays;
         }
 
         return scores;
@@ -91,7 +89,7 @@ protected:
 
         // This is the gameplay loop
 
-        for( int i = 0; i < mOptions->mMaxMoves; i++ )
+        for( int i = 0; i < mOptions->mPlayoutMaxMoves; i++ )
         {
             MoveSpecT< SIMD > simdSpec;
             MoveSpec spec[LANES];
@@ -115,6 +113,7 @@ protected:
         u64* laneScore = (u64*) &simdScore;
 
         ScoreCard scores;
+        scores.Clear();
 
         for( int lane = 0; lane < LANES; lane++ )
         {
@@ -138,8 +137,8 @@ protected:
     {
         PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
 
-        int movesToPeek = mOptions->mPeekMoves;
-        bool makeErrorNow = (mRandom.GetFloat() < mOptions->mErrorRate);
+        int movesToPeek = mOptions->mPlayoutPeekMoves;
+        bool makeErrorNow = (mRandom.GetRange( 100 ) < mOptions->mPlayoutErrorRate);
 
         if( (movesToPeek < 1) || makeErrorNow )
         {
@@ -289,55 +288,5 @@ protected:
     }
 };
 
-extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutOptions& options, const Position& pos, int simdCount );
-extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutOptions& options, const Position& pos, int simdCount );
-extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutOptions& options, const Position& pos, int simdCount );
-extern CDECL ScoreCard PlayGamesAVX512( const PlayoutOptions& options, const Position& pos, int simdCount );
-
-ScoreCard PlayGamesCpu( const PlayoutOptions& options, const Position& pos, int count )
-{
-    if( options.mEnableSimd )
-    {
-        int cpuLevel =
-            (count > 4)? CPU_AVX512 :
-            (count > 2)? CPU_AVX2 :
-            (count > 1)? CPU_SSE4 : 
-                         CPU_SCALAR;
-
-        if( cpuLevel > options.mMaxCpuLevel )
-            cpuLevel = options.mMaxCpuLevel;
-
-        if( options.mForceCpuLevel != CPU_INVALID )
-            cpuLevel = options.mForceCpuLevel;
-
-        int lanes = PlatGetSimdWidth( cpuLevel );
-        int simdCount = (count + lanes - 1) / lanes;
-
-        switch( cpuLevel )
-        {
-    #if ENABLE_SSE2
-        case CPU_SSE2:   
-            return PlayGamesSSE2( options, pos, simdCount );
-    #endif
-    #if ENABLE_SSE4
-        case CPU_SSE4:
-            return PlayGamesSSE4( options, pos, simdCount );
-    #endif
-    #if ENABLE_AVX2
-        case CPU_AVX2:
-            return PlayGamesAVX2( options, pos, simdCount );
-    #endif
-    #if ENABLE_AVX512
-        case CPU_AVX512: 
-            return PlayGamesAVX512( options, pos, simdCount );
-    #endif
-        }
-    }
-
-    // Fall back to scalar
-
-    GamePlayer< u64 > player( &options );
-    return( player.PlayGames( pos, count ) );
-}
 
 #endif // CORVID_PLAYOUT_H__

@@ -46,6 +46,7 @@ struct Mutex
     };
 };
 
+#define MUTEX_SCOPE( _VAR ) Mutex::Scope lock( _VAR );
 
 template< typename T >
 class ThreadSafeQueue
@@ -62,29 +63,30 @@ public:
 
     void Push( const T* objs, size_t count )
     {
-        Mutex::Scope lock( mMutex );
+        MUTEX_SCOPE( mMutex );
 
         mQueue.append( objs, objs + count );
-
-        mAvail.Post(count);
+        mAvail.Post( count );
     }
-
 
     T Pop()
     {
+        // Blocking
+
         mAvail.Wait();
+        {
+            MUTEX_SCOPE( mMutex );
 
-        Mutex::Scope lock( mMutex );
+            T result = mQueue.front();
+            mQueue.pop_front();
 
-        T result = mQueue.front();
-        mQueue.pop_front();
-
-        return( result );
+            return( result );
+        }
     }
 
     bool TryPop( T& result )
     {
-        Mutex::Scope lock( mMutex );
+        MUTEX_SCOPE( mMutex );
 
         if( mQueue.empty() )
             return( false );
@@ -99,39 +101,44 @@ public:
 
     vector< T > PopMultiple( size_t limit )
     {
+        // Blocking
+
         mAvail.Wait();
-
-        Mutex::Scope lock( mMutex );
-        vector< T > result;
-
-        size_t count = Min( mQueue.size(), limit );
-
-        for( size_t i = 0; i < count; i++ )
         {
-            result.push_back( mQueue.front() );
-            mQueue.pop_front();
+            MUTEX_SCOPE( mMutex );
+
+            size_t count = Min( mQueue.size(), limit );
+
+            vector< T > result;
+            result.reserve( count );
+
+            for( size_t i = 0; i < count; i++ )
+            {
+                result.push_back( mQueue.front() );
+                mQueue.pop_front();
+            }
+
+            mAvail.Wait( count - 1 );
+
+            return( result );
         }
-
-        mAvail.Wait( count - 1 );
-
-        return( result );
     }
-
 
     vector< T > PopAll()
     {
-        Mutex::Scope lock( mMutex );
+        MUTEX_SCOPE( mMutex );
+
         vector< T > result;
 
-        if(!mQueue.empty())
+        if( !mQueue.empty() )
         {
             size_t count = mQueue.size();
 
-            result.reserve(count);
-            result.append(mQueue.begin(), mQueue.end());
+            result.reserve( count );
+            result.append( mQueue.begin(), mQueue.end() );
 
             mQueue.clear();
-            mAvail.Wait(count);
+            mAvail.Wait( count );
         }
 
         return( result );
@@ -139,7 +146,7 @@ public:
 
     void Clear()
     {
-        Mutex::Scope lock( mMutex );
+        MUTEX_SCOPE( mMutex );
 
         size_t count = mQueue.size();
 

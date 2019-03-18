@@ -1,92 +1,5 @@
 // TreeSearcher.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
-struct TreeNode;
-
-struct BranchInfo
-{
-    TreeNode*   mNode;
-    MoveSpec    mMove;
-    ScoreCard   mScores;
-    float       mUct;
-
-    BranchInfo()
-    {
-        mNode   = NULL;
-        mUct    = 1.0f;
-    }
-};
-
-struct TreeLink
-{
-    TreeNode*           mPrev;
-    TreeNode*           mNext;
-};
-
-struct TreeNode : public TreeLink
-{
-    Position            mPos;
-    BranchInfo*         mInfo;
-    int                 mNumChildren;
-    vector<BranchInfo>  mBranch;
-
-    TreeNode() : mInfo( NULL ) {}
-    ~TreeNode() { Clear(); }
-
-    void Init( const Position& pos, BranchInfo* info = NULL )
-    {
-        mPos = pos;
-        mInfo = info;
-        mNumChildren = 0;
-
-        MoveList moveList;
-        moveList.FindMoves( pos );
-
-        mBranch.clear();
-        mBranch.resize( moveList.mCount );
-
-        for( int i = 0; i < moveList.mCount; i++ )
-            mBranch[i].mMove = moveList.mMove[i];
-    }
-
-    void Clear()
-    {
-        assert( this->IsLeaf() );
-
-        if( mInfo )
-        {
-            assert( mInfo->mNode == this );
-            mInfo->mNode = NULL;
-        }
-
-        mPrev = NULL;
-        mNext = NULL;
-        mInfo = NULL;
-        mNumChildren = 0;
-        mBranch.clear();
-    }
-
-    int FindMoveIndex( const MoveSpec& move )
-    {
-        for( int i = 0; i < (int) mBranch.size(); i++ )
-            if( mBranch[i].mMove == move )
-                return( i );
-
-        return( -1 );
-    }
-
-    bool IsLeaf() const
-    {
-        return (mNumChildren == 0);
-    }
-
-    bool IsFull() const
-    {
-        return (mNumChildren == (int) mBranch.size());
-    }
-};
-
-
-
 struct TreeSearcher
 {
     TreeNode*               mNodePool;
@@ -285,41 +198,23 @@ struct TreeSearcher
             Position newPos = node->mPos;
             newPos.Step( newBranch.mMove );
 
-            if( mOptions->mNumAsyncPlays > 0 )
-            {
-                // Queue up some bulk async playouts
-
-                PlayoutJobRef job( new PlayoutJob() );
-
-                job->mPosition      = newPos;
-                job->mOptions       = mOptions->mPlayout;
-                job->mNumGames      = mOptions->mNumAsyncPlays;
-                job->mPathFromRoot  = pathFromRoot;
-
-                // This is blocking
-
-                mJobQueue.Push( job );
-            }
-
             ScoreCard scores;
+            scores.Clear();
+
+            PlayoutJob job;
+
+            job.mOptions        = mOptions;
+            job.mRandomSeed     = mRandom.GetNext();
+            job.mPosition       = newPos;
+            job.mNumGames       = mOptions->mNumInitialPlays;
+            job.mPathFromRoot   = pathFromRoot;
             
             if( mOptions->mNumInitialPlays > 0 )
             {
                 // Do the initial playouts
 
-                PlayoutOptions playoutOptions = { 0 };
-
-                playoutOptions.mRandomSeed      = mRandom.GetNext();
-                playoutOptions.mErrorRate       = mOptions.mPlayoutErrorRate;
-                playoutOptions.mPeekMoves       = mOptions.mPlayoutPeekMoves;
-                playoutOptions.mMaxMoves        = mOptions.mPlayoutMaxMoves;
-                playoutOptions.mWinningMaterial = mOptions.mWinningMaterial;
-                playoutOptions.mMaxCpuLevel     = mOptions.mMaxCpuLevel;
-                playoutOptions.mForceCpuLevel   = mOptions.mForceCpuLevel;
-                playoutOptions.mUseSimd         = mOptions.mEnableSimd;
-                playoutOptions.mEnablePopcnt       = mOptions.mEnablePopcnt && mOptions.mPopcntDetected;
-
-                scores = PlayGamesCpu( playoutOptions, newPos, mOptions->mNumInitialPlays );
+                JobResult jobResult = RunPlayoutJobCpu( job );
+                scores += jobResult.mScores;
             }
             else
             {
@@ -327,6 +222,20 @@ struct TreeSearcher
                 
                 scores.mPlays = 1;
                 scores.mDraws = 1;
+            }
+
+            if( mOptions->mNumAsyncPlays > 0 )
+            {
+                // Queue up any async playouts
+
+                PlayoutJobRef asyncJob( new PlayoutJob() );
+
+                *asyncJob = job;
+                asyncJob->mNumGames = mOptions->mNumAsyncPlays;
+
+                // This will BLOCK when the job queue fills up
+
+                mJobQueue.Push( job );
             }
 
             newBranch.mScores += scores;
@@ -386,8 +295,6 @@ struct TreeSearcher
     {
         PROFILER_SCOPE( "TreeSearcher::ProcessAsyncResults" );
 
-        // This is not blocking
-
         vector< PlayoutResultRef > results = mResultQueue.PopAll();
 
         for( const auto& result : results )
@@ -406,8 +313,12 @@ struct TreeSearcher
     {
         for( ;; )
         {
+            // Wait until we're needed
+
             mSearchThreadIdle.Post();
             mSearchThreadActive.Wait();
+
+            // Run until we're not
 
             if( mShuttingDown )
                 break;
@@ -422,8 +333,6 @@ struct TreeSearcher
                 this->ExpandAtLeaf();
             }
         }
-
-
     }
 
     void StartSearching( const UciSearchConfig& config )

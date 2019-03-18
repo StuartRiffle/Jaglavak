@@ -5,10 +5,8 @@
 
 struct UciEngine
 {
-    unique_ptr< TreeSearcher >  mSearcher;
+    TreeSearcher    mSearcher;
     GlobalOptions   mOptions;
-    SearchOptions   mSearchOptions;
-    PlayoutOptions  mPlayoutOptions;
     bool            mDebugMode;
 
 public:
@@ -38,8 +36,10 @@ public:
             OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 8,
             OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate"      0, 100, 100,
             OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 50,
+            -1
         };
 
+        #undef OPTION_INDEX
         return sOptions;
     }
 
@@ -71,7 +71,7 @@ public:
             printf( "id author Stuart Riffle\n" );
 
             const UciOptionInfo* option = engine->GetOptionInfo();
-            while( option->mName )
+            while( option->mIndex >= 0 )
             {
                 if( (option->mMin == 0) && (option->mMax == 1) )
                     printf( "option name %s type check default %d\n", option->mName, option->mDefault? "true" : "false" );
@@ -106,8 +106,7 @@ public:
         }
         else if( t.Consume( "ucinewgame" ) )
         {
-            if( mSearcher )
-                mSearcher.Reset();
+            mSearcher.Reset();
         }
         else if( t.Consume( "position" ) )
         {

@@ -27,7 +27,7 @@ union GlobalOptions
 
         // These are not 
 
-        int     mMaxCpuLevel;
+        int     mDetectedCpuLevel;
         int     mForceCpuLevel;
         int     mPopcntDetected;
     };

@@ -3,14 +3,11 @@
 #ifndef CORVID_LOCAL_WORKER_H__
 #define CORVID_LOCAL_WORKER_H__
 
-
 class IAsyncWorker
 {
 public:
     virtual void Update() {}
 };
-
-
 
 class LocalWorker : public IAsyncWorker
 {
@@ -26,12 +23,8 @@ class LocalWorker : public IAsyncWorker
             if( job == NULL )
                 break;
 
-            ScoreCard scores = PlayGamesCpu( job->mOptions, job->mPosition, job->mNumGames );
-
             PlayoutResultRef result( new PlayoutResult() );
-
-            result->mScores = scores;
-            result->mPathFromRoot = job->mPathFromRoot;
+            *result = RunPlayoutJobCpu( *job );
 
             mResultQueue->Push( result );
         }
@@ -39,10 +32,10 @@ class LocalWorker : public IAsyncWorker
 
 public:
 
-    LocalWorker( PlayoutJobQueue* jobQueue, PlayoutResultQueue* doneQueue )
+    LocalWorker( PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
     {
         mJobQueue = jobQueue;
-        mResultQueue = doneQueue;
+        mResultQueue = resultQueue;
 
         mJobThread = new std::thread( [&] { this->JobThread(); } );
     }

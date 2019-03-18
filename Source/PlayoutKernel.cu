@@ -1,19 +1,20 @@
-// CUDA.cu - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// PlayoutKernel.cu - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Core.h"
-#include "Job.h"
-#include "CUDA.h"
+#include "Core.h"
+#include "PlayoutJob.h"
 
-__global__ void PlayGamesOnDevice( const PlayoutJobInfo* input, PlayoutJobresult* result, int count )
+
+__global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int count )
 {
-    GamePlayer player( &input->mOptions );
+    GamePlayer player( &job->mOptions );
 
-    result->mScores = player.PlayGames( input->mPos, count );
-    result->mPathFromRoot = input->mPathFromRoot;
+    result->mScores = player.PlayGames( job->mPosition, count );
+    result->mPathFromRoot = job->mPathFromRoot;
 }
 
 
-void QueuePlayoutJobCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
+void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
 {
     cudaEventRecord( slot->mStartEvent, slot->mStream );
 
@@ -33,8 +34,6 @@ void QueuePlayoutJobCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
         slot->mOutputDev, 
         slot->mCount );
 
-    cudaEventRecord( slot->mEndEvent, slot->mStream );
-
     // Copy the results back to host
 
     cudaMemcpyAsync( 
@@ -44,6 +43,6 @@ void QueuePlayoutJobCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
         cudaMemcpyDeviceToHost, 
         slot->mStream );
 
-    cudaEventRecord( job->mStopEvent, job->mStream );
+    cudaEventRecord( slot->mEndEvent, slot->mStream );
 }
 

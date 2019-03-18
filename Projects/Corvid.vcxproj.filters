@@ -23,6 +23,8 @@
     <ClInclude Include="..\Source\LocalWorker.h" />
     <ClInclude Include="..\Source\UciEngine.h" />
     <ClInclude Include="..\Source\Serialization.h" />
+    <ClInclude Include="..\Source\TreeNode.h" />
+    <ClInclude Include="..\Source\PlayoutCpu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
