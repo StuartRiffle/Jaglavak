@@ -11,12 +11,6 @@ typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
 typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
 
 
-extern CDECL ScoreCard PlayGamesSSE2(   const PlayoutJob& job, int simdCount );
-extern CDECL ScoreCard PlayGamesSSE4(   const PlayoutJob& job, int simdCount );
-extern CDECL ScoreCard PlayGamesAVX2(   const PlayoutJob& job, int simdCount );
-extern CDECL ScoreCard PlayGamesAVX512( const PlayoutJob& job, int simdCount );
-
-
 int ChooseCpuLevelForPlayout( const GlobalOptions& options, int count )
 {
     int cpuLevel = CPU_SCALAR;
@@ -47,45 +41,48 @@ int ChooseCpuLevelForPlayout( const GlobalOptions& options, int count )
     return cpuLevel;
 }
 
-ScoreCard PlayGamesCpu( int cpuLevel, const PlayoutJob& job )
+template< typename SIMD >
+ScoreCard PlayGamesCpu( const PlayoutJob& job, int simdCount )
 {
-    int count       = job.mNumGames;
-    int lanes       = PlatGetSimdWidth( cpuLevel );
-    int simdCount   = (count + lanes - 1) / lanes;
-
-    switch( cpuLevel )
-    {
-#if ENABLE_SSE2
-    case CPU_SSE2:      
-        return PlayGamesSSE2( job, simdCount );
-#endif
-#if ENABLE_SSE4
-    case CPU_SSE4:      
-        return PlayGamesSSE4( job, simdCount );
-#endif
-#if ENABLE_AVX2
-    case CPU_AVX2:
-        return PlayGamesAVX2( job, simdCount );
-#endif
-#if ENABLE_AVX512
-    case CPU_AVX512:
-        return PlayGamesAVX512( job, simdCount );
-#endif
-    }
-
-    assert( cpuLevel == CPU_SCALAR );
-    GamePlayer< u64 > scalarPlayer( &job.mOptions, job.mRandomSeed );
-
-    return scalarPlayer.PlayGames( job.mPosition, count );
+    GamePlayer< SIMD > player( &job.mOptions, job.mRandomSeed );
+    return player.PlayGames( job.mPosition, simdCount );
 }
 
 PlayoutResult RunPlayoutJobCpu( const PlayoutJob& job )
 {
-    int cpuLevel = ChooseCpuLevelForPlayout( job.mOptions, job.mNumGames );
+    int cpuLevel    = ChooseCpuLevelForPlayout( job.mOptions, job.mNumGames );
+    int lanes       = PlatGetSimdWidth( cpuLevel );
+    int simdCount   = (job.mNumGames + lanes - 1) / lanes;
 
     PlayoutResult result;
-    result.mScores = PlayGamesCpu( cpuLevel, job );
     result.mPathFromRoot = job.mPathFromRoot;
+
+    switch( cpuLevel )
+    {
+#if ENABLE_SSE2
+    case CPU_SSE2: 
+        result.mScores = PlayGamesCpu< simd2_sse2 >( job, simdCount );
+        break;
+#endif
+#if ENABLE_SSE4
+    case CPU_SSE4:
+        result.mScores = PlayGamesCpu< simd2_sse4 >( job, simdCount );
+        break;
+#endif
+#if ENABLE_AVX2
+    case CPU_AVX2:
+        result.mScores = PlayGamesCpu< simd4_avx2 >( job, simdCount );
+        break;
+#endif
+#if ENABLE_AVX512
+    case CPU_AVX512:
+        result.mScores = PlayGamesCpu< simd8_avx512 >( job, simdCount );
+        break;
+#endif
+    default:
+        result.mScores = PlayGamesCpu< u64 >( job, simdCount );
+        break;
+    }
 
     return result;
 }

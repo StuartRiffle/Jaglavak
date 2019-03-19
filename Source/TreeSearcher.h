@@ -6,6 +6,7 @@ struct TreeSearcher
     size_t                  mNodePoolEntries;
     TreeLink                mMruListHead;
     TreeNode*               mSearchRoot;
+    BranchInfo              mRootInfo;
     UciSearchConfig         mUciConfig;
     GlobalOptions*          mOptions;
     std::thread*            mSearchThread;
@@ -104,6 +105,9 @@ struct TreeSearcher
 
         mSearchRoot = AllocNode();
         mSearchRoot->Init( pos );
+
+        mSearchRoot->mInfo = &mRootInfo;
+        mRootInfo.mNode = mSearchRoot;
     }
 
     void DebugVerifyMruList()

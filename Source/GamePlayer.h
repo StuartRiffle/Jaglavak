@@ -100,6 +100,8 @@ protected:
             Unswizzle< SIMD >( &simdMoveMap, moveMap );
 
             // FIXME Unswizzle SSE4 corruption
+
+            // FIXME pos/movemap mismatch?
             
             for( int lane = 0; lane < LANES; lane++ )
                 spec[lane] = this->ChoosePlayoutMove< POPCNT >( pos[lane], moveMap[lane], weights );
@@ -140,16 +142,6 @@ protected:
     {
         PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
 
-        int movesToPeek = mOptions->mPlayoutPeekMoves;
-        bool makeErrorNow = (mRandom.GetRange( 100 ) < mOptions->mPlayoutErrorRate);
-
-        if( (movesToPeek < 1) || makeErrorNow )
-        {
-            // Fast path: completely random move
-
-            return SelectRandomMove< POPCNT >( pos, moveMap );
-        }
-
         MoveList moveList;
         moveList.UnpackMoveMap( pos, moveMap );
 
@@ -157,6 +149,17 @@ protected:
         {
             MoveSpec nullMove( 0, 0, 0 );
             return nullMove;
+        }
+
+        int movesToPeek = mOptions->mPlayoutPeekMoves;
+        bool makeErrorNow = (mRandom.GetRange( 100 ) < mOptions->mPlayoutErrorRate);
+
+        if( (movesToPeek < 1) || makeErrorNow )
+        {
+            // Fast path: completely random move
+
+            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
+            return moveList.mMove[randomIdx];
         }
 
         movesToPeek = Max( movesToPeek, moveList.mCount );
@@ -237,12 +240,12 @@ protected:
     {
         PROFILER_SCOPE( "GamePlayer::SelectRandomMove" );
 
-        MoveMap mmap = moveMap;
+        MoveMap moveMapCopy = moveMap;
 
         // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
 
-        u64* buf = (u64*) &mmap;
-        u64 count = (u64) (((u64*) &mmap.mCheckMask) - buf);
+        u64* buf = (u64*) &moveMapCopy;
+        u64 count = (u64) (((u64*) &moveMapCopy.mCheckMask) - buf);
 
         // Choose a random bit to keep
 
@@ -283,9 +286,20 @@ protected:
         // use first one anyway (queen).
 
         MoveList moveList;
-        moveList.UnpackMoveMap( pos, mmap );
+        moveList.UnpackMoveMap( pos, moveMapCopy );
 
-        assert( (moveList.mCount == 1) || (moveList.mCount == 4) );
+        if( moveList.mCount == 0 )
+        {
+            MoveMap debugMoveMap;
+            pos.CalcMoveMap( &debugMoveMap );
+
+            moveList.UnpackMoveMap( pos, moveMapCopy );
+            moveList.UnpackMoveMap( pos, moveMap );
+        }
+        else
+        {
+            assert( (moveList.mCount == 1) || (moveList.mCount == 4) );
+        }
 
         return moveList.mMove[0];
     }

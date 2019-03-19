@@ -28,7 +28,7 @@ public:
         static UciOptionInfo sOptions[] = 
         {
             OPTION_INDEX( mEnablePopcnt ),      "EnablePopcnt",         0, 1, 1,
-            OPTION_INDEX( mEnableSimd ),        "EnableSimd",           0, 1, 1,
+            OPTION_INDEX( mEnableSimd ),        "EnableSimd",           0, 1, 0,
             OPTION_INDEX( mEnableCuda ),        "EnableCuda",           0, 1, 1,
             OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1, 1,
             OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,

@@ -32,10 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
-    <ClCompile Include="..\Source\SIMD-AVX2.cpp" />
-    <ClCompile Include="..\Source\SIMD-AVX512.cpp" />
-    <ClCompile Include="..\Source\SIMD-SSE2.cpp" />
-    <ClCompile Include="..\Source\SIMD-SSE4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\PlayoutKernel.cu" />
