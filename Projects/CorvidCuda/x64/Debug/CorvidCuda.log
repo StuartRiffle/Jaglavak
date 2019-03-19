@@ -1,0 +1,162 @@
+﻿  
+  D:\git\Corvid\Projects\CorvidCuda>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G -lineinfo  --keep-dir x64\Debug -maxrregcount=0 --ptxas-options=-v --machine 64 --compile   -g   -DENABLE_CUDA=1 -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od  /Zi /RTC1 /MDd " -o x64\Debug\PlayoutKernel.cu.obj "D:\git\Corvid\Source\PlayoutKernel.cu" -clean 
+CUDACOMPILE : nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+  PlayoutKernel.cu
+  Compiling CUDA source file ..\..\Source\PlayoutKernel.cu...
+  
+  D:\git\Corvid\Projects\CorvidCuda>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env --cl-version 2012 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G -lineinfo  --keep-dir x64\Debug -maxrregcount=0 --ptxas-options=-v --machine 64 --compile -cudart static  -g   -DENABLE_CUDA=1 -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od  /Zi /RTC1 /MDd " -o x64\Debug\PlayoutKernel.cu.obj "D:\git\Corvid\Source\PlayoutKernel.cu" 
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\Position.h(141): warning : variable "blackKing" was declared but never referenced
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(10): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\BitBoard.h(12): warning : shift count is negative
+d:\git\corvid\source\Position.h(141): warning : variable "blackKing" was declared but never referenced
+  ptxas info    : 1088 bytes gmem
+  ptxas info    : Function properties for _ZN10Evaluation12CalcSideEvalILi0EyEEvRK9PositionTIT0_ERK8MoveMapTIS2_EPS2_
+      848 bytes stack frame, 68 bytes spill stores, 68 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation12BlendWeightsEPK19EvalWeightBlendInfoP13EvalWeightSetf
+      32 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE17PlayGamesThreadedILi1EEE9ScoreCardRK9PositionTIyEi
+      80 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+  ptxas info    : Function properties for _ZN9PositionTIyE4StepERK9MoveSpecTIyE
+      112 bytes stack frame, 24 bytes spill stores, 24 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyEC1EPK13GlobalOptionsy
+      16 bytes stack frame, 16 bytes spill stores, 16 bytes spill loads
+  ptxas info    : Function properties for _ZN9PositionTIyE9ApplyMoveERKyS2_S2_
+      424 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation13CalcGamePhaseILi0EEEfRK9PositionTIyE
+      88 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE13PlayGamesSimdILi0EEE9ScoreCardRK9PositionTIyE
+      1176 bytes stack frame, 36 bytes spill stores, 36 bytes spill loads
+  ptxas info    : Function properties for _ZN9RandomGen8GetRangeEy
+      16 bytes stack frame, 16 bytes spill stores, 16 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation12ApplyWeightsIyEET_PKS1_RK13EvalWeightSet
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN8MoveList14StoreKingMovesERK9PositionTIyEyy
+      56 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation13CalcGamePhaseILi1EEEfRK9PositionTIyE
+      88 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE13PlayGamesSimdILi1EEE9ScoreCardRK9PositionTIyE
+      1176 bytes stack frame, 36 bytes spill stores, 36 bytes spill loads
+  ptxas info    : Function properties for _ZN9PositionTIyE9BroadcastIyEEvRKS_IT_E
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZNK9PositionTIyE15GetPlyZeroBasedEv
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Compiling entry function '_Z13PlayGamesCudaPK10PlayoutJobP13PlayoutResulti' for 'sm_30'
+  ptxas info    : Function properties for _Z13PlayGamesCudaPK10PlayoutJobP13PlayoutResulti
+      16 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Used 62 registers, 8480 bytes cumulative stack size, 340 bytes cmem[0]
+  ptxas info    : Function properties for _ZN9ScoreCardpLERKS_
+      8 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation12CalcSideEvalILi1EyEEvRK9PositionTIT0_ERK8MoveMapTIS2_EPS2_
+      848 bytes stack frame, 68 bytes spill stores, 68 bytes spill loads
+  ptxas info    : Function properties for _ZN9RandomGenC1Ey
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN8MoveList6RemoveEi
+      8 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN8MoveList15StorePromotionsERK9PositionTIyEyi
+      168 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation16EvaluatePositionILi1EyEET0_RK9PositionTIS1_ERK8MoveMapTIS1_ERK13EvalWeightSet
+      376 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE17ChoosePlayoutMoveILi1EEE9MoveSpecTIhERK9PositionTIyERK8MoveMapTIyERK13EvalWeightSet
+      3800 bytes stack frame, 60 bytes spill stores, 60 bytes spill loads
+  ptxas info    : Function properties for _ZN9RandomGen7GetNextEv
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation13CalcEvalTermsILi1EyEEvRK9PositionTIT0_ERK8MoveMapTIS2_EPS2_
+      792 bytes stack frame, 44 bytes spill stores, 44 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation20GetDefaultWeightInfoEv
+      8 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN9ScoreCard5PrintEPKc
+      40 bytes stack frame, 8 bytes spill stores, 8 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation13CalcEvalTermsILi0EyEEvRK9PositionTIT0_ERK8MoveMapTIS2_EPS2_
+      792 bytes stack frame, 44 bytes spill stores, 44 bytes spill loads
+  ptxas info    : Function properties for _ZN9RandomGen7SetSeedEy
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN8MoveList13UnpackMoveMapERK9PositionTIyERK8MoveMapTIyE
+      1400 bytes stack frame, 40 bytes spill stores, 40 bytes spill loads
+  ptxas info    : Function properties for _ZN8MoveList14StorePawnMovesERK9PositionTIyEyi
+      72 bytes stack frame, 8 bytes spill stores, 8 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation15GenerateWeightsEP13EvalWeightSetf
+      16 bytes stack frame, 12 bytes spill stores, 12 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE17PlayGamesThreadedILi0EEE9ScoreCardRK9PositionTIyEi
+      80 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+  ptxas info    : Function properties for _ZNK9PositionTIyE11CalcMoveMapEP8MoveMapTIyE
+      3408 bytes stack frame, 1116 bytes spill stores, 1796 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE9PlayGamesERK9PositionTIyEi
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN10GamePlayerIyE17ChoosePlayoutMoveILi0EEE9MoveSpecTIhERK9PositionTIyERK8MoveMapTIyERK13EvalWeightSet
+      3800 bytes stack frame, 60 bytes spill stores, 60 bytes spill loads
+  ptxas info    : Function properties for _ZN9ScoreCardC1Ev
+      0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+  ptxas info    : Function properties for _ZN9PositionTIyE8FlipFromERKS0_
+      16 bytes stack frame, 16 bytes spill stores, 16 bytes spill loads
+  ptxas info    : Function properties for _ZN9PositionTIyE11FlipInPlaceEv
+      8 bytes stack frame, 8 bytes spill stores, 8 bytes spill loads
+  ptxas info    : Function properties for _ZN10Evaluation16EvaluatePositionILi0EyEET0_RK9PositionTIS1_ERK8MoveMapTIS1_ERK13EvalWeightSet
+      376 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+  PlayoutKernel.cu
+  CorvidCuda.vcxproj -> D:\git\Corvid\Projects\x64\Debug\CorvidCuda.lib
+  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart*.dll" "D:\git\Corvid\Projects\x64\Debug\"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart32_80.dll
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart64_80.dll
+          2 file(s) copied.

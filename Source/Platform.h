@@ -92,6 +92,9 @@
     #error
 #endif
 
+#define DEBUG_LOG printf
+
+
 #if ENABLE_CUDA && CORVID_CPU
 #define CORVID_CUDA_HOST (1)
 #endif

@@ -9,15 +9,15 @@ struct ScoreCard
     u64 mDraws;
     u64 mPlays;
 
-    ScoreCard() : mWins( 0 ), mDraws( 0 ), mPlays( 0 ) {}
+    PDECL ScoreCard() : mWins( 0 ), mDraws( 0 ), mPlays( 0 ) {}
 
-    void FlipColor()
+    PDECL void FlipColor()
     {
         u64 losses = mPlays - (mWins + mDraws);
         mWins = losses;
     }
 
-    ScoreCard& operator+=( const ScoreCard& sc )
+    PDECL ScoreCard& operator+=( const ScoreCard& sc )
     {
         mWins  += sc.mWins;
         mDraws += sc.mDraws;
@@ -25,6 +25,10 @@ struct ScoreCard
         return *this;
     }
 
+    PDECL void Print( const char* desc )
+    {
+        DEBUG_LOG( "%s scores %d %d %d\n", desc, mWins, mDraws, mPlays );
+    }
 };
 
 template< typename SIMD >
@@ -35,12 +39,12 @@ class GamePlayer
 
 public:
 
-    GamePlayer( const GlobalOptions* options, u64 randomSeed ) : mOptions( options )
+    PDECL GamePlayer( const GlobalOptions* options, u64 randomSeed ) : mOptions( options )
     {
         mRandom.SetSeed( randomSeed );
     }
 
-    ScoreCard PlayGames( const Position& pos, int simdCount )
+    PDECL ScoreCard PlayGames( const Position& pos, int simdCount )
     {
         return mOptions->mEnablePopcnt?
             PlayGamesThreaded< ENABLE_POPCNT  >( pos, simdCount ) :
@@ -50,7 +54,7 @@ public:
 protected:
 
     template< int POPCNT >
-    ScoreCard PlayGamesThreaded( const Position& pos, int simdCount )
+    PDECL ScoreCard PlayGamesThreaded( const Position& pos, int simdCount )
     {
         PROFILER_SCOPE( "GamePlayer::PlayGamesThreaded" );
 
@@ -69,7 +73,7 @@ protected:
     }
 
     template< int POPCNT >
-    ScoreCard PlayGamesSimd( const Position& startPos )
+    PDECL ScoreCard PlayGamesSimd( const Position& startPos )
     {
         PROFILER_SCOPE( "GamePlayer::PlayGamesSimd" );
 
@@ -116,14 +120,16 @@ protected:
         // Gather the results and judge them
 
         SIMD simdScore = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
-        u64* laneScore = (u64*) &simdScore;
+        u64* laneScores = (u64*) &simdScore;
 
         ScoreCard scores;
 
         for( int lane = 0; lane < LANES; lane++ )
         {
-            bool whiteWon = (laneScore[lane] >  mOptions->mWinningMaterial);
-            bool blackWon = (laneScore[lane] < -mOptions->mWinningMaterial);
+            EvalTerm laneScore = (EvalTerm) laneScores[lane];
+
+            bool whiteWon = (laneScore >  mOptions->mWinningMaterial);
+            bool blackWon = (laneScore < -mOptions->mWinningMaterial);
 
             if( (whiteWon && pos[lane].mWhiteToMove) || (blackWon && !pos[lane].mWhiteToMove) )
                 scores.mWins++;
@@ -131,14 +137,17 @@ protected:
             if( !whiteWon && !blackWon )
                 scores.mDraws++;
 
+            DEBUG_LOG( "Lane %d, final eval %d, whiteWon %d, blackWon %d\n", lane, laneScore, whiteWon? 1 : 0, blackWon? 1 : 0 );
+
             scores.mPlays++;
         }
 
+        scores.Print( "PlayGamesSimd" );
         return scores;
     }
 
     template< int POPCNT >
-    MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
+    PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
     {
         PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
 
@@ -147,6 +156,8 @@ protected:
 
         if( moveList.mCount == 0 )
         {
+            DEBUG_LOG( "NULL move!" );
+
             MoveSpec nullMove( 0, 0, 0 );
             return nullMove;
         }
@@ -159,6 +170,10 @@ protected:
             // Fast path: completely random move
 
             int randomIdx = (int) mRandom.GetRange( moveList.mCount );
+
+            //std::string spec = SerializeMoveSpec( moveList.mMove[randomIdx] );
+            //DEBUG_LOG( "Choosing move %d (%s)\n", randomIdx, spec.c_str() );
+
             return moveList.mMove[randomIdx];
         }
 

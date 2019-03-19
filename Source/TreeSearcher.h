@@ -79,7 +79,7 @@ struct TreeSearcher
 
         assert( mMruListHead.mNext == node );
 
-        this->DebugVerifyMruList();
+        //this->DebugVerifyMruList();
     }
 
     TreeNode* AllocNode()
@@ -144,6 +144,9 @@ struct TreeSearcher
         u64 nodePlays       = nodeInfo->mScores.mPlays;
         float exploringness = mOptions->mExplorationFactor * 1.0f / 100;
 
+        //assert( nodePlays > 0 );
+        //assert( childPlays > 0 );
+
         float childWinRatio = childWins * 1.0f / childPlays;
         float uct = childWinRatio + exploringness * sqrtf( logf( nodePlays * 1.0f ) / childPlays );
 
@@ -153,6 +156,10 @@ struct TreeSearcher
     int SelectNextBranch( TreeNode* node )
     {
         assert( node->mBranch.size() > 0 );
+
+        std::vector< float > uct;
+        for( int i = 0; i < (int) node->mBranch.size(); i++ )
+            uct.push_back( CalculateUct( node, i ) );
 
         // Just take the move with the highest UCT
 
@@ -180,6 +187,10 @@ struct TreeSearcher
         int nextBranchIdx = SelectNextBranch( node );
         BranchInfo& nextBranch = node->mBranch[nextBranchIdx];
 
+        DEBUG_LOG( "ExpandAtLeaf %s choosing %d/%d (%s)\n",
+            pathFromRoot.mCount? SerializeMoveList( pathFromRoot ).c_str() : "(root)",
+            nextBranchIdx, node->mBranch.size(), SerializeMoveSpec( nextBranch.mMove ).c_str() );
+
         pathFromRoot.Append( nextBranch.mMove );
 
         if( !nextBranch.mNode )
@@ -201,6 +212,8 @@ struct TreeSearcher
             BranchInfo& newBranch = newNode->mBranch[newBranchIdx];
             pathFromRoot.Append( newBranch.mMove );
 
+            DEBUG_LOG( "New node! %s expanding branch %d (%s)\n", SerializeMoveList( pathFromRoot ).c_str(), newBranchIdx, SerializeMoveSpec( newBranch.mMove ).c_str() );
+
             Position newPos = node->mPos;
             newPos.Step( newBranch.mMove );
 
@@ -219,6 +232,8 @@ struct TreeSearcher
 
                 PlayoutResult jobResult = RunPlayoutJobCpu( job );
                 scores += jobResult.mScores;
+
+                jobResult.mScores.Print( "Initial playout" );
             }
             else
             {
@@ -243,7 +258,7 @@ struct TreeSearcher
             }
 
             newBranch.mScores += scores;
-            newBranch.mUct = CalculateUct( node, newBranchIdx );
+            newBranch.mUct = CalculateUct( newNode, newBranchIdx );
 
             scores.FlipColor();
             return scores;

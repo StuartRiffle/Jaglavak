@@ -30,11 +30,11 @@ public:
             OPTION_INDEX( mEnablePopcnt ),      "EnablePopcnt",         0, 1, 1,
             OPTION_INDEX( mEnableSimd ),        "EnableSimd",           0, 1, 0,
             OPTION_INDEX( mEnableCuda ),        "EnableCuda",           0, 1, 1,
-            OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1, 1,
+            OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1, 0,
             OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
             OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
             OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64, 8,
-            OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 8192, 1024,
+            OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 8192, 0,
             OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
             OPTION_INDEX( mWinningMaterial ),   "WinningMaterial",      0, 1000, 600,
             OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16, 4,            
@@ -131,7 +131,7 @@ public:
                 for( const char* movetext = t.ConsumeNext(); movetext; movetext = t.ConsumeNext() )
                 {
                     MoveSpec move;
-                    if( !Serialization::StringToMoveSpec( movetext, move ) )
+                    if( !StringToMoveSpec( movetext, move ) )
                         printf( "info string ERROR: unable to parse move" );
 
                     moveList.Append( move );
@@ -161,7 +161,7 @@ public:
                     for( const char* movetext = t.ConsumeNext(); movetext; movetext = t.ConsumeNext() )
                     {
                         MoveSpec spec;
-                        Serialization::StringToMoveSpec( movetext, spec );
+                        StringToMoveSpec( movetext, spec );
 
                         conf.mLimitMoves.Append( spec );
                     }

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
+#include <math.h>
 #include <algorithm>
 #include <random>
 #include <string>
@@ -38,6 +39,10 @@ int main( int argc, char** argv )
     setvbuf( stdout, NULL, _IONBF, 0 );
 
     UciEngine engine;
+
+    engine.ProcessCommand( "uci" );
+    engine.ProcessCommand( "position fen rn1qkb1r/pp2pppp/5n2/3p1b2/3P4/2N1P3/PP3PPP/R1BQKBNR w KQkq - 0 1" );
+    engine.ProcessCommand( "go" );
 
     while( !feof( stdin ) )
     {

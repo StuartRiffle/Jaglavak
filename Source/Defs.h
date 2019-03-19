@@ -73,7 +73,7 @@ typedef i32     HistoryTerm;
 typedef i16     EvalTerm;
 typedef i32     EvalWeight;
 
-const PDECL int         CORVID_VER_MAJOR        = 0;
+const PDECL int         CORVID_VER_MAJOR        = 1000;
 const PDECL int         CORVID_VER_MINOR        = 0;
 const PDECL int         CORVID_VER_PATCH        = 1;
          
@@ -196,7 +196,7 @@ INLINE PDECL T CountBits( const T& val )
 }
 
 template< typename SIMD, typename PACKED, typename UNPACKED >
-INLINE void Swizzle( const PACKED* srcStruct, UNPACKED* destStruct )
+INLINE PDECL void Swizzle( const PACKED* srcStruct, UNPACKED* destStruct )
 {
     const int LANES = SimdWidth< SIMD >::LANES;
 
@@ -216,7 +216,7 @@ INLINE void Swizzle( const PACKED* srcStruct, UNPACKED* destStruct )
 }
 
 template< typename SIMD, typename PACKED, typename UNPACKED >
-INLINE void Unswizzle( const UNPACKED* srcStruct, PACKED* destStruct )
+INLINE PDECL void Unswizzle( const UNPACKED* srcStruct, PACKED* destStruct )
 {
     Swizzle< SIMD >( (PACKED*) srcStruct, (UNPACKED*) destStruct );
 }

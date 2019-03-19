@@ -8,10 +8,10 @@ struct RandomGen
 {
     u64 mState;
 
-    RandomGen( u64 seed = 1 ) : mState( seed ) {}
-    void SetSeed( u64 seed ) {  mState = seed; }
+    PDECL RandomGen( u64 seed = 1 ) : mState( seed ) {}
+    PDECL void SetSeed( u64 seed ) {  mState = seed; }
 
-    u64 GetNext()
+    PDECL u64 GetNext()
     {
         u64 n = mState;
 
@@ -34,13 +34,13 @@ struct RandomGen
         return n;
     }
 
-    u64 GetRange( u64 range )
+    PDECL u64 GetRange( u64 range )
     {
         u64 n = GetNext();
         return (n % range);
     }
 
-    float GetFloat()
+    PDECL float GetFloat()
     {
         u64 n = GetNext() >> 32;
         return (n * 1.0f) / (1ULL << 32);

@@ -1,9 +1,9 @@
 // Core.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
+#include "Operations.h"
 #include "Defs.h"
 #include "BitBoard.h"
-#include "Operations.h"
 #include "SIMD-SSE2.h"
 #include "SIMD-SSE4.h"
 #include "SIMD-AVX2.h"

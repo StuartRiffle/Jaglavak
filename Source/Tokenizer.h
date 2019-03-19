@@ -42,7 +42,7 @@ public:
         if( strnicmp( mCursor, target, targetLen ) != 0 )
             return( false );
 
-        if( !isspace( mCursor[targetLen] ) )
+        if( mCursor[targetLen] && !isspace( mCursor[targetLen] ) )
             return( false );
 
         mCursor += targetLen;
@@ -71,7 +71,7 @@ public:
 
     bool ConsumePosition( Position& pos )
     {
-        const char* after = Serialization::StringToPosition( mCursor, pos );
+        const char* after = StringToPosition( mCursor, pos );
         if( after == NULL )
             return( false );
 
