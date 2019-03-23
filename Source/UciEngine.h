@@ -14,9 +14,9 @@ public:
     {
         this->SetDefaultOptions();
 
+        mOptions.mPopcntDetected    = PlatDetectPopcnt();
         mOptions.mDetectedCpuLevel  = PlatDetectCpuLevel();
         mOptions.mForceCpuLevel     = CPU_INVALID;
-        mOptions.mPopcntDetected    = PlatDetectPopcnt();
 
         mSearcher = std::unique_ptr< TreeSearcher >( new TreeSearcher( &mOptions ) );
     }
@@ -27,21 +27,21 @@ public:
 
         static UciOptionInfo sOptions[] = 
         {
-            OPTION_INDEX( mEnablePopcnt ),      "EnablePopcnt",         0, 1, 1,
-            OPTION_INDEX( mEnableSimd ),        "EnableSimd",           0, 1, 0,
-            OPTION_INDEX( mEnableCuda ),        "EnableCuda",           0, 1, 1,
-            OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1, 0,
+            OPTION_INDEX( mEnablePopcnt ),      "EnablePopcnt",         0, 1,    1,
+            OPTION_INDEX( mEnableSimd ),        "EnableSimd",           0, 1,    0,
+            OPTION_INDEX( mEnableCuda ),        "EnableCuda",           0, 1,    1,
+            OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1,    1,
             OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
-            OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
-            OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64, 8,
+            OPTION_INDEX( mMaxMegaTreeNodes ),  "MaxMegaTreeNodes",     0, 1000, 1,
+            OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64,   64,
             OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 8192, 0,
             OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
             OPTION_INDEX( mWinningMaterial ),   "WinningMaterial",      0, 1000, 600,
-            OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16, 4,            
+            OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16,   4,            
             OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 1024,
-            OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 8,
-            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100, 100,
-            OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 50,
+            OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 0,
+            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100,  100,
+            OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 1000,
             -1
         };
 

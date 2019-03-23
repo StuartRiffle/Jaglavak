@@ -80,7 +80,7 @@ struct Profiler
 
     void Pop()
     {
-        ProfilerNode* node = *mStack.last();
+        ProfilerNode* node = mStack.last();
         node->Leave();
 
         mStack.pop_back();

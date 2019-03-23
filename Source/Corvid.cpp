@@ -32,7 +32,7 @@
  
 int main( int argc, char** argv )
 {
-    printf( "Corvid %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
+    printf( "CORVID CHESS %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
     printf( "Stuart Riffle\n\n" );
 
     setvbuf( stdin,  NULL, _IONBF, 0 );
@@ -41,7 +41,7 @@ int main( int argc, char** argv )
     UciEngine engine;
 
     engine.ProcessCommand( "uci" );
-    engine.ProcessCommand( "position fen rn1qkb1r/pp2pppp/5n2/3p1b2/3P4/2N1P3/PP3PPP/R1BQKBNR w KQkq - 0 1" );
+    engine.ProcessCommand( "position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - -" );
     engine.ProcessCommand( "go" );
 
     while( !feof( stdin ) )

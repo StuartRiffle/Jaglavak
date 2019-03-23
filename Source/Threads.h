@@ -5,13 +5,13 @@
 
 struct Semaphore
 {
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     HANDLE      mHandle;
     Semaphore() : mHandle( CreateSemaphore( NULL, 0, LONG_MAX, NULL ) ) {}
     ~Semaphore() { CloseHandle( mHandle ); }
     void Post( int count = 1 ) { ReleaseSemaphore( mHandle, count, NULL ); }
     void Wait() { WaitForSingleObject( mHandle, INFINITE ); }
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     sem_t       mHandle;
     Semaphore()  { sem_init( &mHandle, 0, 0 ); }
     ~Semaphore() { sem_destroy( &mHandle ); }
@@ -22,13 +22,13 @@ struct Semaphore
 
 struct Mutex
 {
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     CRITICAL_SECTION mCritSec;
     Mutex()      { InitializeCriticalSection( &mCritSec ); }
     ~Mutex()     { DeleteCriticalSection( &mCritSec ); }
     void Enter() { EnterCriticalSection( &mCritSec ); }
     void Leave() { LeaveCriticalSection( &mCritSec ); }
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     pthread_mutexattr_t mAttrib;
     pthread_mutex_t     mMutex;
     Mutex()      { pthread_mutexattr_init( &mAttrib ); pthread_mutexattr_settype( &mAttrib, PTHREAD_MUTEX_RECURSIVE ); pthread_mutex_init( &mMutex, &mAttrib ); }

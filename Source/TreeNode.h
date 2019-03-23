@@ -7,12 +7,12 @@ struct BranchInfo
     TreeNode*   mNode;
     MoveSpec    mMove;
     ScoreCard   mScores;
-    float       mUct;
+    double      mUct;
 
     BranchInfo()
     {
         mNode   = NULL;
-        mUct    = 1.0f;
+        mUct    = 2.0f;
     }
 };
 

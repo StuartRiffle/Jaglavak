@@ -14,7 +14,7 @@
 
     // We are running __device__ code
 
-    #define CORVID_CUDA_DEVICE  (1)
+    #define ON_CUDA_DEVICE  (1)
     #define CORVID_ALLOW_POPCNT (1)
     #define ALIGN( _N )  __align__( _N )
     #define ALIGN_SIMD   __align__( 32 )    
@@ -41,7 +41,7 @@
     #pragma inline_depth( 255 )
     
     #define CORVID_CPU          (1)
-    #define CORVID_MSVC         (1)
+    #define TOOLCHAIN_MSVC      (1)
     #define ENABLE_SSE2         (1)
     #define ENABLE_SSE4         (1)
     #define ENABLE_AVX2         (1)
@@ -75,7 +75,7 @@
     #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 
     #define CORVID_CPU          (1)
-    #define CORVID_GCC          (1)
+    #define TOOLCHAIN_GCC       (1)
     #define CORVID_ALLOW_POPCNT (1)
     #define ALIGN( _N )  __attribute__(( aligned( _N ) ))
     #define ALIGN_SIMD   __attribute__(( aligned( 32 ) ))    
@@ -130,26 +130,26 @@ INLINE PDECL int PlatGetSimdWidth( int cpuLevel )
 
 INLINE PDECL u64 PlatByteSwap64( const u64& val )             
 { 
-#if CORVID_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     u32 hi = __byte_perm( (u32) val, 0, 0x0123 );
     u32 lo = __byte_perm( (u32) (val >> 32), 0, 0x0123 );
     return( ((u64) hi << 32ULL) | lo );
-#elif CORVID_MSVC
+#elif TOOLCHAIN_MSVC
     return( _byteswap_uint64( val ) ); 
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     return( __builtin_bswap64( val ) );     
 #endif
 }
 
 INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 {
-#if CORVID_CUDA_DEVICE
-        return( __ffsll( val ) - 1 );
-#elif CORVID_MSVC
+#if ON_CUDA_DEVICE
+    return( __ffsll( val ) - 1 );
+#elif TOOLCHAIN_MSVC
     unsigned long result;
     _BitScanForward64( &result, val );
     return( result );
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     return( __builtin_ffsll( val ) - 1 ); 
 #endif
 }
@@ -175,15 +175,15 @@ INLINE PDECL T SoftCountBits64( const T& val )
 template< int POPCNT >
 INLINE PDECL u64 PlatCountBits64( const u64& val )
 {
-#if CORVID_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     return( __popcll( val ) );
 #else
     #if ENABLE_POPCNT
-        #if CORVID_MSVC
+        #if TOOLCHAIN_MSVC
             if( POPCNT ) 
                 return( __popcnt64( val ) );
             else // SoftCountBits64
-        #elif CORVID_GCC
+        #elif TOOLCHAIN_GCC
             if( POPCNT ) 
                 return( __builtin_popcountll( val ) );
             else // SoftCountBits64
@@ -196,23 +196,23 @@ INLINE PDECL u64 PlatCountBits64( const u64& val )
 
 INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
 {
-#if CORVID_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     memset( mem, 0, bytes );
-#elif CORVID_MSVC
+#elif TOOLCHAIN_MSVC
     ::memset( mem, 0, bytes );
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     __builtin_memset( mem, 0, bytes );    
 #endif
 }
 
-#if !CORVID_CUDA_DEVICE
+#if !ON_CUDA_DEVICE
 
 INLINE PDECL bool PlatCheckCpuFlag( int leaf, int idxWord, int idxBit )
 {
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     int info[4] = { 0 };
     __cpuid( info, leaf );
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     unsigned int info[4] = { 0 };
     if( !__get_cpuid( leaf, info + 0, info + 1, info + 2, info + 3 ) )
         return( false );
@@ -223,7 +223,7 @@ INLINE PDECL bool PlatCheckCpuFlag( int leaf, int idxWord, int idxBit )
 
 INLINE PDECL bool PlatDetectPopcnt()
 {
-#if CORVID_GCC
+#if TOOLCHAIN_GCC
     #if defined( __APPLE__ )
         return( false ); // FIXME: Apple LLVM 8.0 does not provide __builtin_cpu_supports()
     #else
@@ -259,20 +259,20 @@ INLINE PDECL int PlatDetectCpuLevel()
 
 INLINE PDECL int PlatDetectCpuCores()
 {
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     SYSTEM_INFO si = { 0 };
     GetSystemInfo( &si );
     return( si.dwNumberOfProcessors );
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     return( sysconf( _SC_NPROCESSORS_ONLN ) );
 #endif
 }
 
 INLINE PDECL void PlatSleep( int ms )
 {
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     Sleep( ms );
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     timespec request;
     timespec remaining;
     request.tv_sec  = (ms / 1000);
@@ -283,26 +283,26 @@ INLINE PDECL void PlatSleep( int ms )
 
 static INLINE u64 PlatGetClockTick()
 { 
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     LARGE_INTEGER tick; 
     QueryPerformanceCounter( &tick ); 
     return( tick.QuadPart ); 
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     return( (u64) clock() );
 #endif
 }
 
 static u64 PlatGetClockFrequency()
 {
-#if CORVID_MSVC
+#if TOOLCHAIN_MSVC
     static LARGE_INTEGER freq = { 0 };
     if( !freq.QuadPart )
         QueryPerformanceFrequency( &freq );
     return( freq.QuadPart );
-#elif CORVID_GCC
+#elif TOOLCHAIN_GCC
     return( (u64) CLOCKS_PER_SEC );
 #endif
 }
 
-#endif // !CORVID_CUDA_DEVICE
+#endif // !ON_CUDA_DEVICE
 #endif // CORVID_PLATFORM_H__

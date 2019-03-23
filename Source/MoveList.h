@@ -110,6 +110,13 @@ struct MoveList
         mTried = 0;
     }
 
+    PDECL void CopySpecialMoves( MoveList* dest )
+    {
+        for( int idx = 0; idx < mCount; idx++ )
+            if( mMove[idx].mType > MOVE )
+                dest->Append( mMove[idx] );
+    }
+
     PDECL void DiscardQuietMoves()
     {
         this->DiscardMovesBelow( CAPTURE_EQUAL );

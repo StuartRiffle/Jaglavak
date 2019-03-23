@@ -237,17 +237,14 @@ static std::string SerializeMoveList( const MoveList& moves )
     char* cursor = result;
 
     *cursor = 0;
-    if( moves.mCount > 0 )
+    for( int i = 0; i < moves.mCount; i++ )
     {
-        for( int i = 0; i < moves.mCount; i++ )
-        {
-            if( i > 0 )
-                *cursor++ = ' ';
+        if( i > 0 )
+            *cursor++ = ' ';
 
-            MoveSpecToString( moves.mMove[i], cursor );
-            while( *cursor )
-                cursor++;
-        }
+        MoveSpecToString( moves.mMove[i], cursor );
+        while( *cursor )
+            cursor++;
     }
 
     return std::string( result );

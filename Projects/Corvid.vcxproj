@@ -51,9 +51,6 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Source\PlayoutKernel.cu" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5CC63264-3586-4E61-ACF6-4B26850AACE6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -139,8 +136,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\SIMD-AVX512\$(Configuration);$(SolutionDir)..\Build\SIMD-AVX2\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE4\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE2\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\CudaPlayer\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cudart.lib;CudaPlayer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
       <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>CorvidMapFile.txt</MapFileName>
@@ -202,8 +199,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>CorvidMapFile.txt</MapFileName>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\SIMD-AVX512\$(Configuration);$(SolutionDir)..\Build\SIMD-AVX2\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE4\$(Configuration);$(SolutionDir)..\Build\SIMD-SSE2\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Build\CudaPlayer\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cudart.lib;CudaPlayer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

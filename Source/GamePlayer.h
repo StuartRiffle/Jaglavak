@@ -27,7 +27,7 @@ struct ScoreCard
 
     PDECL void Print( const char* desc )
     {
-        DEBUG_LOG( "%s scores %d %d %d\n", desc, mWins, mDraws, mPlays );
+        //DEBUG_LOG( "%s scores %d %d %d\n", desc, mWins, mDraws, mPlays );
     }
 };
 
@@ -60,12 +60,12 @@ protected:
 
         ScoreCard scores;
 
-        //#pragma omp parallel for schedule(dynamic)
+        #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
         {
             ScoreCard simdScores = PlayGamesSimd< POPCNT >( pos );
 
-            //#pragma omp critical
+            #pragma omp critical
             scores += simdScores;
         }
 
@@ -137,12 +137,12 @@ protected:
             if( !whiteWon && !blackWon )
                 scores.mDraws++;
 
-            DEBUG_LOG( "Lane %d, final eval %d, whiteWon %d, blackWon %d\n", lane, laneScore, whiteWon? 1 : 0, blackWon? 1 : 0 );
+            //DEBUG_LOG( "Lane %d, final eval %d, whiteWon %d, blackWon %d\n", lane, laneScore, whiteWon? 1 : 0, blackWon? 1 : 0 );
 
             scores.mPlays++;
         }
 
-        scores.Print( "PlayGamesSimd" );
+        //scores.Print( "PlayGamesSimd" );
         return scores;
     }
 
@@ -156,7 +156,7 @@ protected:
 
         if( moveList.mCount == 0 )
         {
-            DEBUG_LOG( "NULL move!" );
+            //DEBUG_LOG( "NULL move!\n" );
 
             MoveSpec nullMove( 0, 0, 0 );
             return nullMove;
@@ -179,9 +179,12 @@ protected:
 
         movesToPeek = Max( movesToPeek, moveList.mCount );
 
-        // This has become a "heavy" playout, which means 
-        // that we do static evaluation on a random subset 
-        // of the moves
+        // This has become a "heavy" playout, which means that
+        // we do static evaluation on a subset of the moves.
+
+        // TODO: prefer non-quiet moves
+        //MoveList specialMoves;
+        //moveList.CopySpecialMoves( &specialMoves );
 
         MoveList peekList;
         EvalTerm eval[MAX_MOVE_LIST];
@@ -299,6 +302,9 @@ protected:
         // That should give us exactly one move, unless it's a pawn being
         // promoted, in which case there will be four, but we'll just
         // use first one anyway (queen).
+
+        // FIXME: there are cases where having one bit set in the move
+        // map yields no moves in the list
 
         MoveList moveList;
         moveList.UnpackMoveMap( pos, moveMapCopy );
