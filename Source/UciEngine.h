@@ -33,15 +33,15 @@ public:
             OPTION_INDEX( mEnableParallel ),    "EnableParallel",       0, 1,    1,
             OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
             OPTION_INDEX( mMaxMegaTreeNodes ),  "MaxMegaTreeNodes",     0, 1000, 1,
-            OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64,   64,
+            OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64,   32,
             OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 8192, 0,
-            OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
+            OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 100,
             OPTION_INDEX( mWinningMaterial ),   "WinningMaterial",      0, 1000, 600,
             OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16,   4,            
             OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 1024,
-            OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 0,
-            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100,  100,
-            OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 1000,
+            OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 100,
+            OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100,  0,
+            OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
             -1
         };
 

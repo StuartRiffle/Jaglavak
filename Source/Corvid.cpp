@@ -41,7 +41,7 @@ int main( int argc, char** argv )
     UciEngine engine;
 
     engine.ProcessCommand( "uci" );
-    engine.ProcessCommand( "position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - -" );
+    engine.ProcessCommand( "position fen 1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -" );
     engine.ProcessCommand( "go" );
 
     while( !feof( stdin ) )

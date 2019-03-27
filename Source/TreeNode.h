@@ -7,13 +7,8 @@ struct BranchInfo
     TreeNode*   mNode;
     MoveSpec    mMove;
     ScoreCard   mScores;
-    double      mUct;
 
-    BranchInfo()
-    {
-        mNode   = NULL;
-        mUct    = 2.0f;
-    }
+    BranchInfo() : mNode( NULL ) {}
 };
 
 struct TreeLink
@@ -26,6 +21,7 @@ struct TreeNode : public TreeLink
 {
     Position            mPos;
     BranchInfo*         mInfo;
+    int                 mColor;
     int                 mNumChildren;
     std::vector<BranchInfo>  mBranch;
 
@@ -46,6 +42,8 @@ struct TreeNode : public TreeLink
 
         for( int i = 0; i < moveList.mCount; i++ )
             mBranch[i].mMove = moveList.mMove[i];
+
+        mColor = (int) pos.mWhiteToMove;
     }
 
     void Clear()

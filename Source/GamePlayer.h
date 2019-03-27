@@ -5,22 +5,20 @@
 
 struct ScoreCard
 {
-    u64 mWins;
-    u64 mDraws;
+    u64 mWins[2];
     u64 mPlays;
 
-    PDECL ScoreCard() : mWins( 0 ), mDraws( 0 ), mPlays( 0 ) {}
-
-    PDECL void FlipColor()
+    PDECL ScoreCard()
     {
-        u64 losses = mPlays - (mWins + mDraws);
-        mWins = losses;
+        mWins[0] = 0;
+        mWins[1] = 0;
+        mPlays = 0;
     }
 
     PDECL ScoreCard& operator+=( const ScoreCard& sc )
     {
-        mWins  += sc.mWins;
-        mDraws += sc.mDraws;
+        mWins[0] += sc.mWins[0];
+        mWins[1] += sc.mWins[1];
         mPlays += sc.mPlays;
         return *this;
     }
@@ -93,19 +91,24 @@ protected:
         simdPos.Broadcast( startPos );
         simdPos.CalcMoveMap( &simdMoveMap );
 
+        Unswizzle< SIMD >( &simdPos,     pos );
+        Unswizzle< SIMD >( &simdMoveMap, moveMap );
+
         // This is the gameplay loop
+
+        bool laneDone[LANES] = { false };
+        EvalTerm laneFinalScore[LANES];
 
         for( int i = 0; i < mOptions->mPlayoutMaxMoves; i++ )
         {
             MoveSpecT< SIMD > simdSpec;
             MoveSpec spec[LANES];
 
-            Unswizzle< SIMD >( &simdPos,     pos );
-            Unswizzle< SIMD >( &simdMoveMap, moveMap );
-
             // FIXME Unswizzle SSE4 corruption
 
             // FIXME pos/movemap mismatch?
+
+            // FIXME moveMap[lane] i
             
             for( int lane = 0; lane < LANES; lane++ )
                 spec[lane] = this->ChoosePlayoutMove< POPCNT >( pos[lane], moveMap[lane], weights );
@@ -115,29 +118,61 @@ protected:
 
             simdPos.Step( simdSpec );
             simdPos.CalcMoveMap( &simdMoveMap );
+
+            Unswizzle< SIMD >( &simdPos,     pos );
+            Unswizzle< SIMD >( &simdMoveMap, moveMap );
+
+            // Detect games that are done
+
+            SIMD simdScores = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
+            u64* laneScores = (u64*) &simdScores;
+
+            SIMD simdTargets = simdMoveMap.CalcMoveTargets();
+            u64* laneTargets = (u64*) &simdTargets;
+
+            SIMD simdInCheck = simdMoveMap.IsInCheck();
+            u64* laneInCheck = (u64*) &simdInCheck;
+
+            int numDone = 0;
+
+            // FIXME: evaluation is always from white POV?
+
+            for( int lane = 0; lane < LANES; lane++ )
+            {
+                if( !laneDone[lane] )
+                {
+                    if( laneTargets[lane] == 0 )
+                    {
+                        laneFinalScore[lane] = (EvalTerm) laneScores[lane];
+                        laneDone[lane] = true;
+                    }
+                }
+            
+                if( laneDone[lane] )
+                    numDone++;
+            }
+
+            if( numDone == LANES )
+                break;
         }
 
         // Gather the results and judge them
-
-        SIMD simdScore = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
-        u64* laneScores = (u64*) &simdScore;
 
         ScoreCard scores;
 
         for( int lane = 0; lane < LANES; lane++ )
         {
-            EvalTerm laneScore = (EvalTerm) laneScores[lane];
+            if( laneDone[lane] )
+            {
+                bool whiteWon = (laneFinalScore[lane] >  mOptions->mWinningMaterial);
+                bool blackWon = (laneFinalScore[lane] < -mOptions->mWinningMaterial);
 
-            bool whiteWon = (laneScore >  mOptions->mWinningMaterial);
-            bool blackWon = (laneScore < -mOptions->mWinningMaterial);
+                if( blackWon && !startPos.mWhiteToMove )
+                    scores.mWins[0]++;
 
-            if( (whiteWon && pos[lane].mWhiteToMove) || (blackWon && !pos[lane].mWhiteToMove) )
-                scores.mWins++;
-
-            if( !whiteWon && !blackWon )
-                scores.mDraws++;
-
-            //DEBUG_LOG( "Lane %d, final eval %d, whiteWon %d, blackWon %d\n", lane, laneScore, whiteWon? 1 : 0, blackWon? 1 : 0 );
+                if( whiteWon && startPos.mWhiteToMove )
+                    scores.mWins[1]++;
+            }
 
             scores.mPlays++;
         }
@@ -177,7 +212,7 @@ protected:
             return moveList.mMove[randomIdx];
         }
 
-        movesToPeek = Max( movesToPeek, moveList.mCount );
+        movesToPeek = Min( movesToPeek, moveList.mCount );
 
         // This has become a "heavy" playout, which means that
         // we do static evaluation on a subset of the moves.
@@ -192,7 +227,10 @@ protected:
         while( movesToPeek > 0 )
         {
             const int LANES = SimdWidth< SIMD >::LANES;
-            int numValid = Min( movesToPeek, LANES );
+
+            int numValid = Min( moveList.mCount, Min( movesToPeek, LANES ) );
+            if( numValid == 0 )
+                break;
 
             // Pick some moves to evaluate
 
@@ -201,6 +239,11 @@ protected:
             for( int i = 0; i < numValid; i++ )
             {
                 int idx = (int) mRandom.GetRange( moveList.mCount );
+
+                for( int j = 0; j < moveList.mCount; j++ )
+                    if( moveList.mMove[j].IsCapture() )
+                        idx = j;
+
                 spec[i] = moveList.Remove( idx );
             }
 
@@ -235,7 +278,7 @@ protected:
 
         EvalTerm highestEval = eval[0];
 
-        for( int i = 1; i < movesToPeek; i++ )
+        for( int i = 1; i < peekList.mCount; i++ )
             if( eval[i] > highestEval )
                 highestEval = eval[i];
 
@@ -243,86 +286,14 @@ protected:
 
         MoveList candidates;
 
-        for( int i = 0; i < movesToPeek; i++ )
-            if (eval[i] == highestEval )
+        for( int i = 0; i < peekList.mCount; i++ )
+            if (eval[i] == highestEval)
                 candidates.Append( peekList.mMove[i] );
 
         // Choose one of them at random
 
         int idx = (int) mRandom.GetRange( candidates.mCount );
         return moveList.mMove[idx];
-    }
-
-    template< int POPCNT >
-    PDECL MoveSpec SelectRandomMove( const Position& pos, const MoveMap& moveMap )
-    {
-        PROFILER_SCOPE( "GamePlayer::SelectRandomMove" );
-
-        MoveMap moveMapCopy = moveMap;
-
-        // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
-
-        u64* buf = (u64*) &moveMapCopy;
-        u64 count = (u64) (((u64*) &moveMapCopy.mCheckMask) - buf);
-
-        // Choose a random bit to keep
-
-        u64 total = 0;
-        for( int i = 0; i < count; i++ )
-            total += CountBits< POPCNT >( buf[i] );
-
-        u64 bitsToSkip = mRandom.GetRange( total );
-
-        // Find which word it's in
-
-        int word = 0;
-        while( word < count )
-        {
-            u64 bits = CountBits< POPCNT >( buf[word] );
-            if( bits >= bitsToSkip )
-                break;
-
-            bitsToSkip -= bits;
-            buf[word] = 0;
-            word++;
-        }
-
-        // Keep just that one, and clear the rest
-
-        u64 idx;
-        while( bitsToSkip-- )
-            idx = ConsumeLowestBitIndex( buf[word] );
-
-        buf[word] = 1ULL << idx;
-        word++;
-
-        while( word < count )
-            buf[word++] = 0;
-
-        // That should give us exactly one move, unless it's a pawn being
-        // promoted, in which case there will be four, but we'll just
-        // use first one anyway (queen).
-
-        // FIXME: there are cases where having one bit set in the move
-        // map yields no moves in the list
-
-        MoveList moveList;
-        moveList.UnpackMoveMap( pos, moveMapCopy );
-
-        if( moveList.mCount == 0 )
-        {
-            MoveMap debugMoveMap;
-            pos.CalcMoveMap( &debugMoveMap );
-
-            moveList.UnpackMoveMap( pos, moveMapCopy );
-            moveList.UnpackMoveMap( pos, moveMap );
-        }
-        else
-        {
-            assert( (moveList.mCount == 1) || (moveList.mCount == 4) );
-        }
-
-        return moveList.mMove[0];
     }
 };
 
