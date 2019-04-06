@@ -7,6 +7,7 @@ struct BranchInfo
     TreeNode*   mNode;
     MoveSpec    mMove;
     ScoreCard   mScores;
+    char        mMoveText[MAX_MOVETEXT];
 
     BranchInfo() : mNode( NULL ) {}
 };
@@ -48,7 +49,10 @@ struct TreeNode : public TreeLink
         mBranch.resize( moveList.mCount );
 
         for( int i = 0; i < moveList.mCount; i++ )
+        {
             mBranch[i].mMove = moveList.mMove[i];
+            MoveSpecToString( moveList.mMove[i], mBranch[i].mMoveText );
+        }
 
         mColor = pos.mWhiteToMove? WHITE : BLACK;
 

@@ -441,7 +441,7 @@ struct TreeSearcher
 
                 this->ExpandAtLeaf();
 
-                if( (counter % 100) == 0 )
+                if( (counter % 1000) == 0 )
                 {
                     printf( "\n%d:\n", counter );
                     this->DumpStats( mSearchRoot );
