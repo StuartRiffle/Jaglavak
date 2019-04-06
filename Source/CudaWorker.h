@@ -3,10 +3,10 @@
 #ifndef CORVID_GPU_H__
 #define CORVID_GPU_H__
 
-#if ENABLE_CUDA
+#if SUPPORT_CUDA
 
 
-#if CORVID_CUDA_HOST
+#if RUNNING_ON_CUDA_HOST
 
 #define CUDA_REQUIRE( _CALL ) \
 { \
@@ -266,7 +266,7 @@ class CudaAsyncWorker : public IAsyncWorker
 
 
 
-#endif // CORVID_CUDA_HOST
-#endif // ENABLE_CUDA
+#endif // RUNNING_ON_CUDA_HOST
+#endif // SUPPORT_CUDA
 #endif // CORVID_GPU_H__
 

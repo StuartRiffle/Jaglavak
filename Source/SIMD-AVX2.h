@@ -3,7 +3,7 @@
 #ifndef CORVID_CPU_AVX2_H__
 #define CORVID_CPU_AVX2_H__
 
-#if ENABLE_AVX2
+#if SUPPORT_AVX2
 
 struct simd4_avx2
 {
@@ -194,5 +194,5 @@ INLINE void Transpose< simd4_avx2 >( const simd4_avx2* src, int srcStep, simd4_a
 }
 
 
-#endif // ENABLE_AVX2
+#endif // SUPPORT_AVX2
 #endif // CORVID_CPU_AVX2_H__

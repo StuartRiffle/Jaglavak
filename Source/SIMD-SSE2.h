@@ -3,7 +3,7 @@
 #ifndef CORVID_CPU_SSE2_H__
 #define CORVID_CPU_SSE2_H__
 
-#if ENABLE_SSE2
+#if SUPPORT_SSE2
 
 INLINE __m128i _mm_select( const __m128i& a, const __m128i& b, const __m128i& mask )
 {          
@@ -235,5 +235,5 @@ INLINE void Transpose< simd2_sse2 >( const simd2_sse2* src, int srcStep, simd2_s
     dest_r[destStep]  = _mm_unpackhi_epi64( src_r[0], src_r[srcStep] );
 }
 
-#endif // ENABLE_SSE2
+#endif // SUPPORT_SSE2
 #endif // CORVID_CPU_SSE2_H__

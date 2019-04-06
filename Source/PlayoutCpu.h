@@ -15,27 +15,27 @@ int ChooseCpuLevelForPlayout( const GlobalOptions& options, int count )
 {
     int cpuLevel = CPU_SCALAR;
 
-#if ENABLE_SSE2
+#if SUPPORT_SSE2
     if( (count > 1) && (options.mDetectedCpuLevel >= CPU_SSE2) )
         cpuLevel = CPU_SSE2;
 #endif
 
-#if ENABLE_SSE4
+#if SUPPORT_SSE4
     if( (count > 1) && (options.mDetectedCpuLevel >= CPU_SSE4) )
         cpuLevel = CPU_SSE4;
 #endif
 
-#if ENABLE_AVX2
+#if SUPPORT_AVX2
     if( (count > 2) && (options.mDetectedCpuLevel >= CPU_AVX2) )
         cpuLevel = CPU_AVX2;
 #endif
 
-#if ENABLE_AVX512
+#if SUPPORT_AVX512
     if( (count > 4) && (options.mDetectedCpuLevel >= CPU_AVX512) )
         cpuLevel = CPU_AVX512;
 #endif
 
-    if( !options.mEnableSimd )
+    if( !options.mAllowSimd )
         cpuLevel = CPU_SCALAR;
 
     if( options.mForceCpuLevel != CPU_INVALID )
@@ -62,25 +62,25 @@ PlayoutResult RunPlayoutJobCpu( const PlayoutJob& job )
 
     switch( cpuLevel )
     {
-#if ENABLE_SSE2
+#if SUPPORT_SSE2
     case CPU_SSE2: 
         result.mScores = PlayGamesCpu< simd2_sse2 >( job, simdCount );
         break;
 #endif
 
-#if ENABLE_SSE4
+#if SUPPORT_SSE4
     case CPU_SSE4:
         result.mScores = PlayGamesCpu< simd2_sse4 >( job, simdCount );
         break;
 #endif
 
-#if ENABLE_AVX2
+#if SUPPORT_AVX2
     case CPU_AVX2:
         result.mScores = PlayGamesCpu< simd4_avx2 >( job, simdCount );
         break;
 #endif
 
-#if ENABLE_AVX512
+#if SUPPORT_AVX512
     case CPU_AVX512:
         result.mScores = PlayGamesCpu< simd8_avx512 >( job, simdCount );
         break;

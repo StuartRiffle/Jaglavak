@@ -3,7 +3,7 @@
 #ifndef CORVID_CPU_AVX512_H__
 #define CORVID_CPU_AVX512_H__
 
-#if ENABLE_AVX512   // UNTESTED!
+#if SUPPORT_AVX512   // UNTESTED!
 
 struct simd8_avx512
 {
@@ -200,5 +200,5 @@ INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, sim
     dest[destStep * 7] = col7;
 }
 
-#endif // ENABLE_AVX512
+#endif // SUPPORT_AVX512
 #endif // CORVID_CPU_AVX512_H__

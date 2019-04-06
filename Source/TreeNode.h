@@ -25,7 +25,11 @@ struct TreeNode : public TreeLink
     int                 mNumChildren;
     std::vector<BranchInfo>  mBranch;
 
-    TreeNode() : mInfo( NULL ), mNumChildren( 0 ) {}
+    bool                mGameOver;
+    ScoreCard           mGameResult;
+
+
+    TreeNode() : mInfo( NULL ), mNumChildren( 0 ), mGameOver( false ) {}
     ~TreeNode() { Clear(); }
 
     void Init( const Position& pos, BranchInfo* info = NULL )
@@ -34,8 +38,11 @@ struct TreeNode : public TreeLink
         mInfo = info;
         mNumChildren = 0;
 
+        MoveMap moveMap;
+        pos.CalcMoveMap( &moveMap );
+
         MoveList moveList;
-        moveList.FindMoves( pos );
+        moveList.UnpackMoveMap( pos, moveMap );
 
         mBranch.clear();
         mBranch.resize( moveList.mCount );
@@ -43,7 +50,21 @@ struct TreeNode : public TreeLink
         for( int i = 0; i < moveList.mCount; i++ )
             mBranch[i].mMove = moveList.mMove[i];
 
-        mColor = (int) pos.mWhiteToMove;
+        mColor = pos.mWhiteToMove? WHITE : BLACK;
+
+        int result = (int) pos.CalcGameResult( moveMap );
+        if (result != RESULT_UNKNOWN )
+        {
+            mGameOver = true;
+
+            if( result == RESULT_WHITE_WIN )
+                mGameResult.mWins[WHITE]++;
+
+            if( result == RESULT_BLACK_WIN )
+                mGameResult.mWins[BLACK]++;
+
+            mGameResult.mPlays++;
+        }
     }
 
     void Clear()

@@ -3,7 +3,7 @@
 #ifndef CORVID_CPU_SSE4_H__
 #define CORVID_CPU_SSE4_H__
 
-#if ENABLE_SSE4
+#if SUPPORT_SSE4
 
 struct simd2_sse4
 {
@@ -166,5 +166,5 @@ INLINE void Transpose< simd2_sse4 >( const simd2_sse4* src, int srcStep, simd2_s
 }
 
 
-#endif // ENABLE_SSE4
+#endif // SUPPORT_SSE4
 #endif // CORVID_CPU_SSE4_H__

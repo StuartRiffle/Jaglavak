@@ -5,46 +5,40 @@
 
 enum
 {
-    EVAL_PAWNS,
+    EVAL_PAWNS,              
     EVAL_CENTER_PAWNS,       
     EVAL_CHAINED_PAWNS,      
     EVAL_PASSED_PAWNS,       
-    EVAL_PAWNS_GUARD_KING,
+    EVAL_PAWNS_GUARD_KING,   
     EVAL_PROMOTING_SOON,     
     EVAL_PROMOTING_IMMED,    
-   
-    EVAL_KNIGHTS,
-    EVAL_KNIGHTS_DEVEL,  
-    EVAL_KNIGHTS_INTERIOR, 
-    EVAL_KNIGHTS_CENTRAL, 
-    
-    EVAL_BISHOPS,
-    EVAL_BISHOPS_DEVEL,  
-    EVAL_BOTH_BISHOPS,       
-    EVAL_BISHOPS_INTERIOR,  
-    EVAL_BISHOPS_CENTRAL,  
-    
-    EVAL_ROOKS,
-    EVAL_ROOKS_DEVEL,    
-    EVAL_ROOK_ON_RANK_7,     
-    EVAL_ROOKS_CONNECTED,    
-    EVAL_ROOKS_OPEN_FILE, 
-    
-    EVAL_QUEENS,
-    EVAL_QUEEN_DEVEL,    
-    EVAL_QUEENS_INTERIOR,  
-    EVAL_QUEENS_CENTRAL,  
-    
-    EVAL_KINGS, 
-    EVAL_KING_CASTLED,       
-    
+    EVAL_KNIGHTS,            
+    EVAL_KNIGHTS_DEVEL,      
     EVAL_KNIGHTS_FIRST,      
+    EVAL_KNIGHTS_INTERIOR,   
+    EVAL_KNIGHTS_CENTRAL,    
+    EVAL_BISHOPS,            
+    EVAL_BISHOPS_DEVEL,      
+    EVAL_BOTH_BISHOPS,       
+    EVAL_BISHOPS_INTERIOR,   
+    EVAL_BISHOPS_CENTRAL,    
+    EVAL_ROOKS,              
+    EVAL_ROOKS_DEVEL,        
+    EVAL_ROOK_ON_RANK_7,     
+    EVAL_ROOKS_CONNECTED,   
+    EVAL_ROOKS_OPEN_FILE,    
+    EVAL_QUEENS,             
+    EVAL_QUEEN_DEVEL,        
+    EVAL_QUEENS_INTERIOR,    
+    EVAL_QUEENS_CENTRAL,     
+    EVAL_KINGS,              
+    EVAL_KING_CASTLED,      
     EVAL_MOBILITY,           
     EVAL_ATTACKING,          
     EVAL_DEFENDING,          
-    EVAL_ENEMY_TERRITORY,    
+    EVAL_ENEMY_TERRITORY,   
     EVAL_CENTER_PIECES,      
-    EVAL_CENTER_CONTROL,  
+    EVAL_CENTER_CONTROL,     
 
     NUM_EVAL_TERMS
 };
@@ -67,40 +61,40 @@ struct Evaluation
     {
         static EvalWeightBlendInfo sDefaultWeights[] =
         {
-            {   100.00f,    100.00f,    100.00f },  // EVAL_PAWNS              
-            {    10.00f,      0.00f,      0.00f },  // EVAL_CENTER_PAWNS       
-            {    10.00f,      2.75f,      2.75f },  // EVAL_CHAINED_PAWNS      
-            {     0.01f,      0.01f,      0.01f },  // EVAL_PASSED_PAWNS       
-            {    10.00f,      5.62f,      5.62f },  // EVAL_PAWNS_GUARD_KING   
-            {    32.98f,     32.98f,     50.00f },  // EVAL_PROMOTING_SOON     
-            {    80.09f,     80.09f,    100.00f },  // EVAL_PROMOTING_IMMED    
-            {   262.62f,    262.62f,    262.62f },  // EVAL_KNIGHTS            
-            {    15.00f,      0.00f,      0.00f },  // EVAL_KNIGHTS_DEVEL     
-            {    10.00f,      0.00f,      0.00f },  // EVAL_KNIGHTS_FIRST      
-            {    15.10f,     15.10f,     15.10f },  // EVAL_KNIGHTS_INTERIOR  
-            {    20.17f,     20.17f,     20.17f },  // EVAL_KNIGHTS_CENTRAL    
-            {   282.00f,    282.00f,    282.00f },  // EVAL_BISHOPS            
-            {    10.00f,      0.00f,      0.00f },  // EVAL_BISHOPS_DEVEL      
-            {    33.25f,     33.25f,     33.25f },  // EVAL_BOTH_BISHOPS       
-            {     6.26f,      6.26f,      6.26f },  // EVAL_BISHOPS_INTERIOR   
-            {    16.72f,     16.72f,     16.72f },  // EVAL_BISHOPS_CENTRAL    
-            {   453.00f,    453.00f,    453.00f },  // EVAL_ROOKS              
-            {    10.00f,      0.00f,      0.00f },  // EVAL_ROOKS_DEVEL        
-            {    15.69f,     15.69f,     15.69f },  // EVAL_ROOK_ON_RANK_7     
-            {     0.00f,      0.00f,      0.00f },  // EVAL_ROOKS_CONNECTED    
-            {    33.30f,     33.30f,     33.30f },  // EVAL_ROOKS_OPEN_FILE    
-            {   920.00f,    920.00f,    920.00f },  // EVAL_QUEENS             
-            {    10.00f,      0.00f,      0.00f },  // EVAL_QUEEN_DEVEL        
-            {     4.57f,      4.57f,      4.57f },  // EVAL_QUEENS_INTERIOR    
-            {     8.72f,      8.72f,      8.72f },  // EVAL_QUEENS_CENTRAL     
-            { 20000.00f,  20000.00f,  20000.00f },  // EVAL_KINGS              
-            {    30.00f,     10.00f,      0.00f },  // EVAL_KING_CASTLED       
-            {     2.13f,      2.13f,      2.13f },  // EVAL_MOBILITY           
-            {     8.14f,      8.14f,      8.14f },  // EVAL_ATTACKING          
-            {     0.02f,      0.02f,      0.02f },  // EVAL_DEFENDING          
-            {    10.00f,     24.09f,     10.00f },  // EVAL_ENEMY_TERRITORY   
-            {    10.00f,      0.00f,      0.00f },  // EVAL_CENTER_PIECES      
-            {     5.00f,      1.69f,      0.00f },  // EVAL_CENTER_CONTROL     
+            {   100.00f,    100.00f,    100.00f },  // EVAL_PAWNS                   
+            {    10.00f,      0.00f,      0.00f },  // EVAL_CENTER_PAWNS            
+            {    10.00f,      2.75f,      2.75f },  // EVAL_CHAINED_PAWNS           
+            {     0.01f,      0.01f,      0.01f },  // EVAL_PASSED_PAWNS            
+            {    10.00f,      5.62f,      5.62f },  // EVAL_PAWNS_GUARD_KING        
+            {    32.98f,     32.98f,     50.00f },  // EVAL_PROMOTING_SOON          
+            {    80.09f,     80.09f,    100.00f },  // EVAL_PROMOTING_IMMED         
+            {   262.62f,    262.62f,    262.62f },  // EVAL_KNIGHTS                 
+            {    15.00f,      0.00f,      0.00f },  // EVAL_KNIGHTS_DEVEL           
+            {    10.00f,      0.00f,      0.00f },  // EVAL_KNIGHTS_FIRST           
+            {    15.10f,     15.10f,     15.10f },  // EVAL_KNIGHTS_INTERIOR        
+            {    20.17f,     20.17f,     20.17f },  // EVAL_KNIGHTS_CENTRAL         
+            {   282.00f,    282.00f,    282.00f },  // EVAL_BISHOPS                 
+            {    10.00f,      0.00f,      0.00f },  // EVAL_BISHOPS_DEVEL           
+            {    33.25f,     33.25f,     33.25f },  // EVAL_BOTH_BISHOPS            
+            {     6.26f,      6.26f,      6.26f },  // EVAL_BISHOPS_INTERIOR        
+            {    16.72f,     16.72f,     16.72f },  // EVAL_BISHOPS_CENTRAL         
+            {   453.00f,    453.00f,    453.00f },  // EVAL_ROOKS                   
+            {    10.00f,      0.00f,      0.00f },  // EVAL_ROOKS_DEVEL             
+            {    15.69f,     15.69f,     15.69f },  // EVAL_ROOK_ON_RANK_7          
+            {     0.00f,      0.00f,      0.00f },  // EVAL_ROOKS_CONNECTED         
+            {    33.30f,     33.30f,     33.30f },  // EVAL_ROOKS_OPEN_FILE         
+            {   920.00f,    920.00f,    920.00f },  // EVAL_QUEENS                  
+            {    10.00f,      0.00f,      0.00f },  // EVAL_QUEEN_DEVEL             
+            {     4.57f,      4.57f,      4.57f },  // EVAL_QUEENS_INTERIOR         
+            {     8.72f,      8.72f,      8.72f },  // EVAL_QUEENS_CENTRAL          
+            { 20000.00f,  20000.00f,  20000.00f },  // EVAL_KINGS                   
+            {    30.00f,     10.00f,      0.00f },  // EVAL_KING_CASTLED            
+            {     2.13f,      2.13f,      2.13f },  // EVAL_MOBILITY                
+            {     8.14f,      8.14f,      8.14f },  // EVAL_ATTACKING               
+            {     0.02f,      0.02f,      0.02f },  // EVAL_DEFENDING               
+            {    10.00f,     24.09f,     10.00f },  // EVAL_ENEMY_TERRITORY         
+            {    10.00f,      0.00f,      0.00f },  // EVAL_CENTER_PIECES           
+            {     5.00f,      1.69f,      0.00f },  // EVAL_CENTER_CONTROL          
         };
 
         assert( (sizeof( sDefaultWeights ) / sizeof( EvalWeightBlendInfo )) == NUM_EVAL_TERMS );
@@ -255,7 +249,7 @@ struct Evaluation
         SIMD    bishopsDevel        = CountBits< POPCNT >( whiteBishops & ~(SQUARE_C1 | SQUARE_F1) );    
 
         eval[EVAL_PAWNS]            = CountBits< POPCNT >( whitePawns );                                
-        eval[EVAL_CENTER_PAWNS]     = CountBits< POPCNT >( whitePawns   & CENTER_SQUARES );             
+        eval[EVAL_CENTER_PAWNS]     = CountBits< POPCNT >( whitePawns & CENTER_SQUARES );             
         eval[EVAL_CHAINED_PAWNS]    = CountBits< POPCNT >( pawnsChained );                              
         eval[EVAL_PASSED_PAWNS]     = CountBits< POPCNT >( PropN( whitePawns, ~blackPawns ) & RANK_8 ); 
         eval[EVAL_PAWNS_GUARD_KING] = CountBits< POPCNT >( whitePawns & (StepNW( whiteKing ) | StepN( whiteKing ) | StepNE( whiteKing )) );                                               

@@ -6,16 +6,16 @@
 #include <stdint.h>
 #include <assert.h>
 
-#if ENABLE_CUDA
+#if SUPPORT_CUDA
 #include <cuda_runtime_api.h>
 #endif
 
-#if ENABLE_CUDA && defined( __CUDA_ARCH__ )
+#if SUPPORT_CUDA && defined( __CUDA_ARCH__ )
 
     // We are running __device__ code
 
-    #define ON_CUDA_DEVICE  (1)
-    #define CORVID_ALLOW_POPCNT (1)
+    #define RUNNING_ON_CUDA_DEVICE  (1)
+    #define SUPPORT_POPCNT (1)
     #define ALIGN( _N )  __align__( _N )
     #define ALIGN_SIMD   __align__( 32 )    
 
@@ -40,13 +40,13 @@
     #pragma inline_recursion( on )
     #pragma inline_depth( 255 )
     
-    #define CORVID_CPU          (1)
+    #define RUNNING_ON_CPU     (1)
     #define TOOLCHAIN_MSVC      (1)
-    #define ENABLE_SSE2         (1)
-    #define ENABLE_SSE4         (1)
-    #define ENABLE_AVX2         (1)
-    #define ENABLE_AVX512       (0)
-    #define CORVID_ALLOW_POPCNT (1)
+    #define SUPPORT_SSE2         (1)
+    #define SUPPORT_SSE4         (1)
+    #define SUPPORT_AVX2         (1)
+    #define SUPPORT_AVX512       (0)
+    #define SUPPORT_POPCNT (1)
     #define ALIGN( _N )  __declspec( align( _N ) )
     #define ALIGN_SIMD   __declspec( align( 32 ) )
 
@@ -74,9 +74,9 @@
 
     #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 
-    #define CORVID_CPU          (1)
+    #define RUNNING_ON_CPU          (1)
     #define TOOLCHAIN_GCC       (1)
-    #define CORVID_ALLOW_POPCNT (1)
+    #define SUPPORT_POPCNT (1)
     #define ALIGN( _N )  __attribute__(( aligned( _N ) ))
     #define ALIGN_SIMD   __attribute__(( aligned( 32 ) ))    
 
@@ -95,8 +95,8 @@
 #define DEBUG_LOG printf
 
 
-#if ENABLE_CUDA && CORVID_CPU
-#define CORVID_CUDA_HOST (1)
+#if SUPPORT_CUDA && RUNNING_ON_CPU
+#define RUNNING_ON_CUDA_HOST (1)
 #endif
 
 typedef uint64_t  u64;
@@ -130,7 +130,7 @@ INLINE PDECL int PlatGetSimdWidth( int cpuLevel )
 
 INLINE PDECL u64 PlatByteSwap64( const u64& val )             
 { 
-#if ON_CUDA_DEVICE
+#if RUNNING_ON_CUDA_DEVICE
     u32 hi = __byte_perm( (u32) val, 0, 0x0123 );
     u32 lo = __byte_perm( (u32) (val >> 32), 0, 0x0123 );
     return( ((u64) hi << 32ULL) | lo );
@@ -143,7 +143,7 @@ INLINE PDECL u64 PlatByteSwap64( const u64& val )
 
 INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 {
-#if ON_CUDA_DEVICE
+#if RUNNING_ON_CUDA_DEVICE
     return( __ffsll( val ) - 1 );
 #elif TOOLCHAIN_MSVC
     unsigned long result;
@@ -175,10 +175,10 @@ INLINE PDECL T SoftCountBits64( const T& val )
 template< int POPCNT >
 INLINE PDECL u64 PlatCountBits64( const u64& val )
 {
-#if ON_CUDA_DEVICE
+#if RUNNING_ON_CUDA_DEVICE
     return( __popcll( val ) );
 #else
-    #if ENABLE_POPCNT
+    #if SUPPORT_POPCNT
         #if TOOLCHAIN_MSVC
             if( POPCNT ) 
                 return( __popcnt64( val ) );
@@ -196,7 +196,7 @@ INLINE PDECL u64 PlatCountBits64( const u64& val )
 
 INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
 {
-#if ON_CUDA_DEVICE
+#if RUNNING_ON_CUDA_DEVICE
     memset( mem, 0, bytes );
 #elif TOOLCHAIN_MSVC
     ::memset( mem, 0, bytes );
@@ -205,7 +205,7 @@ INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
 #endif
 }
 
-#if !ON_CUDA_DEVICE
+#if !RUNNING_ON_CUDA_DEVICE
 
 INLINE PDECL bool PlatCheckCpuFlag( int leaf, int idxWord, int idxBit )
 {
@@ -236,19 +236,19 @@ INLINE PDECL bool PlatDetectPopcnt()
 
 INLINE PDECL int PlatDetectCpuLevel()
 {
-#if ENABLE_AVX2
+#if SUPPORT_AVX2
     bool avx2 = PlatCheckCpuFlag( 7, 1, 5 );   
     if( avx2 )
         return( CPU_AVX2 );
 #endif
 
-#if ENABLE_SSE4
+#if SUPPORT_SSE4
     bool sse4 = PlatCheckCpuFlag( 1, 2, 20 );
     if( sse4 )
         return( CPU_SSE4 );
 #endif
 
-#if ENABLE_SSE2
+#if SUPPORT_SSE2
     bool sse2 = PlatCheckCpuFlag( 1, 3, 26 );
     if( sse2 )
         return( CPU_SSE2 );
@@ -304,5 +304,5 @@ static u64 PlatGetClockFrequency()
 #endif
 }
 
-#endif // !ON_CUDA_DEVICE
+#endif // !RUNNING_ON_CUDA_DEVICE
 #endif // CORVID_PLATFORM_H__

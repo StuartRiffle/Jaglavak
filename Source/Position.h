@@ -54,6 +54,18 @@ struct ALIGN_SIMD PositionT
         mFullmoveNum        = 1;
     }
 
+    /// Determine if the game is won or drawn
+
+    PDECL SIMD CalcGameResult( const MoveMap& mmap ) const
+    {
+        SIMD    moveTargets = mmap.CalcMoveTargets();
+        SIMD    inCheck     = mmap.IsInCheck();
+        SIMD    win         = SelectIfNotZero( mWhiteToMove, (SIMD) RESULT_BLACK_WIN, (SIMD) RESULT_WHITE_WIN );
+        SIMD    winOrDraw   = SelectIfNotZero( inCheck, win, (SIMD) RESULT_DRAW );
+        SIMD    gameResult  = SelectIfZero( moveTargets, winOrDraw, (SIMD) RESULT_UNKNOWN );
+
+        return( gameResult );
+    }
 
     /// Duplicate member values across SIMD lanes
 

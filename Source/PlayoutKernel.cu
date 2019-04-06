@@ -4,7 +4,7 @@
 #include "Core.h"
 #include "PlayoutJob.h"
 
-#if ENABLE_CUDA
+#if SUPPORT_CUDA
 
 __global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int count )
 {
@@ -47,4 +47,4 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
     cudaEventRecord( slot->mEndEvent, slot->mStream );
 }
 
-#endif // ENABLE_CUDA
+#endif // SUPPORT_CUDA

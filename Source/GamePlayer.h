@@ -10,22 +10,22 @@ struct ScoreCard
 
     PDECL ScoreCard()
     {
-        mWins[0] = 0;
-        mWins[1] = 0;
+        mWins[BLACK] = 0;
+        mWins[WHITE] = 0;
         mPlays = 0;
     }
 
     PDECL ScoreCard& operator+=( const ScoreCard& sc )
     {
-        mWins[0] += sc.mWins[0];
-        mWins[1] += sc.mWins[1];
+        mWins[BLACK] += sc.mWins[BLACK];
+        mWins[WHITE] += sc.mWins[WHITE];
         mPlays += sc.mPlays;
         return *this;
     }
 
     PDECL void Print( const char* desc )
     {
-        //DEBUG_LOG( "%s scores %d %d %d\n", desc, mWins, mDraws, mPlays );
+        DEBUG_LOG( "%s scores %d %d plays %d\n", desc, mWins[WHITE], mWins[BLACK], mPlays );
     }
 };
 
@@ -44,7 +44,7 @@ public:
 
     PDECL ScoreCard PlayGames( const Position& pos, int simdCount )
     {
-        return mOptions->mEnablePopcnt?
+        return mOptions->mAllowPopcnt?
             PlayGamesThreaded< ENABLE_POPCNT  >( pos, simdCount ) :
             PlayGamesThreaded< DISABLE_POPCNT >( pos, simdCount );
     }
@@ -135,16 +135,45 @@ protected:
 
             int numDone = 0;
 
-            // FIXME: evaluation is always from white POV?
-
             for( int lane = 0; lane < LANES; lane++ )
             {
+                EvalTerm score = (EvalTerm) laneScores[lane];
+
+                // Score is always from white's POV
+
+                if( !pos[lane].mWhiteToMove )
+                    score = -score;
+
+                //DEBUG_LOG( "Iter %d score %d fen %s\n", i, score, SerializePosition( pos[lane] ).c_str() ); 
+
                 if( !laneDone[lane] )
                 {
                     if( laneTargets[lane] == 0 )
                     {
-                        laneFinalScore[lane] = (EvalTerm) laneScores[lane];
+                        laneFinalScore[lane] = score;
                         laneDone[lane] = true;
+
+                        //DEBUG_LOG("FINAL RESULT %d IS %d fen %s\n", i, laneFinalScore[lane], SerializePosition( pos[lane] ).c_str());
+                    }
+
+                    u64 nonKingPieces =
+                        pos[lane].mWhitePawns |  
+                        pos[lane].mWhiteKnights |
+                        pos[lane].mWhiteBishops |
+                        pos[lane].mWhiteRooks |
+                        pos[lane].mWhiteQueens |  
+                        pos[lane].mBlackPawns |  
+                        pos[lane].mBlackKnights |
+                        pos[lane].mBlackBishops |
+                        pos[lane].mBlackRooks |
+                        pos[lane].mBlackQueens; 
+
+                    if( nonKingPieces == 0 )
+                    {
+                        laneFinalScore[lane] = 0;
+                        laneDone[lane] = true;
+
+                        //DEBUG_LOG("DRAW BY INSUFFICIENT MATERIAL %d fen %s\n", i, SerializePosition( pos[lane] ).c_str() );
                     }
                 }
             
@@ -164,14 +193,14 @@ protected:
         {
             if( laneDone[lane] )
             {
-                bool whiteWon = (laneFinalScore[lane] >  mOptions->mWinningMaterial);
-                bool blackWon = (laneFinalScore[lane] < -mOptions->mWinningMaterial);
+                bool whiteWon = (laneFinalScore[lane] > 0);
+                bool blackWon = (laneFinalScore[lane] < 0);
 
-                if( blackWon && !startPos.mWhiteToMove )
-                    scores.mWins[0]++;
+                if( whiteWon )
+                    scores.mWins[WHITE]++;
 
-                if( whiteWon && startPos.mWhiteToMove )
-                    scores.mWins[1]++;
+                if( blackWon )
+                    scores.mWins[BLACK]++;
             }
 
             scores.mPlays++;
@@ -267,12 +296,27 @@ protected:
 
 			for( int lane = 0; lane < numValid; lane++ )
             {
+                EvalTerm score = (EvalTerm) laneScore[lane];
+
+
+                // Moves abs high are best for white
+                // Moves 
+
+
+                // FIXME
+                if( !pos.mWhiteToMove )
+                    score = -score;
+
                 eval[peekList.mCount] = (EvalTerm) laneScore[lane];
                 peekList.Append( spec[lane] );
             }
 
             movesToPeek -= numValid;
         }
+
+
+        // FIXME: the sign of the score is flipping, so the "highest" is sometimes lowest
+
 
         // Find the highest score
 

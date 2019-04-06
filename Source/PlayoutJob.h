@@ -18,7 +18,7 @@ struct PlayoutResult
     MoveList        mPathFromRoot;
 };
 
-#if ENABLE_CUDA
+#if SUPPORT_CUDA
 struct CudaLaunchSlot
 {
     PlayoutJob      mInfo;

@@ -68,6 +68,20 @@ enum
     ENABLE_POPCNT
 };
 
+enum
+{
+    WHITE,
+    BLACK
+};
+
+enum
+{
+    RESULT_UNKNOWN = 0,
+    RESULT_WHITE_WIN,
+    RESULT_BLACK_WIN,
+    RESULT_DRAW
+};
+
 
 typedef i32     HistoryTerm;
 typedef i16     EvalTerm;
@@ -110,7 +124,7 @@ const PDECL EvalTerm    EVAL_MIN                = -EVAL_MAX;
 const PDECL EvalTerm    EVAL_CHECKMATE          = EVAL_MIN + 1;
 const PDECL EvalTerm    EVAL_STALEMATE          = 0;
 const PDECL int         EVAL_OPENING_PLIES      = 10;
-const PDECL EvalTerm    ALLOW_REP_SCORE         = 190;
+const PDECL EvalTerm    SUPPORT_REP_SCORE         = 190;
          
 const PDECL u64         HASH_SEED0              = 0xF59C66FB26DCF319ULL;
 const PDECL u64         HASH_SEED1              = 0xABCC5167CCAD925FULL;

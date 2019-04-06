@@ -9,16 +9,15 @@ union GlobalOptions
     {
         // These are exposed as UCI settings
 
-        int     mEnablePopcnt;
-        int     mEnableSimd;
-        int     mEnableCuda;
-        int     mEnableParallel;
+        int     mAllowPopcnt;
+        int     mAllowSimd;
+        int     mAllowCuda;
+        int     mAllowParallel;
         int     mMaxCpuCores;
         int     mMaxMegaTreeNodes;
         int     mNumInitialPlays;
         int     mNumAsyncPlays;
         int     mExplorationFactor;
-        int     mWinningMaterial;
         int     mCudaStreams;
         int     mCudaQueueDepth;
         int     mPlayoutPeekMoves;

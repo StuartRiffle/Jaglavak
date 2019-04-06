@@ -69,8 +69,6 @@ struct TreeSearcher
         node->mNext->mPrev = node->mPrev;
         node->mPrev->mNext = node->mNext;
 
-
-
         node->mNext = mMruListHead.mNext;
         node->mNext->mPrev = node;
 
@@ -134,20 +132,19 @@ struct TreeSearcher
         this->SetPosition( startPos );
     }
 
-    float CalculateUct( TreeNode* node, int childIndex )
+    double CalculateUct( TreeNode* node, int childIndex )
     {
         BranchInfo* nodeInfo    = node->mInfo;
         BranchInfo& childInfo   = node->mBranch[childIndex];
+        const ScoreCard& scores = childInfo.mScores;
 
         int color = node->mColor;
 
-        u64 childWins       = childInfo.mScores.mWins[color];
-        u64 childPlays      = childInfo.mScores.mPlays;
+        u64 draws           = scores.mPlays - (scores.mWins[0] + scores.mWins[1]);
+        u64 childWins       = scores.mWins[color];
+        u64 childPlays      = scores.mPlays;
         u64 nodePlays       = nodeInfo->mScores.mPlays;
         float exploringness = mOptions->mExplorationFactor * 1.0f / 100;
-
-        //assert( nodePlays > 0 );
-        //assert( childPlays > 0 );
 
         if( nodePlays == 0 )
             nodePlays = 1;
@@ -155,32 +152,54 @@ struct TreeSearcher
         if( childPlays == 0 )
             childPlays = 1;
 
-        float childWinRatio = childWins * 1.0f / childPlays;
-        float uct = childWinRatio + exploringness * sqrtf( logf( nodePlays * 1.0f ) / childPlays );
+        double childWinRatio = (childWins + (draws * 0.5)) / childPlays;
+        double uct = childWinRatio + exploringness * sqrt( log( nodePlays * 1.0 ) * 2.0 / childPlays );
 
         return uct;
     }
 
     int SelectNextBranch( TreeNode* node )
     {
-        assert( node->mBranch.size() > 0 );
+        int numBranches = (int) node->mBranch.size();
+        assert( numBranches > 0 );
 
-        // Choose the move with highest UCT, breaking ties randomly
-
-        float highestUct = 0;
-        int highestIdx = 0;
-
-        for( int i = 0; i < (int) node->mBranch.size(); i++ )
+        if( node->IsFull() )
         {
-            float uct = CalculateUct( node, i );
-            if( uct > highestUct )
+            // Choose the move with highest UCT
+
+            double highestUct = 0;
+            int highestIdx = 0;
+
+            for( int i = 0; i < numBranches; i++ )
             {
-                highestUct = uct;
-                highestIdx = i;
+                double uct = CalculateUct( node, i );
+                if( uct > highestUct )
+                {
+                    highestUct = uct;
+                    highestIdx = i;
+                }
             }
+
+            return highestIdx;
+        }
+        else
+        {
+            // Choose an untried branch at random
+
+            int idx = (int) mRandom.GetRange( numBranches );
+
+            for( int i = 0; i < numBranches; i++ )
+            {
+                if( !node->mBranch[idx].mNode )
+                    return idx;
+
+                idx = (idx + 1) % numBranches;
+            }
+
         }
 
-        return highestIdx;
+        assert( 0 );
+        return -1;
     }
 
     ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
@@ -189,10 +208,19 @@ struct TreeSearcher
 
         MoveToFront( node );
 
+        if( node->mGameOver )
+        {
+            node->mInfo->mScores += node->mGameResult;
+            return( node->mGameResult );
+        }
+
         int nextBranchIdx = SelectNextBranch( node );
         BranchInfo& nextBranch = node->mBranch[nextBranchIdx];
 
         pathFromRoot.Append( nextBranch.mMove );
+
+        
+
 
         /*
         DEBUG_LOG( "ExpandAtLeaf %s choosing %d/%d (%s)\n",
@@ -205,8 +233,13 @@ struct TreeSearcher
             // This is a leaf, so create a new node 
 
             TreeNode* newNode = AllocNode();
-            newNode->Init( node->mPos, &nextBranch ); 
 
+            Position newPos = node->mPos;
+            newPos.Step( nextBranch.mMove );
+
+            //DEBUG_LOG("%s STEPPING %s\n", SerializePosition( newPos ).c_str(), SerializeMoveSpec( nextBranch.mMove ).c_str() );
+
+            newNode->Init( newPos, &nextBranch ); 
             nextBranch.mNode = newNode;
 
             //for( int i = 0; i < (int) node->mBranch.size(); i++ )
@@ -214,7 +247,14 @@ struct TreeSearcher
 
             node->mNumChildren++;
             assert( node->mNumChildren <= (int) node->mBranch.size() );
-           
+
+            if( newNode->mGameOver )
+            {
+                newNode->mInfo->mScores += newNode->mGameResult;
+                return( newNode->mGameResult );
+            }
+
+            /*
             // Expand one of its moves at random
 
             int newBranchIdx = (int) mRandom.GetRange( newNode->mBranch.size() );
@@ -224,6 +264,7 @@ struct TreeSearcher
 
             Position newPos = node->mPos;
             newPos.Step( newBranch.mMove );
+            */
 
             //DEBUG_LOG( "Running playouts: %s [%d]\n", SerializeMoveList( pathFromRoot ).c_str(), newPos.mWhiteToMove );
 
@@ -243,7 +284,7 @@ struct TreeSearcher
                 PlayoutResult jobResult = RunPlayoutJobCpu( job );
                 scores += jobResult.mScores;
 
-                jobResult.mScores.Print( "Initial playout" );
+                //jobResult.mScores.Print( "Initial playout" );
             }
             else
             {
@@ -266,7 +307,6 @@ struct TreeSearcher
                 mJobQueue.Push( asyncJob );
             }
 
-            newBranch.mScores += scores;
             newNode->mInfo->mScores += scores;
 
             return scores;
@@ -276,7 +316,7 @@ struct TreeSearcher
 
         // Accumulate the scores on our way back down the tree
 
-        node->mInfo->mScores += branchScores;
+        nextBranch.mScores += branchScores;
 
         return branchScores;
     }
@@ -335,11 +375,13 @@ struct TreeSearcher
         for( int i = 0; i < (int) node->mBranch.size(); i++ )
         {
             std::string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
-            printf( "%s%s  %5s %.7f %12ld/%-12ld\n", 
+            printf( "%s%s  %2d) %5s %.15f %12ld/%-12ld\n", 
                 (i == bestRatioIdx)? ">" : " ", 
-                (i == bestDenomIdx)? "*" : " ", 
+                (i == bestDenomIdx)? "***" : "   ", 
+                i,
                 moveText.c_str(), 
-                this->CalculateUct( node, i ), node->mBranch[i].mScores.mWins, node->mBranch[i].mScores.mPlays );
+                this->CalculateUct( node, i ), 
+                node->mBranch[i].mScores.mWins[node->mColor], node->mBranch[i].mScores.mPlays );
         }
     }
 
@@ -399,7 +441,7 @@ struct TreeSearcher
 
                 this->ExpandAtLeaf();
 
-                if( (counter % 1000) == 0 )
+                if( (counter % 100) == 0 )
                 {
                     printf( "\n%d:\n", counter );
                     this->DumpStats( mSearchRoot );
