@@ -27,7 +27,7 @@ struct TreeSearcher
         mRandom.SetSeed( randomSeed );
         mSearchThread  = new std::thread( [&] { this->SearchThread(); } );
 
-        mNodePoolEntries = mOptions->mMaxMegaTreeNodes * 1024 * 1024;
+        mNodePoolEntries = mOptions->mMaxTreeNodes;
         mNodePool = new TreeNode[mNodePoolEntries];
 
         for( int i = 0; i < mNodePoolEntries; i++ )
@@ -48,8 +48,10 @@ struct TreeSearcher
 #if SUPPORT_CUDA
         for( int i = 0; i < GpuWorker::GetDeviceCount(); i++ )
         {
-            mAsyncWorkers.emplace_back( new GpuWorker( mOptions, &mJobQueue, &mResultQueue ) );
-            mAsyncWorkers.back().Initialize( i, mOptions->mCudaQueueDepth );
+            auto worker = new GpuWorker( mOptions, &mJobQueue, &mResultQueue );
+            worker->Initialize( i, mOptions->mCudaQueueDepth );
+
+            mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
         }
 #endif
 
@@ -433,6 +435,9 @@ struct TreeSearcher
         // Make sure we don't get interrupted by worker threads
 
         PlatBoostThreadPriority();
+        PlatSetThreadName( "Search" );
+
+        Timer timer;
 
         for( ;; )
         {
@@ -452,24 +457,29 @@ struct TreeSearcher
             {
                 PROFILER_SCOPE( "TreeSearcher::SearchThread" );
 
-                if( (counter % 1000) == 0 )
+                if( (counter % 10000) == 0 )
                 {
-                    printf( "\n%d:\n", counter );
+                    u64 total = 0;
+                    for( int i = 0; i < (int) mSearchRoot->mBranch.size(); i++ )
+                        total += mSearchRoot->mBranch[i].mScores.mPlays;
+
+                    float secs = timer.GetElapsedMs()/ 1000.0f;
+                    float rate = (secs > 0)? (total / secs) : 0;
+
+                    printf( "\n%d iters, %d games/sec\n", counter, (int) rate );
                     this->DumpStats( mSearchRoot );
                 }
                 counter++;
 
 
-
-
                 this->UpdateAsyncWorkers();
                 this->ProcessAsyncResults();
 
-                if( mJobQueue.GetCount() < mOptions->mMaxPendingJobs )
-                    this->ExpandAtLeaf();
-                else
+                if( mJobQueue.GetCount() >= mOptions->mMaxPendingJobs )
                     PlatYield();
 
+                while( mJobQueue.GetCount() < mOptions->mMaxPendingJobs )
+                    this->ExpandAtLeaf();
             }
         }
     }

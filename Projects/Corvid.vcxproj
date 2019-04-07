@@ -182,7 +182,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <OmitFramePointers>true</OmitFramePointers>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
       <PrecompiledHeaderFile />
@@ -201,8 +201,7 @@
       <MapFileName>CorvidMapFile.txt</MapFileName>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Build\CudaPlayer\$(Configuration);$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>cudart.lib;CudaPlayer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>

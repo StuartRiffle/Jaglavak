@@ -14,7 +14,7 @@ union GlobalOptions
         int     mAllowCuda;
         int     mAllowParallel;
         int     mMaxCpuCores;
-        int     mMaxMegaTreeNodes;
+        int     mMaxTreeNodes;
         int     mNumInitialPlays;
         int     mNumAsyncPlays;
         int     mExplorationFactor;

@@ -25,7 +25,9 @@ struct CudaLaunchSlot
     PlayoutResult   mResult;
     cudaStream_t    mStream;                    /// Stream this job was issued into
     cudaEvent_t     mStartEvent;                /// GPU timer event to mark the start of kernel execution
-    cudaEvent_t     mEndEvent;                  /// GPU timer event to notify that the results have been copied back to host memory
+    cudaEvent_t     mEndEvent;                  /// GPU timer event to mark the end of kernel execution
+    cudaEvent_t     mReadyEvent;                /// GPU timer event to notify that the results have been copied back to host memory
+
 
     PlayoutJob*     mInputHost;                 /// Job input buffer, host side
     PlayoutResult*  mOutputHost;                /// Job output buffer, host side

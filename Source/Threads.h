@@ -123,9 +123,10 @@ public:
             {
                 result.push_back( mQueue.front() );
                 mQueue.pop_front();
-            }
 
-            mAvail.Wait( count - 1 );
+                if( i > 0 )
+                    mAvail.Wait();
+            }
 
             return( result );
         }

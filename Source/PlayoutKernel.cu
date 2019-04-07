@@ -15,9 +15,8 @@ __global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int
 }
 
 
-void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
+void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockSize )
 {
-    cudaEventRecord( slot->mStartEvent, slot->mStream );
 
     // Copy the inputs to device
 
@@ -30,10 +29,15 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
 
     // Run the playout kernel
 
+    cudaEventRecord( slot->mStartEvent, slot->mStream );
+
+    int blockCount = AlignUp( slot->mInfo.mNumGames, blockSize );
     PlayGamesCuda<<< blockCount, blockSize, 0, slot->mStream >>>( 
         slot->mInputDev, 
         slot->mOutputDev, 
-        slot->mInfo.mNumGames );
+        1 );
+
+    cudaEventRecord( slot->mEndEvent, slot->mStream );
 
     // Copy the results back to host
 
@@ -44,7 +48,7 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
         cudaMemcpyDeviceToHost, 
         slot->mStream );
 
-    cudaEventRecord( slot->mEndEvent, slot->mStream );
+    cudaEventRecord( slot->mReadyEvent, slot->mStream );
 }
 
 #endif // SUPPORT_CUDA

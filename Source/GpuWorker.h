@@ -22,10 +22,11 @@ struct LaunchThread
 {
     int                         mDeviceIndex;       /// CUDA device index
     cudaDeviceProp              mProp;              /// CUDA device properties
+    const GlobalOptions*        mOptions;
 
-    vector< cudaStream_t >      mStreamId;
+    std::vector< cudaStream_t >      mStreamId;
     int                         mStreamIndex;       /// Index of the next stream to be used for submitting a job
-    unique_ptr< std::thread >   mLaunchThread;
+    std::unique_ptr< std::thread >   mLaunchThread;
     ThreadSafeQueue< CudaLaunchSlot* > mLaunchQueue;
 
     PlayoutJob*             mInputHost;          /// Host-side job input buffer
@@ -36,11 +37,11 @@ struct LaunchThread
 
     Semaphore                   mThreadExited;
 
-    LaunchThread( int deviceIndex, PlayoutJobQueue* jobQueue )
+    LaunchThread( const GlobalOptions* options, int deviceIndex )
     {
+        mOptions = options;
         mDeviceIndex = deviceIndex;
-        mJobQueue = jobQueue;
-        mLaunchThread = new std::thread( [] { this->RunLaunchThread(); } );
+        mLaunchThread = std::unique_ptr< std::thread >( new std::thread( [&] { this->RunLaunchThread(); } ) );
     }
 
     ~LaunchThread()
@@ -54,8 +55,7 @@ struct LaunchThread
         mStreamIndex++;
         mStreamIndex %= mStreamId.size();
 
-        slot->mStreamIndex = mStreamIndex;
-        slot->mStreamId = mStreamId[mStreamIndex];
+        slot->mStream = mStreamId[mStreamIndex];
 
         mLaunchQueue.Push( slot );
     }
@@ -73,8 +73,8 @@ struct LaunchThread
             mStreamId[i] = stream;
         }
 
-        size_t inputBufSize     = mJobSlots * sizeof( PlayoutJob );
-        size_t outputBufSize    = mJobSlots * sizeof( PlayoutResult );
+        size_t inputBufSize     = mOptions->mCudaQueueDepth * sizeof( PlayoutJob );
+        size_t outputBufSize    = mOptions->mCudaQueueDepth * sizeof( PlayoutResult );
 
         CUDA_REQUIRE(( cudaMallocHost( (void**) &mInputHost,  inputBufSize ) ));
         CUDA_REQUIRE(( cudaMallocHost( (void**) &mOutputHost, outputBufSize ) ));
@@ -113,20 +113,20 @@ struct LaunchThread
             if( slot == NULL )
                 break;
 
-            extern void QueuePlayoutJobCuda( CudaLaunchSlot* slot, int blockCount, int blockSize );
-            QueuePlayoutJobCuda( slot, blockCount, blockSize );
+            extern void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockSize );
+            QueuePlayGamesCuda( slot, mProp.warpSize );
         }
 
         this->ShutdownCuda();
 
-        mThreadExited->Post();
+        mThreadExited.Post();
     }
 };
 
 
 class GpuWorker : public IAsyncWorker
 {
-    typedef std::map< int, std::list< CudaLaunchSlot* > > LaunchSlotsByStream;
+    typedef std::map< cudaStream_t, std::list< CudaLaunchSlot* > > LaunchSlotsByStream;
 
     int                             mDeviceIndex;      
     std::unique_ptr< LaunchThread > mLaunchThread;
@@ -134,14 +134,16 @@ class GpuWorker : public IAsyncWorker
     std::vector< CudaLaunchSlot >   mSlotInfo;      
     std::vector< CudaLaunchSlot* >  mFreeSlots;
     LaunchSlotsByStream             mActiveSlotsByStream;
+    const GlobalOptions*            mOptions;
 
     bool mInitialized;
     PlayoutJobQueue*    mJobQueue;
-    PlayoutResultQueue* resultQueue;
+    PlayoutResultQueue* mResultQueue;
 
-    
-    GpuWorker( PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
+public:    
+    GpuWorker( const GlobalOptions* options, PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
     {
+        mOptions = options;
         mJobQueue = jobQueue;
         mResultQueue = resultQueue;
         mInitialized = false;
@@ -167,7 +169,7 @@ class GpuWorker : public IAsyncWorker
         mDeviceIndex  = deviceIndex;
         cudaSetDevice( deviceIndex );
 
-        mLaunchThread = new LaunchThread( deviceIndex );
+        mLaunchThread = std::unique_ptr< LaunchThread >( new LaunchThread( mOptions, deviceIndex ) );
 
         mSlotInfo.resize( jobSlots );
 
@@ -175,13 +177,11 @@ class GpuWorker : public IAsyncWorker
         {
             CudaLaunchSlot& slot  = mSlotInfo[i];
 
-            slot.mDevice       = this;
             slot.mStream       = (cudaStream_t) 0;
             slot.mInputHost    = mLaunchThread->mInputHost  + i;
             slot.mOutputHost   = mLaunchThread->mOutputHost + i;
             slot.mInputDev     = mLaunchThread->mInputDev   + i;
             slot.mOutputDev    = mLaunchThread->mOutputDev  + i;
-            slot.mInitialized  = false;
             slot.mTickQueued   = 0;
             slot.mTickReturned = 0;
             slot.mCpuLatency   = 0;
@@ -189,11 +189,12 @@ class GpuWorker : public IAsyncWorker
 
             CUDA_REQUIRE(( cudaEventCreate( &slot.mStartEvent ) ));
             CUDA_REQUIRE(( cudaEventCreate( &slot.mEndEvent ) ));
+            CUDA_REQUIRE(( cudaEventCreate( &slot.mReadyEvent ) ));
 
             mFreeSlots.push_back( &slot );
         }
 
-        mJobThread = new std::thread( [] { this->RunJobThread(); } );
+        mJobThread = std::unique_ptr< std::thread >( new std::thread( [&] { this->RunJobThread(); } ) );
 
         mInitialized = true;
     }
@@ -202,7 +203,7 @@ class GpuWorker : public IAsyncWorker
     void Shutdown()
     {
         mLaunchThread.release();
-        mJobThread.join();
+        mJobThread->join();
 
         cudaSetDevice( mDeviceIndex );
 
@@ -216,11 +217,18 @@ class GpuWorker : public IAsyncWorker
         mInitialized = false;
     }
 
+private:
+
     void RunJobThread()
     {
         for( ;; )
         {
-            std::vector< PlayoutJobRef > jobs = mJobQueue->PopMultiple( mFreeSlots.size() );
+            size_t batchSize = mFreeSlots.size();
+
+            if( mOptions->mCudaJobBatch > 0 )
+                batchSize = mOptions->mCudaJobBatch;
+
+            std::vector< PlayoutJobRef > jobs = mJobQueue->PopMultiple( batchSize );
             for( auto& job : jobs )
             {
                 if( job == NULL )
@@ -235,12 +243,12 @@ class GpuWorker : public IAsyncWorker
 
                 mLaunchThread->Launch( slot );
 
-                mActiveSlots[slot->mStreamIndex].push_back( slot );
+                mActiveSlotsByStream[slot->mStream].push_back( slot );
             }
         }
     }
 
-    override void Update()
+    virtual void Update() override
     {
         std::vector< PlayoutResultRef > completed;
 
@@ -256,7 +264,7 @@ class GpuWorker : public IAsyncWorker
 
                 activeList.pop_front();
 
-                PlayoutResultRef result = new PlayoutResult();
+                PlayoutResultRef result = PlayoutResultRef( new PlayoutResult() );
                 *result = slot->mResult;
 
                 completed.push_back( result );
@@ -265,16 +273,8 @@ class GpuWorker : public IAsyncWorker
 
         mResultQueue->Push( completed.data(), completed.size() );
     }
-}
+};
   
-
-
-
-
-
-
-
-
 #endif // RUNNING_ON_CUDA_HOST
 #endif // SUPPORT_CUDA
 #endif // CORVID_GPU_H__

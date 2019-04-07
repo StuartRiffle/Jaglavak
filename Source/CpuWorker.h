@@ -18,6 +18,8 @@ class CpuWorker : public IAsyncWorker
 
     void JobThread()
     {
+        PlatSetThreadName( "CpuWorker" );
+
         for( ;; )
         {
             PlayoutJobRef job = mJobQueue->Pop();

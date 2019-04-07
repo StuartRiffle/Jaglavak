@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <assert.h>
 
+#define SUPPORT_CUDA (1)
+
 #if SUPPORT_CUDA
 #include <cuda_runtime_api.h>
 #endif
@@ -351,6 +353,40 @@ static void PlatBoostThreadPriority()
     // TODO
 #endif
 }
+
+struct Timer
+{
+    u64     mStartTime;
+
+    Timer() { this->Reset(); }
+    Timer( const Timer& rhs ) : mStartTime( rhs.mStartTime ) {}
+
+    void    Reset()         { mStartTime = Timer::GetTick(); }
+    i64     GetElapsedMs()  { return( ((i64) (Timer::GetTick() - mStartTime) * 1000) / Timer::GetFrequency() ); }
+
+    static INLINE u64 GetTick()
+    { 
+#if TOOLCHAIN_MSVC
+        LARGE_INTEGER tick; 
+        QueryPerformanceCounter( &tick ); 
+        return( tick.QuadPart ); 
+#elif TOOLCHAIN_GCC
+        return( (u64) clock() );
+#endif
+    }
+
+    static u64 GetFrequency()
+    {
+#if TOOLCHAIN_MSVC
+        static LARGE_INTEGER freq = { 0 };
+        if( !freq.QuadPart )
+            QueryPerformanceFrequency( &freq );
+        return( freq.QuadPart );
+#elif TOOLCHAIN_GCC
+        return( (u64) CLOCKS_PER_SEC );
+#endif
+    }
+};
 
 #endif // !RUNNING_ON_CUDA_DEVICE
 #endif // CORVID_PLATFORM_H__
