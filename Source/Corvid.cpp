@@ -62,10 +62,10 @@ int main( int argc, char** argv )
     UciEngine engine;
 
     engine.ProcessCommand( "uci" );
-    engine.ProcessCommand( "position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - -" ); // bm d6d1
+    //engine.ProcessCommand( "position fen 1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - -" ); // bm d6d1
     //engine.ProcessCommand( "position fen 3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - -" ); // bm d5
     //engine.ProcessCommand( "position fen r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq -" ); // bm h5f7 mate in one
-    //engine.ProcessCommand( "position fen r1b2k1r/ppp1bppp/8/1B1Q4/5q2/2P5/PPP2PPP/R3R1K1 w - - 1 0" ); // bm d5d8 mate in two
+    engine.ProcessCommand( "position fen r1b2k1r/ppp1bppp/8/1B1Q4/5q2/2P5/PPP2PPP/R3R1K1 w - - 1 0" ); // bm d5d8 mate in two
     engine.ProcessCommand( "go" );
 
     while( !feof( stdin ) )

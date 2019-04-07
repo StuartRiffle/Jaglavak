@@ -70,6 +70,9 @@ public:
 
     void Push( const T* objs, size_t count )
     {
+        if( count == 0 )
+            return;
+
         MUTEX_SCOPE( mMutex );
 
         mQueue.insert( mQueue.end(), objs, objs + count );

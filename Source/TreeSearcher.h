@@ -46,12 +46,15 @@ struct TreeSearcher
             mAsyncWorkers.emplace_back( new CpuWorker( mOptions, &mJobQueue, &mResultQueue ) );
 
 #if SUPPORT_CUDA
-        for( int i = 0; i < GpuWorker::GetDeviceCount(); i++ )
+        if( mOptions->mAllowCuda )
         {
-            auto worker = new GpuWorker( mOptions, &mJobQueue, &mResultQueue );
-            worker->Initialize( i, mOptions->mCudaQueueDepth );
+            for( int i = 0; i < GpuWorker::GetDeviceCount(); i++ )
+            {
+                auto worker = new GpuWorker( mOptions, &mJobQueue, &mResultQueue );
+                worker->Initialize( i, mOptions->mCudaQueueDepth );
 
-            mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
+                mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
+            }
         }
 #endif
 
@@ -475,11 +478,13 @@ struct TreeSearcher
                 this->UpdateAsyncWorkers();
                 this->ProcessAsyncResults();
 
-                if( mJobQueue.GetCount() >= mOptions->mMaxPendingJobs )
-                    PlatYield();
+                //if( mJobQueue.GetCount() >= mOptions->mMaxPendingJobs )
+                //    PlatYield();
 
-                while( mJobQueue.GetCount() < mOptions->mMaxPendingJobs )
+                if( mJobQueue.GetCount() < mOptions->mMaxPendingJobs )
                     this->ExpandAtLeaf();
+
+                PlatYield();
             }
         }
     }

@@ -106,7 +106,6 @@ const PDECL int         LAG_SAFETY_BUFFER       = 200;
 const PDECL int         NO_TIME_LIMIT           = -1;
 const PDECL int         PERFT_PARALLEL_MAX      = 5;
 const PDECL int         LAST_QUIET_LEVEL        = -4;
-const PDECL int         CUDA_STREAM_COUNT       = 8;
 const PDECL int         BATCH_SIZE_DEFAULT      = 4096;
 const PDECL int         BATCH_COUNT_DEFAULT     = 8;
 const PDECL int         TABLEBASE_MIN_MOVES     = 14;

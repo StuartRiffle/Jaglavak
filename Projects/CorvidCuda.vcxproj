@@ -117,7 +117,10 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       <PtxAsOptionV>true</PtxAsOptionV>
       <Defines>ENABLE_CUDA=1</Defines>
       <CudaRuntime>Static</CudaRuntime>
-      <AdditionalCompilerOptions>/MT</AdditionalCompilerOptions>
+      <AdditionalCompilerOptions>
+      </AdditionalCompilerOptions>
+      <Optimization>O3</Optimization>
+      <RuntimeChecks>Default</RuntimeChecks>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -167,7 +170,10 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       <PtxAsOptionV>false</PtxAsOptionV>
       <Defines>ENABLE_CUDA=1</Defines>
       <CudaRuntime>Static</CudaRuntime>
-      <AdditionalCompilerOptions>/MT</AdditionalCompilerOptions>
+      <AdditionalCompilerOptions>
+      </AdditionalCompilerOptions>
+      <Optimization>O3</Optimization>
+      <RuntimeChecks>Default</RuntimeChecks>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

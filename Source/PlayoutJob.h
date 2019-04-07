@@ -3,7 +3,7 @@
 #ifndef CORVID_PLAYOUT_JOB_H__
 #define CORVID_PLAYOUT_JOB_H__
 
-struct PlayoutJob
+struct ALIGN( 32 ) PlayoutJob
 {
     GlobalOptions   mOptions;
     Position        mPosition;
@@ -12,22 +12,22 @@ struct PlayoutJob
     MoveList        mPathFromRoot;
 };
 
-struct PlayoutResult
+struct ALIGN( 32 ) PlayoutResult
 {
     ScoreCard       mScores;
     MoveList        mPathFromRoot;
+
+    float           mCpuLatency;
+    float           mGpuTime;
 };
 
 #if SUPPORT_CUDA
 struct CudaLaunchSlot
 {
-    PlayoutJob      mInfo;
-    PlayoutResult   mResult;
     cudaStream_t    mStream;                    /// Stream this job was issued into
     cudaEvent_t     mStartEvent;                /// GPU timer event to mark the start of kernel execution
     cudaEvent_t     mEndEvent;                  /// GPU timer event to mark the end of kernel execution
     cudaEvent_t     mReadyEvent;                /// GPU timer event to notify that the results have been copied back to host memory
-
 
     PlayoutJob*     mInputHost;                 /// Job input buffer, host side
     PlayoutResult*  mOutputHost;                /// Job output buffer, host side
@@ -36,9 +36,6 @@ struct CudaLaunchSlot
     PlayoutResult*  mOutputDev;                 /// Job output buffer, device side
 
     u64             mTickQueued;                /// CPU tick when the job was queued for execution
-    u64             mTickReturned;              /// CPU tick when the completed job was found
-    float           mCpuLatency;                /// CPU time elapsed (in ms) between those two ticks, represents job processing latency
-    float           mGpuTime;                   /// GPU time spent executing kernel (in ms)
 };
 #endif
 

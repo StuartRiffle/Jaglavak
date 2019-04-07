@@ -1,22 +1,34 @@
 // PlayoutKernel.cu - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Core.h"
-#include "Core.h"
 #include "PlayoutJob.h"
 
 #if SUPPORT_CUDA
 
 __global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int count )
 {
-    GamePlayer< u64 > player( &job->mOptions, job->mRandomSeed );
+    int idx = (blockIdx.x * blockDim.x) + threadIdx.x;
+    GamePlayer< u64 > player( &job->mOptions, job->mRandomSeed + idx );
 
-    result->mScores = player.PlayGames( job->mPosition, count );
     result->mPathFromRoot = job->mPathFromRoot;
+
+    ScoreCard scores = player.PlayGames( job->mPosition, count );
+
+    atomicAdd( &result->mScores.mWins[BLACK], scores.mWins[BLACK] );
+    atomicAdd( &result->mScores.mWins[WHITE], scores.mWins[WHITE] );
+    atomicAdd( &result->mScores.mPlays, scores.mPlays );
 }
 
 
-void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockSize )
+void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
 {
+    // Clear the output buffer
+
+    cudaMemsetAsync( 
+        slot->mOutputDev,
+        0,
+        sizeof( PlayoutResult ),
+        slot->mStream );
 
     // Copy the inputs to device
 
@@ -29,14 +41,15 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockSize )
 
     // Run the playout kernel
 
+    //cudaEventCreate( &slot->mStartEvent );
     cudaEventRecord( slot->mStartEvent, slot->mStream );
 
-    int blockCount = AlignUp( slot->mInfo.mNumGames, blockSize );
     PlayGamesCuda<<< blockCount, blockSize, 0, slot->mStream >>>( 
         slot->mInputDev, 
         slot->mOutputDev, 
         1 );
 
+    //cudaEventCreate( &slot->mEndEvent );
     cudaEventRecord( slot->mEndEvent, slot->mStream );
 
     // Copy the results back to host
@@ -48,6 +61,7 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockSize )
         cudaMemcpyDeviceToHost, 
         slot->mStream );
 
+    //cudaEventCreate( &slot->mReadyEvent );
     cudaEventRecord( slot->mReadyEvent, slot->mStream );
 }
 
