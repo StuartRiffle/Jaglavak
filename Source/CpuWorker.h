@@ -1,7 +1,7 @@
 // LocalWorker.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_LOCAL_WORKER_H__
-#define CORVID_LOCAL_WORKER_H__
+#ifndef CORVID_CPU_WORKER_H__
+#define CORVID_CPU_WORKER_H__
 
 class IAsyncWorker
 {
@@ -9,11 +9,12 @@ public:
     virtual void Update() {}
 };
 
-class LocalWorker : public IAsyncWorker
+class CpuWorker : public IAsyncWorker
 {
-    PlayoutJobQueue*    mJobQueue;
-    PlayoutResultQueue* mResultQueue;
-    std::thread*        mJobThread;
+    PlayoutJobQueue*        mJobQueue;
+    PlayoutResultQueue*     mResultQueue;
+    std::thread*            mJobThread;
+    const GlobalOptions*    mOptions;
 
     void JobThread()
     {
@@ -32,15 +33,16 @@ class LocalWorker : public IAsyncWorker
 
 public:
 
-    LocalWorker( PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
+    CpuWorker( const GlobalOptions* options, PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
     {
+        mOptions = options;
         mJobQueue = jobQueue;
         mResultQueue = resultQueue;
 
         mJobThread = new std::thread( [&] { this->JobThread(); } );
     }
 
-    ~LocalWorker()
+    ~CpuWorker()
     {
         // Owner will kill the job thread by feeding it a NULL
 
@@ -49,5 +51,5 @@ public:
     }
 };
 
-#endif // CORVID_LOCAL_WORKER_H__
+#endif // CORVID_CPU_WORKER_H__
 

@@ -20,9 +20,13 @@ union GlobalOptions
         int     mExplorationFactor;
         int     mCudaStreams;
         int     mCudaQueueDepth;
+        int     mCudaJobBatch;
         int     mPlayoutPeekMoves;
         int     mPlayoutErrorRate;
         int     mPlayoutMaxMoves;
+        int     mMaxPendingJobs;
+        int     mNumCpuWorkers;
+
 
         // These are not 
 

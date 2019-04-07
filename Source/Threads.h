@@ -56,6 +56,13 @@ class ThreadSafeQueue
     std::list< T >  mQueue;
 
 public:
+    int GetCount()
+    {
+        MUTEX_SCOPE( mMutex );
+
+        return (int) mQueue.size();
+    }
+
     void Push( const T& obj )
     {
         this->Push( &obj, 1 );

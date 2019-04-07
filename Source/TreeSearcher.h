@@ -42,6 +42,17 @@ struct TreeSearcher
         mNodePool[mNodePoolEntries - 1].mNext = (TreeNode*) &mMruListHead;
         mMruListHead.mPrev = &mNodePool[mNodePoolEntries - 1];
 
+        for( int i = 0; i < mOptions->mNumCpuWorkers; i++ )
+            mAsyncWorkers.emplace_back( new CpuWorker( mOptions, &mJobQueue, &mResultQueue ) );
+
+#if SUPPORT_CUDA
+        for( int i = 0; i < GpuWorker::GetDeviceCount(); i++ )
+        {
+            mAsyncWorkers.emplace_back( new GpuWorker( mOptions, &mJobQueue, &mResultQueue ) );
+            mAsyncWorkers.back().Initialize( i, mOptions->mCudaQueueDepth );
+        }
+#endif
+
         this->Reset();
     }
 
@@ -372,6 +383,7 @@ struct TreeSearcher
             }
         }
 
+        printf( "Queue length %d\n", mJobQueue.GetCount() );
         for( int i = 0; i < (int) node->mBranch.size(); i++ )
         {
             std::string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
@@ -418,6 +430,10 @@ struct TreeSearcher
 
     void SearchThread()
     {
+        // Make sure we don't get interrupted by worker threads
+
+        PlatBoostThreadPriority();
+
         for( ;; )
         {
             // Wait until we're needed
@@ -436,17 +452,24 @@ struct TreeSearcher
             {
                 PROFILER_SCOPE( "TreeSearcher::SearchThread" );
 
-                //this->UpdateAsyncWorkers();
-                //this->ProcessAsyncResults();
-
-                this->ExpandAtLeaf();
-
                 if( (counter % 1000) == 0 )
                 {
                     printf( "\n%d:\n", counter );
                     this->DumpStats( mSearchRoot );
                 }
                 counter++;
+
+
+
+
+                this->UpdateAsyncWorkers();
+                this->ProcessAsyncResults();
+
+                if( mJobQueue.GetCount() < mOptions->mMaxPendingJobs )
+                    this->ExpandAtLeaf();
+                else
+                    PlatYield();
+
             }
         }
     }

@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\LocalWorker.h" />
+    <ClInclude Include="..\Source\CpuWorker.h" />
     <ClInclude Include="..\Source\BitBoard.h" />
     <ClInclude Include="..\Source\Core.h" />
     <ClInclude Include="..\Source\Defs.h" />
     <ClInclude Include="..\Source\Evaluation.h" />
     <ClInclude Include="..\Source\PlayoutCpu.h" />
     <ClInclude Include="..\Source\Serialization.h" />
-    <ClInclude Include="..\Source\CudaWorker.h" />
+    <ClInclude Include="..\Source\GpuWorker.h" />
     <ClInclude Include="..\Source\PlayoutJob.h" />
     <ClInclude Include="..\Source\MoveList.h" />
     <ClInclude Include="..\Source\MoveMap.h" />

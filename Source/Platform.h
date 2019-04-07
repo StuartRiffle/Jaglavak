@@ -70,6 +70,7 @@
     #include <cpuid.h>
     #include <string.h>
     #include <unistd.h>
+    #include <sched.h>
     #include <atomic>
 
     #pragma GCC diagnostic ignored "-Wunknown-pragmas"
@@ -268,6 +269,35 @@ INLINE PDECL int PlatDetectCpuCores()
 #endif
 }
 
+INLINE PDECL void PlatSetThreadName( const char* name )
+{
+#if PIGEON_MSVC
+    //#pragma pack( push, 8 )
+    struct THREADNAME_INFO
+    {
+        DWORD   dwType;     
+        LPCSTR  szName;     
+        DWORD   dwThreadID; 
+        DWORD   dwFlags;    
+    };
+    //#pragma pack( pop )
+
+    THREADNAME_INFO info;
+
+    info.dwType     = 0x1000;
+    info.szName     = name;
+    info.dwThreadID = GetCurrentThreadId();
+    info.dwFlags    = 0;
+
+    __try
+    {
+        const DWORD MS_VC_EXCEPTION = 0x406D1388;
+        RaiseException( MS_VC_EXCEPTION, 0, sizeof( info ) / sizeof( ULONG_PTR ), (ULONG_PTR*) &info );
+    }
+    __except( EXCEPTION_EXECUTE_HANDLER ) {}
+#endif
+}
+
 INLINE PDECL void PlatSleep( int ms )
 {
 #if TOOLCHAIN_MSVC
@@ -278,6 +308,15 @@ INLINE PDECL void PlatSleep( int ms )
     request.tv_sec  = (ms / 1000);
     request.tv_nsec = (ms % 1000) * 1000 * 1000;
     nanosleep( &request, &remaining );
+#endif
+}
+
+INLINE PDECL void PlatYield()
+{
+#if TOOLCHAIN_MSVC
+    Sleep( 1 );
+#elif TOOLCHAIN_GCC
+    sched_yield();
 #endif
 }
 
@@ -301,6 +340,15 @@ static u64 PlatGetClockFrequency()
     return( freq.QuadPart );
 #elif TOOLCHAIN_GCC
     return( (u64) CLOCKS_PER_SEC );
+#endif
+}
+
+static void PlatBoostThreadPriority()
+{
+#if TOOLCHAIN_MSVC
+    SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL );
+#elif TOOLCHAIN_GCC
+    // TODO
 #endif
 }
 

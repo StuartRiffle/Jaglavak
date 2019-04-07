@@ -124,7 +124,7 @@ struct LaunchThread
 };
 
 
-class CudaAsyncWorker : public IAsyncWorker
+class GpuWorker : public IAsyncWorker
 {
     typedef std::map< int, std::list< CudaLaunchSlot* > > LaunchSlotsByStream;
 
@@ -140,17 +140,26 @@ class CudaAsyncWorker : public IAsyncWorker
     PlayoutResultQueue* resultQueue;
 
     
-    CudaAsyncWorker( PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
+    GpuWorker( PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
     {
         mJobQueue = jobQueue;
         mResultQueue = resultQueue;
         mInitialized = false;
     }
 
-    ~CudaAsyncWorker()
+    ~GpuWorker()
     {
         if( mInitialized )
             this->Shutdown();
+    }
+
+    static int GetDeviceCount()
+    {
+        int count;
+        if( cudaGetDeviceCount( &count ) != cudaSuccess )
+            count = 0;
+
+        return( count );
     }
 
     void Initialize( int deviceIndex, int jobSlots )

@@ -18,9 +18,7 @@
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Position.h" />
     <ClInclude Include="..\Source\Random.h" />
-    <ClInclude Include="..\Source\CudaWorker.h" />
     <ClInclude Include="..\Source\Profiler.h" />
-    <ClInclude Include="..\Source\LocalWorker.h" />
     <ClInclude Include="..\Source\UciEngine.h" />
     <ClInclude Include="..\Source\Serialization.h" />
     <ClInclude Include="..\Source\TreeNode.h" />
@@ -29,6 +27,8 @@
     <ClInclude Include="..\Source\SIMD-AVX512.h" />
     <ClInclude Include="..\Source\SIMD-SSE2.h" />
     <ClInclude Include="..\Source\SIMD-SSE4.h" />
+    <ClInclude Include="..\Source\CpuWorker.h" />
+    <ClInclude Include="..\Source\GpuWorker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Corvid.cpp" />
