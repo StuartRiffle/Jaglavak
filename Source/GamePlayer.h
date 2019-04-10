@@ -10,6 +10,11 @@ struct ScoreCard
 
     PDECL ScoreCard()
     {
+        this->Clear();
+    }
+
+    PDECL void Clear()
+    {
         mWins[BLACK] = 0;
         mWins[WHITE] = 0;
         mPlays = 0;

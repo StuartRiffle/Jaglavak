@@ -121,6 +121,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       </AdditionalCompilerOptions>
       <Optimization>O3</Optimization>
       <RuntimeChecks>Default</RuntimeChecks>
+      <GPUDebugInfo>false</GPUDebugInfo>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

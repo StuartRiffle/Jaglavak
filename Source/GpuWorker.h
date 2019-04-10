@@ -256,8 +256,6 @@ private:
     {
         MUTEX_SCOPE( mSlotMutex );
 
-        std::vector< PlayoutResultRef > completed;
-
         for( auto& kv : mActiveSlotsByStream )
         {
             auto& activeList = kv.second;
@@ -278,6 +276,8 @@ private:
                 cudaEventElapsedTime( &result->mGpuTime, slot->mStartEvent, slot->mEndEvent );
                 result->mCpuLatency = (tickReturned - slot->mTickQueued) * 1000.0f / Timer::GetFrequency();  
 
+                mResultQueue->Push( result );
+
                 //cudaEventDestroy( slot->mStartEvent );
                 //cudaEventDestroy( slot->mEndEvent );
                 //cudaEventDestroy( slot->mReadyEvent );
@@ -290,11 +290,8 @@ private:
                     */
 
                 mFreeSlots.push_back( slot );
-                completed.push_back( result );
             }
         }
-
-        mResultQueue->Push( completed.data(), completed.size() );
     }
 };
   

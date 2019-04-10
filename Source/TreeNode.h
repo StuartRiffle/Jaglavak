@@ -23,21 +23,24 @@ struct TreeNode : public TreeLink
     Position            mPos;
     BranchInfo*         mInfo;
     int                 mColor;
-    int                 mNumChildren;
     std::vector<BranchInfo>  mBranch;
+    u64                 mCounter;
+    int                 mTouch;
 
     bool                mGameOver;
     ScoreCard           mGameResult;
 
 
-    TreeNode() : mInfo( NULL ), mNumChildren( 0 ), mGameOver( false ) {}
+    TreeNode() : mInfo( NULL ), mGameOver( false ), mCounter( -1 ), mTouch( 0 ) {}
     ~TreeNode() { Clear(); }
 
     void Init( const Position& pos, BranchInfo* info = NULL )
     {
+        static u64 sCount = 1;
+        mCounter = sCount++;
+
         mPos = pos;
         mInfo = info;
-        mNumChildren = 0;
 
         MoveMap moveMap;
         pos.CalcMoveMap( &moveMap );
@@ -56,6 +59,9 @@ struct TreeNode : public TreeLink
 
         mColor = pos.mWhiteToMove? WHITE : BLACK;
 
+        mGameOver = false;
+        mGameResult.Clear();
+
         int result = (int) pos.CalcGameResult( moveMap );
         if (result != RESULT_UNKNOWN )
         {
@@ -73,7 +79,8 @@ struct TreeNode : public TreeLink
 
     void Clear()
     {
-        assert( this->IsLeaf() );
+        for( auto& info : mBranch )
+            assert( info.mNode == NULL );
 
         if( mInfo )
         {
@@ -82,7 +89,6 @@ struct TreeNode : public TreeLink
         }
 
         mInfo = NULL;
-        mNumChildren = 0;
         mBranch.clear();
     }
 
@@ -95,14 +101,14 @@ struct TreeNode : public TreeLink
         return( -1 );
     }
 
-    bool IsLeaf() const
+    void SanityCheck()
     {
-        return (mNumChildren == 0);
-    }
+        for( auto& info : mBranch )
+            if( info.mNode )
+                assert( info.mNode->mInfo == &info );
 
-    bool IsFull() const
-    {
-        return (mNumChildren == (int) mBranch.size());
+        assert( mInfo->mNode == this );
+
     }
 };
 

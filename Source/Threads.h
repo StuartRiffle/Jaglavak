@@ -65,106 +65,23 @@ public:
 
     void Push( const T& obj )
     {
-        this->Push( &obj, 1 );
-    }   
+        mMutex.Enter();
+        mQueue.push_back( obj );
+        mMutex.Leave();
 
-    void Push( const T* objs, size_t count )
-    {
-        if( count == 0 )
-            return;
-
-        MUTEX_SCOPE( mMutex );
-
-        mQueue.insert( mQueue.end(), objs, objs + count );
-        mAvail.Post( (int) count );
+        mAvail.Post();
     }
 
     T Pop()
     {
-        // Blocking
-
         mAvail.Wait();
-        {
-            MUTEX_SCOPE( mMutex );
 
-            T result = mQueue.front();
-            mQueue.pop_front();
-
-            return( result );
-        }
-    }
-
-    bool TryPop( T& result )
-    {
         MUTEX_SCOPE( mMutex );
 
-        if( mQueue.empty() )
-            return( false );
-
-        mAvail.Wait();
-
-        result = mQueue.front();
+        T result = mQueue.front();
         mQueue.pop_front();
 
-        return( true );
-    }
-
-    std::vector< T > PopMultiple( size_t limit )
-    {
-        // Blocking
-
-        mAvail.Wait();
-        {
-            MUTEX_SCOPE( mMutex );
-
-            size_t count = Min( mQueue.size(), limit );
-
-            std::vector< T > result;
-            result.reserve( count );
-
-            for( size_t i = 0; i < count; i++ )
-            {
-                result.push_back( mQueue.front() );
-                mQueue.pop_front();
-
-                if( i > 0 )
-                    mAvail.Wait();
-            }
-
-            return( result );
-        }
-    }
-
-    std::vector< T > PopAll()
-    {
-        MUTEX_SCOPE( mMutex );
-
-        std::vector< T > result;
-
-        if( !mQueue.empty() )
-        {
-            size_t count = mQueue.size();
-
-            result.reserve( count );
-            result.insert( result.end(), mQueue.begin(), mQueue.end() );
-
-            mQueue.clear();
-
-            while( count-- )
-                mAvail.Wait();
-        }
-
         return( result );
-    }
-
-    void Clear()
-    {
-        MUTEX_SCOPE( mMutex );
-
-        size_t count = mQueue.size();
-
-        mQueue.clear();
-        mAvail.Wait(count);
     }
 };
 

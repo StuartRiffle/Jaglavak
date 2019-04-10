@@ -31,6 +31,8 @@ class CpuWorker : public IAsyncWorker
 
             mResultQueue->Push( result );
         }
+
+        printf( "WTF\n" );
     }
 
 public:
