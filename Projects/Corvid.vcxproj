@@ -40,7 +40,6 @@
     <ClInclude Include="..\Source\Options.h" />
     <ClInclude Include="..\Source\SIMD-AVX2.h" />
     <ClInclude Include="..\Source\SIMD-AVX512.h" />
-    <ClInclude Include="..\Source\SIMD-SSE2.h" />
     <ClInclude Include="..\Source\SIMD-SSE4.h" />
     <ClInclude Include="..\Source\Threads.h" />
     <ClInclude Include="..\Source\Tokenizer.h" />

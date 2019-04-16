@@ -5,6 +5,20 @@
 
 #if SUPPORT_SSE4
 
+INLINE __m128i _mm_select( const __m128i& a, const __m128i& b, const __m128i& mask )
+{          
+    return _mm_xor_si128( a, _mm_and_si128( mask, _mm_xor_si128( b, a ) ) ); // mask? b : a
+}
+
+inline __m128i _mm_sllv_epi64x( const __m128i& v, const __m128i& n )
+{
+    __m128i lowCount  = _mm_move_epi64( n );
+    __m128i highCount = _mm_unpackhi_epi64( n, _mm_setzero_si128() ); 
+    __m128i result    = _mm_unpacklo_epi64( _mm_sll_epi64( v, lowCount ), _mm_sll_epi64( v, highCount ) );
+
+    return( result );
+}
+
 struct simd2_sse4
 {
     __m128i vec;
@@ -57,13 +71,7 @@ INLINE __m128i _mm_bswap_epi64_sse4( const __m128i& v )
 }
 
 template<> 
-INLINE simd2_sse4 CountBits< DISABLE_POPCNT, simd2_sse4 >( const simd2_sse4& val ) 
-{ 
-    return( _mm_popcnt_epi64_sse4( val.vec ) );
-}
-
-template<> 
-INLINE simd2_sse4 CountBits< ENABLE_POPCNT, simd2_sse4 >( const simd2_sse4& val ) 
+INLINE simd2_sse4 CountBits< simd2_sse4 >( const simd2_sse4& val ) 
 { 
     return( _mm_popcnt_epi64_sse4( val.vec ) );
 }

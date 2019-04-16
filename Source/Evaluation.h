@@ -137,7 +137,6 @@ struct Evaluation
         return( score >> WEIGHT_SHIFT );
     }
 
-    template< int POPCNT >
     PDECL static float CalcGamePhase( const Position& pos ) 
     {
         PROFILER_SCOPE( "Evaluation::CalcGamePhase" );
@@ -146,13 +145,13 @@ struct Evaluation
         // "endingness" starts at 0, then increases as minor/major pieces are taken
 
         int     ply                 = pos.GetPlyZeroBased();
-        int     whitePawnCount      = (int) CountBits< POPCNT >( pos.mWhitePawns );
-        int     whiteMinorCount     = (int) CountBits< POPCNT >( pos.mWhiteKnights | pos.mWhiteBishops );
-        int     whiteMajorCount     = (int) CountBits< POPCNT >( pos.mWhiteRooks   | pos.mWhiteQueens );
+        int     whitePawnCount      = (int) CountBits( pos.mWhitePawns );
+        int     whiteMinorCount     = (int) CountBits( pos.mWhiteKnights | pos.mWhiteBishops );
+        int     whiteMajorCount     = (int) CountBits( pos.mWhiteRooks   | pos.mWhiteQueens );
         int     whitePieceCount     = whitePawnCount + whiteMinorCount + whiteMajorCount;
-        int     blackPawnCount      = (int) CountBits< POPCNT >( pos.mBlackPawns ); 
-        int     blackMinorCount     = (int) CountBits< POPCNT >( pos.mBlackKnights | pos.mBlackBishops );
-        int     blackMajorCount     = (int) CountBits< POPCNT >( pos.mBlackRooks   | pos.mBlackQueens );
+        int     blackPawnCount      = (int) CountBits( pos.mBlackPawns ); 
+        int     blackMinorCount     = (int) CountBits( pos.mBlackKnights | pos.mBlackBishops );
+        int     blackMajorCount     = (int) CountBits( pos.mBlackRooks   | pos.mBlackQueens );
         int     blackPieceCount     = blackPawnCount + blackMinorCount + blackMajorCount;
         int     lowestPieceCount    = Min( whitePieceCount, blackPieceCount );
         float   fightingSpirit      = lowestPieceCount / 15.0f; // (king not counted)
@@ -163,14 +162,14 @@ struct Evaluation
         return( (openingness > 0)? (1 - openingness) : (1 + endingness) );
     }
 
-    template< int POPCNT, typename SIMD >
+    template< typename SIMD >
     PDECL static SIMD EvaluatePosition( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, const EvalWeightSet& weights ) 
     {
         PROFILER_SCOPE( "Evaluation::EvaluatePosition" );
 
         SIMD    eval[NUM_EVAL_TERMS];   
 
-        CalcEvalTerms< POPCNT, SIMD >( pos, mmap, eval );
+        CalcEvalTerms< SIMD >( pos, mmap, eval );
 
         SIMD    evalScore           = ApplyWeights( eval, weights );
         SIMD    score               = evalScore;
@@ -182,18 +181,18 @@ struct Evaluation
         return( evalConsideringMate );
     }
 
-    template< int POPCNT, typename SIMD >
+    template< typename SIMD >
     PDECL static SIMD EvaluatePosition( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap ) 
     {
         EvalWeightSet weights;
 
-        float gamePhase = CalcGamePhase< POPCNT >( pos );
+        float gamePhase = CalcGamePhase( pos );
         GenerateWeights( &weights, gamePhase );
 
-        return( EvaluatePosition< POPCNT, SIMD >( pos, mmap, weights ) );
+        return( EvaluatePosition< SIMD >( pos, mmap, weights ) );
     }
 
-    template< int POPCNT, typename SIMD >
+    template< typename SIMD >
     PDECL static void CalcEvalTerms( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, SIMD* eval )
     {
         PROFILER_SCOPE( "Evaluation::CalcEvalTerms" );
@@ -204,14 +203,14 @@ struct Evaluation
         SIMD    evalWhite[NUM_EVAL_TERMS];
         SIMD    evalBlack[NUM_EVAL_TERMS];
 
-        CalcSideEval< POPCNT, SIMD >( pos,     mmap, evalWhite );
-        CalcSideEval< POPCNT, SIMD >( flipped, mmap, evalBlack );
+        CalcSideEval< SIMD >( pos,     mmap, evalWhite );
+        CalcSideEval< SIMD >( flipped, mmap, evalBlack );
 
         for( int i = 0; i < NUM_EVAL_TERMS; i++ )
             eval[i] = evalWhite[i] - evalBlack[i];
     }
 
-    template< int POPCNT, typename SIMD >
+    template< typename SIMD >
     PDECL static void CalcSideEval( const PositionT< SIMD >& pos, const MoveMapT< SIMD >& mmap, SIMD* eval )
     {
         const SIMD& whitePawns      = pos.mWhitePawns;    
@@ -245,49 +244,49 @@ struct Evaluation
         SIMD    whiteAttacking      = whiteControl & blackPieces;
         SIMD    whiteDefending      = whiteControl & whitePieces;
         SIMD    inEnemyTerritory    = whitePieces & (RANK_5 | RANK_6 | RANK_7 | RANK_8);
-        SIMD    knightsDevel        = CountBits< POPCNT >( whiteKnights & ~(SQUARE_B1 | SQUARE_G1) );
-        SIMD    bishopsDevel        = CountBits< POPCNT >( whiteBishops & ~(SQUARE_C1 | SQUARE_F1) );    
+        SIMD    knightsDevel        = CountBits( whiteKnights & ~(SQUARE_B1 | SQUARE_G1) );
+        SIMD    bishopsDevel        = CountBits( whiteBishops & ~(SQUARE_C1 | SQUARE_F1) );    
 
-        eval[EVAL_PAWNS]            = CountBits< POPCNT >( whitePawns );                                
-        eval[EVAL_CENTER_PAWNS]     = CountBits< POPCNT >( whitePawns & CENTER_SQUARES );             
-        eval[EVAL_CHAINED_PAWNS]    = CountBits< POPCNT >( pawnsChained );                              
-        eval[EVAL_PASSED_PAWNS]     = CountBits< POPCNT >( PropN( whitePawns, ~blackPawns ) & RANK_8 ); 
-        eval[EVAL_PAWNS_GUARD_KING] = CountBits< POPCNT >( whitePawns & (StepNW( whiteKing ) | StepN( whiteKing ) | StepNE( whiteKing )) );                                               
-        eval[EVAL_PROMOTING_SOON]   = CountBits< POPCNT >( whitePawns & RANK_6 );                     
-        eval[EVAL_PROMOTING_IMMED]  = CountBits< POPCNT >( whitePawns & RANK_7 );                     
+        eval[EVAL_PAWNS]            = CountBits( whitePawns );                                
+        eval[EVAL_CENTER_PAWNS]     = CountBits( whitePawns & CENTER_SQUARES );             
+        eval[EVAL_CHAINED_PAWNS]    = CountBits( pawnsChained );                              
+        eval[EVAL_PASSED_PAWNS]     = CountBits( PropN( whitePawns, ~blackPawns ) & RANK_8 ); 
+        eval[EVAL_PAWNS_GUARD_KING] = CountBits( whitePawns & (StepNW( whiteKing ) | StepN( whiteKing ) | StepNE( whiteKing )) );                                               
+        eval[EVAL_PROMOTING_SOON]   = CountBits( whitePawns & RANK_6 );                     
+        eval[EVAL_PROMOTING_IMMED]  = CountBits( whitePawns & RANK_7 );                     
 
-        eval[EVAL_KNIGHTS]          = CountBits< POPCNT >( whiteKnights );                              
+        eval[EVAL_KNIGHTS]          = CountBits( whiteKnights );                              
         eval[EVAL_KNIGHTS_DEVEL]    = knightsDevel;                                                 
-        eval[EVAL_KNIGHTS_INTERIOR] = CountBits< POPCNT >( whiteKnights & ~EDGE_SQUARES );              
-        eval[EVAL_KNIGHTS_CENTRAL]  = CountBits< POPCNT >( whiteKnights & CENTER_SQUARES );              
+        eval[EVAL_KNIGHTS_INTERIOR] = CountBits( whiteKnights & ~EDGE_SQUARES );              
+        eval[EVAL_KNIGHTS_CENTRAL]  = CountBits( whiteKnights & CENTER_SQUARES );              
 
-        eval[EVAL_BISHOPS]          = CountBits< POPCNT >( whiteBishops );                              
+        eval[EVAL_BISHOPS]          = CountBits( whiteBishops );                              
         eval[EVAL_BISHOPS_DEVEL]    = bishopsDevel;
-        eval[EVAL_BISHOPS_INTERIOR] = CountBits< POPCNT >( whiteBishops & ~EDGE_SQUARES );              
-        eval[EVAL_BISHOPS_CENTRAL]  = CountBits< POPCNT >( whiteBishops & CENTER_SQUARES );              
+        eval[EVAL_BISHOPS_INTERIOR] = CountBits( whiteBishops & ~EDGE_SQUARES );              
+        eval[EVAL_BISHOPS_CENTRAL]  = CountBits( whiteBishops & CENTER_SQUARES );              
         eval[EVAL_BOTH_BISHOPS]     = SelectIfNotZero( whiteBishops & LIGHT_SQUARES, (SIMD) 1 ) & SelectIfNotZero( whiteBishops & DARK_SQUARES, (SIMD) 1 );                                                  
 
-        eval[EVAL_ROOKS]            = CountBits< POPCNT >( whiteRooks );                                
-        eval[EVAL_ROOKS_DEVEL]      = CountBits< POPCNT >( whiteRooks & ~(SQUARE_A1 | SQUARE_H1) );   
-        eval[EVAL_ROOK_ON_RANK_7]   = CountBits< POPCNT >( whiteRooks & RANK_7 );                       
-        eval[EVAL_ROOKS_CONNECTED]  = CountBits< POPCNT >( PropExOrtho( whiteRooks, empty ) & whiteRooks );                                               
-        eval[EVAL_ROOKS_OPEN_FILE]  = CountBits< POPCNT >( PropN( whiteRooks, empty ) & RANK_8 );       
+        eval[EVAL_ROOKS]            = CountBits( whiteRooks );                                
+        eval[EVAL_ROOKS_DEVEL]      = CountBits( whiteRooks & ~(SQUARE_A1 | SQUARE_H1) );   
+        eval[EVAL_ROOK_ON_RANK_7]   = CountBits( whiteRooks & RANK_7 );                       
+        eval[EVAL_ROOKS_CONNECTED]  = CountBits( PropExOrtho( whiteRooks, empty ) & whiteRooks );                                               
+        eval[EVAL_ROOKS_OPEN_FILE]  = CountBits( PropN( whiteRooks, empty ) & RANK_8 );       
 
-        eval[EVAL_QUEENS]           = CountBits< POPCNT >( whiteQueens );                               
-        eval[EVAL_QUEEN_DEVEL]      = CountBits< POPCNT >( whiteQueens & ~(SQUARE_D1) );               
-        eval[EVAL_QUEENS_INTERIOR]  = CountBits< POPCNT >( whiteQueens & ~EDGE_SQUARES );              
-        eval[EVAL_QUEENS_CENTRAL]   = CountBits< POPCNT >( whiteQueens & CENTER_SQUARES );              
+        eval[EVAL_QUEENS]           = CountBits( whiteQueens );                               
+        eval[EVAL_QUEEN_DEVEL]      = CountBits( whiteQueens & ~(SQUARE_D1) );               
+        eval[EVAL_QUEENS_INTERIOR]  = CountBits( whiteQueens & ~EDGE_SQUARES );              
+        eval[EVAL_QUEENS_CENTRAL]   = CountBits( whiteQueens & CENTER_SQUARES );              
 
-        eval[EVAL_KINGS]            = CountBits< POPCNT >( whiteKing );                                 
-        eval[EVAL_KING_CASTLED]     = CountBits< POPCNT >( whiteKing & RANK_1 & ~SQUARE_E1 );           
+        eval[EVAL_KINGS]            = CountBits( whiteKing );                                 
+        eval[EVAL_KING_CASTLED]     = CountBits( whiteKing & RANK_1 & ~SQUARE_E1 );           
 
         eval[EVAL_KNIGHTS_FIRST]    = SubClampZero( knightsDevel, bishopsDevel );
-        eval[EVAL_MOBILITY]         = CountBits< POPCNT >( whiteMobility );                             
-        eval[EVAL_ATTACKING]        = CountBits< POPCNT >( whiteAttacking );                            
-        eval[EVAL_DEFENDING]        = CountBits< POPCNT >( whiteDefending );                            
-        eval[EVAL_ENEMY_TERRITORY]  = CountBits< POPCNT >( inEnemyTerritory );                          
-        eval[EVAL_CENTER_PIECES]    = CountBits< POPCNT >( whitePieces  & CENTER_SQUARES );             
-        eval[EVAL_CENTER_CONTROL]   = CountBits< POPCNT >( whiteControl & CENTER_SQUARES );   
+        eval[EVAL_MOBILITY]         = CountBits( whiteMobility );                             
+        eval[EVAL_ATTACKING]        = CountBits( whiteAttacking );                            
+        eval[EVAL_DEFENDING]        = CountBits( whiteDefending );                            
+        eval[EVAL_ENEMY_TERRITORY]  = CountBits( inEnemyTerritory );                          
+        eval[EVAL_CENTER_PIECES]    = CountBits( whitePieces  & CENTER_SQUARES );             
+        eval[EVAL_CENTER_CONTROL]   = CountBits( whiteControl & CENTER_SQUARES );   
     }
 };
 

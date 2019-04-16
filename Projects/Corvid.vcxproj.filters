@@ -25,7 +25,6 @@
     <ClInclude Include="..\Source\PlayoutCpu.h" />
     <ClInclude Include="..\Source\SIMD-AVX2.h" />
     <ClInclude Include="..\Source\SIMD-AVX512.h" />
-    <ClInclude Include="..\Source\SIMD-SSE2.h" />
     <ClInclude Include="..\Source\SIMD-SSE4.h" />
     <ClInclude Include="..\Source\CpuWorker.h" />
     <ClInclude Include="..\Source\GpuWorker.h" />

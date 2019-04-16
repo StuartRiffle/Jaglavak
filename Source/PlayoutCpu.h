@@ -11,37 +11,32 @@ typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
 typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
 
 
-int ChooseCpuLevelForPlayout( const GlobalOptions& options, int count )
+int ChooseSimdLevelForPlayout( const GlobalOptions& options, int count )
 {
-    int cpuLevel = CPU_SCALAR;
-
-#if SUPPORT_SSE2
-    if( (count > 1) && (options.mDetectedCpuLevel >= CPU_SSE2) )
-        cpuLevel = CPU_SSE2;
-#endif
+    int simdLevel = 1;
 
 #if SUPPORT_SSE4
-    if( (count > 1) && (options.mDetectedCpuLevel >= CPU_SSE4) )
-        cpuLevel = CPU_SSE4;
+    if( (count > 1) && (options.mDetectedSimdLevel >= 2) )
+        simdLevel = 2;
 #endif
 
 #if SUPPORT_AVX2
-    if( (count > 2) && (options.mDetectedCpuLevel >= CPU_AVX2) )
-        cpuLevel = CPU_AVX2;
+    if( (count > 2) && (options.mDetectedSimdLevel >= 4) )
+        simdLevel = 4;
 #endif
 
 #if SUPPORT_AVX512
-    if( (count > 4) && (options.mDetectedCpuLevel >= CPU_AVX512) )
-        cpuLevel = CPU_AVX512;
+    if( (count > 4) && (options.mDetectedSimdLevel >= 8) )
+        simdLevel = 8;
 #endif
 
     if( !options.mAllowSimd )
-        cpuLevel = CPU_SCALAR;
+        simdLevel = CPU_SCALAR;
 
-    if( options.mForceCpuLevel != CPU_INVALID )
-        cpuLevel = options.mForceCpuLevel;
+    if( options.mForceSimdLevel )
+        simdLevel = options.mForceSimdLevel;
 
-    return cpuLevel;
+    return simdLevel;
 }
 
 template< typename SIMD >
@@ -53,35 +48,28 @@ ScoreCard PlayGamesCpu( const PlayoutJob& job, int simdCount )
 
 PlayoutResult RunPlayoutJobCpu( const PlayoutJob& job )
 {
-    int cpuLevel    = ChooseCpuLevelForPlayout( job.mOptions, job.mNumGames );
-    int lanes       = PlatGetSimdWidth( cpuLevel );
-    int simdCount   = (job.mNumGames + lanes - 1) / lanes;
+    int simdLevel   = ChooseSimdLevelForPlayout( job.mOptions, job.mNumGames );
+    int simdCount   = (job.mNumGames + simdLevel - 1) / simdLevel;
 
     PlayoutResult result;
     result.mPathFromRoot = job.mPathFromRoot;
 
-    switch( cpuLevel )
+    switch( simdLevel )
     {
-#if SUPPORT_SSE2
-    case CPU_SSE2: 
-        result.mScores = PlayGamesCpu< simd2_sse2 >( job, simdCount );
-        break;
-#endif
-
 #if SUPPORT_SSE4
-    case CPU_SSE4:
+    case 2:
         result.mScores = PlayGamesCpu< simd2_sse4 >( job, simdCount );
         break;
 #endif
 
 #if SUPPORT_AVX2
-    case CPU_AVX2:
+    case 4:
         result.mScores = PlayGamesCpu< simd4_avx2 >( job, simdCount );
         break;
 #endif
 
 #if SUPPORT_AVX512
-    case CPU_AVX512:
+    case 8:
         result.mScores = PlayGamesCpu< simd8_avx512 >( job, simdCount );
         break;
 #endif
@@ -93,6 +81,5 @@ PlayoutResult RunPlayoutJobCpu( const PlayoutJob& job )
 
     return result;
 }
-
 
 #endif

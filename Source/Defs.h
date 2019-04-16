@@ -64,12 +64,6 @@ enum
 
 enum
 {
-    DISABLE_POPCNT,
-    ENABLE_POPCNT
-};
-
-enum
-{
     WHITE,
     BLACK
 };
@@ -202,10 +196,10 @@ INLINE PDECL T AlignUp( const T& val, const T& multiple )
     return( (val + multiple - 1) & ~(multiple - 1) );
 }
 
-template< int POPCNT, typename T >
+template< typename T >
 INLINE PDECL T CountBits( const T& val )
 { 
-    return PlatCountBits64< POPCNT >( val ); 
+    return PlatCountBits64( val ); 
 }
 
 template< typename SIMD, typename PACKED, typename UNPACKED >

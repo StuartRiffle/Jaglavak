@@ -41,10 +41,10 @@ EvalTerm EvaluateFenPosition( const char* fen )
 
     EvalWeightSet weights;
 
-    float gamePhase = Evaluation::CalcGamePhase< ENABLE_POPCNT >( pos );
+    float gamePhase = Evaluation::CalcGamePhase( pos );
     Evaluation::GenerateWeights( &weights, gamePhase );
 
-    u64 score = Evaluation::EvaluatePosition< ENABLE_POPCNT >( pos, moveMap, weights );
+    u64 score = Evaluation::EvaluatePosition( pos, moveMap, weights );
     EvalTerm result = (EvalTerm) score;
 
     printf( "(%d) %s\n", result, fen );

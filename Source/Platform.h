@@ -17,7 +17,6 @@
     // We are running __device__ code
 
     #define RUNNING_ON_CUDA_DEVICE  (1)
-    #define SUPPORT_POPCNT (1)
     #define ALIGN( _N )  __align__( _N )
     #define ALIGN_SIMD   __align__( 32 )    
 
@@ -44,11 +43,9 @@
     
     #define RUNNING_ON_CPU     (1)
     #define TOOLCHAIN_MSVC      (1)
-    #define SUPPORT_SSE2         (1)
     #define SUPPORT_SSE4         (1)
     #define SUPPORT_AVX2         (1)
     #define SUPPORT_AVX512       (0)
-    #define SUPPORT_POPCNT (1)
     #define ALIGN( _N )  __declspec( align( _N ) )
     #define ALIGN_SIMD   __declspec( align( 32 ) )
 
@@ -79,7 +76,6 @@
 
     #define RUNNING_ON_CPU          (1)
     #define TOOLCHAIN_GCC       (1)
-    #define SUPPORT_POPCNT (1)
     #define ALIGN( _N )  __attribute__(( aligned( _N ) ))
     #define ALIGN_SIMD   __attribute__(( aligned( 32 ) ))    
 
@@ -114,7 +110,6 @@ typedef int8_t    i8;
 enum
 {
     CPU_SCALAR,
-    CPU_SSE2,
     CPU_SSE4,
     CPU_AVX2,
     CPU_AVX512,
@@ -157,43 +152,14 @@ INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 #endif
 }
 
-template< typename T >
-INLINE PDECL T SoftCountBits64( const T& val )
-{
-    const T mask01 = T( 0x0101010101010101ULL );
-    const T mask0F = T( 0x0F0F0F0F0F0F0F0FULL );
-    const T mask33 = T( 0x3333333333333333ULL );
-    const T mask55 = T( 0x5555555555555555ULL );
-
-    register T n = val;
-
-    n =  n - ((n >> 1) & mask55);
-    n = (n & mask33) + ((n >> 2) & mask33);
-    n = (n + (n >> 4)) & mask0F;
-    n = (n * mask01) >> 56;
-
-    return( n );
-}
-
-template< int POPCNT >
 INLINE PDECL u64 PlatCountBits64( const u64& val )
 {
 #if RUNNING_ON_CUDA_DEVICE
     return( __popcll( val ) );
-#else
-    #if SUPPORT_POPCNT
-        #if TOOLCHAIN_MSVC
-            if( POPCNT ) 
-                return( __popcnt64( val ) );
-            else // SoftCountBits64
-        #elif TOOLCHAIN_GCC
-            if( POPCNT ) 
-                return( __builtin_popcountll( val ) );
-            else // SoftCountBits64
-        #endif
-    #endif
-
-    return( SoftCountBits64( val ) );
+#elif TOOLCHAIN_MSVC
+    return( __popcnt64( val ) );
+#elif TOOLCHAIN_GCC
+    return( __builtin_popcountll( val ) );
 #endif
 }
 
@@ -237,7 +203,7 @@ INLINE PDECL bool PlatDetectPopcnt()
 #endif
 }
 
-INLINE PDECL int PlatDetectCpuLevel()
+INLINE PDECL int PlatDetectSimdLevel()
 {
 #if SUPPORT_AVX2
     bool avx2 = PlatCheckCpuFlag( 7, 1, 5 );   
@@ -249,12 +215,6 @@ INLINE PDECL int PlatDetectCpuLevel()
     bool sse4 = PlatCheckCpuFlag( 1, 2, 20 );
     if( sse4 )
         return( CPU_SSE4 );
-#endif
-
-#if SUPPORT_SSE2
-    bool sse2 = PlatCheckCpuFlag( 1, 3, 26 );
-    if( sse2 )
-        return( CPU_SSE2 );
 #endif
 
     return( CPU_SCALAR );

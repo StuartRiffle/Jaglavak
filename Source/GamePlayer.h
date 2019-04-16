@@ -49,24 +49,14 @@ public:
 
     PDECL ScoreCard PlayGames( const Position& pos, int simdCount )
     {
-        return mOptions->mAllowPopcnt?
-            PlayGamesThreaded< ENABLE_POPCNT  >( pos, simdCount ) :
-            PlayGamesThreaded< DISABLE_POPCNT >( pos, simdCount );
-    }
-
-protected:
-
-    template< int POPCNT >
-    PDECL ScoreCard PlayGamesThreaded( const Position& pos, int simdCount )
-    {
-        PROFILER_SCOPE( "GamePlayer::PlayGamesThreaded" );
+        PROFILER_SCOPE( "GamePlayer::PlayGames" );
 
         ScoreCard scores;
 
-        #pragma omp parallel for schedule(dynamic)
+        #pragma omp parallel for schedule(dynamic) if (mOptions->mAllowParallel)
         for( int i = 0; i < simdCount; i++ )
         {
-            ScoreCard simdScores = PlayGamesSimd< POPCNT >( pos );
+            ScoreCard simdScores = PlayGamesSimd( pos );
 
             #pragma omp critical
             scores += simdScores;
@@ -75,14 +65,15 @@ protected:
         return scores;
     }
 
-    template< int POPCNT >
+protected:
+
     PDECL ScoreCard PlayGamesSimd( const Position& startPos )
     {
         PROFILER_SCOPE( "GamePlayer::PlayGamesSimd" );
 
         EvalWeightSet weights;
 
-        float gamePhase = Evaluation::CalcGamePhase< POPCNT >( startPos );
+        float gamePhase = Evaluation::CalcGamePhase( startPos );
         Evaluation::GenerateWeights( &weights, gamePhase );
 
         const int LANES = SimdWidth< SIMD >::LANES;
@@ -116,7 +107,7 @@ protected:
             // FIXME moveMap[lane] i
             
             for( int lane = 0; lane < LANES; lane++ )
-                spec[lane] = this->ChoosePlayoutMove< POPCNT >( pos[lane], moveMap[lane], weights );
+                spec[lane] = this->ChoosePlayoutMove( pos[lane], moveMap[lane], weights );
 
             Swizzle< SIMD >( pos, &simdPos );
             simdSpec.Unpack( spec );
@@ -129,7 +120,7 @@ protected:
 
             // Detect games that are done
 
-            SIMD simdScores = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
+            SIMD simdScores = Evaluation::EvaluatePosition< SIMD >( simdPos, simdMoveMap, weights );
             u64* laneScores = (u64*) &simdScores;
 
             SIMD simdTargets = simdMoveMap.CalcMoveTargets();
@@ -215,7 +206,6 @@ protected:
         return scores;
     }
 
-    template< int POPCNT >
     PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
     {
         PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
@@ -295,7 +285,7 @@ protected:
             // Evaluate the resulting positions
 
             SIMD simdScore;
-            simdScore = Evaluation::EvaluatePosition< POPCNT, SIMD >( simdPos, simdMoveMap, weights );
+            simdScore = Evaluation::EvaluatePosition< SIMD >( simdPos, simdMoveMap, weights );
 
             u64* laneScore = (u64*) &simdScore;
 

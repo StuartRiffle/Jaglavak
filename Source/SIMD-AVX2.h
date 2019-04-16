@@ -83,13 +83,7 @@ INLINE simd4_avx2 MaskAllSet< simd4_avx2 >()
 } 
 
 template<>
-INLINE simd4_avx2 CountBits< DISABLE_POPCNT, simd4_avx2 >( const simd4_avx2& val ) 
-{
-    return( _mm256_popcnt_epi64_avx2( val.vec ) );
-}
-
-template<>
-INLINE simd4_avx2 CountBits< ENABLE_POPCNT, simd4_avx2 >( const simd4_avx2& val ) 
+INLINE simd4_avx2 CountBits< simd4_avx2 >( const simd4_avx2& val ) 
 {
     return( _mm256_popcnt_epi64_avx2( val.vec ) );
 }

@@ -9,7 +9,6 @@ union GlobalOptions
     {
         // These are exposed as UCI settings
 
-        int     mAllowPopcnt;
         int     mAllowSimd;
         int     mAllowCuda;
         int     mAllowParallel;
@@ -30,9 +29,8 @@ union GlobalOptions
 
         // These are not 
 
-        int     mDetectedCpuLevel;
-        int     mForceCpuLevel;
-        int     mPopcntDetected;
+        int     mDetectedSimdLevel;
+        int     mForceSimdLevel;
     };
 
     int mOption[1];

@@ -14,9 +14,8 @@ public:
     {
         this->SetDefaultOptions();
 
-        mOptions.mPopcntDetected    = PlatDetectPopcnt();
-        mOptions.mDetectedCpuLevel  = PlatDetectCpuLevel();
-        mOptions.mForceCpuLevel     = CPU_INVALID;
+        mOptions.mDetectedSimdLevel  = PlatDetectSimdLevel();
+        mOptions.mForceSimdLevel     = 0;
 
         mSearcher = std::unique_ptr< TreeSearcher >( new TreeSearcher( &mOptions ) );
     }
@@ -27,7 +26,6 @@ public:
 
         static UciOptionInfo sOptions[] = 
         {
-            OPTION_INDEX( mAllowPopcnt ),       "AllowPopcnt",          0, 1,    1,
             OPTION_INDEX( mAllowSimd ),         "AllowSimd",            0, 1,    0,
             OPTION_INDEX( mAllowCuda ),         "AllowCuda",            0, 1,    1,
             OPTION_INDEX( mAllowParallel ),     "AllowParallel",        0, 1,    1,
