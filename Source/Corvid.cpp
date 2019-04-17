@@ -56,6 +56,12 @@ int main( int argc, char** argv )
     printf( "CORVID CHESS %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
     printf( "Stuart Riffle\n\n" );
 
+    if( !PlatDetectPopcnt() )
+    {
+        printf( "POPCNT support is required\n" );
+        return -1;
+    }
+
     setvbuf( stdin,  NULL, _IONBF, 0 );
     setvbuf( stdout, NULL, _IONBF, 0 );
 
