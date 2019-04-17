@@ -267,7 +267,7 @@ struct TreeSearcher
             TreeNode* newNode = AllocNode();
             assert( newNode != node );
 
-assert( !chosenBranch->mNode );
+            MoveToFront( node );
 
             Position newPos = node->mPos;
             newPos.Step( chosenBranch->mMove );
@@ -275,13 +275,11 @@ assert( !chosenBranch->mNode );
             //DEBUG_LOG("%s STEPPING %s\n", SerializePosition( newPos ).c_str(), SerializeMoveSpec( chosenBranch->mMove ).c_str() );
 
             chosenBranch->mNode = NULL;
-assert( !chosenBranch->mNode );
 
             newNode->Init( newPos, chosenBranch ); 
 
             // newNode is different, node is the same value
 
-assert( !chosenBranch->mNode );
             chosenBranch->mNode = newNode;
 
             if( newNode->mGameOver )
@@ -329,7 +327,6 @@ assert( !chosenBranch->mNode );
 
             newNode->mInfo->mScores += scores;
 
-            MoveToFront( node );
             return scores;
         }
 
