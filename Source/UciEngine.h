@@ -26,7 +26,7 @@ public:
 
         static UciOptionInfo sOptions[] = 
         {
-            OPTION_INDEX( mAllowSimd ),         "AllowSimd",            0, 1,    0,
+            OPTION_INDEX( mAllowSimd ),         "AllowSimd",            0, 1,    1,
             OPTION_INDEX( mAllowCuda ),         "AllowCuda",            0, 1,    1,
             OPTION_INDEX( mAllowParallel ),     "AllowParallel",        0, 1,    1,
             OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,

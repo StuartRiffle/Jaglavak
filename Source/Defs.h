@@ -202,32 +202,48 @@ INLINE PDECL T CountBits( const T& val )
     return PlatCountBits64( val ); 
 }
 
-template< typename SIMD, typename PACKED, typename UNPACKED >
-INLINE PDECL void Swizzle( const PACKED* srcStruct, UNPACKED* destStruct )
+
+template< typename SIMD, typename UNPACKED, typename PACKED >
+INLINE PDECL void Swizzle( const UNPACKED* srcStruct, PACKED* destStruct )
 {
     const int LANES = SimdWidth< SIMD >::LANES;
 
-    int blockSize    = (int) LANES * sizeof( SIMD );
-    int blockCount   = (int) sizeof( PACKED ) / blockSize;
+    int blockSize  = sizeof( SIMD ) * LANES;
+    int blockCount = (int) sizeof( PACKED ) / blockSize;
+    int srcStride  = sizeof( UNPACKED ) / sizeof( SIMD );
 
     const SIMD* RESTRICT    src     = (SIMD*) srcStruct;
     SIMD* RESTRICT          dest    = (SIMD*) destStruct;
 
     while( blockCount-- )
     {
-        Transpose< SIMD >( src, 1, dest, sizeof( UNPACKED ) / sizeof( SIMD ) );
+        Transpose< SIMD >( src, srcStride, dest, 1 );
 
-        src += LANES;
-        dest += 1;
+        src  += 1;
+        dest += LANES;
     }
 }
 
 template< typename SIMD, typename PACKED, typename UNPACKED >
-INLINE PDECL void Unswizzle( const UNPACKED* srcStruct, PACKED* destStruct )
+INLINE PDECL void Unswizzle( const PACKED* srcStruct, UNPACKED* destStruct )
 {
-    Swizzle< SIMD >( (PACKED*) srcStruct, (UNPACKED*) destStruct );
-}
+    const int LANES = SimdWidth< SIMD >::LANES;
 
+    int blockSize  = sizeof( SIMD ) * LANES;
+    int blockCount = (int) sizeof( PACKED ) / blockSize;
+    int destStride = sizeof( UNPACKED ) / sizeof( SIMD );
+
+    const SIMD* RESTRICT    src     = (SIMD*) srcStruct;
+    SIMD* RESTRICT          dest    = (SIMD*) destStruct;
+
+    while( blockCount-- )
+    {
+        Transpose< SIMD >( src, 1, dest, destStride );
+
+        src  += LANES;
+        dest += 1;
+    }
+}
 
 template< typename T > struct   MoveSpecT;
 template< typename T > struct   MoveMapT;

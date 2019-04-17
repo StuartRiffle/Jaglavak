@@ -143,12 +143,6 @@ INLINE simd8_avx512 SelectWithMask< simd8_avx512 >( const simd8_avx512& mask, co
 
 template<> 
 INLINE simd8_avx512 CountBits< simd8_avx512 >( const simd8_avx512& val ) 
-{
-    return( _mm512_popcnt_epi64_avx512( val.vec ) );
-}
-
-template<> 
-INLINE simd8_avx512 CountBits< simd8_avx512 >( const simd8_avx512& val ) 
 { 
     return( _mm512_popcnt_epi64_avx512( val.vec ) );
 }

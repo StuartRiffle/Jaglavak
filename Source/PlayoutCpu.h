@@ -31,7 +31,7 @@ int ChooseSimdLevelForPlayout( const GlobalOptions& options, int count )
 #endif
 
     if( !options.mAllowSimd )
-        simdLevel = CPU_SCALAR;
+        simdLevel = 1;
 
     if( options.mForceSimdLevel )
         simdLevel = options.mForceSimdLevel;

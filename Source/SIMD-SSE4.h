@@ -10,7 +10,7 @@ INLINE __m128i _mm_select( const __m128i& a, const __m128i& b, const __m128i& ma
     return _mm_xor_si128( a, _mm_and_si128( mask, _mm_xor_si128( b, a ) ) ); // mask? b : a
 }
 
-inline __m128i _mm_sllv_epi64x( const __m128i& v, const __m128i& n )
+INLINE __m128i _mm_sllv_epi64x( const __m128i& v, const __m128i& n )
 {
     __m128i lowCount  = _mm_move_epi64( n );
     __m128i highCount = _mm_unpackhi_epi64( n, _mm_setzero_si128() ); 

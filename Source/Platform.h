@@ -107,24 +107,6 @@ typedef int16_t   i16;
 typedef uint8_t   u8;
 typedef int8_t    i8;
 
-enum
-{
-    CPU_SCALAR,
-    CPU_SSE4,
-    CPU_AVX2,
-    CPU_AVX512,
-
-    CPU_LEVELS,
-    CPU_INVALID
-};
-
-INLINE PDECL int PlatGetSimdWidth( int cpuLevel )
-{
-    assert( cpuLevel < CPU_LEVELS );
-
-    int width[] = { 1, 2, 2, 4, 8 };
-    return( width[cpuLevel] );
-}
 
 INLINE PDECL u64 PlatByteSwap64( const u64& val )             
 { 
@@ -208,16 +190,16 @@ INLINE PDECL int PlatDetectSimdLevel()
 #if SUPPORT_AVX2
     bool avx2 = PlatCheckCpuFlag( 7, 1, 5 );   
     if( avx2 )
-        return( CPU_AVX2 );
+        return( 4 );
 #endif
 
 #if SUPPORT_SSE4
     bool sse4 = PlatCheckCpuFlag( 1, 2, 20 );
     if( sse4 )
-        return( CPU_SSE4 );
+        return( 2 );
 #endif
 
-    return( CPU_SCALAR );
+    return( 1 );
 }
 
 INLINE PDECL int PlatDetectCpuCores()
