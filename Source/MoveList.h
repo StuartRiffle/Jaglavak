@@ -28,11 +28,11 @@ struct MoveSpecT
     INLINE PDECL bool operator==( const MoveSpecT& rhs ) const { return( (mSrc == rhs.mSrc) && (mDest == rhs.mDest) && (mType == rhs.mType) ); }
     INLINE PDECL bool operator!=( const MoveSpecT& rhs ) const { return( (mSrc != rhs.mSrc) || (mDest != rhs.mDest) || (mType != rhs.mType) ); }
 
-    template< typename SCALAR >
-    INLINE PDECL void Unpack( const SCALAR* moves )
+    template< typename SCALARSPEC >
+    INLINE PDECL void Unpack( const SCALARSPEC* moves )
     {
         const int LANES = SimdWidth< T >::LANES;
-        MoveSpecT ALIGN_SIMD unpacked[LANES];
+        MoveSpecT< u64 > ALIGN_SIMD unpacked[LANES];
 
         for( int i = 0; i < LANES; i++ )
         {
