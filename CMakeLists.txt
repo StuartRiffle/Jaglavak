@@ -1,11 +1,7 @@
-cmake_minimum_required( VERSION 2.8 )
-if( POLICY CMP0025 )
-	# Enable compiler ID "AppleClang"
-	cmake_policy( SET CMP0025 NEW )
-endif()
+cmake_minimum_required( VERSION 3.8 )
 
 #################
-project( corvid )
+project( Corvid LANGUAGES CXX CUDA )
 #################
 
 if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
@@ -15,23 +11,19 @@ if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
 
 elseif( (${CMAKE_CXX_COMPILER_ID} MATCHES GNU) OR (${CMAKE_CXX_COMPILER_ID} MATCHES Clang) )
 
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -w -std=c++11" )
-
-	if( ${CMAKE_CXX_COMPILER_ID} MATCHES AppleClang )
-		set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-deprecated-declarations" )
-	else()
-		set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--no-export-dynamic" )
-	endif()
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -w -std=c++11 -Wl,--no-export-dynamic" )
 
 endif()
 
-add_subdirectory( contrib/gaviota-tb-0.4.5 )
-include_directories( contrib )
+set( CMAKE_CUDA_SEPARABLE_COMPILATION ON )
+set( CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_30 -Xcudafe \"--diag_suppress=negative_shift_count\" -cudart static -use_fast_math" )
+ 
+add_library( CudaPlayer STATIC
+	Source/PlayoutKernel.cu )
 
-add_executable( corvid src/corvid.cpp )
-target_link_libraries( corvid gaviota-tb )
+add_executable( Corvid 
+	Source/Corvid.cpp )
 
-
-### find_package( CUDA QUIET REQUIRED )
-### set( CUDA_NVCC_FLAGS ${} -Xcudafe "--diag_suppress=negative_shift_count" -cudart static -use_fast_math -DCORVID_ENABLE_CUDA=1 )
-### cuda_add_executable( corvid-cuda src/corvid.cpp src/kernel.cu )
+target_link_libraries( 
+	Corvid 
+	CudaPlayer )

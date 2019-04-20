@@ -30,7 +30,7 @@ struct ScoreCard
 
     PDECL void Print( const char* desc )
     {
-        DEBUG_LOG( "%s scores %d %d plays %d\n", desc, mWins[WHITE], mWins[BLACK], mPlays );
+        //DEBUG_LOG( "%s scores %d %d plays %d\n", desc, mWins[WHITE], mWins[BLACK], mPlays );
     }
 };
 

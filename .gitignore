@@ -31,4 +31,5 @@ Projects/*.VC.db
 Projects/*.pdb
 Projects/*.nvact
 
+.vscode/
 

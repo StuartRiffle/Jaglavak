@@ -14,9 +14,9 @@ __global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int
 
     ScoreCard scores = player.PlayGames( job->mPosition, count );
 
-    atomicAdd( &result->mScores.mWins[BLACK], scores.mWins[BLACK] );
-    atomicAdd( &result->mScores.mWins[WHITE], scores.mWins[WHITE] );
-    atomicAdd( &result->mScores.mPlays, scores.mPlays );
+    atomicAdd( (unsigned long long*) &result->mScores.mWins[BLACK], scores.mWins[BLACK] );
+    atomicAdd( (unsigned long long*) &result->mScores.mWins[WHITE], scores.mWins[WHITE] );
+    atomicAdd( (unsigned long long*) &result->mScores.mPlays, scores.mPlays );
 }
 
 

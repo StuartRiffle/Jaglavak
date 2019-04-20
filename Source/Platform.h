@@ -6,8 +6,6 @@
 #include <stdint.h>
 #include <assert.h>
 
-#define SUPPORT_CUDA (1)
-
 #if SUPPORT_CUDA
 #include <cuda_runtime_api.h>
 #endif
@@ -92,7 +90,6 @@
 #endif
 
 #define DEBUG_LOG printf
-
 
 #if SUPPORT_CUDA && RUNNING_ON_CPU
 #define RUNNING_ON_CUDA_HOST (1)
