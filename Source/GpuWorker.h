@@ -168,7 +168,8 @@ public:
     static int GetDeviceCount()
     {
         int count;
-        if( cudaGetDeviceCount( &count ) != cudaSuccess )
+        auto res = cudaGetDeviceCount( &count );
+        if( res != cudaSuccess )
             count = 0;
 
         return( count );
@@ -242,7 +243,7 @@ private:
             mFreeSlots.pop_back();
 
             *slot->mInputHost = *job;
-            slot->mTickQueued = Timer::GetTick();
+            slot->mTickQueued = PlatGetClockTick();
 
             //printf("Launching %p\n", slot );
             mLaunchThread->Launch( slot );
@@ -266,7 +267,7 @@ private:
                 if( cudaEventQuery( slot->mReadyEvent ) != cudaSuccess )
                     break;
 
-                u64 tickReturned = Timer::GetTick();
+                u64 tickReturned = PlatGetClockTick();
 
                 activeList.pop_front();
 
@@ -274,7 +275,7 @@ private:
                 *result = *slot->mOutputHost;
 
                 cudaEventElapsedTime( &result->mGpuTime, slot->mStartEvent, slot->mEndEvent );
-                result->mCpuLatency = (tickReturned - slot->mTickQueued) * 1000.0f / Timer::GetFrequency();  
+                result->mCpuLatency = (tickReturned - slot->mTickQueued) * 1000.0f / PlatGetClockFrequency();  
 
                 mResultQueue->Push( result );
 

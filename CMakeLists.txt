@@ -1,8 +1,7 @@
 cmake_minimum_required( VERSION 3.8 )
 
-#################
+#set( CMAKE_CXX_COMPILER "clang++" )
 project( Corvid LANGUAGES CXX CUDA )
-#################
 
 if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
 
@@ -11,7 +10,8 @@ if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
 
 elseif( (${CMAKE_CXX_COMPILER_ID} MATCHES GNU) OR (${CMAKE_CXX_COMPILER_ID} MATCHES Clang) )
 
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -w -std=c++11 -Wl,--no-export-dynamic" )
+	set( LD_BIND_NOW 1 )
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -w -std=c++11 -Wl,--no-export-dynamic" )
 
 endif()
 
