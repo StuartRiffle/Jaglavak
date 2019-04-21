@@ -65,7 +65,7 @@
     #include <inttypes.h>
     #include <pthread.h>
     #include <semaphore.h>
-    #include <emmintrin.h>
+    #include <x86intrin.h>
     #include <cpuid.h>
     #include <string.h>
     #include <unistd.h>
@@ -78,6 +78,9 @@
     #define TOOLCHAIN_GCC       (1)
     #define ALIGN( _N )  __attribute__(( aligned( _N ) ))
     #define ALIGN_SIMD   __attribute__(( aligned( 32 ) ))    
+    #define SUPPORT_SSE4         (1)
+    #define SUPPORT_AVX2         (1)
+    #define SUPPORT_AVX512       (1)
 
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void

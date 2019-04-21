@@ -505,7 +505,6 @@ struct TreeSearcher
                 }
                 counter++;
 
-
                 this->UpdateAsyncWorkers();
                 this->ProcessAsyncResults();
 

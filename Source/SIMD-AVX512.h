@@ -63,7 +63,10 @@ INLINE __m512i _mm512_select( const __m512i& a, const __m512i& b, const __m512i&
 template<>
 INLINE simd8_avx512 ByteSwap< simd8_avx512 >( const simd8_avx512& val ) 
 { 
-    const __m512i perm = _mm512_set_epi8( 
+    // FIXME: GCC is currently missing _mm512_set_epi8
+
+    const uint8_t ALIGN( sizeof( simd8_avx512 ) ) perm[] =
+    {
          7,  6,  5,  4,  3,  2,  1,  0, 
         15, 14, 13, 12, 11, 10,  9,  8,
         23, 22, 21, 20, 19, 18, 17, 16,
@@ -71,9 +74,10 @@ INLINE simd8_avx512 ByteSwap< simd8_avx512 >( const simd8_avx512& val )
         39, 38, 37, 36, 35, 34, 33, 32, 
         47, 46, 45, 44, 43, 42, 41, 40,
         55, 54, 53, 52, 51, 50, 49, 48,
-        63, 62, 61, 60, 59, 58, 57, 56 );
+        63, 62, 61, 60, 59, 58, 57, 56
+    };
 
-    return( _mm512_shuffle_epi8( val.vec, perm ) );
+    return( _mm512_shuffle_epi8( val.vec, *((__m512i*) perm) ) );
 }
 
 template<> 
@@ -175,14 +179,14 @@ INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, sim
     const __m512i idx = _mm512_setr_epi64( 0, 1, 2, 3, 4, 5, 6, 7 );
     const u64* src64 = (const u64*) src;
 
-    simd8_avx512 col0 = _mm512_i64gather_epi64( idx, src64 + 0, _MM_SCALE_8 ); 
-    simd8_avx512 col1 = _mm512_i64gather_epi64( idx, src64 + 1, _MM_SCALE_8 ); 
-    simd8_avx512 col2 = _mm512_i64gather_epi64( idx, src64 + 2, _MM_SCALE_8 ); 
-    simd8_avx512 col3 = _mm512_i64gather_epi64( idx, src64 + 3, _MM_SCALE_8 ); 
-    simd8_avx512 col4 = _mm512_i64gather_epi64( idx, src64 + 4, _MM_SCALE_8 ); 
-    simd8_avx512 col5 = _mm512_i64gather_epi64( idx, src64 + 5, _MM_SCALE_8 ); 
-    simd8_avx512 col6 = _mm512_i64gather_epi64( idx, src64 + 6, _MM_SCALE_8 ); 
-    simd8_avx512 col7 = _mm512_i64gather_epi64( idx, src64 + 7, _MM_SCALE_8 ); 
+    simd8_avx512 col0 = _mm512_i64gather_epi64( idx, src64 + 0, 8 ); 
+    simd8_avx512 col1 = _mm512_i64gather_epi64( idx, src64 + 1, 8 ); 
+    simd8_avx512 col2 = _mm512_i64gather_epi64( idx, src64 + 2, 8 ); 
+    simd8_avx512 col3 = _mm512_i64gather_epi64( idx, src64 + 3, 8 ); 
+    simd8_avx512 col4 = _mm512_i64gather_epi64( idx, src64 + 4, 8 ); 
+    simd8_avx512 col5 = _mm512_i64gather_epi64( idx, src64 + 5, 8 ); 
+    simd8_avx512 col6 = _mm512_i64gather_epi64( idx, src64 + 6, 8 ); 
+    simd8_avx512 col7 = _mm512_i64gather_epi64( idx, src64 + 7, 8 ); 
 
     dest[destStep * 0] = col0;
     dest[destStep * 1] = col1;

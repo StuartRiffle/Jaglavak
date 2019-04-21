@@ -32,7 +32,7 @@ public:
             OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
             OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
             OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64,   0,
-            OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 10000, 1024,
+            OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 10000, 128,
             OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
             OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16,   16,            
             OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
@@ -40,7 +40,7 @@ public:
             OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100,  100,
             OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
             OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,
-            OPTION_INDEX( mNumCpuWorkers ),     "NumCpuWorkers",        1, 10, 2,
+            OPTION_INDEX( mNumCpuWorkers ),     "NumCpuWorkers",        1, 10, 3,
 
             -1
         };

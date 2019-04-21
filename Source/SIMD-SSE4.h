@@ -151,7 +151,8 @@ struct SimdWidth< simd2_sse4 >
 template<>
 void SimdInsert< simd2_sse4 >( simd2_sse4& dest, u64 val, int lane )
 {
-    dest.vec = (lane == 0)? _mm_insert_epi64( dest.vec, val, 0 ) : _mm_insert_epi64( dest.vec, val, 1 );
+    //dest.vec = (lane == 0)? _mm_insert_epi64( dest.vec, val, 0 ) : _mm_insert_epi64( dest.vec, val, 1 );
+    ((u64*) &dest)[lane] = val;
 }
 
 template<> 
