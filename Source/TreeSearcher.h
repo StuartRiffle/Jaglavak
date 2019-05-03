@@ -23,14 +23,13 @@ struct TreeSearcher
 
     std::vector< std::shared_ptr< IAsyncWorker > > mAsyncWorkers;
 
-    TreeSearcher( GlobalOptions* options, u64 randomSeed = 1 ) : mOptions( options )
+    TreeSearcher( GlobalOptions* options, u64 randomSeed = 1 ) : 
+        mOptions( options )
     {
         mSearchRoot    = NULL;
         mShuttingDown  = false;
         mSearchRunning = false;
         mRandom.SetSeed( randomSeed );
-        mSearchThread  = new std::thread( [&] { this->SearchThread(); } );
-        mResultThread  = new std::thread( [&] { this->ResultThread(); } );
 
         mNodePoolEntries = mOptions->mMaxTreeNodes;
         mNodePool = new TreeNode[mNodePoolEntries];
@@ -47,9 +46,13 @@ struct TreeSearcher
 
         mNodePool[mNodePoolEntries - 1].mNext = (TreeNode*) &mMruListHead;
         mMruListHead.mPrev = &mNodePool[mNodePoolEntries - 1];
+    }
 
         for( int i = 0; i < mOptions->mNumCpuWorkers; i++ )
-            mAsyncWorkers.emplace_back( new CpuWorker( mOptions, &mJobQueue, &mResultQueue ) );
+        {
+            auto worker = new CpuWorker( mOptions, &mJobQueue, &mResultQueue );
+            mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
+        }
 
 #if SUPPORT_CUDA
         if( mOptions->mAllowCuda )
@@ -64,7 +67,8 @@ struct TreeSearcher
         }
 #endif
 
-        this->Reset();
+        mSearchThread  = new std::thread( [this] { this->SearchThread(); } );
+        mResultThread  = new std::thread( [this] { this->ResultThread(); } );
     }
 
     ~TreeSearcher()

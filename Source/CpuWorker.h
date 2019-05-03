@@ -43,7 +43,7 @@ public:
         mJobQueue = jobQueue;
         mResultQueue = resultQueue;
 
-        mJobThread = new std::thread( [&] { this->JobThread(); } );
+        mJobThread = new std::thread( [this] { this->JobThread(); } );
     }
 
     ~CpuWorker()

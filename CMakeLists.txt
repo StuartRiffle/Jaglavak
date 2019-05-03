@@ -1,6 +1,5 @@
 cmake_minimum_required( VERSION 3.8 )
 
-#set( CMAKE_CXX_COMPILER "clang++" )
 project( Corvid LANGUAGES CXX CUDA )
 
 if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
@@ -10,12 +9,13 @@ if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
 
 elseif( (${CMAKE_CXX_COMPILER_ID} MATCHES GNU) OR (${CMAKE_CXX_COMPILER_ID} MATCHES Clang) )
 
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -w -std=c++11 -Wl,--no-export-dynamic -msse4.1 -mavx -mavx2 -mavx512dq -mavx512bw" )
+	# -fsanitize=address,undefined -fsanitize-address-use-after-scope -fstack-check -fcf-protection=full -fstack-protector-all 
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -w -std=c++11 -Wl,--no-export-dynamic -msse4.1 -fno-omit-frame-pointer" )
 
 endif()
 
 set( CMAKE_CUDA_SEPARABLE_COMPILATION ON )
-set( CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_30 -Xcudafe \"--diag_suppress=negative_shift_count\" -cudart static -use_fast_math" )
+set( CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_30 --disable-warnings -cudart static -use_fast_math" )
 
 add_library( CudaPlayer STATIC
 	Source/PlayoutKernel.cu )

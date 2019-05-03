@@ -42,7 +42,11 @@ struct LaunchThread
     {
         mOptions = options;
         mDeviceIndex = deviceIndex;
-        mLaunchThread = std::unique_ptr< std::thread >( new std::thread( [&] { this->RunLaunchThread(); } ) );
+    }
+
+    void Init()
+    {
+        mLaunchThread = std::unique_ptr< std::thread >( new std::thread( [this] { this->RunLaunchThread(); } ) );
 
         mThreadRunning.Wait();
     }
@@ -67,6 +71,21 @@ struct LaunchThread
     {
         CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
         CUDA_REQUIRE(( cudaGetDeviceProperties( &mProp, mDeviceIndex ) ));
+
+
+        int coresPerSM = 0;
+        switch( mProp.major )
+        {
+            case 2:     coresPerSM = (mProp.minor > 0)? 48 : 32; break; // Fermi
+            case 3:     coresPerSM = 192; break; // Kepler
+            case 5:     coresPerSM = 128; break; // Maxwell
+            case 6:     coresPerSM = (mProp.minor > 0)? 128 : 64; break; // Pascal
+            default:    coresPerSM = 64; break; // Volta+
+        }
+
+        int totalCores = mProp.multiProcessorCount * coresPerSM;
+
+        printf( "[GPU %d] %5d %4d %s\n", mDeviceIndex, mProp.multiProcessorCount, coresPerSM, mProp.name );
 
         for( int i = 0; i < mOptions->mCudaStreams; i++ )
         {
@@ -181,6 +200,7 @@ public:
         cudaSetDevice( deviceIndex );
 
         mLaunchThread = std::unique_ptr< LaunchThread >( new LaunchThread( mOptions, deviceIndex ) );
+        mLaunchThread->Init();
 
         mSlotInfo.resize( jobSlots );
 
@@ -202,7 +222,7 @@ public:
             mFreeSlots.push_back( &slot );
         }
 
-        mJobThread = std::unique_ptr< std::thread >( new std::thread( [&] { this->RunJobThread(); } ) );
+        mJobThread = std::unique_ptr< std::thread >( new std::thread( [this] { this->RunJobThread(); } ) );
 
         mInitialized = true;
     }

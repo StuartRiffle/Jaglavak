@@ -9,14 +9,14 @@ struct Semaphore
     HANDLE      mHandle;
     Semaphore() : mHandle( CreateSemaphore( NULL, 0, LONG_MAX, NULL ) ) {}
     ~Semaphore() { CloseHandle( mHandle ); }
-    void Post( int count = 1 ) { ReleaseSemaphore( mHandle, count, NULL ); }
+    void Post() { ReleaseSemaphore( mHandle, 1, NULL ); }
     void Wait() { WaitForSingleObject( mHandle, INFINITE ); }
 #elif TOOLCHAIN_GCC
     sem_t       mHandle;
     Semaphore()  { sem_init( &mHandle, 0, 0 ); }
     ~Semaphore() { sem_destroy( &mHandle ); }
     void Post( int count = 1 )  { while( count-- ) sem_post( &mHandle ); }
-    bool Wait() { while( sem_wait( &mHandle ) ); }
+    void Wait() { while( sem_wait( &mHandle ) ); }
 #endif
 };
 
@@ -74,10 +74,14 @@ public:
 
     T Pop()
     {
+        static ThreadSafeQueue* thishere;
+        thishere = this;
+
         mAvail.Wait();
 
         MUTEX_SCOPE( mMutex );
 
+        assert( !mQueue.empty() );
         T result = mQueue.front();
         mQueue.pop_front();
 

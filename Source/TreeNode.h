@@ -12,7 +12,7 @@ struct BranchInfo
     BranchInfo() : mNode( NULL ) {}
 };
 
-struct TreeLink
+struct ALIGN_SIMD TreeLink
 {
     TreeNode*           mPrev;
     TreeNode*           mNext;
