@@ -48,6 +48,8 @@ struct TreeSearcher
         mMruListHead.mPrev = &mNodePool[mNodePoolEntries - 1];
     }
 
+    void Init()
+    {
         for( int i = 0; i < mOptions->mNumCpuWorkers; i++ )
         {
             auto worker = new CpuWorker( mOptions, &mJobQueue, &mResultQueue );
