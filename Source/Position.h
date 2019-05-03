@@ -1,7 +1,7 @@
-// Position.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Position.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_POSITION_H__
-#define CORVID_POSITION_H__
+#ifndef JAGLAVAK_POSITION_H__
+#define JAGLAVAK_POSITION_H__
 
 
 /// A snapshot of the game state
@@ -460,4 +460,4 @@ struct ALIGN_SIMD PositionT
 };
 
 
-#endif // CORVID_POSITION_H__
+#endif // JAGLAVAK_POSITION_H__

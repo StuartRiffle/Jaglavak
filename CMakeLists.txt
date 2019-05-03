@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.8 )
 
-project( Corvid LANGUAGES CXX CUDA )
+project( Jaglavak LANGUAGES CXX CUDA )
 
 if( ${CMAKE_CXX_COMPILER_ID} MATCHES MSVC )
 
@@ -20,9 +20,9 @@ set( CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_30 --disable-warnings -cudar
 add_library( CudaPlayer STATIC
 	Source/PlayoutKernel.cu )
 
-add_executable( Corvid 
-	Source/Corvid.cpp )
+add_executable( Jaglavak 
+	Source/Jaglavak.cpp )
 
 target_link_libraries( 
-	Corvid 
+	Jaglavak 
 	CudaPlayer )

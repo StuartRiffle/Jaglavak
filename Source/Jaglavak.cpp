@@ -1,4 +1,4 @@
-// Corvid.cpp - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Jaglavak.cpp - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Core.h"
 
@@ -53,7 +53,7 @@ EvalTerm EvaluateFenPosition( const char* fen )
 
 int main( int argc, char** argv )
 {
-    printf( "CORVID CHESS %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
+    printf( "JAGLAVAK CHESS %d.%d.%d\n", JAGLAVAK_VER_MAJOR, JAGLAVAK_VER_MINOR, JAGLAVAK_VER_PATCH );
     printf( "Stuart Riffle\n\n" );
 
     if( !PlatDetectPopcnt() )

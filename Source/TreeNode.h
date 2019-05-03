@@ -1,4 +1,4 @@
-// TreeNode.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// TreeNode.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 struct TreeNode;
 

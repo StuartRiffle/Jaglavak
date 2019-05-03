@@ -1,7 +1,7 @@
-// LocalWorker.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// LocalWorker.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_CPU_WORKER_H__
-#define CORVID_CPU_WORKER_H__
+#ifndef JAGLAVAK_CPU_WORKER_H__
+#define JAGLAVAK_CPU_WORKER_H__
 
 class IAsyncWorker
 {
@@ -55,5 +55,5 @@ public:
     }
 };
 
-#endif // CORVID_CPU_WORKER_H__
+#endif // JAGLAVAK_CPU_WORKER_H__
 

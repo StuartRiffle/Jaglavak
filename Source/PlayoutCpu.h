@@ -1,7 +1,7 @@
-// PlayoutCpu.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// PlayoutCpu.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_PLAYOUT_CPU_H__
-#define CORVID_PLAYOUT_CPU_H__
+#ifndef JAGLAVAK_PLAYOUT_CPU_H__
+#define JAGLAVAK_PLAYOUT_CPU_H__
 
 
 typedef std::shared_ptr< PlayoutJob >       PlayoutJobRef;

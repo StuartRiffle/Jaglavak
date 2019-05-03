@@ -1,14 +1,14 @@
 @ECHO OFF
 
 REM Things you should change
-SET ENGINEPATH=../Corvid-1.5.1
-SET ENGINE=corvid-1.5.1.exe
-SET PROGRAM=./polyglot.exe -ec %ENGINE% -ed %ENGINEPATH% polyglot-corvid.ini
+SET ENGINEPATH=../Jaglavak-1.5.1
+SET ENGINE=javlavak-1.5.1.exe
+SET PROGRAM=./polyglot.exe -ec %ENGINE% -ed %ENGINEPATH% polyglot-javlavak.ini
 SET OWNER=StuartRiffle
 SET PROXYHOST=127.0.0.1
 
 SET DRONERC=fics-login.ini
-SET PGNFILE=corvid-on-fics.pgn
+SET PGNFILE=javlavak-on-fics.pgn
 SET SHORTLOGFILE=fics-log.txt
 SET TERMINFO=./terminfo
 SET ICS=freechess.org

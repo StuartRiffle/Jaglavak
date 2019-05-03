@@ -1,7 +1,7 @@
-// Perft.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Perft.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
         
-#ifndef CORVID_PERFT_H__
-#define CORVID_PERFT_H__
+#ifndef JAGLAVAK_PERFT_H__
+#define JAGLAVAK_PERFT_H__
 
 struct Perft
 {
@@ -113,4 +113,4 @@ struct Perft
     }
 };
 
-#endif // CORVID_PERFT_H__
+#endif // JAGLAVAK_PERFT_H__

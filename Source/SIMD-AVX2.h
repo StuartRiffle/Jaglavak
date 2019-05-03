@@ -1,7 +1,7 @@
-// CPU-AVX2.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// CPU-AVX2.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_CPU_AVX2_H__
-#define CORVID_CPU_AVX2_H__
+#ifndef JAGLAVAK_CPU_AVX2_H__
+#define JAGLAVAK_CPU_AVX2_H__
 
 #if SUPPORT_AVX2
 
@@ -189,4 +189,4 @@ INLINE void Transpose< simd4_avx2 >( const simd4_avx2* src, int srcStep, simd4_a
 
 
 #endif // SUPPORT_AVX2
-#endif // CORVID_CPU_AVX2_H__
+#endif // JAGLAVAK_CPU_AVX2_H__

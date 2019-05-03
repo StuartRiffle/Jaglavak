@@ -1,7 +1,7 @@
-// Threads.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Threads.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
         
-#ifndef CORVID_THREAD_H__
-#define CORVID_THREAD_H__
+#ifndef JAGLAVAK_THREAD_H__
+#define JAGLAVAK_THREAD_H__
 
 struct Semaphore
 {
@@ -90,4 +90,4 @@ public:
 };
 
 
-#endif // CORVID_THREAD_H__
+#endif // JAGLAVAK_THREAD_H__

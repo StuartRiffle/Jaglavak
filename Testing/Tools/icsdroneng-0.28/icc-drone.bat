@@ -1,8 +1,8 @@
 @ECHO OFF
 
-SET ENGINEPATH=../Corvid-1.5.0
-SET ENGINE=corvid-1.5.0.exe
-SET PROGRAM=./polyglot.exe -ec %ENGINE% -ed %ENGINEPATH% polyglot-corvid.ini
+SET ENGINEPATH=../Jaglavak-1.5.0
+SET ENGINE=javlavak-1.5.0.exe
+SET PROGRAM=./polyglot.exe -ec %ENGINE% -ed %ENGINEPATH% polyglot-javlavak.ini
 SET OWNER=StuartRiffle
 SET PROXYHOST=127.0.0.1
 

@@ -1,4 +1,4 @@
-// Profiler.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Profiler.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 
 enum

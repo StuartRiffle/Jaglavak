@@ -1,7 +1,7 @@
-// PlayoutJob.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// PlayoutJob.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_PLAYOUT_JOB_H__
-#define CORVID_PLAYOUT_JOB_H__
+#ifndef JAGLAVAK_PLAYOUT_JOB_H__
+#define JAGLAVAK_PLAYOUT_JOB_H__
 
 struct ALIGN( 32 ) PlayoutJob
 {

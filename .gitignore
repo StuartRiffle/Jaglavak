@@ -1,6 +1,6 @@
 # Build output files
 build/
-Projects/CorvidMapFile.txt
+Projects/JaglavakMapFile.txt
 
 # Windows filesystem spam
 Thumbs.db

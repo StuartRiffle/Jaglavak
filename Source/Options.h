@@ -1,7 +1,7 @@
-// Options.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Options.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_OPTIONS_H__
-#define CORVID_OPTIONS_H__
+#ifndef JAGLAVAK_OPTIONS_H__
+#define JAGLAVAK_OPTIONS_H__
 
 union GlobalOptions
 {
@@ -63,5 +63,5 @@ struct UciSearchConfig
 };
 
 
-#endif // CORVID_OPTIONS_H__
+#endif // JAGLAVAK_OPTIONS_H__
 

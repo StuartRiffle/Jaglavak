@@ -1,7 +1,7 @@
-// Operations.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Operations.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_OPERATIONS_H__
-#define CORVID_OPERATIONS_H__
+#ifndef JAGLAVAK_OPERATIONS_H__
+#define JAGLAVAK_OPERATIONS_H__
 
 template< typename T >
 struct SimdWidth
@@ -39,4 +39,4 @@ template< typename T > INLINE PDECL void    Exchange( T& a, T& b )              
 template< typename T > INLINE PDECL void    Transpose( const T* src, int srcStep, T* dest, int destStep )       { *dest = *src; }
 template< typename T >        PDECL void    SimdInsert( T& dest, u64 val, int lane )                            { dest = val; }
 
-#endif // CORVID_CPU_OPERATIONS_H__
+#endif // JAGLAVAK_CPU_OPERATIONS_H__

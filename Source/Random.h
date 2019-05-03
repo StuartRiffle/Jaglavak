@@ -1,7 +1,7 @@
-// Random.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Random.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_RANDOM_H__
-#define CORVID_RANDOM_H__
+#ifndef JAGLAVAK_RANDOM_H__
+#define JAGLAVAK_RANDOM_H__
 
 struct RandomGen
 {
@@ -41,5 +41,5 @@ struct RandomGen
     }
 };
 
-#endif // CORVID_RANDOM_H__
+#endif // JAGLAVAK_RANDOM_H__
 

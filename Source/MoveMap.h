@@ -1,7 +1,7 @@
-// MoveMap.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// MoveMap.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_MOVEMAP_H__
-#define CORVID_MOVEMAP_H__
+#ifndef JAGLAVAK_MOVEMAP_H__
+#define JAGLAVAK_MOVEMAP_H__
 
 
 /// A map of valid move target squares
@@ -53,4 +53,4 @@ struct ALIGN_SIMD MoveMapT
 };
 
 
-#endif // CORVID_MOVEMAP_H__
+#endif // JAGLAVAK_MOVEMAP_H__

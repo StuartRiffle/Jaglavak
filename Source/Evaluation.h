@@ -1,7 +1,7 @@
-// Evaluation.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Evaluation.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_EVAL_H__
-#define CORVID_EVAL_H__
+#ifndef JAGLAVAK_EVAL_H__
+#define JAGLAVAK_EVAL_H__
 
 enum
 {
@@ -290,4 +290,4 @@ struct Evaluation
     }
 };
 
-#endif // CORVID_EVAL_H__
+#endif // JAGLAVAK_EVAL_H__

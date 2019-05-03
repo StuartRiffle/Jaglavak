@@ -1,7 +1,7 @@
-// Defs.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Defs.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_DEFS_H__
-#define CORVID_DEFS_H__
+#ifndef JAGLAVAK_DEFS_H__
+#define JAGLAVAK_DEFS_H__
 
 enum
 {
@@ -81,9 +81,9 @@ typedef i32     HistoryTerm;
 typedef i16     EvalTerm;
 typedef i32     EvalWeight;
 
-const PDECL int         CORVID_VER_MAJOR        = 1000;
-const PDECL int         CORVID_VER_MINOR        = 0;
-const PDECL int         CORVID_VER_PATCH        = 1;
+const PDECL int         JAGLAVAK_VER_MAJOR        = 1000;
+const PDECL int         JAGLAVAK_VER_MINOR        = 0;
+const PDECL int         JAGLAVAK_VER_PATCH        = 1;
          
 const PDECL int         UCI_COMMAND_BUFFER      = 8192;
 const PDECL int         TT_MEGS_DEFAULT         = 512;
@@ -257,4 +257,4 @@ typedef PositionT< u64 >        Position;
 
 
 
-#endif // CORVID_DEFS_H__
+#endif // JAGLAVAK_DEFS_H__

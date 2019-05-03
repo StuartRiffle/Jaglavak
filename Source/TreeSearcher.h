@@ -1,4 +1,4 @@
-// TreeSearcher.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// TreeSearcher.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 struct TreeSearcher
 {

@@ -1,7 +1,7 @@
-// BitBoard.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// BitBoard.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_BITS_H__
-#define CORVID_BITS_H__
+#ifndef JAGLAVAK_BITS_H__
+#define JAGLAVAK_BITS_H__
 
 template< int SHIFT, typename T >
 INLINE PDECL T Shift( const T& bits )
@@ -99,4 +99,4 @@ template< typename T > INLINE PDECL   T   SlideIntoExOrtho( const T& val, const 
 template< typename T > INLINE PDECL   T   SlideIntoExDiag(  const T& val, const T& through, const T& into )   { return( SlideIntoExNW( val, through, into ) | SlideIntoExSW( val, through, into ) | SlideIntoExSE( val, through, into ) | SlideIntoExNE( val, through, into ) ); }
 
 
-#endif // CORVID_BITS_H__
+#endif // JAGLAVAK_BITS_H__

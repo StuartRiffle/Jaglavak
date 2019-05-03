@@ -1,4 +1,4 @@
-// Core.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Core.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
 #include "Operations.h"

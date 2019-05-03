@@ -1,7 +1,7 @@
-// Tokenizer.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Tokenizer.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_TOKENIZER_H__
-#define CORVID_TOKENIZER_H__
+#ifndef JAGLAVAK_TOKENIZER_H__
+#define JAGLAVAK_TOKENIZER_H__
 
 
 class Tokenizer
@@ -123,4 +123,4 @@ public:
 	}
 };
 
-#endif // CORVID_TOKENIZER_H__
+#endif // JAGLAVAK_TOKENIZER_H__

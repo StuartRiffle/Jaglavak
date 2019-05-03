@@ -1,7 +1,7 @@
-// Playout.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Playout.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_PLAYOUT_H__
-#define CORVID_PLAYOUT_H__
+#ifndef JAGLAVAK_PLAYOUT_H__
+#define JAGLAVAK_PLAYOUT_H__
 
 struct ScoreCard
 {
@@ -337,4 +337,4 @@ protected:
 };
 
 
-#endif // CORVID_PLAYOUT_H__
+#endif // JAGLAVAK_PLAYOUT_H__

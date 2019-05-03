@@ -1,2 +1,2 @@
-# Corvid
-Corvid is a chess engine using Monte Carlo Tree Search.
+# Jaglavak
+Jaglavak is a chess engine using Monte Carlo Tree Search.

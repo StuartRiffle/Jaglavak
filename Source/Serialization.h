@@ -1,7 +1,7 @@
-// FEN.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// FEN.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_SERIALIZATION_H__
-#define CORVID_SERIALIZATION_H__
+#ifndef JAGLAVAK_SERIALIZATION_H__
+#define JAGLAVAK_SERIALIZATION_H__
 
 static void PositionToString( const Position& pos, char* str )
 {
@@ -251,4 +251,4 @@ static std::string SerializeMoveList( const MoveList& moves )
 }
 
 
-#endif // CORVID_FEN_H__
+#endif // JAGLAVAK_FEN_H__

@@ -1,7 +1,7 @@
-// Platform.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// Platform.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_PLATFORM_H__
-#define CORVID_PLATFORM_H__
+#ifndef JAGLAVAK_PLATFORM_H__
+#define JAGLAVAK_PLATFORM_H__
 
 #include <stdint.h>
 #include <assert.h>
@@ -44,7 +44,7 @@
     #define RUNNING_ON_CPU     (1)
     #define TOOLCHAIN_MSVC      (1)
     #define SUPPORT_SSE4         (1)
-    #define SUPPORT_AVX2         (1)
+    #define SUPPORT_AVX2         (0)
     #define SUPPORT_AVX512       (0)
     #define ALIGN( _N )  __declspec( align( _N ) )
     #define ALIGN_SIMD   __declspec( align( 32 ) )
@@ -79,8 +79,8 @@
     #define ALIGN( _N )  __attribute__(( aligned( _N ) ))
     #define ALIGN_SIMD   __attribute__(( aligned( 32 ) ))    
     #define SUPPORT_SSE4         (1)
-    #define SUPPORT_AVX2         (1)
-    #define SUPPORT_AVX512       (1)
+    #define SUPPORT_AVX2         (0)
+    #define SUPPORT_AVX512       (0)
 
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
@@ -313,4 +313,4 @@ struct Timer
 };
 
 #endif // !RUNNING_ON_CUDA_DEVICE
-#endif // CORVID_PLATFORM_H__
+#endif // JAGLAVAK_PLATFORM_H__

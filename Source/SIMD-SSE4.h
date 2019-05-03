@@ -1,7 +1,7 @@
-// CPU-SSE4.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// CPU-SSE4.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_CPU_SSE4_H__
-#define CORVID_CPU_SSE4_H__
+#ifndef JAGLAVAK_CPU_SSE4_H__
+#define JAGLAVAK_CPU_SSE4_H__
 
 #if SUPPORT_SSE4
 
@@ -176,4 +176,4 @@ INLINE void Transpose< simd2_sse4 >( const simd2_sse4* src, int srcStep, simd2_s
 
 
 #endif // SUPPORT_SSE4
-#endif // CORVID_CPU_SSE4_H__
+#endif // JAGLAVAK_CPU_SSE4_H__

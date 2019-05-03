@@ -1,7 +1,7 @@
-// GPU-CUDA.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// GPU-CUDA.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_GPU_H__
-#define CORVID_GPU_H__
+#ifndef JAGLAVAK_GPU_H__
+#define JAGLAVAK_GPU_H__
 
 #if SUPPORT_CUDA
 
@@ -318,5 +318,5 @@ private:
   
 #endif // RUNNING_ON_CUDA_HOST
 #endif // SUPPORT_CUDA
-#endif // CORVID_GPU_H__
+#endif // JAGLAVAK_GPU_H__
 

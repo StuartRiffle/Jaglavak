@@ -1,4 +1,4 @@
-// PlayoutKernel.cu - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// PlayoutKernel.cu - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 //#include "Core.h"
 

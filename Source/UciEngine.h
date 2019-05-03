@@ -1,7 +1,7 @@
-// UCI.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// UCI.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_UCI_H__
-#define CORVID_UCI_H__
+#ifndef JAGLAVAK_UCI_H__
+#define JAGLAVAK_UCI_H__
 
 struct UciEngine
 {
@@ -74,7 +74,7 @@ public:
 
         if( t.Consume( "uci" ) )
         {                                                                                        
-            printf( "id name Corvid %d.%d.%d\n", CORVID_VER_MAJOR, CORVID_VER_MINOR, CORVID_VER_PATCH );
+            printf( "id name Jaglavak %d.%d.%d\n", JAGLAVAK_VER_MAJOR, JAGLAVAK_VER_MINOR, JAGLAVAK_VER_PATCH );
             printf( "id author Stuart Riffle\n" );
 
             const UciOptionInfo* option = this->GetOptionInfo();
@@ -208,5 +208,5 @@ public:
 
 
 
-#endif CORVID_UCI_H__
+#endif JAGLAVAK_UCI_H__
 

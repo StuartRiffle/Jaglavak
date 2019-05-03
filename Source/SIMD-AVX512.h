@@ -1,7 +1,7 @@
-// CPU-AVX512.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// CPU-AVX512.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef CORVID_CPU_AVX512_H__
-#define CORVID_CPU_AVX512_H__
+#ifndef JAGLAVAK_CPU_AVX512_H__
+#define JAGLAVAK_CPU_AVX512_H__
 
 #if SUPPORT_AVX512   // UNTESTED!
 
@@ -199,4 +199,4 @@ INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, sim
 }
 
 #endif // SUPPORT_AVX512
-#endif // CORVID_CPU_AVX512_H__
+#endif // JAGLAVAK_CPU_AVX512_H__

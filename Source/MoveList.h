@@ -1,7 +1,7 @@
-// MoveList.h - CORVID CHESS ENGINE (c) 2019 Stuart Riffle
+// MoveList.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
         
-#ifndef CORVID_MOVELIST_H__
-#define CORVID_MOVELIST_H__
+#ifndef JAGLAVAK_MOVELIST_H__
+#define JAGLAVAK_MOVELIST_H__
 
 /// The parameters for one move of the game
 //       
@@ -254,4 +254,4 @@ private:
     }
 };
 
-#endif // CORVID_MOVELIST_H__
+#endif // JAGLAVAK_MOVELIST_H__
