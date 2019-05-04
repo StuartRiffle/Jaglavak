@@ -1,16 +1,21 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-struct ALIGN( 32 ) PlayoutJob
+struct PlayoutOptions
 {
-    GlobalOptions   mOptions;
-    Position        mPosition;
-    u64             mRandomSeed;
-    int             mNumGames;
-    MoveList        mPathFromRoot;
+
 };
 
-struct ALIGN( 32 ) PlayoutResult
+struct PlayoutJob
+{
+    Position        mPosition;
+    MoveList        mPathFromRoot;
+    u64             mRandomSeed;
+    int             mNumGames;
+    int             mMaxMoves;
+};
+
+struct PlayoutResult
 {
     ScoreCard       mScores;
     MoveList        mPathFromRoot;
@@ -19,13 +24,8 @@ struct ALIGN( 32 ) PlayoutResult
     float           mGpuTime;
 };
 
-
-typedef std::shared_ptr< PlayoutJob >       PlayoutJobRef;
-typedef ThreadSafeQueue< PlayoutJobRef >    PlayoutJobQueue;
-
-typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
-typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
-
+typedef ThreadSafeQueue< PlayoutJob >    PlayoutJobQueue;
+typedef ThreadSafeQueue< PlayoutResult > PlayoutResultQueue;
 
 struct CudaLaunchSlot
 {

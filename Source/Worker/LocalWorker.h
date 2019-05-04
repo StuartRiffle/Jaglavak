@@ -1,7 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-
 class LocalWorker : public AsyncWorker
 {
     PlayoutJobQueue*        mJobQueue;
@@ -42,10 +41,10 @@ class LocalWorker : public AsyncWorker
             int simdLevel   = ChooseSimdLevelForPlayout( job.mOptions, job.mNumGames );
             int simdCount   = (job.mNumGames + simdLevel - 1) / simdLevel;
 
-            extern ScoreCard PlayGamesX64(    const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesSSE4(   const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesAVX2(   const PlayoutJob* job, PlayoutResult* result, int count );
             extern ScoreCard PlayGamesAVX512( const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesAVX2(   const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesSSE4(   const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesX64(    const PlayoutJob* job, PlayoutResult* result, int count );
 
             PlayoutResultRef result( new PlayoutResult() );
 

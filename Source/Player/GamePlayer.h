@@ -6,21 +6,22 @@
 template< typename SIMD >
 class GamePlayer
 {
-    const GlobalOptions*    mOptions;
-    RandomGen               mRandom;
+    RandomGen   mRandom;
+    int         mMaxMoves;
 
 public:
 
-    PDECL GamePlayer( const GlobalOptions* options, u64 randomSeed ) : mOptions( options )
+    PDECL GamePlayer( u64 randomSeed, int maxMoves )
     {
         mRandom.SetSeed( randomSeed );
+        mMaxMoves = maxMoves;
     }
 
     PDECL ScoreCard PlayGames( const Position& pos, int simdCount )
     {
         ScoreCard scores;
 
-        #pragma omp parallel for schedule(dynamic) if (mOptions->mAllowParallel)
+        #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
         {
             ScoreCard simdScores = PlayGamesSimd( pos );
@@ -34,17 +35,14 @@ public:
 
 protected:
 
-    PDECL ScoreCard PlayGamesSimd( const Position& startPos )
+    PDECL ScoreCard PlayGamesSimd( const PositionT< SIMD >& simdPos )
     {
         const int LANES = SimdWidth< SIMD >::LANES;
 
         Position ALIGN_SIMD pos[LANES];
         MoveMap  ALIGN_SIMD moveMap[LANES];
 
-        PositionT< SIMD > simdPos;
         MoveMapT< SIMD > simdMoveMap;
-
-        simdPos.Broadcast( startPos );
         simdPos.CalcMoveMap( &simdMoveMap );
 
         Unswizzle< SIMD >( &simdPos,     pos );
@@ -52,9 +50,9 @@ protected:
 
         // This is the gameplay loop
 
-        bool laneDone[LANES] = { false };
+        int laneResult[LANES] = { 0 };
 
-        for( int i = 0; i < mOptions->mPlayoutMaxMoves; i++ )
+        for( int i = 0; i < mMaxMoves; i++ )
         {
             MoveSpecT< SIMD > simdSpec;
             MoveSpec spec[LANES];
@@ -73,78 +71,31 @@ protected:
 
             // Detect games that are done
 
-            SIMD simdScores = Evaluation::EvaluatePosition< SIMD >( simdPos, simdMoveMap, weights );
-            u64* laneScores = (u64*) &simdScores;
-
-            SIMD simdTargets = simdMoveMap.CalcMoveTargets();
-            u64* laneTargets = (u64*) &simdTargets;
-
-            SIMD simdInCheck = simdMoveMap.IsInCheck();
-            u64* laneInCheck = (u64*) &simdInCheck;
-
-            int numDone = 0;
-
+            int lanesDone = 0;
             for( int lane = 0; lane < LANES; lane++ )
             {
-                EvalTerm score = (EvalTerm) laneScores[lane];
+                if( !laneResult[lane] )
+                    laneResult[lane] = pos.CalcGameResult( pos[lane], moveMap[lane] );
 
-                // Score is always from white's POV
-
-                if( !pos[lane].mWhiteToMove )
-                    score = -score;
-
-                if( !laneDone[lane] )
-                {
-                    if( laneTargets[lane] == 0 )
-                    {
-                        laneFinalScore[lane] = score;
-                        laneDone[lane] = true;
-                    }
-
-                    u64 nonKingPieces =
-                        pos[lane].mWhitePawns |  
-                        pos[lane].mWhiteKnights |
-                        pos[lane].mWhiteBishops |
-                        pos[lane].mWhiteRooks |
-                        pos[lane].mWhiteQueens |  
-                        pos[lane].mBlackPawns |  
-                        pos[lane].mBlackKnights |
-                        pos[lane].mBlackBishops |
-                        pos[lane].mBlackRooks |
-                        pos[lane].mBlackQueens; 
-
-                    if( nonKingPieces == 0 )
-                    {
-                        laneFinalScore[lane] = 0;
-                        laneDone[lane] = true;
-                    }
-                }
-            
-                if( laneDone[lane] )
-                    numDone++;
+                if( laneResult[lane] )
+                    lanesDone++;
             }
 
-            if( numDone == LANES )
+            if( lanesDone == LANES )
                 break;
         }
 
-        // Gather the results and judge them
+        // Compile the results
 
         ScoreCard scores;
 
         for( int lane = 0; lane < LANES; lane++ )
         {
-            if( laneDone[lane] )
-            {
-                bool whiteWon = (laneFinalScore[lane] > 0);
-                bool blackWon = (laneFinalScore[lane] < 0);
+            if( laneResult[lane] == RESULT_WHITE_WIN )
+                scores.mWins[WHITE]++;
 
-                if( whiteWon )
-                    scores.mWins[WHITE]++;
-
-                if( blackWon )
-                    scores.mWins[BLACK]++;
-            }
+            if( laneResult[lanel] == RESULT_BLACK_WIN )
+                scores.mWins[BLACK]++
 
             scores.mPlays++;
         }

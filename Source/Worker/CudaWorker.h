@@ -102,7 +102,7 @@ private:
                 continue;
             }
 
-            PlayoutJobRef job = mJobQueue->Pop();
+            PlayoutJob job = mJobQueue->Pop();
             if( job == NULL )
                 return;
 

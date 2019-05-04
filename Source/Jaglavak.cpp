@@ -4,17 +4,13 @@
 #include "Chess.h"
 #include "UciEngine.h"
 
-const int VER_MAJOR = 1000;
-const int VER_MINOR = 0;
-const int VER_PATCH = 1;
-
 int main( int argc, char** argv )
 {
-    printf( "JAGLAVAK CHESS ENGINE %d.%d.%d\n", VER_MAJOR, VER_MINOR, VER_PATCH );
-    printf( "Stuart Riffle\n\n" );
-
     setvbuf( stdin,  NULL, _IONBF, 0 );
     setvbuf( stdout, NULL, _IONBF, 0 );
+
+    printf( "JAGLAVAK CHESS ENGINE %d.%d.%d\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH );
+    printf( "Stuart Riffle\n\n" );
 
     std::unique_ptr< UciEngine > engine( new UciEngine() );
 

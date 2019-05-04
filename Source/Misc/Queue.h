@@ -1,15 +1,14 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-template< typename T >
+template< typename T, int CAPACITY = 8192 >
 class ThreadSafeQueue
 {
-    T   mElem[CAPACITY];
-    int mWriteCursor;
-    int mReadCursor;
-    bool* mShuttingDown;
-
-    std::mutex mMutex;
+    T               mElem[CAPACITY];
+    int             mReadCursor;
+    int             mWriteCursor;
+    volatile bool*  mShuttingDown;
+    std::mutex      mMutex;
     std::condition_variable mVar;
 
 public:
@@ -50,6 +49,11 @@ public:
         mVar.notify_all();
     }
 
+    void Push( const T& obj )
+    {
+        this->Push( &obj, 1 );
+    }
+
     int Pop( T* dest, int limit = 1 )
     {
         std::lock_guard< std::mutex > lock( mMutex );
@@ -74,8 +78,16 @@ public:
 
         lock.unlock();
         mVar.notify_all();
-        
+
         return count;
+    }
+
+    T Pop()
+    {
+        T result;
+
+        this->Pop( &result, 1 );
+        return result;
     }
 };
 
