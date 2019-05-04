@@ -476,12 +476,12 @@ void TreeSearcher::DumpStats( TreeNode* node )
 }
 
 
-void TreeSearcher::ProcessResult( TreeNode* node, const PlayoutResultRef& result, int depth = 0 )
+void TreeSearcher::ProcessResult( TreeNode* node, const PlayoutResult& result, int depth = 0 )
 {
-    if( depth >= result->mPathFromRoot.mCount )
+    if( depth >= result.mPathFromRoot.mCount )
         return;
 
-    MoveSpec move = result->mPathFromRoot.mMove[depth];
+    MoveSpec move = result.mPathFromRoot.mMove[depth];
 
     int childIdx = node->FindMoveIndex( move );
     if( childIdx < 0 )
@@ -493,13 +493,21 @@ void TreeSearcher::ProcessResult( TreeNode* node, const PlayoutResultRef& result
 
     ProcessResult( child, result, depth + 1 );
 
-    node->mBranch[childIdx].mScores += result->mScores;
+    node->mBranch[childIdx].mScores += result.mScores;
 }
 
 void TreeSearcher::ProcessAsyncResults()
 {
-    for( auto& result : mResultBuffer )
-        this->ProcessResult( mSearchRoot, result );
+    for( ;; )
+    {
+        auto results = mResultQueue.PopBulk();
+        if( results.empty() )
+            break;
+
+        for( auto& result : results )
+            this->ProcessResult( mSearchRoot, result );
+
+    }
 }
 
 void TreeSearcher::UpdateAsyncWorkers()

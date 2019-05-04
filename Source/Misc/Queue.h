@@ -54,7 +54,7 @@ public:
         this->Push( &obj, 1 );
     }
 
-    int Pop( T* dest, int limit = 1 )
+    int Pop( T* dest, int limit, bool blocking = true )
     {
         std::lock_guard< std::mutex > lock( mMutex );
 
@@ -71,7 +71,11 @@ public:
             if( count > 0 )
                 break;
 
+            if( !blocking )
+                break;
+
             mVar.wait( mMutex );
+
             if( mShuttingDown )
                 break;
         }
@@ -87,6 +91,17 @@ public:
         T result;
 
         this->Pop( &result, 1 );
+        return result;
+    }
+
+    std::vector PopBulk( int limit = 1024 )
+    {
+        std::vector< T > result;
+        result.resize( limit );
+
+        int count = this->Pop( result.data(), limit, false );
+        result.resize( count );
+
         return result;
     }
 };

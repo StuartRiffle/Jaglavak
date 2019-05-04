@@ -34,10 +34,10 @@ struct TreeNode : public TreeLink
     TreeNode() : mInfo( NULL ), mGameOver( false ), mCounter( -1 ), mTouch( 0 ) {}
     ~TreeNode() { Clear(); }
 
-    void Init( const Position& pos, BranchInfo* info = NULL )
-    void Clear()
-    int FindMoveIndex( const MoveSpec& move )
-    void SanityCheck()
+    void Init( const Position& pos, BranchInfo* info = NULL );
+    void Clear();
+    int FindMoveIndex( const MoveSpec& move );
+    void SanityCheck();
 };
 
 struct TreeSearcher
@@ -69,7 +69,7 @@ struct TreeSearcher
     ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node );
     void ExpandAtLeaf();
     void DumpStats( TreeNode* node );
-    
+
     void ProcessResult( TreeNode* node, const PlayoutResultRef& result, int depth = 0 );
     void ProcessAsyncResults();
     void UpdateAsyncWorkers();
