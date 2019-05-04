@@ -1,17 +1,23 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-UciEngine() : mDebugMode( false ) 
+#include "Platform.h"
+#include "Chess.h"
+#include "CpuInfo.h"
+#include "TreeSearch.h"
+#include "UciEngine.h"
+
+UciEngine::UciEngine() : mDebugMode( false ) 
 {
     this->SetDefaultOptions();
 
-    mOptions.mDetectedSimdLevel  = PlatDetectSimdLevel();
+    mOptions.mDetectedSimdLevel  = CpuInfo::DetectSimdLevel();
     mOptions.mForceSimdLevel     = 0;
 
     mSearcher = std::unique_ptr< TreeSearcher >( new TreeSearcher( &mOptions ) );
     mSearcher->Init();
 }
 
-const UciOptionInfo* GetOptionInfo()
+const UciOptionInfo* UciEngine::GetOptionInfo()
 {
     #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _FIELD ) / sizeof( int ))
 
@@ -38,13 +44,13 @@ const UciOptionInfo* GetOptionInfo()
     return sOptions;
 }
 
-void SetDefaultOptions()
+void UciEngine::SetDefaultOptions()
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
         mOptions.mOption[info->mIndex] = info->mDefault;
 }
 
-void SetOptionByName( const char* name, int value )
+void UciEngine::SetOptionByName( const char* name, int value )
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
     {
@@ -56,7 +62,7 @@ void SetOptionByName( const char* name, int value )
     }
 }
 
-bool ProcessCommand( const char* cmd )
+bool UciEngine::ProcessCommand( const char* cmd )
 {
     Tokenizer t( cmd );
 
