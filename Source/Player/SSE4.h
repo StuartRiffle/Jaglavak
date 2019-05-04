@@ -1,5 +1,4 @@
-// CPU-SSE4.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 INLINE __m128i _mm_select( const __m128i& a, const __m128i& b, const __m128i& mask )

@@ -1,4 +1,4 @@
-// AVX512.cpp - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
 #include "Chess.h"

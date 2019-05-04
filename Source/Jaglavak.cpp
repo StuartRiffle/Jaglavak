@@ -1,6 +1,8 @@
-// Jaglavak.cpp - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Core.h"
+#include "Platform.h"
+#include "Chess.h"
+#include "UciEngine.h"
 
 #include <stdio.h>
 #include <ctype.h>
@@ -18,23 +20,13 @@
 #include <memory>
 #include <thread>
 
-#include "Misc/Serialization.h"
-#include "Misc/Tokenizer.h"
-#include "Misc/Perft.h"
-#include "Misc/Threads.h"
-
-#include "Options.h"
-#include "PlayoutJob.h"
-#include "PlayoutCpu.h"
-#include "TreeNode.h"
-#include "LocalWorker.h"
-#include "CudaWorker.h"
-#include "TreeSearcher.h"
-#include "UciEngine.h"
+const int VER_MAJOR = 1000;
+const int VER_MINOR = 0;
+const int VER_PATCH = 1;
 
 int main( int argc, char** argv )
 {
-    printf( "JAGLAVAK CHESS %d.%d.%d\n", JAGLAVAK_VER_MAJOR, JAGLAVAK_VER_MINOR, JAGLAVAK_VER_PATCH );
+    printf( "JAGLAVAK CHESS ENGINE %d.%d.%d\n", VER_MAJOR, VER_MINOR, VER_PATCH );
     printf( "Stuart Riffle\n\n" );
 
     setvbuf( stdin,  NULL, _IONBF, 0 );
@@ -49,7 +41,7 @@ int main( int argc, char** argv )
 
     while( !feof( stdin ) )
     {
-        char buf[UCI_COMMAND_BUFFER];
+        char buf[8192];
 
         const char* cmd = fgets( buf, sizeof( buf ), stdin );
         if( cmd == NULL )

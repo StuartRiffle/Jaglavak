@@ -1,3 +1,6 @@
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+#pragma once
+
 #define CUDA_REQUIRE( _CALL ) \
 { \
     cudaError_t status = (_CALL); \

@@ -1,5 +1,4 @@
-// MoveList.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-        
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 /// The parameters for one move of the game
@@ -135,8 +134,6 @@ struct MoveList
 
     PDECL void UnpackMoveMap( const Position& pos, const MoveMap& mmap )
     {
-        PROFILER_SCOPE( "MoveList::UnpackMoveMap" );
-
         this->Clear();
 
         u64 whitePieces = pos.mWhitePawns | pos.mWhiteKnights | pos.mWhiteBishops | pos.mWhiteRooks | pos.mWhiteQueens | pos.mWhiteKing;
@@ -172,8 +169,6 @@ struct MoveList
 
     PDECL int FindMoves( const Position& pos )
     {
-        PROFILER_SCOPE( "MoveList::FindMoves" );
-
         MoveMap mmap;
 
         this->Clear();

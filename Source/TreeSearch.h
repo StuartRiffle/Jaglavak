@@ -1,4 +1,5 @@
-// TreeNode.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+#pragma once
 
 struct TreeNode;
 
@@ -30,86 +31,61 @@ struct TreeNode : public TreeLink
     bool                mGameOver;
     ScoreCard           mGameResult;
 
-
     TreeNode() : mInfo( NULL ), mGameOver( false ), mCounter( -1 ), mTouch( 0 ) {}
     ~TreeNode() { Clear(); }
 
     void Init( const Position& pos, BranchInfo* info = NULL )
-    {
-        static u64 sCount = 1;
-        mCounter = sCount++;
-
-        mPos = pos;
-        mInfo = info;
-
-        MoveMap moveMap;
-        pos.CalcMoveMap( &moveMap );
-
-        MoveList moveList;
-        moveList.UnpackMoveMap( pos, moveMap );
-
-        mBranch.clear();
-        mBranch.resize( moveList.mCount );
-
-        for( int i = 0; i < moveList.mCount; i++ )
-        {
-            mBranch[i].mMove = moveList.mMove[i];
-            MoveSpecToString( moveList.mMove[i], mBranch[i].mMoveText );
-        }
-
-        mColor = pos.mWhiteToMove? WHITE : BLACK;
-
-        mGameOver = false;
-        mGameResult.Clear();
-
-        int result = (int) pos.CalcGameResult( moveMap );
-        if (result != RESULT_UNKNOWN )
-        {
-            mGameOver = true;
-
-            if( result == RESULT_WHITE_WIN )
-                mGameResult.mWins[WHITE]++;
-
-            if( result == RESULT_BLACK_WIN )
-                mGameResult.mWins[BLACK]++;
-
-            mGameResult.mPlays++;
-        }
-    }
-
     void Clear()
-    {
-        for( auto& info : mBranch )
-            assert( info.mNode == NULL );
-
-        if( mInfo )
-        {
-            assert( mInfo->mNode == this );
-            mInfo->mNode = NULL;
-        }
-
-        mInfo = NULL;
-        mBranch.clear();
-    }
-
     int FindMoveIndex( const MoveSpec& move )
-    {
-        for( int i = 0; i < (int) mBranch.size(); i++ )
-            if( mBranch[i].mMove == move )
-                return( i );
-
-        return( -1 );
-    }
-
     void SanityCheck()
-    {
-        for( auto& info : mBranch )
-            if( info.mNode )
-                assert( info.mNode->mInfo == &info );
-
-        assert( mInfo->mNode == this );
-
-    }
 };
+
+struct TreeSearcher
+{
+    TreeNode*               mNodePool;
+    size_t                  mNodePoolEntries;
+    TreeLink                mMruListHead;
+    TreeNode*               mSearchRoot;
+    BranchInfo              mRootInfo;
+    UciSearchConfig         mUciConfig;
+    GlobalOptions*          mOptions;
+    std::thread*            mSearchThread;
+    Semaphore               mSearchThreadActive;
+    Semaphore               mSearchThreadIdle;
+    std::thread*            mResultThread;
+    volatile bool           mShuttingDown;
+    volatile bool           mSearchRunning;
+    RandomGen               mRandom;
+    PlayoutJobQueue         mJobQueue;
+    PlayoutResultQueue      mResultQueue;
+
+    std::vector< std::shared_ptr< IAsyncWorker > > mAsyncWorkers;
+
+    TreeNode* AllocNode();
+    void MoveToFront( TreeNode* node );
+
+    float CalculateUct( TreeNode* node, int childIndex )
+    int SelectNextBranch( TreeNode* node )
+    ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node );
+    void ExpandAtLeaf();
+    void DumpStats( TreeNode* node );
+    
+    void ProcessResult( TreeNode* node, const PlayoutResultRef& result, int depth = 0 );
+    void ProcessAsyncResults();
+    void UpdateAsyncWorkers();
+    void SearchThread();
+
+public:
+    TreeSearcher( GlobalOptions* options, u64 randomSeed = 1 );
+    ~TreeSearcher();
+
+    void Init();
+    void Reset();
+    void SetPosition( const Position& pos );
+    void StartSearching( const UciSearchConfig& config );
+    void StopSearching();
+};
+
+
 
 

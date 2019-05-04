@@ -1,5 +1,4 @@
-// PlayoutJob.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 struct ALIGN( 32 ) PlayoutJob

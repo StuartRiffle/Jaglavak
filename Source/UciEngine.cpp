@@ -1,4 +1,4 @@
-// UciEngine.cpp - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 UciEngine() : mDebugMode( false ) 
 {

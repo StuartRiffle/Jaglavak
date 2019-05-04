@@ -1,4 +1,5 @@
-// Playout.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+#pragma once
 
 #include "PlayoutJob.h"
 
@@ -17,8 +18,6 @@ public:
 
     PDECL ScoreCard PlayGames( const Position& pos, int simdCount )
     {
-        PROFILER_SCOPE( "GamePlayer::PlayGames" );
-
         ScoreCard scores;
 
         #pragma omp parallel for schedule(dynamic) if (mOptions->mAllowParallel)
@@ -37,8 +36,6 @@ protected:
 
     PDECL ScoreCard PlayGamesSimd( const Position& startPos )
     {
-        PROFILER_SCOPE( "GamePlayer::PlayGamesSimd" );
-
         const int LANES = SimdWidth< SIMD >::LANES;
 
         Position ALIGN_SIMD pos[LANES];
@@ -157,8 +154,6 @@ protected:
 
     PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap )
     {
-        PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
-
         MoveList moveList;
         moveList.UnpackMoveMap( pos, moveMap );
 

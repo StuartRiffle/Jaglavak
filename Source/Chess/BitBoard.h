@@ -1,5 +1,4 @@
-// BitBoard.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 template< int SHIFT, typename T >

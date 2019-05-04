@@ -1,6 +1,6 @@
-// CPU-AVX512.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
+
 struct simd8_avx512
 {
     __m512i vec;

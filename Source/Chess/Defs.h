@@ -1,29 +1,10 @@
-// Defs.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 enum
 {
-    H1, G1, F1, E1, D1, C1, B1, A1,
-    H2, G2, F2, E2, D2, C2, B2, A2,
-    H3, G3, F3, E3, D3, C3, B3, A3,
-    H4, G4, F4, E4, D4, C4, B4, A4,
-    H5, G5, F5, E5, D5, C5, B5, A5,
-    H6, G6, F6, E6, D6, C6, B6, A6,
-    H7, G7, F7, E7, D7, C7, B7, A7,
-    H8, G8, F8, E8, D8, C8, B8, A8,
-};
-
-enum
-{
-    SHIFT_N    =  8,
-    SHIFT_NW   =  9,
-    SHIFT_W    =  1,
-    SHIFT_SW   = -7,
-    SHIFT_S    = -8,
-    SHIFT_SE   = -9,
-    SHIFT_E    = -1,
-    SHIFT_NE   =  7,
+    WHITE,
+    BLACK
 };
 
 enum
@@ -57,27 +38,39 @@ enum
 
 enum
 {
-    WHITE,
-    BLACK
-};
-
-enum
-{
     RESULT_UNKNOWN = 0,
     RESULT_WHITE_WIN,
     RESULT_BLACK_WIN,
     RESULT_DRAW
 };
 
-const PDECL int         VERSION_MAJOR           = 1000;
-const PDECL int         VERSION_MINOR           = 0;
-const PDECL int         VERSION_INCREMENTAL     = 1;
-         
-const PDECL int         UCI_COMMAND_BUFFER      = 8192;
+enum
+{
+    H1, G1, F1, E1, D1, C1, B1, A1,
+    H2, G2, F2, E2, D2, C2, B2, A2,
+    H3, G3, F3, E3, D3, C3, B3, A3,
+    H4, G4, F4, E4, D4, C4, B4, A4,
+    H5, G5, F5, E5, D5, C5, B5, A5,
+    H6, G6, F6, E6, D6, C6, B6, A6,
+    H7, G7, F7, E7, D7, C7, B7, A7,
+    H8, G8, F8, E8, D8, C8, B8, A8,
+};
+
+enum
+{
+    SHIFT_N    =  8,
+    SHIFT_NW   =  9,
+    SHIFT_W    =  1,
+    SHIFT_SW   = -7,
+    SHIFT_S    = -8,
+    SHIFT_SE   = -9,
+    SHIFT_E    = -1,
+    SHIFT_NE   =  7,
+};
+
 const PDECL int         MAX_POSSIBLE_MOVES      = 218;
 const PDECL int         MAX_FEN_LENGTH          = 96;
 const PDECL int         MAX_MOVETEXT_LENGTH     = 6;
-const PDECL int         PERFT_PARALLEL_MAX      = 5;
          
 const PDECL u64         SQUARE_A1               = 1ULL << A1;
 const PDECL u64         SQUARE_A8               = 1ULL << A8;

@@ -1,5 +1,4 @@
-// Position.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 /// A snapshot of the game state
@@ -70,8 +69,6 @@ struct ALIGN_SIMD PositionT
     template< typename SCALAR >
     PDECL void Broadcast( const PositionT< SCALAR >& src )
     {
-        PROFILER_SCOPE( "Position::Broadcast" );
-
         mWhitePawns         = src.mWhitePawns;   
         mWhiteKnights       = src.mWhiteKnights; 
         mWhiteBishops       = src.mWhiteBishops; 
@@ -135,8 +132,6 @@ struct ALIGN_SIMD PositionT
       
     PDECL void ApplyMove( const SIMD& srcIdx, const SIMD& destIdx, const SIMD& moveType )  
     {
-        PROFILER_SCOPE( "Position::ApplyMove" );
-
         SIMD    whitePawns          = mWhitePawns;    
         SIMD    whiteKnights        = mWhiteKnights;  
         SIMD    whiteBishops        = mWhiteBishops;  
@@ -207,8 +202,6 @@ struct ALIGN_SIMD PositionT
     
     PDECL void CalcMoveMap( MoveMapT< SIMD >* RESTRICT dest ) const
     {
-        PROFILER_SCOPE( "Position::CalcMoveMap" );
-
         SIMD    whitePawns          = mWhitePawns;    
         SIMD    whiteKnights        = mWhiteKnights;  
         SIMD    whiteBishops        = mWhiteBishops;  
@@ -378,8 +371,6 @@ struct ALIGN_SIMD PositionT
     
     PDECL void FlipFrom( const PositionT< SIMD >& prev )
     {
-        PROFILER_SCOPE( "Position::FlipFrom" );
-
         SIMD    newWhitePawns       = ByteSwap( prev.mBlackPawns   );
         SIMD    newWhiteKnights     = ByteSwap( prev.mBlackKnights );
         SIMD    newWhiteBishops     = ByteSwap( prev.mBlackBishops );

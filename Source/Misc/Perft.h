@@ -1,9 +1,10 @@
-// Perft.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-        
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 struct Perft
 {
+    const MAX_PARALLEL_DEPTH = 5;
+
     static void GatherPerftParallelPositions( const Position& pos, int depth, std::vector< Position >* dest )
     {
         MoveList valid;
@@ -14,7 +15,7 @@ struct Perft
             Position next = pos;
             next.Step( valid.mMove[i] );
 
-            if( depth == (PERFT_PARALLEL_MAX + 1) )
+            if( depth == (MAX_PARALLEL_DEPTH + 1) )
                 dest->push_back( next );
             else
                 Perft::GatherPerftParallelPositions( next, depth - 1, dest );
@@ -34,7 +35,7 @@ struct Perft
         #pragma omp parallel for reduction(+: total) schedule(dynamic)
         for( int i = 0; i < (int) positions.size(); i++ )
         {
-            u64 subtotal = Perft::CalcPerftInternal( positions[i], PERFT_PARALLEL_MAX );
+            u64 subtotal = Perft::CalcPerftInternal( positions[i], MAX_PARALLEL_DEPTH );
             total = total + subtotal;
         }
 
@@ -44,7 +45,7 @@ struct Perft
 
     static u64 CalcPerftInternal( const Position& pos, int depth )
     {
-        if( (depth > PERFT_PARALLEL_MAX) && (depth <= PERFT_PARALLEL_MAX + 3) )
+        if( (depth > MAX_PARALLEL_DEPTH) && (depth <= MAX_PARALLEL_DEPTH + 3) )
         {
             return( Perft::CalcPerftParallel( pos, depth ) );
         }

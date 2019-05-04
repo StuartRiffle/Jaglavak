@@ -1,5 +1,4 @@
-// UciEngine.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 struct UciOptionInfo
@@ -25,7 +24,7 @@ struct UciSearchConfig
     MoveList            mLimitMoves;
 
     UciSearchConfig()   { this->Clear(); }
-    void Clear()        { PlatClearMemory( this, sizeof( *this ) ); }
+    void Clear()        { memset( this, 0, sizeof( *this ) ); }
 };
 
 class TreeSearcher;
