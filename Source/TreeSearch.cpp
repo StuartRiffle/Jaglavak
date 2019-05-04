@@ -50,18 +50,18 @@ struct TreeSearcher
 
     void Init()
     {
-        for( int i = 0; i < mOptions->mNumCpuWorkers; i++ )
+        for( int i = 0; i < mOptions->mNumLocalWorkers; i++ )
         {
-            auto worker = new CpuWorker( mOptions, &mJobQueue, &mResultQueue );
+            auto worker = new LocalWorker( mOptions, &mJobQueue, &mResultQueue );
             mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
         }
 
 #if SUPPORT_CUDA
         if( mOptions->mAllowCuda )
         {
-            for( int i = 0; i < GpuWorker::GetDeviceCount(); i++ )
+            for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
             {
-                auto worker = new GpuWorker( mOptions, &mJobQueue, &mResultQueue );
+                auto worker = new CudaWorker( mOptions, &mJobQueue, &mResultQueue );
                 worker->Initialize( i, mOptions->mCudaQueueDepth );
 
                 mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
@@ -180,28 +180,32 @@ struct TreeSearcher
         this->SetPosition( startPos );
     }
 
-    double CalculateUct( TreeNode* node, int childIndex )
+    float CalculateUct( TreeNode* node, int childIndex )
     {
         BranchInfo* nodeInfo    = node->mInfo;
         BranchInfo& childInfo   = node->mBranch[childIndex];
         const ScoreCard& scores = childInfo.mScores;
 
         int color = node->mColor;
+        int childWins = scores.mWins[color];
 
-        u64 draws           = scores.mPlays - (scores.mWins[0] + scores.mWins[1]);
-        u64 childWins       = scores.mWins[color];
-        u64 childPlays      = scores.mPlays;
-        u64 nodePlays       = nodeInfo->mScores.mPlays;
         float exploringness = mOptions->mExplorationFactor * 1.0f / 100;
 
+        u64 nodePlays = nodeInfo->mScores.mPlays;
         if( nodePlays == 0 )
             nodePlays = 1;
 
+        u64 childPlays = scores.mPlays;
         if( childPlays == 0 )
             childPlays = 1;
 
-        double childWinRatio = (childWins + (draws * 0.5)) / childPlays;
-        double uct = childWinRatio + exploringness * sqrt( log( nodePlays * 1.0 ) * 2.0 / childPlays );
+        int draws = scores.mPlays - (scores.mWins[0] + scores.mWins[1]);
+        if( mOptions->mDrawsHaveValue )
+            childWins += draws / 2;
+
+        float invChildPlays = 1.0f / childPlays;
+        float childWinRatio = childWins * invChildPlays;
+        float uct = childWinRatio + exploringness * sqrtf( logf( nodePlays ) * 2 * invChildPlays );
 
         return uct;
     }

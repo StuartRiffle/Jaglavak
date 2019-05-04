@@ -1,38 +1,6 @@
 // Playout.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_PLAYOUT_H__
-#define JAGLAVAK_PLAYOUT_H__
-
-struct ScoreCard
-{
-    u64 mWins[2];
-    u64 mPlays;
-
-    PDECL ScoreCard()
-    {
-        this->Clear();
-    }
-
-    PDECL void Clear()
-    {
-        mWins[BLACK] = 0;
-        mWins[WHITE] = 0;
-        mPlays = 0;
-    }
-
-    PDECL ScoreCard& operator+=( const ScoreCard& sc )
-    {
-        mWins[BLACK] += sc.mWins[BLACK];
-        mWins[WHITE] += sc.mWins[WHITE];
-        mPlays += sc.mPlays;
-        return *this;
-    }
-
-    PDECL void Print( const char* desc )
-    {
-        //DEBUG_LOG( "%s scores %d %d plays %d\n", desc, mWins[WHITE], mWins[BLACK], mPlays );
-    }
-};
+#include "PlayoutJob.h"
 
 template< typename SIMD >
 class GamePlayer
@@ -100,12 +68,6 @@ protected:
             MoveSpecT< SIMD > simdSpec;
             MoveSpec spec[LANES];
 
-            // FIXME Unswizzle SSE4 corruption
-
-            // FIXME pos/movemap mismatch?
-
-            // FIXME moveMap[lane] i
-            
             for( int lane = 0; lane < LANES; lane++ )
                 spec[lane] = this->ChoosePlayoutMove( pos[lane], moveMap[lane], weights );
 
@@ -140,16 +102,12 @@ protected:
                 if( !pos[lane].mWhiteToMove )
                     score = -score;
 
-                //DEBUG_LOG( "Iter %d score %d fen %s\n", i, score, SerializePosition( pos[lane] ).c_str() ); 
-
                 if( !laneDone[lane] )
                 {
                     if( laneTargets[lane] == 0 )
                     {
                         laneFinalScore[lane] = score;
                         laneDone[lane] = true;
-
-                        //DEBUG_LOG("FINAL RESULT %d IS %d fen %s\n", i, laneFinalScore[lane], SerializePosition( pos[lane] ).c_str());
                     }
 
                     u64 nonKingPieces =
@@ -168,8 +126,6 @@ protected:
                     {
                         laneFinalScore[lane] = 0;
                         laneDone[lane] = true;
-
-                        //DEBUG_LOG("DRAW BY INSUFFICIENT MATERIAL %d fen %s\n", i, SerializePosition( pos[lane] ).c_str() );
                     }
                 }
             
@@ -336,5 +292,3 @@ protected:
     }
 };
 
-
-#endif // JAGLAVAK_PLAYOUT_H__

@@ -24,8 +24,7 @@ union GlobalOptions
         int     mPlayoutErrorRate;
         int     mPlayoutMaxMoves;
         int     mMaxPendingJobs;
-        int     mNumCpuWorkers;
-
+        int     mNumLocalWorkers;
 
         // These are not 
 
@@ -36,31 +35,6 @@ union GlobalOptions
     int mOption[1];
 };
 
-struct UciOptionInfo
-{
-    int         mIndex;
-    const char* mName;
-    int         mMin;
-    int         mMax;
-    int         mDefault;
-};
-
-struct UciSearchConfig
-{
-    int                 mWhiteTimeLeft;   
-    int                 mBlackTimeLeft;   
-    int                 mWhiteTimeInc;    
-    int                 mBlackTimeInc;    
-    int                 mTimeControlMoves;
-    int                 mMateSearchDepth; 
-    int                 mDepthLimit;       
-    int                 mNodesLimit;       
-    int                 mTimeLimit; 
-    MoveList            mLimitMoves;
-
-    UciSearchConfig()   { this->Clear(); }
-    void Clear()        { PlatClearMemory( this, sizeof( *this ) ); }
-};
 
 
 #endif // JAGLAVAK_OPTIONS_H__

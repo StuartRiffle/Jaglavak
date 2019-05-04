@@ -1,7 +1,6 @@
 // Operations.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_OPERATIONS_H__
-#define JAGLAVAK_OPERATIONS_H__
+#pragma once
 
 template< typename T >
 struct SimdWidth
@@ -38,5 +37,3 @@ template< typename T > INLINE PDECL T       ConsumeLowestBitIndex( T& val )     
 template< typename T > INLINE PDECL void    Exchange( T& a, T& b )                                              { T temp = a; a = b; b = temp; }
 template< typename T > INLINE PDECL void    Transpose( const T* src, int srcStep, T* dest, int destStep )       { *dest = *src; }
 template< typename T >        PDECL void    SimdInsert( T& dest, u64 val, int lane )                            { dest = val; }
-
-#endif // JAGLAVAK_CPU_OPERATIONS_H__

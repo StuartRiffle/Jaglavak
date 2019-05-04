@@ -119,12 +119,6 @@ const PDECL EvalTerm    EVAL_STALEMATE          = 0;
 const PDECL int         EVAL_OPENING_PLIES      = 10;
 const PDECL EvalTerm    SUPPORT_REP_SCORE         = 190;
          
-const PDECL u64         HASH_SEED0              = 0xF59C66FB26DCF319ULL;
-const PDECL u64         HASH_SEED1              = 0xABCC5167CCAD925FULL;
-const PDECL u64         HASH_SEED2              = 0x5121CE64774FBE32ULL;
-const PDECL u64         HASH_SEED3              = 0x69852DFD09072166ULL;
-const PDECL u64         HASH_UNCALCULATED       = 0;
-         
 const PDECL u64         SQUARE_A1               = 1ULL << A1;
 const PDECL u64         SQUARE_A8               = 1ULL << A8;
 const PDECL u64         SQUARE_B1               = 1ULL << B1;

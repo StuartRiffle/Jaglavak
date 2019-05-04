@@ -205,37 +205,6 @@ struct ALIGN_SIMD PositionT
     }
 
 
-    /// Calculate a hash of the board state
-    
-    PDECL SIMD CalcHash() const
-    {
-        PROFILER_SCOPE( "Position::CalcHash" );
-
-        SIMD    whitePawns          = SelectWithMask( mBoardFlipped, ByteSwap( mBlackPawns    ), mWhitePawns    );
-        SIMD    whiteKnights        = SelectWithMask( mBoardFlipped, ByteSwap( mBlackKnights  ), mWhiteKnights  );
-        SIMD    whiteBishops        = SelectWithMask( mBoardFlipped, ByteSwap( mBlackBishops  ), mWhiteBishops  );
-        SIMD    whiteRooks          = SelectWithMask( mBoardFlipped, ByteSwap( mBlackRooks    ), mWhiteRooks    );
-        SIMD    whiteQueens         = SelectWithMask( mBoardFlipped, ByteSwap( mBlackQueens   ), mWhiteQueens   );
-        SIMD    whiteKing           = SelectWithMask( mBoardFlipped, ByteSwap( mBlackKing     ), mWhiteKing     );
-        SIMD    blackPawns          = SelectWithMask( mBoardFlipped, ByteSwap( mWhitePawns    ), mBlackPawns    );
-        SIMD    blackKnights        = SelectWithMask( mBoardFlipped, ByteSwap( mWhiteKnights  ), mBlackKnights  );
-        SIMD    blackBishops        = SelectWithMask( mBoardFlipped, ByteSwap( mWhiteBishops  ), mBlackBishops  );
-        SIMD    blackRooks          = SelectWithMask( mBoardFlipped, ByteSwap( mWhiteRooks    ), mBlackRooks    );
-        SIMD    blackQueens         = SelectWithMask( mBoardFlipped, ByteSwap( mWhiteQueens   ), mBlackQueens   );
-        SIMD    blackKing           = SelectWithMask( mBoardFlipped, ByteSwap( mWhiteKing     ), mBlackKing     );
-        SIMD    castlingAndEP       = SelectWithMask( mBoardFlipped, ByteSwap( mCastlingAndEP ), mCastlingAndEP );
-
-        SIMD    allPawnsEtc         = (whitePawns | blackPawns) ^ mWhiteToMove;
-        SIMD    hash0               = XorShiftA( XorShiftB( XorShiftC( (SIMD) HASH_SEED0 ^ allPawnsEtc )   ^ blackKnights ) ^ whiteRooks  );              
-        SIMD    hash1               = XorShiftA( XorShiftC( XorShiftB( (SIMD) HASH_SEED1 ^ castlingAndEP ) ^ whiteBishops ) ^ blackQueens );             
-        SIMD    hash2               = XorShiftD( XorShiftC( XorShiftB( (SIMD) HASH_SEED2 ^ whiteKing )     ^ blackBishops ) ^ whiteQueens );             
-        SIMD    hash3               = XorShiftD( XorShiftB( XorShiftC( (SIMD) HASH_SEED3 ^ blackKing )     ^ whiteKnights ) ^ blackRooks  );        
-        SIMD    hash                = XorShiftB( hash0 - hash2 ) ^ XorShiftC( hash1 - hash3 );
-
-        return( hash );
-    }
-
-
     /// Generate a map of valid moves from the current position
     
     PDECL void CalcMoveMap( MoveMapT< SIMD >* RESTRICT dest ) const
@@ -451,11 +420,6 @@ struct ALIGN_SIMD PositionT
     PDECL void FlipInPlace()
     { 
         this->FlipFrom( *this ); 
-    }
-
-    PDECL int GetPlyZeroBased() const 
-    { 
-        return( (int) ((mFullmoveNum - 1) * 2 + (1 - mWhiteToMove)) ); 
     }
 };
 

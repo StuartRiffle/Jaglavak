@@ -1,9 +1,7 @@
-// CPU-AVX2.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// AVX2.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #ifndef JAGLAVAK_CPU_AVX2_H__
 #define JAGLAVAK_CPU_AVX2_H__
-
-#if SUPPORT_AVX2
 
 struct simd4_avx2
 {
@@ -187,6 +185,4 @@ INLINE void Transpose< simd4_avx2 >( const simd4_avx2* src, int srcStep, simd4_a
     dest[destStep * 3] = dhlq;
 }
 
-
-#endif // SUPPORT_AVX2
 #endif // JAGLAVAK_CPU_AVX2_H__

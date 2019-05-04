@@ -1,15 +1,12 @@
 // PlayoutCpu.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_PLAYOUT_CPU_H__
-#define JAGLAVAK_PLAYOUT_CPU_H__
-
+#pragma once
 
 typedef std::shared_ptr< PlayoutJob >       PlayoutJobRef;
 typedef ThreadSafeQueue< PlayoutJobRef >    PlayoutJobQueue;
 
 typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
 typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
-
 
 int ChooseSimdLevelForPlayout( const GlobalOptions& options, int count )
 {
@@ -82,4 +79,3 @@ PlayoutResult RunPlayoutJobCpu( const PlayoutJob& job )
     return result;
 }
 
-#endif

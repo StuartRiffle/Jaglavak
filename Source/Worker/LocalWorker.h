@@ -3,13 +3,7 @@
 #ifndef JAGLAVAK_CPU_WORKER_H__
 #define JAGLAVAK_CPU_WORKER_H__
 
-class IAsyncWorker
-{
-public:
-    virtual void Update() {}
-};
-
-class CpuWorker : public IAsyncWorker
+class LocalWorker : public IAsyncWorker
 {
     PlayoutJobQueue*        mJobQueue;
     PlayoutResultQueue*     mResultQueue;
@@ -18,7 +12,7 @@ class CpuWorker : public IAsyncWorker
 
     void JobThread()
     {
-        PlatSetThreadName( "CpuWorker" );
+        PlatSetThreadName( "LocalWorker" );
 
         for( ;; )
         {
@@ -37,7 +31,7 @@ class CpuWorker : public IAsyncWorker
 
 public:
 
-    CpuWorker( const GlobalOptions* options, PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
+    LocalWorker( const GlobalOptions* options, PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
     {
         mOptions = options;
         mJobQueue = jobQueue;
@@ -46,7 +40,7 @@ public:
         mJobThread = new std::thread( [this] { this->JobThread(); } );
     }
 
-    ~CpuWorker()
+    ~LocalWorker()
     {
         // Owner will kill the job thread by feeding it a NULL
 

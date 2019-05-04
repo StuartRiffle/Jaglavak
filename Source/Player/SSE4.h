@@ -71,12 +71,6 @@ INLINE __m128i _mm_bswap_epi64_sse4( const __m128i& v )
 }
 
 template<> 
-INLINE simd2_sse4 CountBits< simd2_sse4 >( const simd2_sse4& val ) 
-{ 
-    return( _mm_popcnt_epi64_sse4( val.vec ) );
-}
-
-template<> 
 INLINE simd2_sse4 MaskAllClear< simd2_sse4 >() 
 { 
     return( _mm_setzero_si128() );

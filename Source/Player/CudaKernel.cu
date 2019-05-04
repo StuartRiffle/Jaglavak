@@ -1,23 +1,7 @@
 // PlayoutKernel.cu - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-//#include "Core.h"
-
-#include "Platform.h"
-#include "Operations.h"
-#include "Defs.h"
-#include "BitBoard.h"
-//#include "SIMD-SSE4.h"
-//#include "SIMD-AVX2.h"
-//#include "SIMD-AVX512.h"
-#include "MoveMap.h"
-#include "Position.h"
-#include "Evaluation.h"
-#include "MoveList.h"
-#include "Random.h"
-#include "Options.h"
+#include "Core.h"
 #include "GamePlayer.h"
-
-
 #include "PlayoutJob.h"
 
 #if SUPPORT_CUDA

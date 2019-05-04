@@ -1,7 +1,6 @@
-// FEN.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// Serialization.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_SERIALIZATION_H__
-#define JAGLAVAK_SERIALIZATION_H__
+#pragma once
 
 static void PositionToString( const Position& pos, char* str )
 {
@@ -250,5 +249,3 @@ static std::string SerializeMoveList( const MoveList& moves )
     return std::string( result );
 }
 
-
-#endif // JAGLAVAK_FEN_H__

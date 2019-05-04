@@ -1,7 +1,6 @@
 // PlayoutJob.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_PLAYOUT_JOB_H__
-#define JAGLAVAK_PLAYOUT_JOB_H__
+#pragma once
 
 struct ALIGN( 32 ) PlayoutJob
 {
@@ -39,5 +38,3 @@ struct CudaLaunchSlot
 };
 #endif
 
-
-#endif

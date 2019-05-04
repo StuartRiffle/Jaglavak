@@ -12,11 +12,6 @@ struct RandomGen
 
     PDECL u64 GetNext()
     {
-        // 64-bit LCG using terms from Knuth
-
-        s *= 6364136223846793005ULL;
-        s += 1442695040888963407ULL;
-
         // Thomas Wang's 64-bit mix function
 
         s = ~s + (s << 21);
