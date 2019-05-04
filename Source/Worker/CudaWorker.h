@@ -68,7 +68,6 @@ public:
             slot.mTickQueued   = 0;
 
             CUDA_REQUIRE(( cudaEventCreate( &slot.mStartEvent ) ));
-            CUDA_REQUIRE(( cudaEventCreate( &slot.mEndEvent ) ));
             CUDA_REQUIRE(( cudaEventCreate( &slot.mReadyEvent ) ));
 
             mFreeSlots.push_back( &slot );
@@ -146,21 +145,10 @@ private:
                 PlayoutResultRef result = PlayoutResultRef( new PlayoutResult() );
                 *result = *slot->mOutputHost;
 
-                cudaEventElapsedTime( &result->mGpuTime, slot->mStartEvent, slot->mEndEvent );
+                cudaEventElapsedTime( &result->mGpuTime, slot->mStartEvent, slot->mReadyEvent );
                 result->mCpuLatency = (tickReturned - slot->mTickQueued) * 1000.0f / PlatGetClockFrequency();  
 
                 mResultQueue->Push( result );
-
-                //cudaEventDestroy( slot->mStartEvent );
-                //cudaEventDestroy( slot->mEndEvent );
-                //cudaEventDestroy( slot->mReadyEvent );
-
-                /*
-                printf("%d %d %d %.2f/%.2f %s\n", 
-                    result->mScores.mWins[0], result->mScores.mWins[1], result->mScores.mPlays, 
-                    result->mGpuTime, result->mCpuLatency, 
-                    SerializeMoveList( result->mPathFromRoot ).c_str() );
-                    */
 
                 mFreeSlots.push_back( slot );
             }

@@ -1,7 +1,6 @@
 // Random.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_RANDOM_H__
-#define JAGLAVAK_RANDOM_H__
+#pragma once
 
 struct RandomGen
 {
@@ -35,6 +34,4 @@ struct RandomGen
         return ((GetNext() >> 32) * 1.0f) / (1ULL << 32);
     }
 };
-
-#endif // JAGLAVAK_RANDOM_H__
 

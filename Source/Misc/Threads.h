@@ -1,7 +1,6 @@
 // Threads.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
         
-#ifndef JAGLAVAK_THREAD_H__
-#define JAGLAVAK_THREAD_H__
+#pragma once
 
 struct Semaphore
 {
@@ -89,5 +88,3 @@ public:
     }
 };
 
-
-#endif // JAGLAVAK_THREAD_H__

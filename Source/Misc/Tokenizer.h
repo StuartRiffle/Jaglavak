@@ -1,8 +1,6 @@
 // Tokenizer.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_TOKENIZER_H__
-#define JAGLAVAK_TOKENIZER_H__
-
+#pragma once
 
 class Tokenizer
 {
@@ -123,4 +121,3 @@ public:
 	}
 };
 
-#endif // JAGLAVAK_TOKENIZER_H__

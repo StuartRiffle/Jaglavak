@@ -53,10 +53,9 @@ struct TreeSearcher
         for( int i = 0; i < mOptions->mNumLocalWorkers; i++ )
         {
             auto worker = new LocalWorker( mOptions, &mJobQueue, &mResultQueue );
-            mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
+            mAsyncWorkers.push_back( std::shared_ptr< AsyncWorker >( worker ) );
         }
 
-#if SUPPORT_CUDA
         if( mOptions->mAllowCuda )
         {
             for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
@@ -64,10 +63,9 @@ struct TreeSearcher
                 auto worker = new CudaWorker( mOptions, &mJobQueue, &mResultQueue );
                 worker->Initialize( i, mOptions->mCudaQueueDepth );
 
-                mAsyncWorkers.push_back( std::shared_ptr< IAsyncWorker >( worker ) );
+                mAsyncWorkers.push_back( std::shared_ptr< AsyncWorker >( worker ) );
             }
         }
-#endif
 
         mSearchThread  = new std::thread( [this] { this->SearchThread(); } );
         mResultThread  = new std::thread( [this] { this->ResultThread(); } );

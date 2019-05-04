@@ -1,8 +1,6 @@
 // Position.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_POSITION_H__
-#define JAGLAVAK_POSITION_H__
-
+#pragma once
 
 /// A snapshot of the game state
 
@@ -423,5 +421,3 @@ struct ALIGN_SIMD PositionT
     }
 };
 
-
-#endif // JAGLAVAK_POSITION_H__

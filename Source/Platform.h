@@ -1,24 +1,19 @@
 // Platform.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_PLATFORM_H__
-#define JAGLAVAK_PLATFORM_H__
+#pragma once
 
 #include <stdint.h>
 #include <assert.h>
 
-#define SUPPORT_CUDA (1)
-
-#if SUPPORT_CUDA
 #include <cuda_runtime_api.h>
-#endif
 
-#if SUPPORT_CUDA && defined( __CUDA_ARCH__ )
+#if defined( __CUDA_ARCH__ )
 
     // We are running __device__ code
 
-    #define RUNNING_ON_CUDA_DEVICE  (1)
-    #define ALIGN( _N )  __align__( _N )
-    #define ALIGN_SIMD   __align__( 32 )    
+    #define ON_CUDA_DEVICE      (1)
+    #define ALIGN( _N )         __align__( _N )
+    #define ALIGN_SIMD          __align__( 8 )    
 
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
@@ -31,7 +26,6 @@
     #include <process.h>
     #include <intrin.h>
     #include <limits.h>
-
     #include <atomic>
 
     #pragma warning( disable: 4996 )    // CRT security warnings
@@ -41,19 +35,14 @@
     #pragma inline_recursion( on )
     #pragma inline_depth( 255 )
     
-    #define RUNNING_ON_CPU     (1)
     #define TOOLCHAIN_MSVC      (1)
-    #define SUPPORT_SSE4         (1)
-    #define SUPPORT_AVX2         (0)
-    #define SUPPORT_AVX512       (0)
-    #define ALIGN( _N )  __declspec( align( _N ) )
-    #define ALIGN_SIMD   __declspec( align( 32 ) )
-
+    #define ALIGN( _N )         __declspec( align( _N ) )
+    #define ALIGN_SIMD          __declspec( align( 32 ) )
     #define RESTRICT            __restrict
     #define DEBUGBREAK          __debugbreak
     #define INLINE              __forceinline
-    #define PDECL         
     #define PRId64              "I64d"
+    #define PDECL         
 
     extern "C" void * __cdecl memset(void *, int, size_t);
     #pragma intrinsic( memset )        
@@ -74,13 +63,9 @@
 
     #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 
-    #define RUNNING_ON_CPU          (1)
     #define TOOLCHAIN_GCC       (1)
     #define ALIGN( _N )  __attribute__(( aligned( _N ) ))
     #define ALIGN_SIMD   __attribute__(( aligned( 32 ) ))    
-    #define SUPPORT_SSE4         (1)
-    #define SUPPORT_AVX2         (0)
-    #define SUPPORT_AVX512       (0)
 
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
@@ -96,10 +81,6 @@
 
 #define DEBUG_LOG printf
 
-#if SUPPORT_CUDA && RUNNING_ON_CPU
-#define RUNNING_ON_CUDA_HOST (1)
-#endif
-
 typedef uint64_t  u64;
 typedef int64_t   i64;
 typedef uint32_t  u32;
@@ -112,7 +93,7 @@ typedef int8_t    i8;
 
 INLINE PDECL u64 PlatByteSwap64( const u64& val )             
 { 
-#if RUNNING_ON_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     u32 hi = __byte_perm( (u32) val, 0, 0x0123 );
     u32 lo = __byte_perm( (u32) (val >> 32), 0, 0x0123 );
     return( ((u64) hi << 32ULL) | lo );
@@ -125,7 +106,7 @@ INLINE PDECL u64 PlatByteSwap64( const u64& val )
 
 INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 {
-#if RUNNING_ON_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     return( __ffsll( val ) - 1 );
 #elif TOOLCHAIN_MSVC
     unsigned long result;
@@ -138,7 +119,7 @@ INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 
 INLINE PDECL u64 PlatCountBits64( const u64& val )
 {
-#if RUNNING_ON_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     return( __popcll( val ) );
 #elif TOOLCHAIN_MSVC
     return( __popcnt64( val ) );
@@ -149,7 +130,7 @@ INLINE PDECL u64 PlatCountBits64( const u64& val )
 
 INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
 {
-#if RUNNING_ON_CUDA_DEVICE
+#if ON_CUDA_DEVICE
     memset( mem, 0, bytes );
 #elif TOOLCHAIN_MSVC
     ::memset( mem, 0, bytes );
@@ -158,7 +139,7 @@ INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
 #endif
 }
 
-#if !RUNNING_ON_CUDA_DEVICE
+#if !ON_CUDA_DEVICE
 
 INLINE PDECL bool PlatCheckCpuFlag( int leaf, int idxWord, int idxBit )
 {
@@ -174,32 +155,19 @@ INLINE PDECL bool PlatCheckCpuFlag( int leaf, int idxWord, int idxBit )
     return( (info[idxWord] & (1 << idxBit)) != 0 );
 }
 
-INLINE PDECL bool PlatDetectPopcnt()
-{
-#if TOOLCHAIN_GCC
-    #if defined( __APPLE__ )
-        return( false ); // FIXME: Apple LLVM 8.0 does not provide __builtin_cpu_supports()
-    #else
-        return( __builtin_cpu_supports( "popcnt" ) );
-    #endif
-#else
-    return( PlatCheckCpuFlag( 1, 2, 23 ) );
-#endif
-}
-
 INLINE PDECL int PlatDetectSimdLevel()
 {
-#if SUPPORT_AVX2
+    bool avx512 = PlatCheckCpuFlag( 7, 1, 16 ) && PlatCheckCpuFlag( 7, 1, 17 );   
+    if( avx512 )
+        return( 8 );
+
     bool avx2 = PlatCheckCpuFlag( 7, 1, 5 );   
     if( avx2 )
         return( 4 );
-#endif
 
-#if SUPPORT_SSE4
-    bool sse4 = PlatCheckCpuFlag( 1, 2, 20 );
+    bool sse4 = PlatCheckCpuFlag( 1, 2, 19 );
     if( sse4 )
         return( 2 );
-#endif
 
     return( 1 );
 }
@@ -215,34 +183,6 @@ INLINE PDECL int PlatDetectCpuCores()
 #endif
 }
 
-INLINE PDECL void PlatSetThreadName( const char* name )
-{
-#if PIGEON_MSVC
-    //#pragma pack( push, 8 )
-    struct THREADNAME_INFO
-    {
-        DWORD   dwType;     
-        LPCSTR  szName;     
-        DWORD   dwThreadID; 
-        DWORD   dwFlags;    
-    };
-    //#pragma pack( pop )
-
-    THREADNAME_INFO info;
-
-    info.dwType     = 0x1000;
-    info.szName     = name;
-    info.dwThreadID = GetCurrentThreadId();
-    info.dwFlags    = 0;
-
-    __try
-    {
-        const DWORD MS_VC_EXCEPTION = 0x406D1388;
-        RaiseException( MS_VC_EXCEPTION, 0, sizeof( info ) / sizeof( ULONG_PTR ), (ULONG_PTR*) &info );
-    }
-    __except( EXCEPTION_EXECUTE_HANDLER ) {}
-#endif
-}
 
 INLINE PDECL void PlatSleep( int ms )
 {
@@ -312,5 +252,4 @@ struct Timer
     i64     GetElapsedMs()  { return( ((i64) (PlatGetClockTick() - mStartTime) * 1000) / PlatGetClockFrequency() ); }
 };
 
-#endif // !RUNNING_ON_CUDA_DEVICE
-#endif // JAGLAVAK_PLATFORM_H__
+#endif // !ON_CUDA_DEVICE

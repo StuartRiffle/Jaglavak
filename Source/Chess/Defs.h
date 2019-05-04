@@ -1,7 +1,6 @@
 // Defs.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_DEFS_H__
-#define JAGLAVAK_DEFS_H__
+#pragma once
 
 enum
 {
@@ -117,7 +116,6 @@ const PDECL EvalTerm    EVAL_MIN                = -EVAL_MAX;
 const PDECL EvalTerm    EVAL_CHECKMATE          = EVAL_MIN + 1;
 const PDECL EvalTerm    EVAL_STALEMATE          = 0;
 const PDECL int         EVAL_OPENING_PLIES      = 10;
-const PDECL EvalTerm    SUPPORT_REP_SCORE         = 190;
          
 const PDECL u64         SQUARE_A1               = 1ULL << A1;
 const PDECL u64         SQUARE_A8               = 1ULL << A8;
@@ -249,6 +247,3 @@ typedef PositionT< u64 >        Position;
 
 #define PROFILER_SCOPE( _STR )
 
-
-
-#endif // JAGLAVAK_DEFS_H__

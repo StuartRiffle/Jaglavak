@@ -1,7 +1,6 @@
 // MoveList.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
         
-#ifndef JAGLAVAK_MOVELIST_H__
-#define JAGLAVAK_MOVELIST_H__
+#pragma once
 
 /// The parameters for one move of the game
 //       
@@ -253,5 +252,3 @@ private:
         while( dest );
     }
 };
-
-#endif // JAGLAVAK_MOVELIST_H__

@@ -1,7 +1,6 @@
 // Perft.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
         
-#ifndef JAGLAVAK_PERFT_H__
-#define JAGLAVAK_PERFT_H__
+#pragma once
 
 struct Perft
 {
@@ -112,5 +111,3 @@ struct Perft
         printf( "info string divide %d total %" PRId64 "\n", depth, total );
     }
 };
-
-#endif // JAGLAVAK_PERFT_H__

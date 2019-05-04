@@ -1,7 +1,6 @@
 // Options.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_OPTIONS_H__
-#define JAGLAVAK_OPTIONS_H__
+#pragma once
 
 union GlobalOptions
 {
@@ -35,7 +34,4 @@ union GlobalOptions
     int mOption[1];
 };
 
-
-
-#endif // JAGLAVAK_OPTIONS_H__
 

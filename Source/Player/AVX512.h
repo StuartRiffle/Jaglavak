@@ -1,10 +1,6 @@
 // CPU-AVX512.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_CPU_AVX512_H__
-#define JAGLAVAK_CPU_AVX512_H__
-
-#if SUPPORT_AVX512   // UNTESTED!
-
+#pragma once
 struct simd8_avx512
 {
     __m512i vec;
@@ -197,6 +193,3 @@ INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, sim
     dest[destStep * 6] = col6;
     dest[destStep * 7] = col7;
 }
-
-#endif // SUPPORT_AVX512
-#endif // JAGLAVAK_CPU_AVX512_H__

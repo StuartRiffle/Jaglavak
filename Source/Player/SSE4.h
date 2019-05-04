@@ -1,9 +1,6 @@
 // CPU-SSE4.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_CPU_SSE4_H__
-#define JAGLAVAK_CPU_SSE4_H__
-
-#if SUPPORT_SSE4
+#pragma once
 
 INLINE __m128i _mm_select( const __m128i& a, const __m128i& b, const __m128i& mask )
 {          
@@ -168,6 +165,3 @@ INLINE void Transpose< simd2_sse4 >( const simd2_sse4* src, int srcStep, simd2_s
     dest_r[destStep]  = _mm_unpackhi_epi64( src_r[0], src_r[srcStep] );
 }
 
-
-#endif // SUPPORT_SSE4
-#endif // JAGLAVAK_CPU_SSE4_H__

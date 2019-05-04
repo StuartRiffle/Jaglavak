@@ -4,8 +4,6 @@
 #include "GamePlayer.h"
 #include "PlayoutJob.h"
 
-#if SUPPORT_CUDA
-
 __global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int count )
 {
     int idx = (blockIdx.x * blockDim.x) + threadIdx.x;
@@ -50,9 +48,6 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
         slot->mOutputDev, 
         1 );
 
-    //cudaEventCreate( &slot->mEndEvent );
-    cudaEventRecord( slot->mEndEvent, slot->mStream );
-
     // Copy the results back to host
 
     cudaMemcpyAsync( 
@@ -62,8 +57,5 @@ void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
         cudaMemcpyDeviceToHost, 
         slot->mStream );
 
-    //cudaEventCreate( &slot->mReadyEvent );
     cudaEventRecord( slot->mReadyEvent, slot->mStream );
 }
-
-#endif // SUPPORT_CUDA

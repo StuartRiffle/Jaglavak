@@ -1,7 +1,6 @@
 // BitBoard.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_BITS_H__
-#define JAGLAVAK_BITS_H__
+#pragma once
 
 template< int SHIFT, typename T >
 INLINE PDECL T Shift( const T& bits )
@@ -97,6 +96,3 @@ template< typename T > INLINE PDECL   T   SlideIntoExNE( const T& val, const T& 
 
 template< typename T > INLINE PDECL   T   SlideIntoExOrtho( const T& val, const T& through, const T& into )   { return( SlideIntoExN(  val, through, into ) | SlideIntoExW(  val, through, into ) | SlideIntoExS(  val, through, into ) | SlideIntoExE(  val, through, into ) ); }
 template< typename T > INLINE PDECL   T   SlideIntoExDiag(  const T& val, const T& through, const T& into )   { return( SlideIntoExNW( val, through, into ) | SlideIntoExSW( val, through, into ) | SlideIntoExSE( val, through, into ) | SlideIntoExNE( val, through, into ) ); }
-
-
-#endif // JAGLAVAK_BITS_H__

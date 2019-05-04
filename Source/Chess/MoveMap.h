@@ -1,8 +1,6 @@
 // MoveMap.h - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#ifndef JAGLAVAK_MOVEMAP_H__
-#define JAGLAVAK_MOVEMAP_H__
-
+#pragma once
 
 /// A map of valid move target squares
 
@@ -52,5 +50,3 @@ struct ALIGN_SIMD MoveMapT
     }
 };
 
-
-#endif // JAGLAVAK_MOVEMAP_H__

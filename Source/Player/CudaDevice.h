@@ -62,7 +62,6 @@ struct LaunchThread
         CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
         CUDA_REQUIRE(( cudaGetDeviceProperties( &mProp, mDeviceIndex ) ));
 
-
         int coresPerSM = 0;
         switch( mProp.major )
         {

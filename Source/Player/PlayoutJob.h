@@ -20,12 +20,18 @@ struct ALIGN( 32 ) PlayoutResult
     float           mGpuTime;
 };
 
-#if SUPPORT_CUDA
+
+typedef std::shared_ptr< PlayoutJob >       PlayoutJobRef;
+typedef ThreadSafeQueue< PlayoutJobRef >    PlayoutJobQueue;
+
+typedef std::shared_ptr< PlayoutResult >    PlayoutResultRef;
+typedef ThreadSafeQueue< PlayoutResultRef > PlayoutResultQueue;
+
+
 struct CudaLaunchSlot
 {
     cudaStream_t    mStream;                    /// Stream this job was issued into
     cudaEvent_t     mStartEvent;                /// GPU timer event to mark the start of kernel execution
-    cudaEvent_t     mEndEvent;                  /// GPU timer event to mark the end of kernel execution
     cudaEvent_t     mReadyEvent;                /// GPU timer event to notify that the results have been copied back to host memory
 
     PlayoutJob*     mInputHost;                 /// Job input buffer, host side
@@ -36,5 +42,4 @@ struct CudaLaunchSlot
 
     u64             mTickQueued;                /// CPU tick when the job was queued for execution
 };
-#endif
 
