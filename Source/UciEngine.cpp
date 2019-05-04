@@ -19,7 +19,7 @@ const UciOptionInfo* GetOptionInfo()
     {
         OPTION_INDEX( mAllowSimd ),         "AllowSimd",            0, 0,    0,
         OPTION_INDEX( mAllowCuda ),         "AllowCuda",            0, 0,    0,
-        OPTION_INDEX( mAllowParallel ),     "AllowParallel",        0, 0,    0,
+        OPTION_INDEX( mAllowMulticore ),     "AllowMulticore",        0, 0,    0,
         OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
         OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
         OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64,   1,
@@ -27,8 +27,6 @@ const UciOptionInfo* GetOptionInfo()
         OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
         OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16,   16,            
         OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
-        OPTION_INDEX( mPlayoutPeekMoves ),  "PlayoutPeekMoves",     0, 1000, 0,
-        OPTION_INDEX( mPlayoutErrorRate ),  "PlayoutErrorRate",     0, 100,  100,
         OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
         OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,
         OPTION_INDEX( mNumLocalWorkers ),     "NumLocalWorkers",        1, 10, 1,

@@ -9,22 +9,21 @@ union GlobalOptions
 
         int     mAllowSimd;
         int     mAllowCuda;
-        int     mAllowParallel;
+        int     mAllowMulticore;
         int     mMaxCpuCores;
         int     mMaxTreeNodes;
-        int     mNumInitialPlays;
-        int     mNumAsyncPlays;
-        int     mExplorationFactor;
+        int     mMaxPendingJobs;
         int     mCudaStreams;
         int     mCudaQueueDepth;
         int     mCudaJobBatch;
-        int     mPlayoutPeekMoves;
-        int     mPlayoutErrorRate;
-        int     mPlayoutMaxMoves;
-        int     mMaxPendingJobs;
         int     mNumLocalWorkers;
 
-        // These are not 
+        int     mNumInitialPlays;
+        int     mNumAsyncPlays;
+        int     mExplorationFactor;
+        int     mPlayoutMaxMoves;
+
+        // These are not
 
         int     mDetectedSimdLevel;
         int     mForceSimdLevel;

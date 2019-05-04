@@ -307,15 +307,14 @@ int TreeSearcher::SelectNextBranch( TreeNode* node )
             idx = 0;
     }
 
-    // This node is fully expanded, so choose 
-    // the move with highest UCT
+    // This node is fully expanded, so choose the move with highest UCT
 
-    double highestUct = 0;
+    float highestUct = 0;
     int highestIdx = 0;
 
     for( int i = 0; i < numBranches; i++ )
     {
-        double uct = CalculateUct( node, i );
+        float uct = CalculateUct( node, i );
         if( uct > highestUct )
         {
             highestUct = uct;
@@ -343,12 +342,6 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
 
     pathFromRoot.Append( chosenBranch->mMove );
 
-    /*
-    DEBUG_LOG( "ExpandAtLeaf %s choosing %d/%d (%s)\n",
-        pathFromRoot.mCount? SerializeMoveList( pathFromRoot ).c_str() : "(root)",
-        chosenBranchIdx, node->mBranch.size(), SerializeMoveSpec( chosenBranch->mMove ).c_str() );
-        */
-
     if( !chosenBranch->mNode )
     {
         // This is a leaf, so create a new node 
@@ -361,10 +354,7 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
         Position newPos = node->mPos;
         newPos.Step( chosenBranch->mMove );
 
-        //DEBUG_LOG("%s STEPPING %s\n", SerializePosition( newPos ).c_str(), SerializeMoveSpec( chosenBranch->mMove ).c_str() );
-
         chosenBranch->mNode = NULL;
-
         newNode->Init( newPos, chosenBranch ); 
 
         // newNode is different, node is the same value
@@ -376,8 +366,6 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
             newNode->mInfo->mScores += newNode->mGameResult;
             return( newNode->mGameResult );
         }
-
-        //DEBUG_LOG( "Running playouts: %s [%d]\n", SerializeMoveList( pathFromRoot ).c_str(), newPos.mWhiteToMove );
 
         ScoreCard scores;
         PlayoutJob job;
@@ -433,7 +421,7 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
 }
 
 
-void TreeSearcher::ExpandAtLeaf()
+void TreeSearcher::ExpandTree()
 {
     MoveList pathFromRoot;
     ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot );
@@ -522,10 +510,6 @@ void TreeSearcher::UpdateAsyncWorkers()
 
 void TreeSearcher::SearchThread()
 {
-    // Make sure we don't get interrupted by worker threads
-
-    //Timer timer;
-
     for( ;; )
     {
         // Wait until we're needed
@@ -538,34 +522,11 @@ void TreeSearcher::SearchThread()
         if( mShuttingDown )
             break;
 
-        int counter = 0;
-
         while( mSearchRunning )
         {
-            /*
-            if( (counter % 10000) == 0 )
-            {
-                u64 total = 0;
-                for( int i = 0; i < (int) mSearchRoot->mBranch.size(); i++ )
-                    total += mSearchRoot->mBranch[i].mScores.mPlays;
-
-                float secs = timer.GetElapsedMs()/ 1000.0f;
-                float rate = (secs > 0)? (total / secs) : 0;
-
-                printf( "\n%d iters, %d games/sec\n", counter, (int) rate );
-                this->DumpStats( mSearchRoot );
-            }
-            counter++;
-            */
-
             this->UpdateAsyncWorkers();
             this->ProcessAsyncResults();
-
-            //if( mJobQueue.GetCount() >= mOptions->mMaxPendingJobs )
-            //    PlatYield();
-
-            if( mJobQueue.GetCount() < mOptions->mMaxPendingJobs )
-                this->ExpandAtLeaf();
+            this->ExpandTree();
         }
     }
 }

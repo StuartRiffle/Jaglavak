@@ -4,22 +4,6 @@
 #include "Chess.h"
 #include "UciEngine.h"
 
-#include <stdio.h>
-#include <ctype.h>
-#include <time.h>
-#include <math.h>
-#include <algorithm>
-#include <random>
-#include <string>
-#include <vector>
-#include <stack>
-#include <queue>
-#include <list>
-#include <map>
-#include <functional>
-#include <memory>
-#include <thread>
-
 const int VER_MAJOR = 1000;
 const int VER_MINOR = 0;
 const int VER_PATCH = 1;
