@@ -1,8 +1,9 @@
 // PlayoutKernel.cu - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Core.h"
-#include "GamePlayer.h"
+#include "Platform.h"
+#include "Chess.h"
 #include "PlayoutJob.h"
+#include "GamePlayer.h"
 
 __global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int count )
 {

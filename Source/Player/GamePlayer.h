@@ -39,11 +39,6 @@ protected:
     {
         PROFILER_SCOPE( "GamePlayer::PlayGamesSimd" );
 
-        EvalWeightSet weights;
-
-        float gamePhase = Evaluation::CalcGamePhase( startPos );
-        Evaluation::GenerateWeights( &weights, gamePhase );
-
         const int LANES = SimdWidth< SIMD >::LANES;
 
         Position ALIGN_SIMD pos[LANES];
@@ -61,7 +56,6 @@ protected:
         // This is the gameplay loop
 
         bool laneDone[LANES] = { false };
-        EvalTerm laneFinalScore[LANES];
 
         for( int i = 0; i < mOptions->mPlayoutMaxMoves; i++ )
         {
@@ -158,11 +152,10 @@ protected:
             scores.mPlays++;
         }
 
-        //scores.Print( "PlayGamesSimd" );
         return scores;
     }
 
-    PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap, const EvalWeightSet& weights )
+    PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap )
     {
         PROFILER_SCOPE( "GamePlayer::ChoosePlayoutMove" );
 
@@ -171,124 +164,12 @@ protected:
 
         if( moveList.mCount == 0 )
         {
-            //DEBUG_LOG( "NULL move!\n" );
-
             MoveSpec nullMove( 0, 0, 0 );
             return nullMove;
         }
 
-        int movesToPeek = mOptions->mPlayoutPeekMoves;
-        bool makeErrorNow = (mRandom.GetRange( 100 ) < mOptions->mPlayoutErrorRate);
-
-        if( (movesToPeek < 1) || makeErrorNow )
-        {
-            // Fast path: completely random move
-
-            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
-
-            //std::string spec = SerializeMoveSpec( moveList.mMove[randomIdx] );
-            //DEBUG_LOG( "Choosing move %d (%s)\n", randomIdx, spec.c_str() );
-
-            return moveList.mMove[randomIdx];
-        }
-
-        movesToPeek = Min( movesToPeek, moveList.mCount );
-
-        // This has become a "heavy" playout, which means that
-        // we do static evaluation on a subset of the moves.
-
-        // TODO: prefer non-quiet moves
-        //MoveList specialMoves;
-        //moveList.CopySpecialMoves( &specialMoves );
-
-        MoveList peekList;
-        EvalTerm eval[MAX_MOVE_LIST];
-
-        while( movesToPeek > 0 )
-        {
-            const int LANES = SimdWidth< SIMD >::LANES;
-
-            int numValid = Min( moveList.mCount, Min( movesToPeek, LANES ) );
-            if( numValid == 0 )
-                break;
-
-            // Pick some moves to evaluate
-
-            MoveSpec spec[LANES];
-
-            for( int i = 0; i < numValid; i++ )
-            {
-                int idx = (int) mRandom.GetRange( moveList.mCount );
-
-                for( int j = 0; j < moveList.mCount; j++ )
-                    if( moveList.mMove[j].IsCapture() )
-                        idx = j;
-
-                spec[i] = moveList.Remove( idx );
-            }
-
-            // Make those moves
-
-            MoveSpecT< SIMD > simdSpec;
-            PositionT< SIMD > simdPos;
-            MoveMapT< SIMD >  simdMoveMap;
-
-            simdSpec.Unpack( spec );
-            simdPos.Broadcast( pos );
-            simdPos.Step( simdSpec );
-            simdPos.CalcMoveMap( &simdMoveMap );
-
-            // Evaluate the resulting positions
-
-            SIMD simdScore;
-            simdScore = Evaluation::EvaluatePosition< SIMD >( simdPos, simdMoveMap, weights );
-
-            u64* laneScore = (u64*) &simdScore;
-
-			for( int lane = 0; lane < numValid; lane++ )
-            {
-                EvalTerm score = (EvalTerm) laneScore[lane];
-
-
-                // Moves abs high are best for white
-                // Moves 
-
-
-                // FIXME
-                if( !pos.mWhiteToMove )
-                    score = -score;
-
-                eval[peekList.mCount] = (EvalTerm) laneScore[lane];
-                peekList.Append( spec[lane] );
-            }
-
-            movesToPeek -= numValid;
-        }
-
-
-        // FIXME: the sign of the score is flipping, so the "highest" is sometimes lowest
-
-
-        // Find the highest score
-
-        EvalTerm highestEval = eval[0];
-
-        for( int i = 1; i < peekList.mCount; i++ )
-            if( eval[i] > highestEval )
-                highestEval = eval[i];
-
-        // Gather the moves with that score
-
-        MoveList candidates;
-
-        for( int i = 0; i < peekList.mCount; i++ )
-            if (eval[i] == highestEval)
-                candidates.Append( peekList.mMove[i] );
-
-        // Choose one of them at random
-
-        int idx = (int) mRandom.GetRange( candidates.mCount );
-        return moveList.mMove[idx];
+        int randomIdx = (int) mRandom.GetRange( moveList.mCount );
+        return moveList.mMove[randomIdx];
     }
 };
 

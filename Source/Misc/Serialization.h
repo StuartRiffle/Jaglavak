@@ -224,7 +224,7 @@ static std::string SerializePosition( const Position& pos )
 
 static std::string SerializeMoveSpec( const MoveSpec& spec )
 {
-    char movetext[MAX_MOVETEXT];
+    char movetext[MAX_MOVETEXT_LENGTH];
     MoveSpecToString( spec, movetext );
 
     return std::string( movetext );
@@ -232,7 +232,7 @@ static std::string SerializeMoveSpec( const MoveSpec& spec )
 
 static std::string SerializeMoveList( const MoveList& moves )
 {
-    char result[(MAX_MOVETEXT + 1) * MAX_MOVE_LIST];
+    char result[(MAX_MOVETEXT_LENGTH + 1) * MAX_POSSIBLE_MOVES];
     char* cursor = result;
 
     *cursor = 0;

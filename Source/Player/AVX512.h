@@ -38,7 +38,6 @@ struct SimdWidth< simd8_avx512 >
     enum { LANES = 8 };
 };
 
-
 INLINE __m512i _mm512_popcnt_epi64_avx512( const __m512i& v )
 {
     __m512i mask  = _mm512_set1_epi8( 0x0F );
@@ -89,12 +88,6 @@ INLINE simd8_avx512 MaskAllSet< simd8_avx512 >()
 } 
 
 template<>
-INLINE simd8_avx512 MulSigned32< simd8_avx512 >( const simd8_avx512& val, i32 scale ) 
-{
-    return( _mm512_mul_epi32( val.vec, _mm512_set1_epi64( scale ) ) );
-}
-
-template<>
 INLINE simd8_avx512 MaskOut< simd8_avx512 >( const simd8_avx512& val, const simd8_avx512& bitsToClear ) 
 {
     return( _mm512_andnot_si512( bitsToClear.vec, val.vec ) );
@@ -141,17 +134,9 @@ INLINE simd8_avx512 SelectWithMask< simd8_avx512 >( const simd8_avx512& mask, co
     return( _mm512_select( b.vec, a.vec, mask.vec ) );
 }
 
-template<> 
-INLINE simd8_avx512 CountBits< simd8_avx512 >( const simd8_avx512& val ) 
-{ 
-    return( _mm512_popcnt_epi64_avx512( val.vec ) );
-}
-
 template<>
 void SimdInsert< simd8_avx512 >( simd8_avx512& dest, u64 val, int lane )
 {
-    // FIXME: do something better using insert/extract intrinsics
-
     u64 ALIGN( sizeof( simd8_avx512 ) ) qwords[8];
 
     *((simd8_avx512*) qwords) = dest;
@@ -160,36 +145,26 @@ void SimdInsert< simd8_avx512 >( simd8_avx512& dest, u64 val, int lane )
 }
 
 template<> 
-INLINE simd8_avx512 SubClampZero< simd8_avx512 >( const simd8_avx512& a, const simd8_avx512& b )                        
-{ 
-    simd8_avx512 diff = a - b;
-    simd8_avx512 sign = diff & (1ULL << 63);
-
-    return( SelectIfZero( sign, diff ) );
-}
-
-
-template<> 
 INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, simd8_avx512* dest, int destStep )
 {
-    const __m512i idx = _mm512_setr_epi64( 0, 1, 2, 3, 4, 5, 6, 7 );
+    union
+    {
+        simd8_avx512 result[8];
+        u64 elem[64];
+    };
+
     const u64* src64 = (const u64*) src;
 
-    simd8_avx512 col0 = _mm512_i64gather_epi64( idx, src64 + 0, 8 ); 
-    simd8_avx512 col1 = _mm512_i64gather_epi64( idx, src64 + 1, 8 ); 
-    simd8_avx512 col2 = _mm512_i64gather_epi64( idx, src64 + 2, 8 ); 
-    simd8_avx512 col3 = _mm512_i64gather_epi64( idx, src64 + 3, 8 ); 
-    simd8_avx512 col4 = _mm512_i64gather_epi64( idx, src64 + 4, 8 ); 
-    simd8_avx512 col5 = _mm512_i64gather_epi64( idx, src64 + 5, 8 ); 
-    simd8_avx512 col6 = _mm512_i64gather_epi64( idx, src64 + 6, 8 ); 
-    simd8_avx512 col7 = _mm512_i64gather_epi64( idx, src64 + 7, 8 ); 
+    for( int y = 0; y < 8; y++ )
+        for( int x = 0; x < 8; x++ )
+            elem[y * 8 + x] = src64[x * 8 + y];
 
-    dest[destStep * 0] = col0;
-    dest[destStep * 1] = col1;
-    dest[destStep * 2] = col2;
-    dest[destStep * 3] = col3;
-    dest[destStep * 4] = col4;
-    dest[destStep * 5] = col5;
-    dest[destStep * 6] = col6;
-    dest[destStep * 7] = col7;
+    dest[destStep * 0] = result[0];
+    dest[destStep * 1] = result[1];
+    dest[destStep * 2] = result[2];
+    dest[destStep * 3] = result[3];
+    dest[destStep * 4] = result[4];
+    dest[destStep * 5] = result[5];
+    dest[destStep * 6] = result[6];
+    dest[destStep * 7] = result[7];
 }

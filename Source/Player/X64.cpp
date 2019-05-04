@@ -1,8 +1,9 @@
 // X64.cpp - JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
+#include "Platform.h"
 #include "Chess.h"
-#include "GamePlayer.h"
 #include "PlayoutJob.h"
+#include "GamePlayer.h"
 
 extern _CDECL ScoreCard PlayGamesX64( const PlayoutJob* job, PlayoutResult* result, int count )
 {

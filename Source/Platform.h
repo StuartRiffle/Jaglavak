@@ -117,17 +117,6 @@ INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 #endif
 }
 
-INLINE PDECL u64 PlatCountBits64( const u64& val )
-{
-#if ON_CUDA_DEVICE
-    return( __popcll( val ) );
-#elif TOOLCHAIN_MSVC
-    return( __popcnt64( val ) );
-#elif TOOLCHAIN_GCC
-    return( __builtin_popcountll( val ) );
-#endif
-}
-
 INLINE PDECL void PlatClearMemory( void* mem, size_t bytes )
 {
 #if ON_CUDA_DEVICE
@@ -240,16 +229,5 @@ static void PlatBoostThreadPriority()
     // TODO
 #endif
 }
-
-struct Timer
-{
-    u64     mStartTime;
-
-    Timer() { this->Reset(); }
-    Timer( const Timer& rhs ) : mStartTime( rhs.mStartTime ) {}
-
-    void    Reset()         { mStartTime = PlatGetClockTick(); }
-    i64     GetElapsedMs()  { return( ((i64) (PlatGetClockTick() - mStartTime) * 1000) / PlatGetClockFrequency() ); }
-};
 
 #endif // !ON_CUDA_DEVICE

@@ -52,7 +52,7 @@ struct MoveList
 {
     int         mCount;
     int         mTried;
-    MoveSpec    mMove[MAX_MOVE_LIST];
+    MoveSpec    mMove[MAX_POSSIBLE_MOVES];
 
     INLINE PDECL      MoveList()                      { this->Clear(); }
     INLINE PDECL void FlipAll()                       { for( int i = 0; i < mCount; i++ ) mMove[i].Flip(); }

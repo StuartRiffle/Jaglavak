@@ -57,12 +57,6 @@ enum
 
 enum
 {
-    FLAG_TT_BEST_MOVE           = (1 << 0),
-    FLAG_PRINCIPAL_VARIATION    = (1 << 1)
-};
-
-enum
-{
     WHITE,
     BLACK
 };
@@ -75,47 +69,15 @@ enum
     RESULT_DRAW
 };
 
-
-typedef i32     HistoryTerm;
-typedef i16     EvalTerm;
-typedef i32     EvalWeight;
-
-const PDECL int         JAGLAVAK_VER_MAJOR        = 1000;
-const PDECL int         JAGLAVAK_VER_MINOR        = 0;
-const PDECL int         JAGLAVAK_VER_PATCH        = 1;
+const PDECL int         VERSION_MAJOR           = 1000;
+const PDECL int         VERSION_MINOR           = 0;
+const PDECL int         VERSION_INCREMENTAL     = 1;
          
 const PDECL int         UCI_COMMAND_BUFFER      = 8192;
-const PDECL int         TT_MEGS_DEFAULT         = 512;
-const PDECL int         TT_SAMPLE_SIZE          = 128;
-const PDECL int         MAX_SEARCH_DEPTH        = 32;
-const PDECL int         METRICS_DEPTH           = 64;
-const PDECL int         METRICS_MOVES           = 20;
-const PDECL int         MAX_MOVE_LIST           = 218;
+const PDECL int         MAX_POSSIBLE_MOVES      = 218;
 const PDECL int         MAX_FEN_LENGTH          = 96;
-const PDECL int         MAX_MOVETEXT            = 6;
-const PDECL int         MIN_TIME_SLICE          = 10;
-const PDECL int         MAX_TIME_SLICE          = 200;
-const PDECL int         LAG_SAFETY_BUFFER       = 200;
-const PDECL int         NO_TIME_LIMIT           = -1;
+const PDECL int         MAX_MOVETEXT_LENGTH     = 6;
 const PDECL int         PERFT_PARALLEL_MAX      = 5;
-const PDECL int         LAST_QUIET_LEVEL        = -4;
-const PDECL int         BATCH_SIZE_DEFAULT      = 4096;
-const PDECL int         BATCH_COUNT_DEFAULT     = 8;
-const PDECL int         TABLEBASE_MIN_MOVES     = 14;
-const PDECL int         GPU_PLIES_DEFAULT       = 1;
-const PDECL int         GPU_BLOCK_WARPS         = 4;
-const PDECL int         GPU_BATCH_POLL_STEPS    = 20000;
-const PDECL int         MIN_CPU_PLIES           = 5;
-const PDECL int         WEIGHT_SHIFT            = 16;
-const PDECL float       WEIGHT_SCALE            = (1 << WEIGHT_SHIFT);
-const PDECL bool        OWNBOOK_DEFAULT         = true;
-         
-const PDECL EvalTerm    EVAL_SEARCH_ABORTED     = 0x7FFF;
-const PDECL EvalTerm    EVAL_MAX                = 0x7F00;
-const PDECL EvalTerm    EVAL_MIN                = -EVAL_MAX;
-const PDECL EvalTerm    EVAL_CHECKMATE          = EVAL_MIN + 1;
-const PDECL EvalTerm    EVAL_STALEMATE          = 0;
-const PDECL int         EVAL_OPENING_PLIES      = 10;
          
 const PDECL u64         SQUARE_A1               = 1ULL << A1;
 const PDECL u64         SQUARE_A8               = 1ULL << A8;
@@ -151,91 +113,15 @@ const PDECL u64         RANK_5                  = 0x000000FF00000000ULL;
 const PDECL u64         RANK_6                  = 0x0000FF0000000000ULL;
 const PDECL u64         RANK_7                  = 0x00FF000000000000ULL;
 const PDECL u64         RANK_8                  = 0xFF00000000000000ULL;
-
-const PDECL u64         CENTER_DIST_0           = 0x0000001818000000ULL;
-const PDECL u64         CENTER_DIST_1           = 0x0000182424180000ULL;
-const PDECL u64         CENTER_DIST_2           = 0x0018244242241800ULL;
-const PDECL u64         CENTER_DIST_3           = 0x1824428181422418ULL;
-const PDECL u64         CENTER_DIST_4           = 0x2442810000814224ULL;
-const PDECL u64         CENTER_DIST_5           = 0x4281000000008142ULL;
-const PDECL u64         CENTER_DIST_6           = 0x8100000000000081ULL;
-
-const PDECL u64         CENTER_RING_3           = (FILE_A | FILE_H | RANK_1 | RANK_8);
-const PDECL u64         CENTER_RING_2           = (FILE_B | FILE_G | RANK_2 | RANK_7) & ~(CENTER_RING_3);
-const PDECL u64         CENTER_RING_1           = (FILE_C | FILE_F | RANK_3 | RANK_6) & ~(CENTER_RING_3 | CENTER_RING_2);
-const PDECL u64         CENTER_RING_0           = (FILE_D | FILE_E | RANK_4 | RANK_5) & ~(CENTER_RING_3 | CENTER_RING_2 | CENTER_RING_1);
-         
+        
 const PDECL u64         LIGHT_SQUARES           = 0x55AA55AA55AA55AAULL;
 const PDECL u64         DARK_SQUARES            = 0xAA55AA55AA55AA55ULL;
 const PDECL u64         ALL_SQUARES             = 0xFFFFFFFFFFFFFFFFULL;
 const PDECL u64         CASTLE_ROOKS            = SQUARE_A1 | SQUARE_H1 | SQUARE_A8 | SQUARE_H8;
 const PDECL u64         EP_SQUARES              = RANK_3 | RANK_6;
-const PDECL u64         CENTER_SQUARES          = (FILE_C | FILE_D | FILE_E | FILE_F) & (RANK_3 | RANK_4 | RANK_5 | RANK_6);
 const PDECL u64         CORNER_SQUARES          = (FILE_A | FILE_H) & (RANK_1 | RANK_8);
-const PDECL u64         RIM_SQUARES             = (FILE_A | FILE_H | RANK_1 | RANK_8);
-const PDECL u64         EDGE_SQUARES            = (FILE_A | FILE_H | RANK_1 | RANK_8) & ~CORNER_SQUARES;
 
 
-template< typename T > 
-INLINE PDECL T IsPowerOfTwo( const T& val )
-{
-    return( (val & (val - 1)) == (T) 0 );
-}
-
-template< typename T > 
-INLINE PDECL T AlignUp( const T& val, const T& multiple )
-{
-    return( (val + multiple - 1) & ~(multiple - 1) );
-}
-
-template< typename T >
-INLINE PDECL T CountBits( const T& val )
-{ 
-    return PlatCountBits64( val ); 
-}
-
-
-template< typename SIMD, typename UNPACKED, typename PACKED >
-INLINE PDECL void Swizzle( const UNPACKED* srcStruct, PACKED* destStruct )
-{
-    const int LANES = SimdWidth< SIMD >::LANES;
-
-    int blockSize  = sizeof( SIMD ) * LANES;
-    int blockCount = (int) sizeof( PACKED ) / blockSize;
-    int srcStride  = sizeof( UNPACKED ) / sizeof( SIMD );
-
-    const SIMD* RESTRICT    src     = (SIMD*) srcStruct;
-    SIMD* RESTRICT          dest    = (SIMD*) destStruct;
-
-    while( blockCount-- )
-    {
-        Transpose< SIMD >( src, srcStride, dest, 1 );
-
-        src  += 1;
-        dest += LANES;
-    }
-}
-
-template< typename SIMD, typename PACKED, typename UNPACKED >
-INLINE PDECL void Unswizzle( const PACKED* srcStruct, UNPACKED* destStruct )
-{
-    const int LANES = SimdWidth< SIMD >::LANES;
-
-    int blockSize  = sizeof( SIMD ) * LANES;
-    int blockCount = (int) sizeof( PACKED ) / blockSize;
-    int destStride = sizeof( UNPACKED ) / sizeof( SIMD );
-
-    const SIMD* RESTRICT    src     = (SIMD*) srcStruct;
-    SIMD* RESTRICT          dest    = (SIMD*) destStruct;
-
-    while( blockCount-- )
-    {
-        Transpose< SIMD >( src, 1, dest, destStride );
-
-        src  += LANES;
-        dest += 1;
-    }
-}
 
 template< typename T > struct   MoveSpecT;
 template< typename T > struct   MoveMapT;
@@ -244,6 +130,4 @@ template< typename T > struct   PositionT;
 typedef MoveSpecT< u8 >         MoveSpec;
 typedef MoveMapT<  u64 >        MoveMap;
 typedef PositionT< u64 >        Position;
-
-#define PROFILER_SCOPE( _STR )
 

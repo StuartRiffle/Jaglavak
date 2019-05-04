@@ -7,7 +7,7 @@ struct BranchInfo
     TreeNode*   mNode;
     MoveSpec    mMove;
     ScoreCard   mScores;
-    char        mMoveText[MAX_MOVETEXT];
+    char        mMoveText[MAX_MOVETEXT_LENGTH];
 
     BranchInfo() : mNode( NULL ) {}
 };

@@ -79,22 +79,10 @@ INLINE simd4_avx2 MaskAllSet< simd4_avx2 >()
     return( _mm256_set1_epi8( ~0 ) );
 } 
 
-template<>
-INLINE simd4_avx2 CountBits< simd4_avx2 >( const simd4_avx2& val ) 
-{
-    return( _mm256_popcnt_epi64_avx2( val.vec ) );
-}
-
 template<> 
 INLINE simd4_avx2 ByteSwap< simd4_avx2 >( const simd4_avx2& val ) 
 {
     return( _mm256_bswap_epi64_avx2( val.vec ) );
-}
-
-template<> 
-INLINE simd4_avx2 MulSigned32< simd4_avx2 >( const simd4_avx2& val, i32 scale ) 
-{
-    return( _mm256_mul_epi32( val.vec, _mm256_set1_epi64x( scale ) ) );
 }
 
 template<>
@@ -149,15 +137,6 @@ void SimdInsert< simd4_avx2 >( simd4_avx2& dest, u64 val, int lane )
     *((simd4_avx2*) qwords) = dest;
     qwords[lane] = val;
     dest = *((simd4_avx2*) qwords);
-}
-
-template<> 
-INLINE simd4_avx2 SubClampZero< simd4_avx2 >( const simd4_avx2& a, const simd4_avx2& b )                        
-{ 
-    simd4_avx2 diff = a - b;
-    simd4_avx2 sign = diff & (1ULL << 63);
-
-    return( SelectIfZero( sign, diff ) );
 }
 
 template<> 

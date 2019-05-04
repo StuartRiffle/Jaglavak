@@ -46,6 +46,12 @@ struct simd2_sse4
     INLINE simd2_sse4&  operator^= ( const simd2_sse4& v )        { return( vec = _mm_xor_si128( vec, v.vec ), *this ); }
 }; 
 
+template<>
+struct SimdWidth< simd2_sse4 >
+{
+    enum { LANES = 2 };
+};
+
 INLINE __m128i _mm_popcnt_epi64_sse4( const __m128i& v )
 {
     __m128i mask  = _mm_set1_epi8( 0x0F );
@@ -83,12 +89,6 @@ template<>
 INLINE simd2_sse4 ByteSwap< simd2_sse4 >( const simd2_sse4& val ) 
 { 
     return( _mm_bswap_epi64_sse4( val.vec ) );
-}
-
-template<>
-INLINE simd2_sse4 MulSigned32< simd2_sse4 >( const simd2_sse4& val, i32 scale ) 
-{ 
-    return( _mm_mul_epi32( val.vec, _mm_set1_epi64x( scale ) ) );
 }
 
 template<> 
@@ -134,25 +134,10 @@ INLINE simd2_sse4 SelectWithMask< simd2_sse4 >( const simd2_sse4& mask, const si
 }
 
 template<>
-struct SimdWidth< simd2_sse4 >
-{
-    enum { LANES = 2 };
-};
-
-template<>
 void SimdInsert< simd2_sse4 >( simd2_sse4& dest, u64 val, int lane )
 {
     //dest.vec = (lane == 0)? _mm_insert_epi64( dest.vec, val, 0 ) : _mm_insert_epi64( dest.vec, val, 1 );
     ((u64*) &dest)[lane] = val;
-}
-
-template<> 
-INLINE simd2_sse4 SubClampZero< simd2_sse4 >( const simd2_sse4& a, const simd2_sse4& b )                        
-{ 
-    simd2_sse4 diff = a - b;
-    simd2_sse4 sign = diff & (1ULL << 63);
-
-    return( SelectIfZero( sign, diff ) );
 }
 
 template<> 

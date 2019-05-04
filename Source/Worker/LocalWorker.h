@@ -40,23 +40,22 @@ class LocalWorker : public AsyncWorker
             if( job == NULL )
                 break;
 
-            PlayoutResultRef result( new PlayoutResult() );
-            result->mPathFromRoot = job.mPathFromRoot;
-
-            extern ScoreCard PlayGamesX64( const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesSSE4( const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesAVX2( const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesAVX512( const PlayoutJob* job, PlayoutResult* result, int count );
-
             int simdLevel   = ChooseSimdLevelForPlayout( job.mOptions, job.mNumGames );
             int simdCount   = (job.mNumGames + simdLevel - 1) / simdLevel;
 
+            extern ScoreCard PlayGamesX64(    const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesSSE4(   const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesAVX2(   const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesAVX512( const PlayoutJob* job, PlayoutResult* result, int count );
+
+            PlayoutResultRef result( new PlayoutResult() );
+
             switch( simdLevel )
             {
-            case 8:   result->mScores = PlayGamesAVX512( job, result, simdCount ); break;
-            case 4:   result->mScores = PlayGamesAVX2( job, result, simdCount ); break;
-            case 2:   result->mScores = PlayGamesSSE4( job, result, simdCount ); break;
-            default:  result->mScores = PlayGamesX64( job, result, simdCount ); break;
+            case 8:   PlayGamesAVX512( job, result, simdCount ); break;
+            case 4:   PlayGamesAVX2(   job, result, simdCount ); break;
+            case 2:   PlayGamesSSE4(   job, result, simdCount ); break;
+            default:  PlayGamesX64(    job, result, simdCount ); break;
             }
 
             mResultQueue->Push( result );
