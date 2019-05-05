@@ -2,61 +2,36 @@
 
 #include "Platform.h"
 #include "Chess.h"
-#include "PlayoutJob.h"
+#include "PlayoutBatch.h"
 #include "GamePlayer.h"
 
-__global__ void PlayGamesCuda( const PlayoutJob* job, PlayoutResult* result, int count )
+__global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
     int idx = (blockIdx.x * blockDim.x) + threadIdx.x;
-    GamePlayer< u64 > player( &job->mOptions, job->mRandomSeed + idx );
+    idx %= count;
 
-    result->mPathFromRoot = job->mPathFromRoot;
+    GamePlayer player( params, idx );
+    ScoreCard scores;
 
-    ScoreCard scores = player.PlayGames( job->mPosition, count );
+    player.PlayGames( pos + idx, &scores, 1 );
 
-    atomicAdd( (unsigned long long*) &result->mScores.mWins[BLACK], scores.mWins[BLACK] );
-    atomicAdd( (unsigned long long*) &result->mScores.mWins[WHITE], scores.mWins[WHITE] );
-    atomicAdd( (unsigned long long*) &result->mScores.mPlays, scores.mPlays );
+    atomicAdd( (unsigned long long*) &dest[idx].mScores.mWins[BLACK], scores.mWins[BLACK] );
+    atomicAdd( (unsigned long long*) &dest[idx].mScores.mWins[WHITE], scores.mWins[WHITE] );
+    atomicAdd( (unsigned long long*) &dest[idx].mScores.mPlays, scores.mPlays );
 }
 
-
-void QueuePlayGamesCuda( CudaLaunchSlot* slot, int blockCount, int blockSize )
+void PlayGamesCudaAsync( CudaLaunchSlot* slot, int blockCount, int blockSize, cudaStream_t stream )
 {
-    // Clear the output buffer
+    slot->mParams.CopyToDeviceAsync( stream );
+    slot->mInputs.CopyToDeviceAsync( stream );
+    slot->mOutput.ClearOnDevice( stream );
 
-    cudaMemsetAsync( 
-        slot->mOutputDev,
-        0,
-        sizeof( PlayoutResult ),
-        slot->mStream );
+    PlayGamesCuda<<< blockCount, blockSize, 0, stream >>>(
+        slot->mParams.mDev,
+        slot->mInputs.mDev, 
+        slot->mOutputs.mDev, 
+        slot->mCount );
 
-    // Copy the inputs to device
-
-    cudaMemcpyAsync( 
-        slot->mInputDev, 
-        slot->mInputHost, 
-        sizeof( PlayoutJob ), 
-        cudaMemcpyHostToDevice, 
-        slot->mStream );
-
-    // Run the playout kernel
-
-    //cudaEventCreate( &slot->mStartEvent );
-    cudaEventRecord( slot->mStartEvent, slot->mStream );
-
-    PlayGamesCuda<<< blockCount, blockSize, 0, slot->mStream >>>( 
-        slot->mInputDev, 
-        slot->mOutputDev, 
-        1 );
-
-    // Copy the results back to host
-
-    cudaMemcpyAsync( 
-        slot->mOutputHost, 
-        slot->mOutputDev, 
-        sizeof( PlayoutResult ), 
-        cudaMemcpyDeviceToHost, 
-        slot->mStream );
-
-    cudaEventRecord( slot->mReadyEvent, slot->mStream );
+    slot->mOutputs.CopyToHostAsync( stream );
+    cudaEventRecord( slot->mReadyEvent, stream );
 }

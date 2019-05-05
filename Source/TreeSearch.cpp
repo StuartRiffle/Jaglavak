@@ -199,18 +199,6 @@ void TreeSearcher::MoveToFront( TreeNode* node )
 
     static int touch = 0;
     node->mTouch = touch++;
-
-                                /*
-    TreeNode* t = node->mPrev->mPrev->mPrev;
-    for( int i = 0; i < 6; i++ )
-    {
-        printf( "%d ", t->mCounter );
-        t = t->mNext;
-    }
-    printf( "\n" );
-    */
-
-    //this->DebugVerifyMruList();
 }
 
 TreeNode* TreeSearcher::AllocNode()
@@ -267,7 +255,6 @@ float TreeSearcher::CalculateUct( TreeNode* node, int childIndex )
 
     int color = node->mColor;
     int childWins = scores.mWins[color];
-
 
     u64 nodePlays = nodeInfo->mScores.mPlays;
     if( nodePlays == 0 )
@@ -368,7 +355,7 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
         }
 
         ScoreCard scores;
-        PlayoutJob job;
+        PlayoutBatch job;
 
         job.mOptions        = *mOptions;
         job.mRandomSeed     = mRandom.GetNext();
@@ -380,7 +367,7 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
         {
             // Do the initial playouts
 
-            PlayoutResult jobResult = RunPlayoutJobCpu( job );
+            PlayoutResult jobResult = RunPlayoutBatchCpu( job );
             scores += jobResult.mScores;
         }
         else
@@ -394,7 +381,7 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
         {
             // Queue up any async playouts
 
-            PlayoutJobRef asyncJob( new PlayoutJob() );
+            PlayoutBatchRef asyncJob( new PlayoutBatch() );
 
             *asyncJob = job;
             asyncJob->mNumGames = mOptions->mNumAsyncPlays;
@@ -427,9 +414,6 @@ void TreeSearcher::ExpandTree()
     ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot );
 
     mSearchRoot->mInfo->mScores += rootScores;
-
-    int chosenBranch = mSearchRoot->FindMoveIndex( pathFromRoot.mMove[0] );
-    assert( chosenBranch >= 0 );
 }
 
 
@@ -518,17 +502,10 @@ void TreeSearcher::UpdateAsyncWorkers()
 
 void TreeSearcher::SearchThread()
 {
-    for( ;; )
+    while( !mShuttingDown )
     {
-        // Wait until we're needed
-
         mSearchThreadIdle.Post();
         mSearchThreadActive.Wait();
-
-        // Run until we're not
-
-        if( mShuttingDown )
-            break;
 
         while( mSearchRunning )
         {

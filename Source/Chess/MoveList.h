@@ -50,12 +50,11 @@ struct MoveSpecT
 struct MoveList
 {
     int         mCount;
-    int         mTried;
     MoveSpec    mMove[MAX_POSSIBLE_MOVES];
 
     INLINE PDECL      MoveList()                      { this->Clear(); }
+    INLINE PDECL void Clear()                         { mCount = 0; }
     INLINE PDECL void FlipAll()                       { for( int i = 0; i < mCount; i++ ) mMove[i].Flip(); }
-    INLINE PDECL void Clear()                         { mCount = 0; mTried = 0; }
     INLINE PDECL void Append( const MoveSpec& spec )  { mMove[mCount++] = spec; }
 
     PDECL int LookupMove( const MoveSpec& spec )
@@ -72,18 +71,6 @@ struct MoveList
         }
 
         return( -1 );
-    }
-
-    PDECL int ChooseBestUntried()
-    {
-        int best = mTried;
-
-        for( int idx = best + 1; idx < mCount; idx++ )
-            if( mMove[idx].mType > mMove[best].mType )
-                best = idx;
-
-        Exchange( mMove[mTried], mMove[best] );
-        return( mTried++ );
     }
 
     PDECL MoveSpec Remove( int idx )
@@ -104,32 +91,11 @@ struct MoveList
         for( int idx = mCount + 1; idx < prevCount; idx++ )
             if( mMove[idx].mType >= type )
                 mMove[mCount++] = mMove[idx];
-
-        mTried = 0;
-    }
-
-    PDECL void CopySpecialMoves( MoveList* dest )
-    {
-        for( int idx = 0; idx < mCount; idx++ )
-            if( mMove[idx].mType > MOVE )
-                dest->Append( mMove[idx] );
     }
 
     PDECL void DiscardQuietMoves()
     {
         this->DiscardMovesBelow( CAPTURE_EQUAL );
-    }
-
-    PDECL void FlagSpecialMove( int src, int dest, int flag )
-    {
-        for( int idx = mTried; idx < mCount; idx++ )
-        {
-            if( (mMove[idx].mSrc == src) && (mMove[idx].mDest == dest) )
-            {
-                mMove[idx].mFlags |= flag;
-                return;
-            }
-        }
     }
 
     PDECL void UnpackMoveMap( const Position& pos, const MoveMap& mmap )

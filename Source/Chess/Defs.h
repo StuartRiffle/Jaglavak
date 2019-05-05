@@ -114,8 +114,6 @@ const PDECL u64         CASTLE_ROOKS            = SQUARE_A1 | SQUARE_H1 | SQUARE
 const PDECL u64         EP_SQUARES              = RANK_3 | RANK_6;
 const PDECL u64         CORNER_SQUARES          = (FILE_A | FILE_H) & (RANK_1 | RANK_8);
 
-
-
 template< typename T > struct   MoveSpecT;
 template< typename T > struct   MoveMapT;
 template< typename T > struct   PositionT;

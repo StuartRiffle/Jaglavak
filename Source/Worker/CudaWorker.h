@@ -6,7 +6,7 @@ class CudaWorker : public AsyncWorker
     typedef std::map< cudaStream_t, std::list< CudaLaunchSlot* > > LaunchSlotsByStream;
 
     int                             mDeviceIndex;      
-    std::unique_ptr< LaunchThread > mLaunchThread;
+    std::unique_ptr< CudaLauncher > mLaunchThread;
     std::unique_ptr< std::thread >  mJobThread;
     std::vector< CudaLaunchSlot >   mSlotInfo;      
     const GlobalOptions*            mOptions;
@@ -17,11 +17,11 @@ class CudaWorker : public AsyncWorker
 
 
     bool mInitialized;
-    PlayoutJobQueue*    mJobQueue;
-    PlayoutResultQueue* mResultQueue;
+    BatchQueue*    mJobQueue;
+    BatchQueue* mResultQueue;
 
 public:    
-    CudaWorker( const GlobalOptions* options, PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
+    CudaWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions = options;
         mJobQueue = jobQueue;
@@ -37,10 +37,8 @@ public:
 
     static int GetDeviceCount()
     {
-        int count;
-        auto res = cudaGetDeviceCount( &count );
-        if( res != cudaSuccess )
-            count = 0;
+        int count = 0;
+        cudaGetDeviceCount( &count );
 
         return( count );
     }
@@ -50,7 +48,7 @@ public:
         mDeviceIndex  = deviceIndex;
         cudaSetDevice( deviceIndex );
 
-        mLaunchThread = std::unique_ptr< LaunchThread >( new LaunchThread( mOptions, deviceIndex ) );
+        mLaunchThread = std::unique_ptr< CudaLauncher >( new CudaLauncher( mOptions, deviceIndex ) );
         mLaunchThread->Init();
 
         mSlotInfo.resize( jobSlots );
@@ -92,9 +90,24 @@ private:
     {
         for( ;; )
         {
+            std::vector< PlayoutBatch > jobs = mJobQueue.PopBulk( mOptions->mCudaJobBatch, true );
+            if( jobs.empty() )
+                break;
+
+            bool freeSlotAvail = false;
+
+            MUTEX_SCOPE( mSlotMutex );
+
+            if( mFreeSlots.empty() )
+            {
+                PlatSleep( mOptions)
+            }
+
             mSlotMutex.Enter();
             bool empty = mFreeSlots.empty();
             mSlotMutex.Leave();
+
+            if( empty )
 
             if( empty )
             {
@@ -102,7 +115,7 @@ private:
                 continue;
             }
 
-            PlayoutJob job = mJobQueue->Pop();
+            PlayoutBatch job = mJobQueue->Pop();
             if( job == NULL )
                 return;
 

@@ -3,13 +3,11 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "SSE4.h"
-#include "PlayoutJob.h"
+#include "PlayoutBatch.h"
 #include "GamePlayer.h"
 
-extern _CDECL void PlayGamesSSE4( const PlayoutJob* job, PlayoutResult* result, int count )
+extern _CDECL void PlayGamesSSE4( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
 {
-    GamePlayer< simd2_sse4 > player( &job.mOptions, job.mRandomSeed );
-
-    result->mPathFromRoot = job->mPathFromRoot;
-    result->mScores += player.PlayGames( job.mPosition, count );
+    GamePlayer< simd2_sse4 > player( params );
+    player.PlayGames( pos, dest, simdCount );
 }

@@ -56,8 +56,8 @@ struct TreeSearcher
     volatile bool           mShuttingDown;
     volatile bool           mSearchRunning;
     RandomGen               mRandom;
-    PlayoutJobQueue         mJobQueue;
-    PlayoutResultQueue      mResultQueue;
+    BatchQueue         mJobQueue;
+    BatchQueue      mResultQueue;
 
     std::vector< std::shared_ptr< IAsyncWorker > > mAsyncWorkers;
 

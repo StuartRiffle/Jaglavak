@@ -2,13 +2,12 @@
 
 #include "Platform.h"
 #include "Chess.h"
-#include "PlayoutJob.h"
+#include "PlayoutBatch.h"
 #include "GamePlayer.h"
 
-extern _CDECL ScoreCard PlayGamesX64( const PlayoutJob* job, PlayoutResult* result, int count )
+extern _CDECL void PlayGamesX64( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
-    GamePlayer< u64 > player( &job.mOptions, job.mRandomSeed );
-
-    result->mPathFromRoot = job->mPathFromRoot;
-    result->mScores += player.PlayGames( job.mPosition, count );
+    GamePlayer player( params );
+    player.PlayGames( pos, dest, count );
 }
+

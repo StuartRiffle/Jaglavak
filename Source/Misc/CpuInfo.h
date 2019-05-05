@@ -3,16 +3,19 @@
 
 struct CpuInfo
 {
-    static bool CheckCpuFlag( int leaf, int idxWord, int idxBit )
+    static void Cpuid( int leaf, unsigned int* dest )
     {
     #if TOOLCHAIN_MSVC
-        int info[4] = { 0 };
-        __cpuid( info, leaf );
+        __cpuid( (int*) dest leaf );
     #elif TOOLCHAIN_GCC
-        unsigned int info[4] = { 0 };
-        if( !__get_cpuid( leaf, info + 0, info + 1, info + 2, info + 3 ) )
-            return( false );
+        __get_cpuid( leaf, dest + 0, dest + 1, dest + 2, dest + 3 );
     #endif
+    }
+
+    static bool CheckCpuFlag( int leaf, int idxWord, int idxBit )
+    {
+        unsigned int info[4];
+        Cpuid( leaf, info );
 
         return( (info[idxWord] & (1 << idxBit)) != 0 );
     }
@@ -43,6 +46,29 @@ struct CpuInfo
     #elif TOOLCHAIN_GCC
         return( sysconf( _SC_NPROCESSORS_ONLN ) );
     #endif
+    }
+
+    static std::string GetCpuName()
+    {
+        std::string result;
+
+        union
+        {
+            unsigned int info[12];
+            char desc[48];
+        };
+
+        Cpuid( 0x80000000, info );
+        if( info[0] >= 0x80000004 )
+        {
+            Cpuid( 0x80000002, info );
+            Cpuid( 0x80000003, info + 4 );
+            Cpuid( 0x80000004, info + 8 );
+
+            result = std::string( desc, desc + sizeof( desc ) );
+        }
+
+        return result;
     }
 
     static INLINE u64 GetClockTick()

@@ -1,121 +1,85 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-#include "PlayoutJob.h"
+#include "PlayoutBatch.h"
 
-template< typename SIMD >
+template< typename SIMD = u64 >
 class GamePlayer
 {
-    RandomGen   mRandom;
-    int         mMaxMoves;
+    const int LANES = SimdWidth< SIMD >::LANES;
+
+    PlayoutParams*  mParams;
+    RandomGen       mRandom;
 
 public:
 
-    PDECL GamePlayer( u64 randomSeed, int maxMoves )
+    PDECL GamePlayer( const PlayoutParams* params, int salt = 0 )
     {
-        mRandom.SetSeed( randomSeed );
-        mMaxMoves = maxMoves;
+        mParams = params;
+        mRandom.SetSeed( params->mRandomSeed + salt );
     }
 
-    PDECL ScoreCard PlayGames( const Position& pos, int simdCount )
+    PDECL void PlayGames( const PositionT< SIMD >* pos, ScoreCard* dest, int simdCount )
     {
-        ScoreCard scores;
-
         #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
-        {
-            ScoreCard simdScores = PlayGamesSimd( pos );
-
-            #pragma omp critical
-            scores += simdScores;
-        }
-
-        return scores;
+            PlayGameSimd( pos[i], dest + (i * LANES) );
     }
 
 protected:
 
-    PDECL ScoreCard PlayGamesSimd( const PositionT< SIMD >& simdPos )
+    PDECL ScoreCard PlayGameSimd( const PositionT< SIMD >& startPos, ScoreCard* dest )
     {
-        const int LANES = SimdWidth< SIMD >::LANES;
-
         Position ALIGN_SIMD pos[LANES];
         MoveMap  ALIGN_SIMD moveMap[LANES];
+        MoveSpec ALIGN_SIMD spec[LANES];
 
-        MoveMapT< SIMD > simdMoveMap;
+        PositionT< SIMD > simdPos;
+        MoveSpecT< SIMD > simdSpec;
+        MoveMapT< SIMD >  simdMoveMap;
+
+        simdPos = startPos;
+        Unswizzle< SIMD >( &simdPos, pos );
+
         simdPos.CalcMoveMap( &simdMoveMap );
-
-        Unswizzle< SIMD >( &simdPos,     pos );
         Unswizzle< SIMD >( &simdMoveMap, moveMap );
 
-        // This is the gameplay loop
-
-        int laneResult[LANES] = { 0 };
-
-        for( int i = 0; i < mMaxMoves; i++ )
+        for( int i = 0; i < mParams->mMaxMovesPerGame; i++ )
         {
-            MoveSpecT< SIMD > simdSpec;
-            MoveSpec spec[LANES];
-
             for( int lane = 0; lane < LANES; lane++ )
-                spec[lane] = this->ChoosePlayoutMove( pos[lane], moveMap[lane], weights );
+                spec[lane] = this->ChoosePlayoutMove( pos[lane], moveMap[lane] );
 
-            Swizzle< SIMD >( pos, &simdPos );
             simdSpec.Unpack( spec );
-
             simdPos.Step( simdSpec );
             simdPos.CalcMoveMap( &simdMoveMap );
-
-            Unswizzle< SIMD >( &simdPos,     pos );
+            
+            Unswizzle< SIMD >( &simdPos, pos );
             Unswizzle< SIMD >( &simdMoveMap, moveMap );
-
-            // Detect games that are done
-
-            int lanesDone = 0;
-            for( int lane = 0; lane < LANES; lane++ )
-            {
-                if( !laneResult[lane] )
-                    laneResult[lane] = pos.CalcGameResult( pos[lane], moveMap[lane] );
-
-                if( laneResult[lane] )
-                    lanesDone++;
-            }
-
-            if( lanesDone == LANES )
-                break;
         }
-
-        // Compile the results
-
-        ScoreCard scores;
 
         for( int lane = 0; lane < LANES; lane++ )
         {
-            if( laneResult[lane] == RESULT_WHITE_WIN )
-                scores.mWins[WHITE]++;
-
-            if( laneResult[lanel] == RESULT_BLACK_WIN )
-                scores.mWins[BLACK]++
-
-            scores.mPlays++;
+            dest[lane].mWins[WHITE] += (pos[lane].mResult == RESULT_WHITE_WIN);
+            dest[lane].mWins[BLACK] += (pos[lane].mResult == RESULT_BLACK_WIN);
+            dest[lane].mPlays++;
         }
-
-        return scores;
     }
 
     PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap )
     {
-        MoveList moveList;
-        moveList.UnpackMoveMap( pos, moveMap );
-
-        if( moveList.mCount == 0 )
+        if( pos.mResult == RESULT_UNKNOWN )
         {
-            MoveSpec nullMove( 0, 0, 0 );
-            return nullMove;
+            MoveList moveList;
+            moveList.UnpackMoveMap( pos, moveMap );
+
+            assert( moveList.mCount > 0 );
+            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
+
+            return moveList.mMove[randomIdx];
         }
 
-        int randomIdx = (int) mRandom.GetRange( moveList.mCount );
-        return moveList.mMove[randomIdx];
+        MoveSpec nullMove( 0, 0, 0 );
+        return nullMove;
     }
 };
 

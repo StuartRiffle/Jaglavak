@@ -1,20 +1,26 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-template< typename T, int CAPACITY = 8192 >
+template< typename T >
 class ThreadSafeQueue
 {
-    T               mElem[CAPACITY];
-    int             mReadCursor;
-    int             mWriteCursor;
-    volatile bool*  mShuttingDown;
-    std::mutex      mMutex;
+    std::vector< T > mBuffer;
+    size_t mCount;
+    size_t mWrapMask;
+    size_t mWriteCursor;
+
+    std::mutex mMutex;
     std::condition_variable mVar;
+    volatile bool* mShuttingDown;
 
 public:
-    ThreadSafeQueue()
+    ThreadSafeQueue( size_t capacity )
     {
-        mReadCursor = 0;
+        assert( capacity & (capacity - 1) == 0 );
+
+        mBuffer.resize( capacity );
+        mCount = 0;
+        mWrapMask = capacity - 1;
         mWriteCursor = 0;
         mShuttingDown = false;
     }
@@ -22,23 +28,26 @@ public:
     ~ThreadSafeQueue()
     {
         mShuttingDown = true;
-        mVar.notify_all();
+        mVar.notify_all();    
     }
 
-    void Push( const T* objs, int count )
+    size_t PushBatch( const T* objs, size_t count, size_t minimum )
     {
         std::lock_guard< std::mutex > lock( mMutex );
 
-        const T* objsEnd == objs + count;
-        while( objs != objsEnd )
+        size_t numPushed = 0;
+        while( numPushed < count )
         {
-            bool slotAvail = (mWriteCursor + 1) % CAPACITY != mReadCursor;
-            if( slotAvail )
+            size_t capacity = mBuffer.size();
+            if( mCount < capacity )
             {
-                mElem[mWriteCursor++] = *objs++;
-                mWriteCursor %= CAPACITY;
+                mBuffer[mWriteCursor++ & mWrapMask] = objs[numPushed++];
+                mCount++;
                 continue;
             }
+
+            if( numPushed >= minimum )
+                break;
 
             mVar.wait( mMutex );
             if( mShuttingDown )
@@ -47,35 +56,45 @@ public:
 
         lock.unlock();
         mVar.notify_all();
+
+        return numPushed;
+    }
+
+    void PushBatch( const T* objs, size_t count )
+    {
+        this->PushBatch( objs, count, count );
+    }
+
+    void PushBatch( const std::vector< T >& elems )
+    {
+        this->PushBatch( elems.data(), elems.size() );
     }
 
     void Push( const T& obj )
     {
-        this->Push( &obj, 1 );
+        this->PushBatch( &obj, 1 );
     }
 
-    int Pop( T* dest, int limit, bool blocking = true )
+    size_t PopBatch( T* dest, size_t limit, size_t minimum )
     {
         std::lock_guard< std::mutex > lock( mMutex );
 
-        int count = 0;
-        while( count < limit )
+        size_t numPopped = 0;
+        size_t readCursor = mWriteCursor - mCount;
+
+        while( numPopped < limit )
         {
-            if( mReadCursor != mWriteCursor )
+            if( mCount > 0 )
             {
-                dest[count++] = mElem[mReadCursor++];
-                mReadCursor %= CAPACITY;
+                dest[numPopped++] = mBuffer[readCursor++ & mWrapMask];
+                mCount--;
                 continue;
             }
 
-            if( count > 0 )
-                break;
-
-            if( !blocking )
+            if( numPopped >= minimum )
                 break;
 
             mVar.wait( mMutex );
-
             if( mShuttingDown )
                 break;
         }
@@ -83,25 +102,24 @@ public:
         lock.unlock();
         mVar.notify_all();
 
-        return count;
+        return numPopped;
+    }
+
+    std::vector< T > PopBatch( size_t count, size_t minimum = 1 )
+    {
+        std::vector< T > result;
+        result.resize( count );
+
+        size_t numPopped = this->PopBatch( result.data(), limit, minimum );
+        result.resize( numPopped );
+
+        return result;
     }
 
     T Pop()
     {
         T result;
-
-        this->Pop( &result, 1 );
-        return result;
-    }
-
-    std::vector PopBulk( int limit = 1024 )
-    {
-        std::vector< T > result;
-        result.resize( limit );
-
-        int count = this->Pop( result.data(), limit, false );
-        result.resize( count );
-
+        this->PopBatch( &result, 1 );
         return result;
     }
 };

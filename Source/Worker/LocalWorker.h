@@ -3,8 +3,8 @@
 
 class LocalWorker : public AsyncWorker
 {
-    PlayoutJobQueue*        mJobQueue;
-    PlayoutResultQueue*     mResultQueue;
+    BatchQueue*        mJobQueue;
+    BatchQueue*     mResultQueue;
     std::thread*            mJobThread;
     const GlobalOptions*    mOptions;
 
@@ -34,17 +34,17 @@ class LocalWorker : public AsyncWorker
     {
         for( ;; )
         {
-            PlayoutJobRef job = mJobQueue->Pop();
+            PlayoutBatchRef job = mJobQueue->Pop();
             if( job == NULL )
                 break;
 
             int simdLevel   = ChooseSimdLevelForPlayout( job.mOptions, job.mNumGames );
             int simdCount   = (job.mNumGames + simdLevel - 1) / simdLevel;
 
-            extern ScoreCard PlayGamesAVX512( const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesAVX2(   const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesSSE4(   const PlayoutJob* job, PlayoutResult* result, int count );
-            extern ScoreCard PlayGamesX64(    const PlayoutJob* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesAVX512( const PlayoutBatch* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesAVX2(   const PlayoutBatch* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesSSE4(   const PlayoutBatch* job, PlayoutResult* result, int count );
+            extern ScoreCard PlayGamesX64(    const PlayoutBatch* job, PlayoutResult* result, int count );
 
             PlayoutResultRef result( new PlayoutResult() );
 
@@ -62,7 +62,7 @@ class LocalWorker : public AsyncWorker
 
 public:
 
-    LocalWorker( const GlobalOptions* options, PlayoutJobQueue* jobQueue, PlayoutResultQueue* resultQueue )
+    LocalWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions = options;
         mJobQueue = jobQueue;
