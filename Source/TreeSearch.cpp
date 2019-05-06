@@ -4,8 +4,6 @@
 #include "Chess.h"
 #include "TreeSearch.h"
 
-
-
 TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
     mOptions( options )
 {
@@ -48,7 +46,7 @@ void TreeSearch::Init()
 {
     for( int i = 0; i < mOptions->mNumLocalWorkers; i++ )
     {
-        auto worker = new LocalWorker( mOptions, &mPendingQueue, &mDoneQueue );
+        auto worker = new LocalWorker( mOptions, &mWorkQueue, &mDoneQueue );
         mAsyncWorkers.push_back( std::shared_ptr< AsyncWorker >( worker ) );
     }
 
@@ -56,10 +54,10 @@ void TreeSearch::Init()
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            auto worker = new CudaWorker( mOptions, &mPendingQueue, &mDoneQueue );
+            std::shared_ptr< AsyncWorker > worker( new CudaWorker( mOptions, &mWorkQueue, &mDoneQueue ) );
             worker->Initialize( i, mOptions->mCudaQueueDepth );
 
-            mAsyncWorkers.push_back( std::shared_ptr< AsyncWorker >( worker ) );
+            mAsyncWorkers.push_back( worker );
         }
     }
 
@@ -162,7 +160,7 @@ void TreeSearch::DebugVerifyMruList()
     assert( count == mNodePoolEntries );
 }
 
-void TreeSearch::CalculateBranchPriors( TreeNode* node )
+void TreeSearch::CalculatePriors( TreeNode* node )
 {
     int numBranches = (int) node->mBranch.size();
     for( int i = 0; i < numBranches; i++ )
@@ -274,7 +272,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
         if( newNode->mGameOver )
         {
-            newNode->mInfo->mScores += newNode->mGameResult;
+            newNode->mInfo->mScores = newNode->mGameResult;
             return( newNode->mGameResult );
         }
 
@@ -333,7 +331,7 @@ void TreeSearch::DumpStats( TreeNode* node )
         }
     }
 
-    printf( "Queue length %d\n", mPendingQueue.GetCount() );
+    printf( "Queue length %d\n", mWorkQueue.GetCount() );
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
         std::string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
@@ -406,7 +404,7 @@ void TreeSearch::ExpandTree()
         mSearchRoot->mInfo->mScores += rootScores;
     }
 
-    mPendingQueue->Push( batch );
+    mWorkQueue->Push( batch );
 }
 
 void TreeSearch::SearchThread()

@@ -23,12 +23,14 @@ public:
     {
         #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
+        {
             PlayGameSimd( pos[i], dest + (i * LANES) );
+        }
     }
 
 protected:
 
-    PDECL ScoreCard PlayGameSimd( const PositionT< SIMD >& startPos, ScoreCard* dest )
+    PDECL ScoreCard PlayGameSimd( const PositionT< SIMD >& startPos, ScoreCard* outScores )
     {
         Position ALIGN_SIMD pos[LANES];
         MoveMap  ALIGN_SIMD moveMap[LANES];
@@ -58,9 +60,9 @@ protected:
 
         for( int lane = 0; lane < LANES; lane++ )
         {
-            dest[lane].mWins[WHITE] += (pos[lane].mResult == RESULT_WHITE_WIN);
-            dest[lane].mWins[BLACK] += (pos[lane].mResult == RESULT_BLACK_WIN);
-            dest[lane].mPlays++;
+            outScores[lane].mWins[WHITE] += (pos[lane].mResult == RESULT_WHITE_WIN);
+            outScores[lane].mWins[BLACK] += (pos[lane].mResult == RESULT_BLACK_WIN);
+            outScores[lane].mPlays++;
         }
     }
 
@@ -72,8 +74,8 @@ protected:
             moveList.UnpackMoveMap( pos, moveMap );
 
             assert( moveList.mCount > 0 );
-            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
 
+            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
             return moveList.mMove[randomIdx];
         }
 

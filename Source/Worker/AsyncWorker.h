@@ -6,3 +6,5 @@ class AsyncWorker
 public:
     virtual void Update() {}
 };
+
+typedef std::shared_ptr< AsyncWorker > AsyncWorkerRef;

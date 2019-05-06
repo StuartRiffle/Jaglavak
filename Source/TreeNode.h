@@ -33,7 +33,7 @@ struct TreeNode : public TreeLink
     bool                mGameOver;
     ScoreCard           mGameResult;
 
-    TreeNode() : mInfo( NULL ), mGameOver( false ), mCounter( -1 ), mTouch( 0 ) {}
+    TreeNode() : mInfo( NULL ) { Clear(); }
     ~TreeNode() { Clear(); }
 
     void Init( const Position& pos, BranchInfo* info = NULL );

@@ -18,13 +18,13 @@ struct PlayoutBatch
 
     Position mPosition[PLAYOUT_BATCH_MAX];
 
-    // Outputs
-
-    MoveList mPathFromRoot[PLAYOUT_BATCH_MAX];
-
     // This gets carried along so we know where the results should go
 
     ScoreCard mResults[PLAYOUT_BATCH_MAX];
+
+    // Outputs
+
+    MoveList mPathFromRoot[PLAYOUT_BATCH_MAX];
 
     PlayoutBatch() : mCount( 0 ) {}
 
@@ -48,15 +48,7 @@ struct CudaBuffer
     T* mDevice;
     size_t mBufferSize;
 
-    CudaBuffer( int count )
-    {
-        mHost = NULL;
-        mDevice = NULL;
-        mBufferSize = count * sizeof( T );
-
-        CUDA_REQUIRE(( cudaMallocHost( (void**) &mHost, mBufferSize ) ));
-        CUDA_REQUIRE(( cudaMalloc( (void**) &mDevice, mBufferSize ) ));        
-    }
+    CudaBuffer() : mHost( NULL ), mDevice( NULL ), mBufferSize( 0 ) {}
 
     ~CudaBuffer()
     {
@@ -72,6 +64,16 @@ struct CudaBuffer
         return mHost[idx];
     }
 
+    void Init( int count )
+    {
+        mHost = NULL;
+        mDevice = NULL;
+        mBufferSize = count * sizeof( T );
+
+        CUDA_REQUIRE(( cudaMallocHost( (void**) &mHost, mBufferSize ) ));
+        CUDA_REQUIRE(( cudaMalloc( (void**) &mDevice, mBufferSize ) ));        
+    }
+    
     void CopyToDeviceAsync( cudaStream_t stream = NULL ) const
     {
         cudaMemcpyAsync( mDevice, mHost, mBufferSize, cudaMemcpyHostToDevice, stream );
@@ -90,6 +92,7 @@ struct CudaBuffer
 
 struct CudaLaunchSlot
 {
+    BatchRef                    mBatch;
     CudaBuffer< PlayoutParams > mParams;
     CudaBuffer< Position >      mInputs;
     CudaBuffer< ScoreCard >     mOutputs;

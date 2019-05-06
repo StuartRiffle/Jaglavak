@@ -1,38 +1,54 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#define CUDA_REQUIRE( _CALL ) \
+{ \
+    cudaError_t status = (_CALL); \
+    if( status != cudaSuccess ) \
+    { \
+        printf( "ERROR: failure in " #_CALL " [%d]\n", status ); \
+        return; \
+    } \
+}
+
+extern void PlayGamesCudaAsync( CudaLaunchSlot* slot, int blockCount, int blockSize, cudaStream_t stream );
+
+
 class CudaWorker : public AsyncWorker
 {
-    typedef std::map< cudaStream_t, std::list< CudaLaunchSlot* > > LaunchSlotsByStream;
+    enum
+    {
+        CUDA_NUM_STREAMS = 16,
+    };
+
+    const GlobalOptions*            mOptions;
+    BatchQueue*                     mWorkQueue;
+    BatchQueue*                     mDoneQueue;
 
     int                             mDeviceIndex;      
-    std::unique_ptr< CudaLauncher > mLaunchThread;
-    std::unique_ptr< std::thread >  mJobThread;
-    std::vector< CudaLaunchSlot >   mSlotInfo;      
-    const GlobalOptions*            mOptions;
+    cudaDeviceProp                  mProp;
+    std::unique_ptr< std::thread >  mLaunchThread;
 
-    Mutex                           mSlotMutex;
+    std::mutex                      mMutex;
+    std::condition_variable         mVar;
+    std::vector< CudaLaunchSlot >   mSlotInfo;
     std::vector< CudaLaunchSlot* >  mFreeSlots;
-    LaunchSlotsByStream             mActiveSlotsByStream;
 
+    int                             mStreamIndex;
+    cudaStream_t                    mStreamId[CUDA_NUM_STREAMS];
+    std::list< CudaLaunchSlot* >    mActiveSlotsByStream[CUDA_NUM_STREAMS];
 
-    bool mInitialized;
-    BatchQueue*    mPendingQueue;
-    BatchQueue* mDoneQueue;
-
-public:    
-    CudaWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
+    public:    
+    CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue )
     {
         mOptions = options;
-        mPendingQueue = jobQueue;
-        mDoneQueue = resultQueue;
-        mInitialized = false;
+        mWorkQueue = workQueue;
+        mDoneQueue = doneQueue;
     }
 
     ~CudaWorker()
     {
-        if( mInitialized )
-            this->Shutdown();
+        this->Shutdown();
     }
 
     static int GetDeviceCount()
@@ -45,126 +61,131 @@ public:
 
     void Initialize( int deviceIndex, int jobSlots )
     {
-        mDeviceIndex  = deviceIndex;
-        cudaSetDevice( deviceIndex );
+        mDeviceIndex = deviceIndex;
+        mStreamIndex = 0;
 
-        mLaunchThread = std::unique_ptr< CudaLauncher >( new CudaLauncher( mOptions, deviceIndex ) );
-        mLaunchThread->Init();
+        CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
+        CUDA_REQUIRE(( cudaGetDeviceProperties( &mProp, mDeviceIndex ) ));
+        CUDA_REQUIRE(( cudaDeviceSetCacheConfig( cudaFuncCachePreferL1 ) ));
+
+        for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
+            CUDA_REQUIRE(( cudaStreamCreateWithFlags( mStreamId + i, cudaStreamNonBlocking ) ));
 
         mSlotInfo.resize( jobSlots );
-
         for( int i = 0; i < jobSlots; i++ )
         {
-            CudaLaunchSlot& slot  = mSlotInfo[i];
+            CudaLaunchSlot& slot = mSlotInfo[i];
 
-            slot.mStream       = (cudaStream_t) 0;
-            slot.mInputHost    = mLaunchThread->mInputHost  + i;
-            slot.mOutputHost   = mLaunchThread->mOutputHost + i;
-            slot.mInputDev     = mLaunchThread->mInputDev   + i;
-            slot.mOutputDev    = mLaunchThread->mOutputDev  + i;
-            slot.mTickQueued   = 0;
+            slot.mParams.Init( 1 );
+            slot.mInputs.Init( PLAYOUT_BATCH_MAX );
+            slot.mOutputs.Init( PLAYOUT_BATCH_MAX );
+            slot.mCount = 0;
 
-            CUDA_REQUIRE(( cudaEventCreate( &slot.mStartEvent ) ));
             CUDA_REQUIRE(( cudaEventCreate( &slot.mReadyEvent ) ));
-
             mFreeSlots.push_back( &slot );
         }
 
-        mJobThread = std::unique_ptr< std::thread >( new std::thread( [this] { this->RunJobThread(); } ) );
-
-        mInitialized = true;
+        mLaunchThread = std::unique_ptr< std::thread >( new std::thread( [this] { this->LaunchThread(); } ) );
     }
-
 
     void Shutdown()
     {
-        mLaunchThread.release();
-        mJobThread->join();
+        for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
+            cudaStreamDestroy( mStreamId[i] );
 
-        mInitialized = false;
+        for( auto& slot : mSlotInfo )
+            cudaEventDestroy( slot.mReadyEvent );        
+
+        mLaunchThread->join();
     }
 
 private:
 
-    void RunJobThread()
+    CudaLaunchSlot* ClaimFreeSlot()
     {
+        std::lock_guard< std::mutex > lock( mMutex );
+
+        while( mFreeSlots.empty() )
+        {
+            mVar.wait();
+            if( mShuttingDown )
+                return( NULL );
+        }
+
+        CudaLaunchSlot* slot = mFreeSlots.back();
+        mFreeSlots.pop_back();
+
+        return slot;
+    }
+
+    void LaunchThread()
+    {
+        CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
+
         for( ;; )
         {
-            std::vector< PlayoutBatch > jobs = mPendingQueue.PopBulk( mOptions->mCudaJobBatch, true );
-            if( jobs.empty() )
+            BatchRef batch;
+            if( !mWorkQueue->Pop( batch ) )
                 break;
 
-            bool freeSlotAvail = false;
+            CudaLaunchSlot* slot = this->ClaimFreeSlot();
+            if( !slot )
+                break;
 
-            MUTEX_SCOPE( mSlotMutex );
+            slot->mBatch = batch;
 
-            if( mFreeSlots.empty() )
-            {
-                PlatSleep( mOptions)
-            }
+            int streamIndex = mStreamIndex++;
+            mStreamIndex %= CUDA_NUM_STREAMS;
 
-            mSlotMutex.Enter();
-            bool empty = mFreeSlots.empty();
-            mSlotMutex.Leave();
+            cudaStream_t stream = mStreamId[streamIndex];
 
-            if( empty )
+            slot->mParams.CopyToDeviceAsync( stream );
+            slot->mInputs.CopyToDeviceAsync( stream );
+            slot->mOutputs.ClearOnDevice( stream );
 
-            if( empty )
-            {
-                PlatSleep( 100 );
-                continue;
-            }
+            int totalWidth = batch->mCount * batch->mParams->mNumGamesEach;
+            int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
 
-            PlayoutBatch job = mPendingQueue->Pop();
-            if( job == NULL )
-                return;
+            PlayGamesCudaAsync( slot, blockCount, mProp.warpSize, stream );
 
-            MUTEX_SCOPE( mSlotMutex );
+            slot->mOutputs.CopyToHostAsync( stream );
+            CUDA_REQUIRE(( cudaEventRecord( slot->mReadyEvent, stream ) ));
 
-            assert( !mFreeSlots.empty() );
-            CudaLaunchSlot* slot = mFreeSlots.back();
-            mFreeSlots.pop_back();
-
-            *slot->mInputHost = *job;
-            slot->mTickQueued = PlatGetClockTick();
-
-            //printf("Launching %p\n", slot );
-            mLaunchThread->Launch( slot );
-            //printf("Done\n" );
-
-            mActiveSlotsByStream[slot->mStream].push_back( slot );
+            mActiveSlotsByStream[streamIndex].push_back( slot );
         }
     }
 
     virtual void Update() override
     {
-        MUTEX_SCOPE( mSlotMutex );
+        // This is called from the main thread
 
-        for( auto& kv : mActiveSlotsByStream )
+        std::lock_guard< std::mutex > lock( mMutex );
+        std::vector< BatchRef > completedBatches;
+
+        for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
         {
-            auto& activeList = kv.second;
-
+            auto& activeList = mActiveSlotsByStream[i];
             while( !activeList.empty() )
             {
                 CudaLaunchSlot* slot = activeList.front();
                 if( cudaEventQuery( slot->mReadyEvent ) != cudaSuccess )
                     break;
 
-                u64 tickReturned = PlatGetClockTick();
-
                 activeList.pop_front();
 
-                PlayoutResultRef result = PlayoutResultRef( new PlayoutResult() );
-                *result = *slot->mOutputHost;
-
-                cudaEventElapsedTime( &result->mGpuTime, slot->mStartEvent, slot->mReadyEvent );
-                result->mCpuLatency = (tickReturned - slot->mTickQueued) * 1000.0f / PlatGetClockFrequency();  
-
-                mDoneQueue->Push( result );
+                BatchRef batch = slot->mBatch;
+                for( int i = 0; i < batch->mCount; i++ )
+                    batch->mResults[i] = slot->mOutputBuffer[i];
 
                 mFreeSlots.push_back( slot );
+                completedBatches.push_back( batch );
             }
         }
+
+        lock.unlock();
+        mVar.notify_all();
+
+        mDoneQueue->PushMulti( completedBatches );
     }
 };
   

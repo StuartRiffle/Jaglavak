@@ -3,23 +3,27 @@
 
 struct TreeSearch
 {
+    GlobalOptions*          mOptions;
+    UciSearchConfig         mUciConfig;
+    RandomGen               mRandom;
+
     TreeNode*               mNodePool;
     size_t                  mNodePoolEntries;
     TreeLink                mMruListHead;
+
     TreeNode*               mSearchRoot;
     BranchInfo              mRootInfo;
-    UciSearchConfig         mUciConfig;
-    GlobalOptions*          mOptions;
+
     std::thread*            mSearchThread;
     Semaphore               mSearchThreadActive;
     Semaphore               mSearchThreadIdle;
-    volatile bool           mShuttingDown;
     volatile bool           mSearchRunning;
-    RandomGen               mRandom;
-    BatchQueue         mPendingQueue;
-    BatchQueue      mDoneQueue;
+    volatile bool           mShuttingDown;
 
-    std::vector< std::shared_ptr< IAsyncWorker > > mAsyncWorkers;
+    BatchQueue              mWorkQueue;
+    BatchQueue              mDoneQueue;
+
+    std::vector< AsyncWorkerRef > mAsyncWorkers;
 
     TreeNode* AllocNode();
     void MoveToFront( TreeNode* node );

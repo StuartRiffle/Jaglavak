@@ -159,12 +159,6 @@ INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, sim
         for( int x = 0; x < 8; x++ )
             elem[y * 8 + x] = src64[x * 8 + y];
 
-    dest[destStep * 0] = result[0];
-    dest[destStep * 1] = result[1];
-    dest[destStep * 2] = result[2];
-    dest[destStep * 3] = result[3];
-    dest[destStep * 4] = result[4];
-    dest[destStep * 5] = result[5];
-    dest[destStep * 6] = result[6];
-    dest[destStep * 7] = result[7];
+    for( int i = 0; i < 8; i++ )
+        dest[destStep * i] = result[i];
 }

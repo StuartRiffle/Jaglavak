@@ -7,12 +7,13 @@
 
 __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
-    int idx = (blockIdx.x * blockDim.x) + threadIdx.x;
-    idx %= count;
+    int x = (blockIdx.x * blockDim.x) + threadIdx.x;
 
-    GamePlayer player( params, idx );
+    int salt = x;
+    GamePlayer player( params, salt );
     ScoreCard scores;
-
+    
+    int idx = x % count;
     player.PlayGames( pos + idx, &scores, 1 );
 
     atomicAdd( (unsigned long long*) &dest[idx].mScores.mWins[BLACK], scores.mWins[BLACK] );
@@ -22,16 +23,9 @@ __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos,
 
 void PlayGamesCudaAsync( CudaLaunchSlot* slot, int blockCount, int blockSize, cudaStream_t stream )
 {
-    slot->mParams.CopyToDeviceAsync( stream );
-    slot->mInputs.CopyToDeviceAsync( stream );
-    slot->mOutput.ClearOnDevice( stream );
-
     PlayGamesCuda<<< blockCount, blockSize, 0, stream >>>(
         slot->mParams.mDev,
         slot->mInputs.mDev, 
         slot->mOutputs.mDev, 
         slot->mCount );
-
-    slot->mOutputs.CopyToHostAsync( stream );
-    cudaEventRecord( slot->mReadyEvent, stream );
 }

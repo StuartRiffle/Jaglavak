@@ -41,6 +41,7 @@ public:
         std::lock_guard< std::mutex > lock( mMutex );
 
         size_t numPushed = 0;
+        
         while( numPushed < count )
         {
             size_t capacity = mBuffer.size();
@@ -121,11 +122,10 @@ public:
         return result;
     }
 
-    T Pop()
+    bool PopBlocking( T& result )
     {
-        T result;
-        this->PopMulti( &result, 1 );
-        return result;
+        size_t success = this->PopMulti( &result, 1 );
+        return success;
     }
 };
 
