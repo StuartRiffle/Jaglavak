@@ -17,15 +17,15 @@ class CudaWorker : public AsyncWorker
 
 
     bool mInitialized;
-    BatchQueue*    mJobQueue;
-    BatchQueue* mResultQueue;
+    BatchQueue*    mPendingQueue;
+    BatchQueue* mDoneQueue;
 
 public:    
     CudaWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions = options;
-        mJobQueue = jobQueue;
-        mResultQueue = resultQueue;
+        mPendingQueue = jobQueue;
+        mDoneQueue = resultQueue;
         mInitialized = false;
     }
 
@@ -90,7 +90,7 @@ private:
     {
         for( ;; )
         {
-            std::vector< PlayoutBatch > jobs = mJobQueue.PopBulk( mOptions->mCudaJobBatch, true );
+            std::vector< PlayoutBatch > jobs = mPendingQueue.PopBulk( mOptions->mCudaJobBatch, true );
             if( jobs.empty() )
                 break;
 
@@ -115,7 +115,7 @@ private:
                 continue;
             }
 
-            PlayoutBatch job = mJobQueue->Pop();
+            PlayoutBatch job = mPendingQueue->Pop();
             if( job == NULL )
                 return;
 
@@ -160,7 +160,7 @@ private:
                 cudaEventElapsedTime( &result->mGpuTime, slot->mStartEvent, slot->mReadyEvent );
                 result->mCpuLatency = (tickReturned - slot->mTickQueued) * 1000.0f / PlatGetClockFrequency();  
 
-                mResultQueue->Push( result );
+                mDoneQueue->Push( result );
 
                 mFreeSlots.push_back( slot );
             }

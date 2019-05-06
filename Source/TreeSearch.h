@@ -8,9 +8,13 @@ struct BranchInfo
     TreeNode*   mNode;
     MoveSpec    mMove;
     ScoreCard   mScores;
-    char        mMoveText[MAX_MOVETEXT_LENGTH];
+    float       mPrior;
 
-    BranchInfo() : mNode( NULL ) {}
+#if DEBUG    
+    char        mMoveText[MAX_MOVETEXT_LENGTH];
+#endif
+
+    BranchInfo() { memset( this, 0, sizeof( this ) ); }
 };
 
 struct ALIGN_SIMD TreeLink
@@ -25,8 +29,6 @@ struct TreeNode : public TreeLink
     BranchInfo*         mInfo;
     int                 mColor;
     std::vector<BranchInfo>  mBranch;
-    u64                 mCounter;
-    int                 mTouch;
 
     bool                mGameOver;
     ScoreCard           mGameResult;
@@ -52,12 +54,11 @@ struct TreeSearcher
     std::thread*            mSearchThread;
     Semaphore               mSearchThreadActive;
     Semaphore               mSearchThreadIdle;
-    std::thread*            mResultThread;
     volatile bool           mShuttingDown;
     volatile bool           mSearchRunning;
     RandomGen               mRandom;
-    BatchQueue         mJobQueue;
-    BatchQueue      mResultQueue;
+    BatchQueue         mPendingQueue;
+    BatchQueue      mDoneQueue;
 
     std::vector< std::shared_ptr< IAsyncWorker > > mAsyncWorkers;
 

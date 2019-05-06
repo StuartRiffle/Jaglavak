@@ -4,6 +4,11 @@
 template< typename T >
 class ThreadSafeQueue
 {
+    enum
+    {
+        DEFAULT_BATCH_SIZE = 1024
+    }
+
     std::vector< T > mBuffer;
     size_t mCount;
     size_t mWrapMask;
@@ -31,7 +36,7 @@ public:
         mVar.notify_all();    
     }
 
-    size_t PushBatch( const T* objs, size_t count, size_t minimum )
+    size_t PushMulti( const T* objs, size_t count, size_t minimum )
     {
         std::lock_guard< std::mutex > lock( mMutex );
 
@@ -60,22 +65,22 @@ public:
         return numPushed;
     }
 
-    void PushBatch( const T* objs, size_t count )
+    void PushMulti( const T* objs, size_t count )
     {
-        this->PushBatch( objs, count, count );
+        this->PushMulti( objs, count, count );
     }
 
-    void PushBatch( const std::vector< T >& elems )
+    void PushMulti( const std::vector< T >& elems )
     {
-        this->PushBatch( elems.data(), elems.size() );
+        this->PushMulti( elems.data(), elems.size() );
     }
 
     void Push( const T& obj )
     {
-        this->PushBatch( &obj, 1 );
+        this->PushMulti( &obj, 1 );
     }
 
-    size_t PopBatch( T* dest, size_t limit, size_t minimum )
+    size_t PopMulti( T* dest, size_t limit, size_t minimum )
     {
         std::lock_guard< std::mutex > lock( mMutex );
 
@@ -105,12 +110,12 @@ public:
         return numPopped;
     }
 
-    std::vector< T > PopBatch( size_t count, size_t minimum = 1 )
+    std::vector< T > PopMulti( size_t limit = DEFAULT_BATCH_SIZE )
     {
         std::vector< T > result;
-        result.resize( count );
+        result.resize( limit );
 
-        size_t numPopped = this->PopBatch( result.data(), limit, minimum );
+        size_t numPopped = this->PopMulti( result.data(), limit, 0 );
         result.resize( numPopped );
 
         return result;
@@ -119,7 +124,7 @@ public:
     T Pop()
     {
         T result;
-        this->PopBatch( &result, 1 );
+        this->PopMulti( &result, 1 );
         return result;
     }
 };

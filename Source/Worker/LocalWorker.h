@@ -3,8 +3,8 @@
 
 class LocalWorker : public AsyncWorker
 {
-    BatchQueue*        mJobQueue;
-    BatchQueue*     mResultQueue;
+    BatchQueue*        mPendingQueue;
+    BatchQueue*     mDoneQueue;
     std::thread*            mJobThread;
     const GlobalOptions*    mOptions;
 
@@ -34,7 +34,7 @@ class LocalWorker : public AsyncWorker
     {
         for( ;; )
         {
-            PlayoutBatchRef job = mJobQueue->Pop();
+            PlayoutBatchRef job = mPendingQueue->Pop();
             if( job == NULL )
                 break;
 
@@ -56,7 +56,7 @@ class LocalWorker : public AsyncWorker
             default:  PlayGamesX64(    job, result, simdCount ); break;
             }
 
-            mResultQueue->Push( result );
+            mDoneQueue->Push( result );
         }
     }
 
@@ -65,8 +65,8 @@ public:
     LocalWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions = options;
-        mJobQueue = jobQueue;
-        mResultQueue = resultQueue;
+        mPendingQueue = jobQueue;
+        mDoneQueue = resultQueue;
 
         mJobThread = new std::thread( [this] { this->JobThread(); } );
     }

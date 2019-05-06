@@ -4,51 +4,42 @@
 #include "Chess.h"
 #include "TreeSearch.h"
 
-void TreeNode::Init( const Position& pos, BranchInfo* info = NULL )
+void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info = NULL )
 {
-    static u64 sCount = 1;
-    mCounter = sCount++;
+    this->Clear();
 
     mPos = pos;
     mInfo = info;
-
-    MoveMap moveMap;
-    pos.CalcMoveMap( &moveMap );
+    mColor = pos.mWhiteToMove? WHITE : BLACK;
 
     MoveList moveList;
     moveList.UnpackMoveMap( pos, moveMap );
 
-    mBranch.clear();
     mBranch.resize( moveList.mCount );
 
     for( int i = 0; i < moveList.mCount; i++ )
     {
         mBranch[i].mMove = moveList.mMove[i];
+#if DEBUG        
         MoveSpecToString( moveList.mMove[i], mBranch[i].mMoveText );
+#endif
     }
 
-    mColor = pos.mWhiteToMove? WHITE : BLACK;
-
-    mGameOver = false;
-    mGameResult.Clear();
-
-    int result = (int) pos.CalcGameResult( moveMap );
-    if (result != RESULT_UNKNOWN )
+    if (pos.mResult != RESULT_UNKNOWN )
     {
-        mGameOver = true;
+        assert( moveList.mCount == 0 );
 
-        if( result == RESULT_WHITE_WIN )
-            mGameResult.mWins[WHITE]++;
-
-        if( result == RESULT_BLACK_WIN )
-            mGameResult.mWins[BLACK]++;
-
+        mGameResult.mWins[WHITE] = (pos.mResult == RESULT_WHITE_WIN);
+        mGameResult.mWins[BLACK] = (pos.mResult == RESULT_BLACK_WIN);
         mGameResult.mPlays++;
+        mGameOver = true;
     }
 }
 
 void TreeNode::Clear()
 {
+    // We should only ever be clearing leaf nodes, because of the MRU ordering
+
     for( auto& info : mBranch )
         assert( info.mNode == NULL );
 
@@ -60,6 +51,8 @@ void TreeNode::Clear()
 
     mInfo = NULL;
     mBranch.clear();
+    mGameResult.Clear();
+    mGameOver = false;
 }
 
 int TreeNode::FindMoveIndex( const MoveSpec& move )
@@ -117,10 +110,6 @@ TreeSearcher::TreeSearcher( GlobalOptions* options, u64 randomSeed ) :
     mSearchThread->join();
     delete mSearchThread;
 
-    mResultQueue.Push( NULL );
-    mResultThread->join();
-    delete mResultThread;
-
     delete mNodePool;
 }
 
@@ -128,7 +117,7 @@ void TreeSearcher::Init()
 {
     for( int i = 0; i < mOptions->mNumLocalWorkers; i++ )
     {
-        auto worker = new LocalWorker( mOptions, &mJobQueue, &mResultQueue );
+        auto worker = new LocalWorker( mOptions, &mPendingQueue, &mDoneQueue );
         mAsyncWorkers.push_back( std::shared_ptr< AsyncWorker >( worker ) );
     }
 
@@ -136,7 +125,7 @@ void TreeSearcher::Init()
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            auto worker = new CudaWorker( mOptions, &mJobQueue, &mResultQueue );
+            auto worker = new CudaWorker( mOptions, &mPendingQueue, &mDoneQueue );
             worker->Initialize( i, mOptions->mCudaQueueDepth );
 
             mAsyncWorkers.push_back( std::shared_ptr< AsyncWorker >( worker ) );
@@ -196,20 +185,16 @@ void TreeSearcher::MoveToFront( TreeNode* node )
     node->mPrev->mNext = node;
 
     assert( mMruListHead.mNext == node );
-
-    static int touch = 0;
-    node->mTouch = touch++;
 }
 
 TreeNode* TreeSearcher::AllocNode()
 {
-    TreeNode* last = mMruListHead.mPrev;
-    last->Clear();
+    TreeNode* node = mMruListHead.mPrev;
 
-    MoveToFront( last );
+    node->Clear();
+    MoveToFront( node );
 
-    TreeNode* first = mMruListHead.mNext;
-    return first;
+    return node;
 }
 
 void TreeSearcher::SetPosition( const Position& startPos, const MoveList* moveList = NULL )
@@ -226,7 +211,7 @@ void TreeSearcher::SetPosition( const Position& startPos, const MoveList* moveLi
         mSearchRoot->mInfo = NULL;
 
     mSearchRoot = AllocNode();
-    mSearchRoot->Init( pos );
+    mSearchRoot->InitPosition( pos );
 
     mSearchRoot->mInfo = &mRootInfo;
     mRootInfo.mNode = mSearchRoot;
@@ -246,6 +231,15 @@ void TreeSearcher::DebugVerifyMruList()
     assert( count == mNodePoolEntries );
 }
 
+void TreeSearcher::CalculateBranchPriors( TreeNode* node )
+{
+    int numBranches = (int) node->mBranch.size();
+    for( int i = 0; i < numBranches; i++ )
+    {
+        // TODO
+        node->mBranch[i].mPrior = 0;
+    }
+}
 
 float TreeSearcher::CalculateUct( TreeNode* node, int childIndex )
 {
@@ -253,26 +247,25 @@ float TreeSearcher::CalculateUct( TreeNode* node, int childIndex )
     BranchInfo& childInfo   = node->mBranch[childIndex];
     const ScoreCard& scores = childInfo.mScores;
 
-    int color = node->mColor;
-    int childWins = scores.mWins[color];
-
-    u64 nodePlays = nodeInfo->mScores.mPlays;
-    if( nodePlays == 0 )
-        nodePlays = 1;
-
-    u64 childPlays = scores.mPlays;
-    if( childPlays == 0 )
-        childPlays = 1;
-
-    int draws = scores.mPlays - (scores.mWins[0] + scores.mWins[1]);
+    u64 nodePlays  = Min( nodeInfo->mScores.mPlays, 1 );
+    u64 childPlays = Min( scores.mPlays, 1 );
+    u64 childWins  = scores.mWins[node->mColor];
+    
     if( mOptions->mDrawsHaveValue )
+    {
+        int draws = scores.mPlays - (scores.mWins[WHITE] + scores.mWins[BLACK]);
         childWins += draws / 2;
+    }
 
     float invChildPlays = 1.0f / childPlays;
     float childWinRatio = childWins * invChildPlays;
     float exploringness = mOptions->mExplorationFactor * 0.01f;
 
-    float uct = childWinRatio + exploringness * sqrtf( logf( nodePlays ) * 2 * invChildPlays );
+    float uct = 
+        childWinRatio + 
+        exploringness * sqrtf( logf( nodePlays ) * 2 * invChildPlays ) +
+        childInfo.mPrior;
+
     return uct;
 }
 
@@ -312,10 +305,8 @@ int TreeSearcher::SelectNextBranch( TreeNode* node )
     return highestIdx;
 }
 
-ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
+ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch )
 {
-    //node->SanityCheck();
-
     MoveToFront( node );
 
     if( node->mGameOver )
@@ -338,13 +329,15 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
 
         MoveToFront( node );
 
+        MoveMap newMap;
         Position newPos = node->mPos;
-        newPos.Step( chosenBranch->mMove );
+        newPos.Step( chosenBranch->mMove, &newMap );
 
-        chosenBranch->mNode = NULL;
-        newNode->Init( newPos, chosenBranch ); 
+        //chosenBranch->mNode = NULL;
+        assert( chosenBranch->mNode == NULL );
 
-        // newNode is different, node is the same value
+        newNode->InitPosition( newPos, chosenBranch, newMap ); 
+        this->CalculatePriors( newNode );
 
         chosenBranch->mNode = newNode;
 
@@ -354,53 +347,24 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
             return( newNode->mGameResult );
         }
 
+        batch->Add( newPos, pathFromRoot );
+
+        // Pretend that we played a game here so that the UCT value changes
+
         ScoreCard scores;
-        PlayoutBatch job;
-
-        job.mOptions        = *mOptions;
-        job.mRandomSeed     = mRandom.GetNext();
-        job.mPosition       = newPos;
-        job.mNumGames       = mOptions->mNumInitialPlays;
-        job.mPathFromRoot   = pathFromRoot;
-        
-        if( mOptions->mNumInitialPlays > 0 )
-        {
-            // Do the initial playouts
-
-            PlayoutResult jobResult = RunPlayoutBatchCpu( job );
-            scores += jobResult.mScores;
-        }
-        else
-        {
-            // (or just pretend we did)
-            
-            scores.mPlays = 1;
-        }
-
-        if( mOptions->mNumAsyncPlays > 0 )
-        {
-            // Queue up any async playouts
-
-            PlayoutBatchRef asyncJob( new PlayoutBatch() );
-
-            *asyncJob = job;
-            asyncJob->mNumGames = mOptions->mNumAsyncPlays;
-
-            mJobQueue.Push( asyncJob );
-        }
-
+        scores.mPlays = 1;
         newNode->mInfo->mScores += scores;
 
         return scores;
     }
 
-    ScoreCard branchScores = ExpandAtLeaf( pathFromRoot, chosenBranch->mNode );
+    ScoreCard branchScores = ExpandAtLeaf( pathFromRoot, chosenBranch->mNode, batch );
 
     // Accumulate the scores on our way back down the tree
 
     chosenBranch->mScores += branchScores;
 
-    // Mark each node LRU on the way
+    // Mark each node MRU on the way
 
     MoveToFront( node );
 
@@ -408,13 +372,6 @@ ScoreCard TreeSearcher::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node )
 }
 
 
-void TreeSearcher::ExpandTree()
-{
-    MoveList pathFromRoot;
-    ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot );
-
-    mSearchRoot->mInfo->mScores += rootScores;
-}
 
 
 void TreeSearcher::DumpStats( TreeNode* node )
@@ -445,7 +402,7 @@ void TreeSearcher::DumpStats( TreeNode* node )
         }
     }
 
-    printf( "Queue length %d\n", mJobQueue.GetCount() );
+    printf( "Queue length %d\n", mPendingQueue.GetCount() );
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
         std::string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
@@ -460,7 +417,7 @@ void TreeSearcher::DumpStats( TreeNode* node )
 }
 
 
-void TreeSearcher::ProcessResult( TreeNode* node, const PlayoutResult& result, int depth = 0 )
+void TreeSearcher::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& score, int depth = 0 )
 {
     if( depth >= result.mPathFromRoot.mCount )
         return;
@@ -475,22 +432,27 @@ void TreeSearcher::ProcessResult( TreeNode* node, const PlayoutResult& result, i
     if( child == NULL )
         return;
 
-    ProcessResult( child, result, depth + 1 );
+    DeliverScores( child, result, depth + 1 );
 
     node->mBranch[childIdx].mScores += result.mScores;
 }
 
-void TreeSearcher::ProcessAsyncResults()
+void TreeSearcher::ProcessBatch( BatchRef& batch )
+{
+    for( int i = 0; i < batch->mCount; i++ )
+        this->DeliverScores( mSearchRoot, batch->mPathFromRoot[i], batch->mResults[i] );
+}
+
+void TreeSearcher::ProcessIncomingResults()
 {
     for( ;; )
     {
-        auto results = mResultQueue.PopBulk();
-        if( results.empty() )
+        auto batches = mDoneQueue.PopMulti();
+        if( batches.empty() )
             break;
 
-        for( auto& result : results )
-            this->ProcessResult( mSearchRoot, result );
-
+        for( auto& batch : batches )
+            this->ProcessBatch( batch );
     }
 }
 
@@ -498,6 +460,22 @@ void TreeSearcher::UpdateAsyncWorkers()
 {
     for( auto& worker : mAsyncWorkers )
         worker->Update();
+}
+
+void TreeSearcher::ExpandTree()
+{
+    BatchRef batch( new PlayoutBatch );
+
+    int batchSize = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
+    for( int i = 0; i < batchSize; i++ )
+    {
+        MoveList pathFromRoot;
+        ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot, batch );
+
+        mSearchRoot->mInfo->mScores += rootScores;
+    }
+
+    mPendingQueue->Push( batch );
 }
 
 void TreeSearcher::SearchThread()
@@ -510,7 +488,7 @@ void TreeSearcher::SearchThread()
         while( mSearchRunning )
         {
             this->UpdateAsyncWorkers();
-            this->ProcessAsyncResults();
+            this->ProcessIncomingResults();
             this->ExpandTree();
         }
     }

@@ -50,8 +50,7 @@ protected:
                 spec[lane] = this->ChoosePlayoutMove( pos[lane], moveMap[lane] );
 
             simdSpec.Unpack( spec );
-            simdPos.Step( simdSpec );
-            simdPos.CalcMoveMap( &simdMoveMap );
+            simdPos.Step( simdSpec, &simdMoveMap );
             
             Unswizzle< SIMD >( &simdPos, pos );
             Unswizzle< SIMD >( &simdMoveMap, moveMap );

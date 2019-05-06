@@ -14,15 +14,28 @@ struct PlayoutBatch
     // Inputs
 
     PlayoutParams mParams;
-    std::vector< Position > mPosition;
+    int mCount;
+
+    Position mPosition[PLAYOUT_BATCH_MAX];
 
     // Outputs
 
-    std::vector< MoveList > mPathFromRoot;
+    MoveList mPathFromRoot[PLAYOUT_BATCH_MAX];
 
     // This gets carried along so we know where the results should go
 
-    std::vector< ScoreCard > mResults;
+    ScoreCard mResults[PLAYOUT_BATCH_MAX];
+
+    PlayoutBatch() : mCount( 0 ) {}
+
+    void Append( const Position& pos, const MoveList& pathFromRoot )
+    {
+        assert( mCount < PLAYOUT_BATCH_MAX );
+
+        mPosition[mCount] == pos;
+        mPathFromRoot[mCount] = pathFromRoot;
+        mCount++;
+    }
 };
 
 typedef std::shared_ptr< PlayoutBatch > BatchRef;

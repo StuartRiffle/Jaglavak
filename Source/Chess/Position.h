@@ -119,14 +119,14 @@ struct ALIGN_SIMD PositionT
 
     PDECL static INLINE SIMD CalcPieceType( const SIMD& knights, const SIMD& bishops, const SIMD& rooks, const SIMD& queens, const SIMD& king )
     {
-        SIMD result =
+        SIMD pieceType =
             SelectIfNotZero( knights,   (SIMD) KNIGHT ) |
             SelectIfNotZero( bishops,   (SIMD) BISHOP ) |
             SelectIfNotZero( rooks,     (SIMD) ROOK   ) |
             SelectIfNotZero( queens,    (SIMD) QUEEN  ) |
             SelectIfNotZero( king,      (SIMD) KING   );
 
-        return( result );
+        return( pieceType );
     }
 
 
@@ -198,7 +198,6 @@ struct ALIGN_SIMD PositionT
         blackQueens                 = MaskOut( blackQueens,  destBit );
         castlingAndEP               = MaskOut( castlingAndEP, disableCastleBit | EP_SQUARES ) | epTargetNext;
 
-
         mWhitePawns                 = SelectIfZero( mResult, whitePawns );
         mWhiteKnights               = SelectIfZero( mResult, whiteKnights );
         mWhiteBishops               = SelectIfZero( mResult, whiteBishops );
@@ -211,8 +210,6 @@ struct ALIGN_SIMD PositionT
         mBlackRooks                 = SelectIfZero( mResult, blackRooks );
         mBlackQueens                = SelectIfZero( mResult, blackQueens );
         mCastlingAndEP              = SelectIfZero( mResult, castlingAndEP );
-
-
     }
 
 
