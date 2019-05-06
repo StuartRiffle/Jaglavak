@@ -27,11 +27,11 @@ struct UciSearchConfig
     void Clear()        { memset( this, 0, sizeof( *this ) ); }
 };
 
-class TreeSearcher;
+class TreeSearch;
 
 class UciEngine
 {
-    std::unique_ptr< TreeSearcher >   mSearcher;
+    std::unique_ptr< TreeSearch >   mSearcher;
     GlobalOptions   mOptions;
     bool            mDebugMode;
 

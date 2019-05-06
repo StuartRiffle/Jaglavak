@@ -17,7 +17,7 @@ UciEngine::UciEngine() : mDebugMode( false )
     mOptions.mDetectedSimdLevel  = CpuInfo::DetectSimdLevel();
     mOptions.mForceSimdLevel     = 0;
 
-    mSearcher = std::unique_ptr< TreeSearcher >( new TreeSearcher( &mOptions ) );
+    mSearcher = std::unique_ptr< TreeSearch >( new TreeSearch( &mOptions ) );
     mSearcher->Init();
 }
 
