@@ -14,32 +14,38 @@ struct PlayoutBatch
     // Inputs
 
     PlayoutParams mParams;
-    int mCount;
-
-    Position mPosition[PLAYOUT_BATCH_MAX];
+    vector< Position > mPosition;
 
     // This gets carried along so we know where the results should go
 
-    ScoreCard mResults[PLAYOUT_BATCH_MAX];
+    vector< ScoreCard > mResults;
 
     // Outputs
 
-    MoveList mPathFromRoot[PLAYOUT_BATCH_MAX];
+    vector< MoveList > mPathFromRoot;
 
-    PlayoutBatch() : mCount( 0 ) {}
+    PlayoutBatch()
+    {
+        memset( &mParams, 0, sizeof( mParams ) );
+    }
+
+    int GetCount() const
+    {
+        return (int) mPosition.size();
+    }
 
     void Append( const Position& pos, const MoveList& pathFromRoot )
     {
-        assert( mCount < PLAYOUT_BATCH_MAX );
+        mPosition.push_back( pos );
+        mPathFromRoot.push_back( pathFromRoot );
 
-        mPosition[mCount] == pos;
-        mPathFromRoot[mCount] = pathFromRoot;
-        mCount++;
+        assert( mPosition.size() == mPathFromRoot.size() );
     }
 };
 
-typedef std::shared_ptr< PlayoutBatch > BatchRef;
-typedef ThreadSafeQueue< BatchRef > BatchQueue;
+// FIXME
+//typedef RC< PlayoutBatch > BatchRef;
+//typedef ThreadSafeQueue< BatchRef > BatchQueue;
 
 template< typename T >
 struct CudaBuffer

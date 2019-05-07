@@ -28,7 +28,7 @@ struct TreeNode : public TreeLink
     Position            mPos;
     BranchInfo*         mInfo;
     int                 mColor;
-    std::vector<BranchInfo>  mBranch;
+    vector<BranchInfo>  mBranch;
 
     bool                mGameOver;
     ScoreCard           mGameResult;

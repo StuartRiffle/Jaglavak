@@ -31,7 +31,7 @@ class TreeSearch;
 
 class UciEngine
 {
-    std::unique_ptr< TreeSearch >   mSearcher;
+    PTR< TreeSearch >   mSearcher;
     GlobalOptions   mOptions;
     bool            mDebugMode;
 

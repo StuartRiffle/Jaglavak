@@ -9,13 +9,13 @@ class ThreadSafeQueue
         DEFAULT_BATCH_SIZE = 1024
     }
 
-    std::vector< T > mBuffer;
+    vector< T > mBuffer;
     size_t mCount;
     size_t mWrapMask;
     size_t mWriteCursor;
 
-    std::mutex mMutex;
-    std::condition_variable mVar;
+    mutex mMutex;
+    condition_variable mVar;
     volatile bool* mShuttingDown;
 
 public:
@@ -38,10 +38,10 @@ public:
 
     size_t PushMulti( const T* objs, size_t count, size_t minimum )
     {
-        std::lock_guard< std::mutex > lock( mMutex );
+        lock_guard< mutex > lock( mMutex );
 
         size_t numPushed = 0;
-        
+
         while( numPushed < count )
         {
             size_t capacity = mBuffer.size();
@@ -71,7 +71,7 @@ public:
         this->PushMulti( objs, count, count );
     }
 
-    void PushMulti( const std::vector< T >& elems )
+    void PushMulti( const vector< T >& elems )
     {
         this->PushMulti( elems.data(), elems.size() );
     }
@@ -83,7 +83,7 @@ public:
 
     size_t PopMulti( T* dest, size_t limit, size_t minimum )
     {
-        std::lock_guard< std::mutex > lock( mMutex );
+        lock_guard< mutex > lock( mMutex );
 
         size_t numPopped = 0;
         size_t readCursor = mWriteCursor - mCount;
@@ -111,9 +111,9 @@ public:
         return numPopped;
     }
 
-    std::vector< T > PopMulti( size_t limit = DEFAULT_BATCH_SIZE )
+    vector< T > PopMulti( size_t limit = DEFAULT_BATCH_SIZE )
     {
-        std::vector< T > result;
+        vector< T > result;
         result.resize( limit );
 
         size_t numPopped = this->PopMulti( result.data(), limit, 0 );

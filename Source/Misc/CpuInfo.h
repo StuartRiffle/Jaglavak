@@ -48,9 +48,9 @@ struct CpuInfo
     #endif
     }
 
-    static std::string GetCpuName()
+    static string GetCpuName()
     {
-        std::string result;
+        string result;
 
         union
         {
@@ -65,7 +65,7 @@ struct CpuInfo
             Cpuid( 0x80000003, info + 4 );
             Cpuid( 0x80000004, info + 8 );
 
-            result = std::string( desc, desc + sizeof( desc ) );
+            result = string( desc, desc + sizeof( desc ) );
         }
 
         return result;

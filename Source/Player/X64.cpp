@@ -2,6 +2,7 @@
 
 #include "Platform.h"
 #include "Chess.h"
+#include "Threads.h"
 #include "PlayoutBatch.h"
 #include "GamePlayer.h"
 

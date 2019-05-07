@@ -77,6 +77,7 @@ struct ALIGN_SIMD PositionT
         mWhiteToMove        = src.mWhiteToMove;  
         mHalfmoveClock      = src.mHalfmoveClock;
         mFullmoveNum        = src.mFullmoveNum;  
+        mResult             = src.mResult;
     }
 
 

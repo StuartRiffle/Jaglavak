@@ -3,7 +3,7 @@
 
 class Tokenizer
 {
-    std::vector< char > mStr;
+    vector< char > mStr;
     char*               mCursor;
 
     void SkipWhite()    { while( *mCursor &&  isspace( *mCursor ) ) mCursor++; }

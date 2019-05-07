@@ -72,10 +72,12 @@
     #error
 #endif
 
-#if !ON_CUDA_DEVICE
+    #include <stdint.h>
+
+
+#if 1//!ON_CUDA_DEVICE
 
     #include <assert.h>
-    #include <stdint.h>
     #include <stdio.h>
     #include <ctype.h>
     #include <time.h>
@@ -88,11 +90,26 @@
     #include <functional>
     #include <memory>
     #include <thread>
+    #include <mutex>
+    #include <condition_variable>
     #include <atomic>
+
+    using std::pair;
+    using std::vector;
+    using std::map;
+    using std::list;
+    using std::string;    
+    using std::lock_guard;
+    using std::mutex;
+    using std::condition_variable;
+    using std::thread;
+
+    template< typename T > class PTR : public std::unique_ptr< T > {};
+    template< typename T > class RC  : public std::shared_ptr< T > {};
 
 #endif
 
-#define ALIGN_SIMD  ALIGN( 64 )
+#define ALIGN_SIMD  ALIGN( 64 ) // worst case (AVX-512)
 #define DEBUG_LOG   printf
 
 typedef uint64_t u64;

@@ -8,17 +8,16 @@
 __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
     int x = (blockIdx.x * blockDim.x) + threadIdx.x;
-
-    int salt = x;
-    GamePlayer player( params, salt );
-    ScoreCard scores;
+    GamePlayer player( params, x );
     
     int idx = x % count;
+
+    ScoreCard scores;
     player.PlayGames( pos + idx, &scores, 1 );
 
-    atomicAdd( (unsigned long long*) &dest[idx].mScores.mWins[BLACK], scores.mWins[BLACK] );
-    atomicAdd( (unsigned long long*) &dest[idx].mScores.mWins[WHITE], scores.mWins[WHITE] );
-    atomicAdd( (unsigned long long*) &dest[idx].mScores.mPlays, scores.mPlays );
+    atomicAdd( (unsigned long long*) &dest[idx].mWins[BLACK], scores.mWins[BLACK] );
+    atomicAdd( (unsigned long long*) &dest[idx].mWins[WHITE], scores.mWins[WHITE] );
+    atomicAdd( (unsigned long long*) &dest[idx].mPlays, scores.mPlays );
 }
 
 void PlayGamesCudaAsync( CudaLaunchSlot* slot, int blockCount, int blockSize, cudaStream_t stream )

@@ -11,7 +11,7 @@ class LocalWorker : public AsyncWorker
     const GlobalOptions*    mOptions;
     BatchQueue*             mWorkQueue;
     BatchQueue*             mDoneQueue;
-    std::unique_ptr< std::thread* > mWorkThread;
+    PTR< thread* > mWorkThread;
 
     int ChooseSimdLevelForPlayout( int count )
     {
@@ -66,7 +66,7 @@ public:
         mWorkQueue = jobQueue;
         mDoneQueue = resultQueue;
 
-        mWorkThread = std::unique_ptr< std::thread* >( new std::thread( [this] { this->JobThread(); } ) );
+        mWorkThread = PTR< thread* >( new thread( [this] { this->JobThread(); } ) );
     }
 
     ~LocalWorker()

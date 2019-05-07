@@ -14,16 +14,16 @@ struct TreeSearch
     TreeNode*               mSearchRoot;
     BranchInfo              mRootInfo;
 
-    std::thread*            mSearchThread;
-    Semaphore               mSearchThreadActive;
-    Semaphore               mSearchThreadIdle;
+    PTR< thread >            mSearchThread;
+    Semaphore               mSearchThreadShouldGo;
+    Semaphore               mSearchThreadIsStopped;
     volatile bool           mSearchRunning;
     volatile bool           mShuttingDown;
 
     BatchQueue              mWorkQueue;
     BatchQueue              mDoneQueue;
 
-    std::vector< AsyncWorkerRef > mAsyncWorkers;
+    vector< AsyncWorkerRef > mAsyncWorkers;
 
     TreeNode* AllocNode();
     void MoveToFront( TreeNode* node );

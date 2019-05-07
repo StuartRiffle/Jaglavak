@@ -5,7 +5,7 @@ struct Perft
 {
     const MAX_PARALLEL_DEPTH = 5;
 
-    static void GatherPerftParallelPositions( const Position& pos, int depth, std::vector< Position >* dest )
+    static void GatherPerftParallelPositions( const Position& pos, int depth, vector< Position >* dest )
     {
         MoveList valid;
         valid.FindMoves( pos );
@@ -25,7 +25,7 @@ struct Perft
 
     static u64 CalcPerftParallel( const Position& pos, int depth )
     {
-        std::vector< Position > positions( 16384 );
+        vector< Position > positions( 16384 );
         Perft::GatherPerftParallelPositions( pos, depth, &positions );
 
         u64 total = 0;
@@ -104,7 +104,7 @@ struct Perft
             total += count;
 
             printf( "info string divide %d ", depth );
-            std::string moveText = SerializeMoveSpec( valid.mMove[i] );
+            string moveText = SerializeMoveSpec( valid.mMove[i] );
 
             printf( "%s  %" PRId64 "\n", moveText.c_str(), count );
         }

@@ -21,22 +21,23 @@ class CudaWorker : public AsyncWorker
         CUDA_NUM_STREAMS = 16,
     };
 
-    const GlobalOptions*            mOptions;
-    BatchQueue*                     mWorkQueue;
-    BatchQueue*                     mDoneQueue;
+    const GlobalOptions*        mOptions;
+    BatchQueue*                 mWorkQueue;
+    BatchQueue*                 mDoneQueue;
 
-    int                             mDeviceIndex;      
-    cudaDeviceProp                  mProp;
-    std::unique_ptr< std::thread >  mLaunchThread;
+    int                         mDeviceIndex;      
+    cudaDeviceProp              mProp;
+    PTR< thread >               mLaunchThread;
+    bool                        mShuttingDown;
 
-    std::mutex                      mMutex;
-    std::condition_variable         mVar;
-    std::vector< CudaLaunchSlot >   mSlotInfo;
-    std::vector< CudaLaunchSlot* >  mFreeSlots;
+    mutex                       mMutex;
+    condition_variable          mVar;
+    vector< CudaLaunchSlot >    mSlotInfo;
+    vector< CudaLaunchSlot* >   mFreeSlots;
 
-    int                             mStreamIndex;
-    cudaStream_t                    mStreamId[CUDA_NUM_STREAMS];
-    std::list< CudaLaunchSlot* >    mActiveSlotsByStream[CUDA_NUM_STREAMS];
+    int                         mStreamIndex;
+    cudaStream_t                mStreamId[CUDA_NUM_STREAMS];
+    list< CudaLaunchSlot* >     mActiveSlotsByStream[CUDA_NUM_STREAMS];
 
     public:    
     CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue )
@@ -44,6 +45,7 @@ class CudaWorker : public AsyncWorker
         mOptions = options;
         mWorkQueue = workQueue;
         mDoneQueue = doneQueue;
+        mShuttingDown = false;
     }
 
     ~CudaWorker()
@@ -85,7 +87,7 @@ class CudaWorker : public AsyncWorker
             mFreeSlots.push_back( &slot );
         }
 
-        mLaunchThread = std::unique_ptr< std::thread >( new std::thread( [this] { this->LaunchThread(); } ) );
+        mLaunchThread = PTR< thread >( new thread( [this] { this->LaunchThread(); } ) );
     }
 
     void Shutdown()
@@ -94,8 +96,10 @@ class CudaWorker : public AsyncWorker
             cudaStreamDestroy( mStreamId[i] );
 
         for( auto& slot : mSlotInfo )
-            cudaEventDestroy( slot.mReadyEvent );        
+            cudaEventDestroy( slot.mReadyEvent );
 
+        mShuttingDown = true;
+        mVar.notify_all();        
         mLaunchThread->join();
     }
 
@@ -103,7 +107,7 @@ private:
 
     CudaLaunchSlot* ClaimFreeSlot()
     {
-        std::lock_guard< std::mutex > lock( mMutex );
+        lock_guard< mutex > lock( mMutex );
 
         while( mFreeSlots.empty() )
         {
@@ -141,7 +145,7 @@ private:
 
             slot->mParams.CopyToDeviceAsync( stream );
             slot->mInputs.CopyToDeviceAsync( stream );
-            slot->mOutputs.ClearOnDevice( stream );
+            slot->mOutputs.ClearOnDeviceAsync( stream );
 
             int totalWidth = batch->mCount * batch->mParams->mNumGamesEach;
             int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
@@ -159,8 +163,8 @@ private:
     {
         // This is called from the main thread
 
-        std::lock_guard< std::mutex > lock( mMutex );
-        std::vector< BatchRef > completedBatches;
+        lock_guard< mutex > lock( mMutex );
+        vector< BatchRef > completedBatches;
 
         for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
         {

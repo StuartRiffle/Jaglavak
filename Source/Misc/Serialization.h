@@ -213,23 +213,23 @@ static const char* StringToMoveSpec( const char* str, MoveSpec& spec )
 }
 
 
-static std::string SerializePosition( const Position& pos )
+static string SerializePosition( const Position& pos )
 {
     char fen[MAX_FEN_LENGTH];
     PositionToString( pos, fen );
 
-    return std::string( fen );
+    return string( fen );
 }
 
-static std::string SerializeMoveSpec( const MoveSpec& spec )
+static string SerializeMoveSpec( const MoveSpec& spec )
 {
     char movetext[MAX_MOVETEXT_LENGTH];
     MoveSpecToString( spec, movetext );
 
-    return std::string( movetext );
+    return string( movetext );
 }
 
-static std::string SerializeMoveList( const MoveList& moves )
+static string SerializeMoveList( const MoveList& moves )
 {
     char result[(MAX_MOVETEXT_LENGTH + 1) * MAX_POSSIBLE_MOVES];
     char* cursor = result;
@@ -245,6 +245,6 @@ static std::string SerializeMoveList( const MoveList& moves )
             cursor++;
     }
 
-    return std::string( result );
+    return string( result );
 }
 
