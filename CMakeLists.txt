@@ -27,7 +27,7 @@ add_library( CUDA   STATIC Source/Player/CudaKernel.cu )
 target_compile_options( X64      PRIVATE )
 target_compile_options( SSE4     PRIVATE -msse4.1 )
 target_compile_options( AVX2     PRIVATE -mavx2 )
-target_compile_options( AVX512   PRIVATE -mavx512f -mavx512dq )
+target_compile_options( AVX512   PRIVATE -mavx512f -mavx512dq -mavx512bw )
 target_compile_options( Jaglavak PUBLIC  -fopenmp -std=c++11 )
 
 target_link_libraries( Jaglavak 
@@ -36,5 +36,4 @@ target_link_libraries( Jaglavak
     AVX2 
     AVX512 
     CUDA 
-    Boost::boost 
 )
