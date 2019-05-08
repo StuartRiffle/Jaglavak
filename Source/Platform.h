@@ -109,7 +109,7 @@
 
 #endif
 
-#define ALIGN_SIMD  ALIGN( 64 ) // worst case (AVX-512)
+#define ALIGN_SIMD  ALIGN( 64 )
 #define DEBUG_LOG   printf
 
 typedef uint64_t u64;

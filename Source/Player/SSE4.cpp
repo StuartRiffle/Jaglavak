@@ -6,7 +6,7 @@
 #include "PlayoutBatch.h"
 #include "GamePlayer.h"
 
-extern _CDECL void PlayGamesSSE4( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
+extern void PlayGamesSSE4( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
 {
     GamePlayer< simd2_sse4 > player( params );
     player.PlayGames( pos, dest, simdCount );

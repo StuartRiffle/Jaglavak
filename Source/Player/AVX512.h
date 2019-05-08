@@ -147,17 +147,14 @@ void SimdInsert< simd8_avx512 >( simd8_avx512& dest, u64 val, int lane )
 template<> 
 INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, simd8_avx512* dest, int destStep )
 {
-    union
-    {
-        simd8_avx512 result[8];
-        u64 elem[64];
-    };
+    simd8_avx512 result[8];
 
+    u64* dest64 = (u64*) result;
     const u64* src64 = (const u64*) src;
 
     for( int y = 0; y < 8; y++ )
         for( int x = 0; x < 8; x++ )
-            elem[y * 8 + x] = src64[x * 8 + y];
+            dest64[y * 8 + x] = src64[x * 8 + y];
 
     for( int i = 0; i < 8; i++ )
         dest[destStep * i] = result[i];

@@ -46,17 +46,14 @@ static vector< float > PositionToTensor( const Position& pos )
 
     size_t numElems = sizeof( EncodedPosition ) / sizeof( float );
 
-    vector< float > result;
-    result.reserve( numElems );
-
-    result.push_back( &encoded, &encoded + numElems );
+    vector< float > result( &encoded, &encoded + numElems );
     return result;
 }
 
 static vector< float > ExtractMoveEval( const vector< float >& data, const MoveList& moveList )
 {
     vector< float > result;
-    size_t numElems = sizeof( EncodedPosition ) / sizeof( float );
+    size_t numElems = sizeof( EncodedMoveEval ) / sizeof( float );
 
     assert( data.size() == numElems );
     if( data.size() == numElems )

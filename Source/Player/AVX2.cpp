@@ -6,7 +6,7 @@
 #include "PlayoutBatch.h"
 #include "GamePlayer.h"
 
-extern _CDECL void PlayGamesAVX2( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
+extern void PlayGamesAVX2( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
 {
     GamePlayer< simd4_avx2 > player( params );
     player.PlayGames( pos, dest, simdCount );

@@ -1,15 +1,16 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-#include "PlayoutBatch.h"
+#include "Random.h"
+#include "PlayoutParams.h"
 
-template< typename SIMD = u64 >
+template< typename SIMD >
 class GamePlayer
 {
     const int LANES = SimdWidth< SIMD >::LANES;
 
-    PlayoutParams*  mParams;
-    RandomGen       mRandom;
+    const PlayoutParams* mParams;
+    RandomGen mRandom;
 
 public:
 
@@ -23,14 +24,12 @@ public:
     {
         #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
-        {
             PlayOneGameSimd( pos[i], dest + (i * LANES) );
-        }
     }
 
 protected:
 
-    PDECL ScoreCard PlayOneGameSimd( const PositionT< SIMD >& startPos, ScoreCard* outScores )
+    PDECL void PlayOneGameSimd( const PositionT< SIMD >& startPos, ScoreCard* outScores )
     {
         PositionT< SIMD > simdPos = startPos;
         MoveMapT< SIMD > simdMoveMap;
@@ -55,8 +54,6 @@ protected:
 
     PDECL MoveSpecT< SIMD > ChoosePlayoutMovesSimd( const PositionT< SIMD >& simdPos, const MoveMapT< SIMD >& simdMoveMap )
     {
-        // This part is still scalar :/
-
         Position ALIGN_SIMD pos[LANES];
         MoveMap  ALIGN_SIMD moveMap[LANES];
         MoveSpec ALIGN_SIMD spec[LANES];

@@ -3,12 +3,11 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "Threads.h"
-#include "PlayoutBatch.h"
 #include "GamePlayer.h"
 
-extern _CDECL void PlayGamesX64( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
+extern void PlayGamesX64( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
-    GamePlayer player( params );
+    GamePlayer< u64 > player( params );
     player.PlayGames( pos, dest, count );
 }
 

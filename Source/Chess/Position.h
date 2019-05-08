@@ -99,17 +99,17 @@ struct ALIGN_SIMD PositionT
         this->ApplyMove( move.mSrc, move.mDest, move.mType );
         this->FlipInPlace();
 
-        mWhiteToMove       ^= SelectIfZero( mResult, 1 );
+        mWhiteToMove       ^= SelectIfZero( mResult, (SIMD) 1 );
         mFullmoveNum       += SelectIfZero( mResult, mWhiteToMove );
         mHalfmoveClock      = SelectIfZero( mResult, (mHalfmoveClock + 1) & ~(isPawnMove | isCapture) );
 
         MoveMapT< SIMD > localMap;
-        MoveMapT< SIMD >* mmap = nextMapOut? nextMapOut : localMap;
+        MoveMapT< SIMD >* mmap = nextMapOut? nextMapOut : &localMap;
 
         this->CalcMoveMap( mmap );
 
-        SIMD    moveTargets = mmap.CalcMoveTargets();
-        SIMD    inCheck     = mmap.IsInCheck();
+        SIMD    moveTargets = mmap->CalcMoveTargets();
+        SIMD    inCheck     = mmap->IsInCheck();
         SIMD    win         = SelectIfNotZero( mWhiteToMove, (SIMD) RESULT_BLACK_WIN, (SIMD) RESULT_WHITE_WIN );
         SIMD    winOrDraw   = SelectIfNotZero( inCheck, win, (SIMD) RESULT_DRAW );
         SIMD    gameResult  = SelectIfZero( moveTargets, winOrDraw, (SIMD) RESULT_UNKNOWN );
