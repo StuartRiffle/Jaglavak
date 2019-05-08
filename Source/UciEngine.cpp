@@ -3,12 +3,19 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "CpuInfo.h"
-#include "TreeSearch.h"
 #include "GlobalOptions.h"
+#include "Random.h"
+#include "Threads.h"
+#include "Queue.h"
+#include "PlayoutParams.h"
+#include "PlayoutBatch.h"
+#include "AsyncWorker.h"
+#include "TreeNode.h"
+#include "TreeSearch.h"
 #include "UciEngine.h"
 
-#include "Misc/Serialization.h"
-#include "Misc/Tokenizer.h"
+#include "Serialization.h"
+#include "Tokenizer.h"
 
 UciEngine::UciEngine() : mDebugMode( false ) 
 {
@@ -17,7 +24,7 @@ UciEngine::UciEngine() : mDebugMode( false )
     mOptions.mDetectedSimdLevel  = CpuInfo::DetectSimdLevel();
     mOptions.mForceSimdLevel     = 0;
 
-    mSearcher = PTR< TreeSearch >( new TreeSearch( &mOptions ) );
+    mSearcher = unique_ptr<  TreeSearch >( new TreeSearch( &mOptions ) );
     mSearcher->Init();
 }
 
@@ -179,7 +186,8 @@ bool UciEngine::ProcessCommand( const char* cmd )
         if( conf.mNodesLimit )
             printf( "info string WARNING: limiting by node count is not supported\n" );
 
-        mSearcher->StartSearching( conf );
+        mSearcher->SetUciSearchConfig( conf );
+        mSearcher->StartSearching();
     }
     else if( t.Consume( "stop" ) )
     {

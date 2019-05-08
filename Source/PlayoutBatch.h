@@ -35,8 +35,6 @@ struct PlayoutBatch
     }
 };
 
-#if !ON_CUDA_DEVICE
-typedef RC< PlayoutBatch > BatchRef;
+typedef shared_ptr< PlayoutBatch > BatchRef;
 typedef ThreadSafeQueue< BatchRef > BatchQueue;
-#endif
 

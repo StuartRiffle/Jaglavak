@@ -36,7 +36,7 @@ struct TreeNode : public TreeLink
     TreeNode() : mInfo( NULL ) { Clear(); }
     ~TreeNode() { Clear(); }
 
-    void Init( const Position& pos, BranchInfo* info = NULL );
+    void InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info = NULL );
     void Clear();
     int FindMoveIndex( const MoveSpec& move );
     void SanityCheck();

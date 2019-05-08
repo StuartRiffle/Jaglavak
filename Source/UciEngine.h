@@ -10,28 +10,12 @@ struct UciOptionInfo
     int         mDefault;
 };
 
-struct UciSearchConfig
-{
-    int                 mWhiteTimeLeft;   
-    int                 mBlackTimeLeft;   
-    int                 mWhiteTimeInc;    
-    int                 mBlackTimeInc;    
-    int                 mTimeControlMoves;
-    int                 mMateSearchDepth; 
-    int                 mDepthLimit;       
-    int                 mNodesLimit;       
-    int                 mTimeLimit; 
-    MoveList            mLimitMoves;
-
-    UciSearchConfig()   { this->Clear(); }
-    void Clear()        { memset( this, 0, sizeof( *this ) ); }
-};
 
 class TreeSearch;
 
 class UciEngine
 {
-    PTR< TreeSearch >   mSearcher;
+    unique_ptr< TreeSearch >   mSearcher;
     GlobalOptions   mOptions;
     bool            mDebugMode;
 

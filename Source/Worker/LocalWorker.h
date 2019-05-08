@@ -11,7 +11,7 @@ class LocalWorker : public AsyncWorker
     const GlobalOptions*    mOptions;
     BatchQueue*             mWorkQueue;
     BatchQueue*             mDoneQueue;
-    PTR< thread* > mWorkThread;
+    unique_ptr< thread > mWorkThread;
 
     int ChooseSimdLevelForPlayout( int count )
     {
@@ -43,18 +43,25 @@ class LocalWorker : public AsyncWorker
             if( !mWorkQueue->PopBlocking( batch ) )
                 break;
 
-            int simdLevel   = ChooseSimdLevelForPlayout( batch->mCount );
-            int simdCount   = (batch->mCount + simdLevel - 1) / simdLevel;
+            size_t count = batch->GetCount();
+
+            assert( batch->mPathFromRoot.size() == count );
+            assert( count <= PLAYOUT_BATCH_MAX );
+
+            batch->mResults.resize( count );
+
+            int simdLevel   = ChooseSimdLevelForPlayout( count );
+            int simdCount   = (count + simdLevel - 1) / simdLevel;
 
             switch( simdLevel )
             {
-            case 8:   PlayGamesAVX512( &batch->mParams, batch->mPos, batch->mResults, simdCount ); break;
-            case 4:   PlayGamesAVX2(   &batch->mParams, batch->mPos, batch->mResults, simdCount ); break;
-            case 2:   PlayGamesSSE4(   &batch->mParams, batch->mPos, batch->mResults, simdCount ); break;
-            default:  PlayGamesX64(    &batch->mParams, batch->mPos, batch->mResults, simdCount ); break;
+            case 8:   PlayGamesAVX512( &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
+            case 4:   PlayGamesAVX2(   &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
+            case 2:   PlayGamesSSE4(   &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
+            default:  PlayGamesX64(    &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
             }
 
-            mDoneQueue->PushBlocking( batch );
+            mDoneQueue->Push( batch );
         }
     }
 
@@ -66,7 +73,7 @@ public:
         mWorkQueue = jobQueue;
         mDoneQueue = resultQueue;
 
-        mWorkThread = PTR< thread* >( new thread( [this] { this->JobThread(); } ) );
+        mWorkThread = unique_ptr< thread >( new thread( [this] { this->JobThread(); } ) );
     }
 
     ~LocalWorker()

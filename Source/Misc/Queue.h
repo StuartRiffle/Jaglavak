@@ -6,8 +6,9 @@ class ThreadSafeQueue
 {
     enum
     {
-        DEFAULT_BATCH_SIZE = 1024
-    }
+        DEFAULT_BATCH_SIZE = 1024,
+        DEFAULT_CAPACITY = 8192,
+    };
 
     vector< T > mBuffer;
     size_t mCount;
@@ -16,10 +17,10 @@ class ThreadSafeQueue
 
     mutex mMutex;
     condition_variable mVar;
-    volatile bool* mShuttingDown;
+    volatile bool mShuttingDown;
 
 public:
-    ThreadSafeQueue( size_t capacity )
+    ThreadSafeQueue( size_t capacity = DEFAULT_CAPACITY )
     {
         assert( capacity & (capacity - 1) == 0 );
 
@@ -38,7 +39,7 @@ public:
 
     size_t PushMulti( const T* objs, size_t count, size_t minimum )
     {
-        lock_guard< mutex > lock( mMutex );
+        unique_lock< mutex > lock( mMutex );
 
         size_t numPushed = 0;
 
@@ -55,7 +56,7 @@ public:
             if( numPushed >= minimum )
                 break;
 
-            mVar.wait( mMutex );
+            mVar.wait( lock );
             if( mShuttingDown )
                 break;
         }
@@ -83,7 +84,7 @@ public:
 
     size_t PopMulti( T* dest, size_t limit, size_t minimum )
     {
-        lock_guard< mutex > lock( mMutex );
+        unique_lock< mutex > lock( mMutex );
 
         size_t numPopped = 0;
         size_t readCursor = mWriteCursor - mCount;
@@ -100,7 +101,7 @@ public:
             if( numPopped >= minimum )
                 break;
 
-            mVar.wait( mMutex );
+            mVar.wait( lock );
             if( mShuttingDown )
                 break;
         }
@@ -124,7 +125,7 @@ public:
 
     bool PopBlocking( T& result )
     {
-        size_t success = this->PopMulti( &result, 1 );
+        size_t success = this->PopMulti( &result, 1, 1 );
         return success;
     }
 };

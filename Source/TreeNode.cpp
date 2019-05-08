@@ -2,9 +2,11 @@
 
 #include "Platform.h"
 #include "Chess.h"
-#include "TreeSearch.h"
+#include "GlobalOptions.h"
+#include "TreeNode.h"
+//#include "TreeSearch.h"
 
-void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info = NULL )
+void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info )
 {
     this->Clear();
 

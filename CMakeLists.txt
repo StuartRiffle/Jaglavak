@@ -8,7 +8,9 @@ set( CMAKE_CUDA_SEPARABLE_COMPILATION ON )
 
 include_directories( 
     Source 
-    Source/Misc 
+    Source/Misc
+    Source/Player
+    Source/Worker
 )
 
 add_executable( Jaglavak 
@@ -16,6 +18,7 @@ add_executable( Jaglavak
     Source/TreeNode.cpp
     Source/TreeSearch.cpp
     Source/UciEngine.cpp
+    Source/Worker/CudaWorker.cpp
 )
 
 add_library( X64    STATIC Source/Player/X64.cpp )

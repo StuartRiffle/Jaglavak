@@ -83,7 +83,7 @@ struct ALIGN_SIMD PositionT
 
     /// Update the game state by applying a (valid) move
     
-    PDECL void Step( const MoveSpecT< SIMD >& move, MoveMapT< SIMD >* nextMapOut )
+    PDECL void Step( const MoveSpecT< SIMD >& move, MoveMapT< SIMD >* nextMapOut = NULL )
     {
         SIMD    moveSrc     = SelectWithMask( mBoardFlipped,  FlipSquareIndex( move.mSrc ), move.mSrc );
         SIMD    srcBit      = SquareBit( moveSrc );

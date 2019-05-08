@@ -22,7 +22,7 @@ class InferenceWorker : public AsyncWorker
     const GlobalOptions*    mOptions;
     InferenceJobQueue*      mWorkQueue;
     InferenceJobQueue*      mDoneQueue;
-    PTR< thread >           mJobThread;
+    unique_ptr< thread >           mJobThread;
 
     void JobThread()
     {
@@ -52,7 +52,7 @@ public:
         mWorkQueue = workQueue;
         mDoneQueue = doneQueue;
 
-        mJobThread = PTR< thread* >( new thread( [this] { this->JobThread(); } ) );
+        mJobThread = unique_ptr< thread* >( new thread( [this] { this->JobThread(); } ) );
     }
 
     ~InferenceWorker()

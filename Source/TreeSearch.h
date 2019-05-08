@@ -1,6 +1,23 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+struct UciSearchConfig
+{
+    int                 mWhiteTimeLeft;   
+    int                 mBlackTimeLeft;   
+    int                 mWhiteTimeInc;    
+    int                 mBlackTimeInc;    
+    int                 mTimeControlMoves;
+    int                 mMateSearchDepth; 
+    int                 mDepthLimit;       
+    int                 mNodesLimit;       
+    int                 mTimeLimit; 
+    MoveList            mLimitMoves;
+
+    UciSearchConfig()   { this->Clear(); }
+    void Clear()        { memset( this, 0, sizeof( *this ) ); }
+};
+
 struct TreeSearch
 {
     GlobalOptions*          mOptions;
@@ -14,10 +31,10 @@ struct TreeSearch
     TreeNode*               mSearchRoot;
     BranchInfo              mRootInfo;
 
-    PTR< thread >            mSearchThread;
-    Semaphore               mSearchThreadShouldGo;
-    Semaphore               mSearchThreadIsStopped;
-    volatile bool           mSearchRunning;
+    unique_ptr< thread >    mSearchThread;
+    Semaphore               mSearchThreadGo;
+    Semaphore               mSearchThreadIsIdle;
+    volatile bool           mSearchingNow;
     volatile bool           mShuttingDown;
 
     BatchQueue              mWorkQueue;
@@ -28,25 +45,31 @@ struct TreeSearch
     TreeNode* AllocNode();
     void MoveToFront( TreeNode* node );
 
-    float CalculateUct( TreeNode* node, int childIndex )
-    int SelectNextBranch( TreeNode* node )
-    ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node );
-    void ExpandAtLeaf();
+    float CalculateUct( TreeNode* node, int childIndex );
+    void CalculatePriors( TreeNode* node, MoveList& pathFromRoot );
+    int SelectNextBranch( TreeNode* node );
+    ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );
+
+    void DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& score, int depth = 0 );
+    void ProcessScoreBatch( BatchRef& batch )    ;
+
+    BatchRef ExpandTree();
     void DumpStats( TreeNode* node );
 
-    void ProcessResult( TreeNode* node, const PlayoutResultRef& result, int depth = 0 );
-    void ProcessAsyncResults();
+    void ProcessIncomingScores();
     void UpdateAsyncWorkers();
     void SearchThread();
 
 public:
+
     TreeSearch( GlobalOptions* options, u64 randomSeed = 1 );
     ~TreeSearch();
 
     void Init();
     void Reset();
-    void SetPosition( const Position& pos );
-    void StartSearching( const UciSearchConfig& config );
+    void SetPosition( const Position& pos, const MoveList* moveList = NULL );
+    void SetUciSearchConfig( const UciSearchConfig& config );
+    void StartSearching();
     void StopSearching();
 };
 

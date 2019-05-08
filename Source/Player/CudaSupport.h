@@ -74,7 +74,7 @@ extern void PlayGamesCudaAsync(
     const PlayoutParams* params, 
     const Position* pos, 
     ScoreCard* dest, 
-    int count
+    int count,
     int blockCount, 
     int blockSize, 
     cudaStream_t stream );

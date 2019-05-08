@@ -2,6 +2,15 @@
 
 #include "Platform.h"
 #include "Chess.h"
+#include "GlobalOptions.h"
+#include "Random.h"
+#include "Threads.h"
+#include "Queue.h"
+#include "PlayoutParams.h"
+#include "PlayoutBatch.h"
+#include "AsyncWorker.h"
+#include "TreeNode.h"
+#include "TreeSearch.h"
 #include "UciEngine.h"
 
 int main( int argc, char** argv )
@@ -12,7 +21,7 @@ int main( int argc, char** argv )
     printf( "JAGLAVAK CHESS ENGINE %d.%d.%d\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH );
     printf( "Stuart Riffle\n\n" );
 
-    PTR< UciEngine > engine( new UciEngine() );
+    auto engine( unique_ptr< UciEngine>( new UciEngine() ) );
 
     while( !feof( stdin ) )
     {

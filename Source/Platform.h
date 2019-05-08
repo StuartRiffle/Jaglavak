@@ -5,11 +5,11 @@
 #define VERSION_MINOR (0)
 #define VERSION_PATCH (1)
 
+#include <cuda_runtime_api.h>
+
 #if defined( __CUDA_ARCH__ )
 
     // We are running __device__ code
-
-    #include <cuda_runtime_api.h>
 
     #define ON_CUDA_DEVICE      (1)
     #define ALIGN( _N )         __align__( _N )
@@ -106,9 +106,9 @@
     using std::mutex;
     using std::condition_variable;
     using std::thread;
-
-    template< typename T > class PTR : public std::unique_ptr< T > {};
-    template< typename T > class RC  : public std::shared_ptr< T > {};
+    using std::shared_ptr;
+    using std::unique_ptr;
+    using std::unique_lock;
 
 #endif
 

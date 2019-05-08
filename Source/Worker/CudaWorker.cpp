@@ -2,7 +2,17 @@
 
 #include "Platform.h"
 #include "Chess.h"
+#include "GlobalOptions.h"
+#include "Random.h"
+#include "Threads.h"
+#include "Queue.h"
+#include "PlayoutParams.h"
+#include "PlayoutBatch.h"
+#include "AsyncWorker.h"
+#include "TreeNode.h"
+#include "TreeSearch.h"
 #include "CudaSupport.h"
+#include "CudaWorker.h"
 
 
 CudaWorker::CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue )
@@ -53,7 +63,7 @@ void CudaWorker::Initialize( int deviceIndex, int jobSlots )
         mFreeSlots.push_back( &slot );
     }
 
-    mLaunchThread = PTR< thread >( new thread( [this] { this->LaunchThread(); } ) );
+    mLaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 }
 
 void CudaWorker::Shutdown()
@@ -71,11 +81,11 @@ void CudaWorker::Shutdown()
 
 CudaLaunchSlot* CudaWorker::ClaimFreeSlot()
 {
-    lock_guard< mutex > lock( mMutex );
+    unique_lock< mutex > lock( mMutex );
 
     while( mFreeSlots.empty() )
     {
-        mVar.wait();
+        mVar.wait( lock );
         if( mShuttingDown )
             return( NULL );
     }
@@ -97,7 +107,7 @@ void CudaWorker::LaunchThread()
             break;
 
         BatchRef batch;
-        if( !mWorkQueue->Pop( batch ) )
+        if( !mWorkQueue->PopBlocking( batch ) )
             break;
 
         slot->mBatch = batch;
@@ -111,14 +121,14 @@ void CudaWorker::LaunchThread()
         slot->mInputs.CopyToDeviceAsync( stream );
         slot->mOutputs.ClearOnDeviceAsync( stream );
 
-        int totalWidth = batch->mCount * batch->mParams->mNumGamesEach;
+        int totalWidth = slot->mCount * batch->mParams.mNumGamesEach;
         int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
 
         PlayGamesCudaAsync( 
-            mParams.mDev, 
-            mInputs.mDev, 
-            mOutputs.mDev, 
-            mCount,
+            slot->mParams.mDevice, 
+            slot->mInputs.mDevice, 
+            slot->mOutputs.mDevice, 
+            slot->mCount,
             blockCount, 
             mProp.warpSize, 
             stream );
@@ -130,11 +140,11 @@ void CudaWorker::LaunchThread()
     }
 }
 
-virtual void CudaWorker::Update() override
+void CudaWorker::Update() 
 {
     // This is called from the main thread
 
-    lock_guard< mutex > lock( mMutex );
+    unique_lock< mutex > lock( mMutex );
     vector< BatchRef > completedBatches;
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
@@ -149,8 +159,8 @@ virtual void CudaWorker::Update() override
             activeList.pop_front();
 
             BatchRef batch = slot->mBatch;
-            for( int i = 0; i < batch->mCount; i++ )
-                batch->mResults[i] = slot->mOutputBuffer[i];
+            for( int i = 0; i < batch->GetCount(); i++ )
+                batch->mResults[i] = slot->mOutputs[i];
 
             mFreeSlots.push_back( slot );
             completedBatches.push_back( batch );

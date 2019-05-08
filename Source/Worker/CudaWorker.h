@@ -5,7 +5,7 @@ class CudaWorker : public AsyncWorker
 {
     enum
     {
-        CUDA_NUM_STREAMS = 16,
+        CUDA_NUM_STREAMS = 16
     };
 
     const GlobalOptions*        mOptions;
@@ -14,7 +14,7 @@ class CudaWorker : public AsyncWorker
 
     int                         mDeviceIndex;      
     cudaDeviceProp              mProp;
-    PTR< thread >               mLaunchThread;
+    unique_ptr< thread >               mLaunchThread;
     bool                        mShuttingDown;
 
     mutex                       mMutex;
@@ -27,8 +27,8 @@ class CudaWorker : public AsyncWorker
     list< CudaLaunchSlot* >     mActiveSlotsByStream[CUDA_NUM_STREAMS];
 
 public:    
-    CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue )
-    ~CudaWorker()
+    CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue );
+    ~CudaWorker();
 
     static int GetDeviceCount();
     void Initialize( int deviceIndex, int jobSlots );

@@ -2,14 +2,27 @@
 
 #include "Platform.h"
 #include "Chess.h"
+#include "GlobalOptions.h"
+#include "Random.h"
+#include "Threads.h"
+#include "Queue.h"
+#include "PlayoutParams.h"
+#include "PlayoutBatch.h"
+#include "AsyncWorker.h"
+#include "LocalWorker.h"
+#include "CudaSupport.h"
+#include "CudaWorker.h"
+#include "TreeNode.h"
 #include "TreeSearch.h"
+
 
 TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
     mOptions( options )
 {
-    mSearchRoot    = NULL;
-    mShuttingDown  = false;
-    mSearchRunning = false;
+    mSearchRoot = NULL;
+    mShuttingDown = false;
+    mSearchingNow = false;
+
     mRandom.SetSeed( randomSeed );
 
     mNodePoolEntries = mOptions->mMaxTreeNodes;
@@ -19,7 +32,6 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     {
         mNodePool[i].mPrev = &mNodePool[i - 1];
         mNodePool[i].mNext = &mNodePool[i + 1];
-        mNodePool[i].mCounter = -i;
     }
 
     mNodePool[0].mPrev = (TreeNode*) &mMruListHead;
@@ -29,7 +41,7 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     mMruListHead.mPrev = &mNodePool[mNodePoolEntries - 1];
 }
 
-~TreeSearch::TreeSearch()
+TreeSearch::~TreeSearch()
 {
     this->StopSearching();
 
@@ -37,7 +49,6 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     mSearchThreadGo.Post();
     mSearchThread->join();
 
-    delete mSearchThread;
     delete mNodePool;
 }
 
@@ -46,22 +57,21 @@ void TreeSearch::Init()
     for( int i = 0; i < mOptions->mNumLocalWorkers; i++ )
     {
         auto worker = new LocalWorker( mOptions, &mWorkQueue, &mDoneQueue );
-        mAsyncWorkers.push_back( RC< AsyncWorker >( worker ) );
+        mAsyncWorkers.push_back( shared_ptr< AsyncWorker >( worker ) );
     }
 
     if( mOptions->mAllowCuda )
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            RC< AsyncWorker > worker( new CudaWorker( mOptions, &mWorkQueue, &mDoneQueue ) );
+            shared_ptr< CudaWorker > worker( new CudaWorker( mOptions, &mWorkQueue, &mDoneQueue ) );
             worker->Initialize( i, mOptions->mCudaQueueDepth );
 
             mAsyncWorkers.push_back( worker );
         }
     }
 
-    mSearchThread  = new thread( [this] { this->SearchThread(); } );
-    mResultThread  = new thread( [this] { this->ResultThread(); } );
+    mSearchThread  = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
 }
 
 void TreeSearch::Reset()
@@ -83,15 +93,15 @@ void TreeSearch::StartSearching()
 {
     this->StopSearching();
 
-    mSearchRunning = true;
+    mSearchingNow = true;
     mSearchThreadGo.Post();
 }
 
 void TreeSearch::StopSearching()
 {
-    if( mSearchRunning )
+    if( mSearchingNow )
     {
-        mSearchRunning = false;
+        mSearchingNow = false;
         mSearchThreadIsIdle.Wait();
     }
 }
@@ -128,7 +138,7 @@ TreeNode* TreeSearch::AllocNode()
     return node;
 }
 
-void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList = NULL )
+void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList )
 {
     // TODO: recognize position and don't terf the whole tree
 
@@ -138,49 +148,22 @@ void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList
         for( int i = 0; i < moveList->mCount; i++ )
             pos.Step( moveList->mMove[i] );
 
+    MoveMap moveMap;
+    pos.CalcMoveMap( &moveMap );
+
     if( mSearchRoot )
         mSearchRoot->mInfo = NULL;
 
     mSearchRoot = AllocNode();
-    mSearchRoot->InitPosition( pos );
+    mSearchRoot->InitPosition( pos, moveMap );
 
     mSearchRoot->mInfo = &mRootInfo;
     mRootInfo.mNode = mSearchRoot;
 }
 
-void TreeSearch::DebugVerifyMruList()
+void TreeSearch::CalculatePriors( TreeNode* node, MoveList& pathFromRoot )
 {
-    TreeNode* node = mMruListHead.mNext;
-    int count = 0;
-
-    while( node != (TreeNode*) &mMruListHead )
-    {
-        count++;
-        node = node->mNext;
-    }
-
-    assert( count == mNodePoolEntries );
-}
-
-
-Position VecToPosition( const vector< float >& tensor )
-{
-    Position pos;
-
-}
-
-void TreeSearch::CalculatePriorsAsync( TreeNode* node, const MoveList& pathFromRoot )
-{
-    int numBranches = (int) node->mBranch.size();
-
-    JobRef job( new InferenceJob() );
-
-    job->mGraphName = "CalcPriors";
-    job->mCheckpoint = "";
-    job->mPathFromRoot = pathFromRoot;
-    job->mInputs = PositionToVec( node->mPos );
-
-    mInferenceJobs.Push( job );
+    // TODO
 }
 
 float TreeSearch::CalculateUct( TreeNode* node, int childIndex )
@@ -189,8 +172,8 @@ float TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     BranchInfo& childInfo   = node->mBranch[childIndex];
     const ScoreCard& scores = childInfo.mScores;
 
-    u64 nodePlays  = Min( nodeInfo->mScores.mPlays, 1 );
-    u64 childPlays = Min( scores.mPlays, 1 );
+    u64 nodePlays  = Min< u64 >( nodeInfo->mScores.mPlays, 1 );
+    u64 childPlays = Min< u64 >( scores.mPlays, 1 );
     u64 childWins  = scores.mWins[node->mColor];
     
     if( mOptions->mDrawsHaveValue )
@@ -278,7 +261,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
         //chosenBranch->mNode = NULL;
         assert( chosenBranch->mNode == NULL );
 
-        newNode->InitPosition( newPos, chosenBranch, newMap ); 
+        newNode->InitPosition( newPos, newMap, chosenBranch ); 
         this->CalculatePriors( newNode, pathFromRoot );
 
         chosenBranch->mNode = newNode;
@@ -289,7 +272,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
             return( newNode->mGameResult );
         }
 
-        batch->Add( newPos, pathFromRoot );
+        batch->Append( newPos, pathFromRoot );
 
         // Pretend that we played a game here so that the UCT value changes
 
@@ -315,7 +298,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
 
 
-
+/*
 void TreeSearch::DumpStats( TreeNode* node )
 {
     u64 bestDenom = 0;
@@ -358,13 +341,14 @@ void TreeSearch::DumpStats( TreeNode* node )
     }
 }
 
+*/
 
-void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& score, int depth = 0 )
+void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& scores, int depth )
 {
-    if( depth >= result.mPathFromRoot.mCount )
+    if( depth >= pathFromRoot.mCount )
         return;
 
-    MoveSpec move = result.mPathFromRoot.mMove[depth];
+    MoveSpec move = pathFromRoot.mMove[depth];
 
     int childIdx = node->FindMoveIndex( move );
     if( childIdx < 0 )
@@ -374,14 +358,14 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
     if( child == NULL )
         return;
 
-    DeliverScores( child, result, depth + 1 );
+    DeliverScores( child, pathFromRoot, scores, depth + 1 );
 
-    node->mBranch[childIdx].mScores += result.mScores;
+    node->mBranch[childIdx].mScores += scores;
 }
 
 void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 {
-    for( int i = 0; i < batch->mCount; i++ )
+    for( int i = 0; i < batch->GetCount(); i++ )
         this->DeliverScores( mSearchRoot, batch->mPathFromRoot[i], batch->mResults[i] );
 }
 
@@ -430,14 +414,13 @@ void TreeSearch::SearchThread()
         if( mShuttingDown )
             break;
 
-        while( mSearchNow )
+        while( mSearchingNow )
         {
             this->UpdateAsyncWorkers();
             this->ProcessIncomingScores();
-            this->ProcessIncomingInference();
 
             auto batch = this->ExpandTree();
-            mWorkQueue->Push( batch );
+            mWorkQueue.Push( batch );
         }
     }
 }

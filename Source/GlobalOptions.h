@@ -22,6 +22,8 @@ union GlobalOptions
         int     mNumAsyncPlays;
         int     mExplorationFactor;
         int     mPlayoutMaxMoves;
+        int     mDrawsHaveValue;
+        int     mBatchSize;
 
         // These are not
 
