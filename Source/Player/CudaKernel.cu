@@ -19,12 +19,15 @@ __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos,
 }
 
 #if !ON_CUDA_DEVICE
-void PlayGamesCudaAsync( CudaLaunchSlot* slot, int blockCount, int blockSize, cudaStream_t stream )
+void PlayGamesCudaAsync( 
+    const PlayoutParams* params, 
+    const Position* pos, 
+    ScoreCard* dest, 
+    int count,
+    int blockCount, 
+    int blockSize, 
+    cudaStream_t stream )
 {
-    PlayGamesCuda<<< blockCount, blockSize, 0, stream >>>(
-        slot->mParams.mDev,
-        slot->mInputs.mDev, 
-        slot->mOutputs.mDev, 
-        slot->mCount );
+    PlayGamesCuda<<< blockCount, blockSize, 0, stream >>>( params, pos, dest, count );
 }
 #endif

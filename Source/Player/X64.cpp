@@ -2,7 +2,6 @@
 
 #include "Platform.h"
 #include "Chess.h"
-#include "Threads.h"
 #include "GamePlayer.h"
 
 extern void PlayGamesX64( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )

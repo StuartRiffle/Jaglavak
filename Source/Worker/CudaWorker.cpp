@@ -114,7 +114,14 @@ void CudaWorker::LaunchThread()
         int totalWidth = batch->mCount * batch->mParams->mNumGamesEach;
         int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
 
-        PlayGamesCudaAsync( slot, blockCount, mProp.warpSize, stream );
+        PlayGamesCudaAsync( 
+            mParams.mDev, 
+            mInputs.mDev, 
+            mOutputs.mDev, 
+            mCount,
+            blockCount, 
+            mProp.warpSize, 
+            stream );
 
         slot->mOutputs.CopyToHostAsync( stream );
         CUDA_REQUIRE(( cudaEventRecord( slot->mReadyEvent, stream ) ));

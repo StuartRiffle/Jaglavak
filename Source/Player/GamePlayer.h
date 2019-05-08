@@ -7,7 +7,7 @@
 template< typename SIMD >
 class GamePlayer
 {
-    const int LANES = SimdWidth< SIMD >::LANES;
+    enum { LANES = SimdWidth< SIMD >::LANES };
 
     const PlayoutParams* mParams;
     RandomGen mRandom;
@@ -20,11 +20,23 @@ public:
         mRandom.SetSeed( params->mRandomSeed + salt );
     }
 
-    PDECL void PlayGames( const PositionT< SIMD >* pos, ScoreCard* dest, int simdCount )
+    PDECL void PlayGames( const Position* pos, ScoreCard* dest, int simdCount )
     {
+        assert( (uintptr_t) pos % sizeof( SIMD ) == 0 );
+
+        const SIMD* src = (SIMD*) pos;
+
         #pragma omp parallel for schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
-            PlayOneGameSimd( pos[i], dest + (i * LANES) );
+        {
+            PositionT< SIMD > simdPos;
+            Swizzle< SIMD >( pos, &simdPos );
+
+            PlayOneGameSimd( simdPos, dest );
+
+            pos  += LANES;
+            dest += LANES;
+        }
     }
 
 protected:

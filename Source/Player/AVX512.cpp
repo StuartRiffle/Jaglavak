@@ -2,9 +2,8 @@
 
 #include "Platform.h"
 #include "Chess.h"
-#include "AVX512.h"
-#include "PlayoutBatch.h"
 #include "GamePlayer.h"
+#include "AVX512.h"
 
 extern void PlayGamesAVX512( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
 {

@@ -2,9 +2,8 @@
 
 #include "Platform.h"
 #include "Chess.h"
-#include "SSE4.h"
-#include "PlayoutBatch.h"
 #include "GamePlayer.h"
+#include "SSE4.h"
 
 extern void PlayGamesSSE4( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount )
 {
