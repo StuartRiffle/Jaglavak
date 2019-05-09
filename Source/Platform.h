@@ -5,6 +5,7 @@
 #define VERSION_MINOR (0)
 #define VERSION_PATCH (1)
 
+#include <assert.h>
 #include <cuda_runtime_api.h>
 
 #if defined( __CUDA_ARCH__ )
@@ -75,50 +76,16 @@
     #error
 #endif
 
-    #include <stdint.h>
 
-
-#if 1//!ON_CUDA_DEVICE
-
-    #include <assert.h>
-    #include <stdio.h>
-    #include <ctype.h>
-    #include <time.h>
-    #include <math.h>
-    #include <algorithm>
-    #include <string>
-    #include <vector>
-    #include <list>
-    #include <map>
-    #include <functional>
-    #include <memory>
-    #include <thread>
-    #include <mutex>
-    #include <condition_variable>
-    #include <atomic>
-
-    using std::pair;
-    using std::vector;
-    using std::map;
-    using std::list;
-    using std::string;    
-    using std::lock_guard;
-    using std::mutex;
-    using std::condition_variable;
-    using std::thread;
-    using std::shared_ptr;
-    using std::unique_ptr;
-    using std::unique_lock;
-
-#endif
-
-//#define ALIGN_SIMD  ALIGN( 64 )
-#define DEBUG_LOG   printf
+#include <stdint.h>
 
 typedef uint64_t u64;
 typedef uint32_t u32;
 typedef uint16_t u16;
 typedef uint8_t  u8;
+
+//#define ALIGN_SIMD  ALIGN( 64 )
+#define DEBUG_LOG   printf
 
 
 INLINE PDECL u64 PlatByteSwap64( const u64& val )             

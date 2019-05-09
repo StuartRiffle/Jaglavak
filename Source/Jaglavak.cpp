@@ -1,16 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess.h"
-#include "GlobalOptions.h"
-#include "Random.h"
-#include "Threads.h"
-#include "Queue.h"
-#include "PlayoutParams.h"
-#include "PlayoutBatch.h"
-#include "AsyncWorker.h"
-#include "TreeNode.h"
-#include "TreeSearch.h"
+#include "Jaglavak.h"
 #include "UciEngine.h"
 
 int main( int argc, char** argv )

@@ -8,7 +8,7 @@ struct BranchInfo
     TreeNode*   mNode;
     MoveSpec    mMove;
     ScoreCard   mScores;
-    float       mPrior;
+    double      mPrior;
 
 #if DEBUG    
     char        mMoveText[MAX_MOVETEXT_LENGTH];

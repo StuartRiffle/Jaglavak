@@ -40,12 +40,13 @@ struct TreeSearch
     BatchQueue              mWorkQueue;
     BatchQueue              mDoneQueue;
 
+    typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > mAsyncWorkers;
 
     TreeNode* AllocNode();
     void MoveToFront( TreeNode* node );
 
-    float CalculateUct( TreeNode* node, int childIndex );
+    double CalculateUct( TreeNode* node, int childIndex );
     void CalculatePriors( TreeNode* node, MoveList& pathFromRoot );
     int SelectNextBranch( TreeNode* node );
     ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );

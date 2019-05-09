@@ -14,7 +14,7 @@ class CudaWorker : public AsyncWorker
 
     int                         mDeviceIndex;      
     cudaDeviceProp              mProp;
-    unique_ptr< thread >               mLaunchThread;
+    unique_ptr< thread >        mLaunchThread;
     bool                        mShuttingDown;
 
     mutex                       mMutex;

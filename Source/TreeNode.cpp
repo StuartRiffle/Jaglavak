@@ -1,10 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess.h"
-#include "GlobalOptions.h"
-#include "TreeNode.h"
-//#include "TreeSearch.h"
+#include "Jaglavak.h"
 
 void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info )
 {

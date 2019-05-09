@@ -1,21 +1,11 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess.h"
+#include "Jaglavak.h"
 #include "CpuInfo.h"
-#include "GlobalOptions.h"
-#include "Random.h"
-#include "Threads.h"
-#include "Queue.h"
-#include "PlayoutParams.h"
-#include "PlayoutBatch.h"
-#include "AsyncWorker.h"
-#include "TreeNode.h"
-#include "TreeSearch.h"
-#include "UciEngine.h"
-
 #include "Serialization.h"
 #include "Tokenizer.h"
+#include "UciEngine.h"
+
 
 UciEngine::UciEngine() : mDebugMode( false ) 
 {
@@ -39,10 +29,10 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( mAllowMulticore ),    "AllowMulticore",       0, 0, 0,
         OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
         OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
-        OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64, 1,
-        OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 10000, 0,
+        OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64, 0,
+        OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 10000, 1,
+        OPTION_INDEX( mBatchSize ),         "BatchSize",            1, 8192, 128,
         OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
-        OPTION_INDEX( mCudaStreams ),       "CudaStreams",          0, 16, 16,            
         OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
         OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
         OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,

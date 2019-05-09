@@ -9,4 +9,3 @@ public:
     virtual void Update() {}
 };
 
-typedef shared_ptr< AsyncWorker > AsyncWorkerRef;

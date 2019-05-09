@@ -60,7 +60,7 @@ INLINE simd8_avx512 ByteSwap< simd8_avx512 >( const simd8_avx512& val )
 { 
     // FIXME: GCC is currently missing _mm512_set_epi8
 
-    static const uint8_t ALIGN( sizeof( simd8_avx512 ) ) permRaw[] =
+    static const uint8_t ALIGN( sizeof( simd8_avx512 ) ) perm[] =
     {
          7,  6,  5,  4,  3,  2,  1,  0, 
         15, 14, 13, 12, 11, 10,  9,  8,
@@ -72,10 +72,7 @@ INLINE simd8_avx512 ByteSwap< simd8_avx512 >( const simd8_avx512& val )
         63, 62, 61, 60, 59, 58, 57, 56 
     };
 
-    __m512i vec = val.vec;
-    __m512i perm = *((__m512i*) permRaw);
-
-    return( _mm512_shuffle_epi8( vec, perm ) );
+    return( _mm512_shuffle_epi8( val.vec, *((__m512i*) perm) ) );
 }
 
 template<> 

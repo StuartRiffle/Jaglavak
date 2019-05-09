@@ -1,4 +1,5 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+#pragma once
 
 #include "Chess/Operations.h"
 #include "Chess/Defs.h"

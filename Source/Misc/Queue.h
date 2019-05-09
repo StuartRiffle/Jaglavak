@@ -22,7 +22,7 @@ class ThreadSafeQueue
 public:
     ThreadSafeQueue( size_t capacity = DEFAULT_CAPACITY )
     {
-        assert( capacity & (capacity - 1) == 0 );
+        assert( (capacity & (capacity - 1)) == 0 );
 
         mBuffer.resize( capacity );
         mCount = 0;

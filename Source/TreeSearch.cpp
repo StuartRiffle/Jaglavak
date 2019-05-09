@@ -1,19 +1,10 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess.h"
-#include "GlobalOptions.h"
-#include "Random.h"
-#include "Threads.h"
-#include "Queue.h"
-#include "PlayoutParams.h"
-#include "PlayoutBatch.h"
-#include "AsyncWorker.h"
+#include "Jaglavak.h"
 #include "LocalWorker.h"
 #include "CudaSupport.h"
 #include "CudaWorker.h"
-#include "TreeNode.h"
-#include "TreeSearch.h"
+#include "Serialization.h"
 
 
 TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
@@ -39,6 +30,8 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
 
     mNodePool[mNodePoolEntries - 1].mNext = (TreeNode*) &mMruListHead;
     mMruListHead.mPrev = &mNodePool[mNodePoolEntries - 1];
+
+    this->Reset();
 }
 
 TreeSearch::~TreeSearch()
@@ -166,7 +159,7 @@ void TreeSearch::CalculatePriors( TreeNode* node, MoveList& pathFromRoot )
     // TODO
 }
 
-float TreeSearch::CalculateUct( TreeNode* node, int childIndex )
+double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
 {
     BranchInfo* nodeInfo    = node->mInfo;
     BranchInfo& childInfo   = node->mBranch[childIndex];
@@ -182,13 +175,13 @@ float TreeSearch::CalculateUct( TreeNode* node, int childIndex )
         childWins += draws / 2;
     }
 
-    float invChildPlays = 1.0f / childPlays;
-    float childWinRatio = childWins * invChildPlays;
-    float exploringness = mOptions->mExplorationFactor * 0.01f;
+    double invChildPlays = 1.0 / childPlays;
+    double childWinRatio = childWins * invChildPlays;
+    double exploringness = mOptions->mExplorationFactor * 0.01f;
 
-    float uct = 
+    double uct = 
         childWinRatio + 
-        exploringness * sqrtf( logf( nodePlays ) * 2 * invChildPlays ) +
+        exploringness * sqrt( log( nodePlays ) * 2 * invChildPlays ) +
         childInfo.mPrior;
 
     return uct;
@@ -214,12 +207,12 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
 
     // This node is fully expanded, so choose the move with highest UCT
 
-    float highestUct = 0;
+    double highestUct = 0;
     int highestIdx = 0;
 
     for( int i = 0; i < numBranches; i++ )
     {
-        float uct = CalculateUct( node, i );
+        double uct = CalculateUct( node, i );
         if( uct > highestUct )
         {
             highestUct = uct;
@@ -298,7 +291,6 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
 
 
-/*
 void TreeSearch::DumpStats( TreeNode* node )
 {
     u64 bestDenom = 0;
@@ -327,7 +319,6 @@ void TreeSearch::DumpStats( TreeNode* node )
         }
     }
 
-    printf( "Queue length %d\n", mWorkQueue.GetCount() );
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
         string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
@@ -341,7 +332,6 @@ void TreeSearch::DumpStats( TreeNode* node )
     }
 }
 
-*/
 
 void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& scores, int depth )
 {
@@ -392,6 +382,10 @@ BatchRef TreeSearch::ExpandTree()
 {
     BatchRef batch( new PlayoutBatch );
 
+    batch->mParams.mRandomSeed = mRandom.GetNext();
+    batch->mParams.mNumGamesEach = mOptions->mNumAsyncPlays;
+    batch->mParams.mMaxMovesPerGame = mOptions->mPlayoutMaxMoves;
+
     int batchSize = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
     for( int i = 0; i < batchSize; i++ )
     {
@@ -421,6 +415,14 @@ void TreeSearch::SearchThread()
 
             auto batch = this->ExpandTree();
             mWorkQueue.Push( batch );
+
+            static int counter = 0;
+            if( ++counter > 100 )
+            {
+                this->DumpStats( this->mSearchRoot );
+                counter = 0;
+            }
+
         }
     }
 }

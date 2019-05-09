@@ -34,4 +34,3 @@ union GlobalOptions
     int mOption[1];
 };
 
-
