@@ -2,6 +2,7 @@
 
 #include "Jaglavak.h"
 #include "UciEngine.h"
+#include "Version.h"
 
 int main( int argc, char** argv )
 {
@@ -11,7 +12,7 @@ int main( int argc, char** argv )
     printf( "JAGLAVAK CHESS ENGINE %d.%d.%d\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH );
     printf( "Stuart Riffle\n\n" );
 
-    auto engine( unique_ptr< UciEngine>( new UciEngine() ) );
+    auto engine( unique_ptr< UciEngine >( new UciEngine() ) );
 
     while( !feof( stdin ) )
     {

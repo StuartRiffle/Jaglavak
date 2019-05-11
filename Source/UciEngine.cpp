@@ -5,7 +5,7 @@
 #include "Serialization.h"
 #include "Tokenizer.h"
 #include "UciEngine.h"
-
+#include "Version.h"
 
 UciEngine::UciEngine() : mDebugMode( false ) 
 {

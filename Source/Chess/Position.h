@@ -99,9 +99,9 @@ struct ALIGN_SIMD PositionT
         this->ApplyMove( move.mSrc, move.mDest, move.mType );
         this->FlipInPlace();
 
-        mWhiteToMove       ^= SelectIfZero( mResult, (SIMD) 1 );
-        mFullmoveNum       += SelectIfZero( mResult, mWhiteToMove );
-        mHalfmoveClock      = SelectIfZero( mResult, (mHalfmoveClock + 1) & ~(isPawnMove | isCapture) );
+        mWhiteToMove        = SelectIfNotZero( mResult, mWhiteToMove,    mWhiteToMove ^ 1 );
+        mFullmoveNum        = SelectIfNotZero( mResult, mFullmoveNum,    mFullmoveNum + mWhiteToMove );
+        mHalfmoveClock      = SelectIfNotZero( mResult, mHalfmoveClock, (mHalfmoveClock + 1) & ~(isPawnMove | isCapture) );
 
         MoveMapT< SIMD > localMap;
         MoveMapT< SIMD >* mmap = nextMapOut? nextMapOut : &localMap;
@@ -114,7 +114,7 @@ struct ALIGN_SIMD PositionT
         SIMD    winOrDraw   = SelectIfNotZero( inCheck, win, (SIMD) RESULT_DRAW );
         SIMD    gameResult  = SelectIfZero( moveTargets, winOrDraw, (SIMD) RESULT_UNKNOWN );
 
-        mResult             = SelectIfZero( mResult, gameResult );
+        mResult             = SelectIfNotZero( mResult, mResult, gameResult );
     }
 
 
@@ -199,18 +199,18 @@ struct ALIGN_SIMD PositionT
         blackQueens                 = MaskOut( blackQueens,  destBit );
         castlingAndEP               = MaskOut( castlingAndEP, disableCastleBit | EP_SQUARES ) | epTargetNext;
 
-        mWhitePawns                 = SelectIfZero( mResult, whitePawns );
-        mWhiteKnights               = SelectIfZero( mResult, whiteKnights );
-        mWhiteBishops               = SelectIfZero( mResult, whiteBishops );
-        mWhiteRooks                 = SelectIfZero( mResult, whiteRooks );
-        mWhiteQueens                = SelectIfZero( mResult, whiteQueens );
-        mWhiteKing                  = SelectIfZero( mResult, whiteKing );
-        mBlackPawns                 = SelectIfZero( mResult, blackPawns );
-        mBlackKnights               = SelectIfZero( mResult, blackKnights );
-        mBlackBishops               = SelectIfZero( mResult, blackBishops );
-        mBlackRooks                 = SelectIfZero( mResult, blackRooks );
-        mBlackQueens                = SelectIfZero( mResult, blackQueens );
-        mCastlingAndEP              = SelectIfZero( mResult, castlingAndEP );
+        mWhitePawns                 = SelectIfNotZero( mResult, mWhitePawns,    whitePawns    );
+        mWhiteKnights               = SelectIfNotZero( mResult, mWhiteKnights,  whiteKnights  );
+        mWhiteBishops               = SelectIfNotZero( mResult, mWhiteBishops,  whiteBishops  );
+        mWhiteRooks                 = SelectIfNotZero( mResult, mWhiteRooks,    whiteRooks    );
+        mWhiteQueens                = SelectIfNotZero( mResult, mWhiteQueens,   whiteQueens   );
+        mWhiteKing                  = SelectIfNotZero( mResult, mWhiteKing,     whiteKing     );
+        mBlackPawns                 = SelectIfNotZero( mResult, mBlackPawns,    blackPawns    );
+        mBlackKnights               = SelectIfNotZero( mResult, mBlackKnights,  blackKnights  );
+        mBlackBishops               = SelectIfNotZero( mResult, mBlackBishops,  blackBishops  );
+        mBlackRooks                 = SelectIfNotZero( mResult, mBlackRooks,    blackRooks    );
+        mBlackQueens                = SelectIfNotZero( mResult, mBlackQueens,   blackQueens   );
+        mCastlingAndEP              = SelectIfNotZero( mResult, mCastlingAndEP, castlingAndEP );
     }
 
 

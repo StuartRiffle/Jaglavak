@@ -23,7 +23,6 @@ public:
     PDECL void PlayGames( const Position* pos, ScoreCard* dest, int simdCount )
     {
         assert( (uintptr_t) pos % sizeof( SIMD ) == 0 );
-
         const SIMD* src = (SIMD*) pos;
 
         #pragma omp parallel for schedule(dynamic)
@@ -86,6 +85,8 @@ protected:
     {
         if( pos.mResult == RESULT_UNKNOWN )
         {
+            // FIXME: position changed after game ended
+
             MoveList moveList;
             moveList.UnpackMoveMap( pos, moveMap );
 
