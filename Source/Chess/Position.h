@@ -81,7 +81,7 @@ struct ALIGN_SIMD PositionT
     }
 
 
-    /// Update the game state by applying a (valid) move
+    /// Update the game state by applying a (presumably valid) move
     
     PDECL void Step( const MoveSpecT< SIMD >& move, MoveMapT< SIMD >* nextMapOut = NULL )
     {
@@ -114,7 +114,7 @@ struct ALIGN_SIMD PositionT
         SIMD    winOrDraw   = SelectIfNotZero( inCheck, win, (SIMD) RESULT_DRAW );
         SIMD    gameResult  = SelectIfZero( moveTargets, winOrDraw, (SIMD) RESULT_UNKNOWN );
 
-        mResult             = SelectIfNotZero( mResult, mResult, gameResult );
+        mResult = SelectIfNotZero( mResult, mResult, gameResult );
     }
 
 

@@ -4,7 +4,7 @@
 class Tokenizer
 {
     vector< char > mStr;
-    char*               mCursor;
+    char*          mCursor;
 
     void SkipWhite()    { while( *mCursor &&  isspace( *mCursor ) ) mCursor++; }
     void SkipNonWhite() { while( *mCursor && !isspace( *mCursor ) ) mCursor++; }

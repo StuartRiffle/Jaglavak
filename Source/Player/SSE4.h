@@ -132,13 +132,6 @@ INLINE simd2_sse4 SelectWithMask< simd2_sse4 >( const simd2_sse4& mask, const si
     return( _mm_select( b.vec, a.vec, mask.vec ) ); 
 }
 
-template<>
-void SimdInsert< simd2_sse4 >( simd2_sse4& dest, u64 val, int lane )
-{
-    //dest.vec = (lane == 0)? _mm_insert_epi64( dest.vec, val, 0 ) : _mm_insert_epi64( dest.vec, val, 1 );
-    ((u64*) &dest)[lane] = val;
-}
-
 template<> 
 INLINE void Transpose< simd2_sse4 >( const simd2_sse4* src, int srcStep, simd2_sse4* dest, int destStep )
 {

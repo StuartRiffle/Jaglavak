@@ -134,16 +134,6 @@ INLINE simd8_avx512 SelectWithMask< simd8_avx512 >( const simd8_avx512& mask, co
     return( _mm512_select( b.vec, a.vec, mask.vec ) );
 }
 
-template<>
-void SimdInsert< simd8_avx512 >( simd8_avx512& dest, u64 val, int lane )
-{
-    u64 ALIGN( sizeof( simd8_avx512 ) ) qwords[8];
-
-    *((simd8_avx512*) qwords) = dest;
-    qwords[lane] = val;
-    dest = *((simd8_avx512*) qwords);
-}
-
 template<> 
 INLINE void Transpose< simd8_avx512 >( const simd8_avx512* src, int srcStep, simd8_avx512* dest, int destStep )
 {

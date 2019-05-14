@@ -14,11 +14,6 @@ struct EncodedPosition
     float mKings[64];
 };
 
-struct EncodedMoveEval
-{
-    float mMoveValue[64][64];
-}
-
 static vector< float > PositionToTensor( const Position& pos )
 {
     EncodedPosition encoded = { 0 };
@@ -48,6 +43,12 @@ static vector< float > PositionToTensor( const Position& pos )
 
     vector< float > result( &encoded, &encoded + numElems );
     return result;
+}
+
+
+struct EncodedMoveEval
+{
+    float mMoveValue[64][64];
 }
 
 static vector< float > ExtractMoveEval( const vector< float >& data, const MoveList& moveList )

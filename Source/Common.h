@@ -1,9 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-#include "Platform.h"
-#include "Chess.h"
-
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
@@ -20,9 +17,7 @@
 #include <atomic>
 #include <condition_variable>
 
-using std::pair;
 using std::vector;
-using std::map;
 using std::list;
 using std::string;    
 using std::mutex;
@@ -35,7 +30,7 @@ using std::unique_lock;
 #include "GlobalOptions.h"
 #include "CpuInfo.h"
 #include "Random.h"
-#include "Threads.h"
+#include "ThreadSync.h"
 #include "Queue.h"
 #include "PlayoutParams.h"
 #include "PlayoutBatch.h"

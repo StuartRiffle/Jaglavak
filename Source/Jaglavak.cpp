@@ -1,6 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Jaglavak.h"
+#include "Platform.h"
+#include "Chess.h"
+#include "Common.h"
 #include "UciEngine.h"
 #include "Version.h"
 

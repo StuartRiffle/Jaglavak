@@ -1,7 +1,9 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Jaglavak.h"
-#include "LocalWorker.h"
+#include "Platform.h"
+#include "Chess.h"
+#include "Common.h"
+#include "SimdWorker.h"
 #include "CudaSupport.h"
 #include "CudaWorker.h"
 #include "Serialization.h"
@@ -47,13 +49,13 @@ TreeSearch::~TreeSearch()
 
 void TreeSearch::Init()
 {
-    for( int i = 0; i < mOptions->mNumLocalWorkers; i++ )
+    for( int i = 0; i < mOptions->mNumSimdWorkers; i++ )
     {
-        auto worker = new LocalWorker( mOptions, &mWorkQueue, &mDoneQueue );
+        auto worker = new SimdWorker( mOptions, &mWorkQueue, &mDoneQueue );
         mAsyncWorkers.push_back( shared_ptr< AsyncWorker >( worker ) );
     }
 
-    if( mOptions->mAllowCuda )
+    if( mOptions->mEnableCuda )
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
@@ -165,8 +167,8 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     BranchInfo& childInfo   = node->mBranch[childIndex];
     const ScoreCard& scores = childInfo.mScores;
 
-    u64 nodePlays  = Min< u64 >( nodeInfo->mScores.mPlays, 1 );
-    u64 childPlays = Min< u64 >( scores.mPlays, 1 );
+    u64 nodePlays  = Max< u64 >( nodeInfo->mScores.mPlays, 1 ); 
+    u64 childPlays = Max< u64 >( scores.mPlays, 1 );
     u64 childWins  = scores.mWins[node->mColor];
     
     if( mOptions->mDrawsHaveValue )
@@ -177,7 +179,7 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
 
     double invChildPlays = 1.0 / childPlays;
     double childWinRatio = childWins * invChildPlays;
-    double exploringness = mOptions->mExplorationFactor * 0.01f;
+    double exploringness = mOptions->mExplorationFactor * 0.01;
 
     double uct = 
         childWinRatio + 
@@ -250,9 +252,6 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
         MoveMap newMap;
         Position newPos = node->mPos;
         newPos.Step( chosenBranch->mMove, &newMap );
-
-        //chosenBranch->mNode = NULL;
-        assert( chosenBranch->mNode == NULL );
 
         newNode->InitPosition( newPos, newMap, chosenBranch ); 
         this->CalculatePriors( newNode, pathFromRoot );
@@ -382,8 +381,8 @@ BatchRef TreeSearch::ExpandTree()
 {
     BatchRef batch( new PlayoutBatch );
 
-    batch->mParams.mRandomSeed = mRandom.GetNext();
-    batch->mParams.mNumGamesEach = mOptions->mNumAsyncPlays;
+    batch->mParams.mRandomSeed      = mRandom.GetNext();
+    batch->mParams.mNumGamesEach    = mOptions->mNumAsyncPlays;
     batch->mParams.mMaxMovesPerGame = mOptions->mPlayoutMaxMoves;
 
     int batchSize = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
@@ -417,12 +416,11 @@ void TreeSearch::SearchThread()
             mWorkQueue.Push( batch );
 
             static int counter = 0;
-            if( ++counter > 100 )
+            if( ++counter > 0 )
             {
                 this->DumpStats( this->mSearchRoot );
                 counter = 0;
             }
-
         }
     }
 }

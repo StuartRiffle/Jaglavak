@@ -1,6 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Jaglavak.h"
+#include "Platform.h"
+#include "Chess.h"
+#include "Common.h"
 
 void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info )
 {
@@ -29,7 +31,7 @@ void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, Branch
 
         mGameResult.mWins[WHITE] = (pos.mResult == RESULT_WHITE_WIN);
         mGameResult.mWins[BLACK] = (pos.mResult == RESULT_BLACK_WIN);
-        mGameResult.mPlays++;
+        mGameResult.mPlays = 1;
         mGameOver = true;
     }
 }

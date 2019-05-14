@@ -29,7 +29,7 @@ struct CudaBuffer
             cudaFree( mDevice );
     }
 
-    const T& operator[]( size_t idx ) const
+    T& operator[]( size_t idx )
     {
         return mHost[idx];
     }

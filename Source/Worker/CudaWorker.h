@@ -35,7 +35,6 @@ public:
     void Shutdown();
 
 private:
-
     CudaLaunchSlot* ClaimFreeSlot();
     void LaunchThread();
     virtual void Update() override;

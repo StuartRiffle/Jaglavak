@@ -29,7 +29,6 @@ template< typename T > INLINE PDECL T       LowestBitIndex( const T& val )      
 template< typename T > INLINE PDECL T       ConsumeLowestBitIndex( T& val )                                     { T idx = LowestBitIndex( val ); val = ClearLowestBit( val ); return( idx ); }
 template< typename T > INLINE PDECL void    Exchange( T& a, T& b )                                              { T temp = a; a = b; b = temp; }
 template< typename T > INLINE PDECL void    Transpose( const T* src, int srcStep, T* dest, int destStep )       { *dest = *src; }
-template< typename T >        PDECL void    SimdInsert( T& dest, u64 val, int lane )                            { dest = val; }
 
 template< typename SIMD, typename UNPACKED, typename PACKED >
 INLINE PDECL void Swizzle( const UNPACKED* srcStruct, PACKED* destStruct )

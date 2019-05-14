@@ -15,6 +15,32 @@
     #define INLINE              __forceinline__    
     #define PDECL               __device__
 
+#elif defined( __GNUC__ )
+
+    #define __STDC_FORMAT_MACROS
+
+    #include <inttypes.h>
+    #include <pthread.h>
+    #include <semaphore.h>
+    #include <x86intrin.h>
+    #include <cpuid.h>
+    #include <string.h>
+    #include <unistd.h>
+    #include <sched.h>
+
+    #pragma GCC diagnostic ignored "-Wunknown-pragmas"
+
+    #define TOOLCHAIN_GCC       (1)
+    #define ALIGN( _N )         __attribute__(( aligned( _N ) ))
+    #define ALIGN_SIMD          ALIGN( 64 )
+    #define RESTRICT            __restrict
+    #define DEBUGBREAK          void
+    #define INLINE              inline __attribute__(( always_inline ))
+    #define PDECL         
+
+    #define stricmp             strcasecmp
+    #define strnicmp            strncasecmp
+
 #elif defined( _MSC_VER )
 
     #define WIN32_LEAN_AND_MEAN    
@@ -42,32 +68,6 @@
     extern "C" void * __cdecl memset(void *, int, size_t);
     #pragma intrinsic( memset )        
 
-#elif defined( __GNUC__ )
-
-    #define __STDC_FORMAT_MACROS
-
-    #include <inttypes.h>
-    #include <pthread.h>
-    #include <semaphore.h>
-    #include <x86intrin.h>
-    #include <cpuid.h>
-    #include <string.h>
-    #include <unistd.h>
-    #include <sched.h>
-
-    #pragma GCC diagnostic ignored "-Wunknown-pragmas"
-
-    #define TOOLCHAIN_GCC       (1)
-    #define ALIGN( _N )         __attribute__(( aligned( _N ) ))
-    #define ALIGN_SIMD          ALIGN( 64 )
-    #define RESTRICT            __restrict
-    #define DEBUGBREAK          void
-    #define INLINE              inline __attribute__(( always_inline ))
-    #define PDECL         
-
-    #define stricmp             strcasecmp
-    #define strnicmp            strncasecmp
-
 #else
     #error
 #endif
@@ -90,10 +90,10 @@ INLINE PDECL u64 PlatByteSwap64( const u64& val )
     u32 hi = __byte_perm( (u32) val, 0, 0x0123 );
     u32 lo = __byte_perm( (u32) (val >> 32), 0, 0x0123 );
     return( ((u64) hi << 32ULL) | lo );
-#elif TOOLCHAIN_MSVC
-    return( _byteswap_uint64( val ) ); 
 #elif TOOLCHAIN_GCC
     return( __builtin_bswap64( val ) );     
+#elif TOOLCHAIN_MSVC
+    return( _byteswap_uint64( val ) ); 
 #endif
 }
 
@@ -101,25 +101,25 @@ INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 {
 #if ON_CUDA_DEVICE
     return( __ffsll( val ) - 1 );
+#elif TOOLCHAIN_GCC
+    return( __builtin_ffsll( val ) - 1 ); 
 #elif TOOLCHAIN_MSVC
     unsigned long result;
     _BitScanForward64( &result, val );
     return( result );
-#elif TOOLCHAIN_GCC
-    return( __builtin_ffsll( val ) - 1 ); 
 #endif
 }
 
 INLINE PDECL void PlatSleep( int ms )
 {
-#if TOOLCHAIN_MSVC
-    Sleep( ms );
-#elif TOOLCHAIN_GCC
+#if TOOLCHAIN_GCC
     timespec request;
     timespec remaining;
     request.tv_sec  = (ms / 1000);
     request.tv_nsec = (ms % 1000) * 1000 * 1000;
     nanosleep( &request, &remaining );
+#elif TOOLCHAIN_MSVC
+    Sleep( ms );
 #endif
 }
 

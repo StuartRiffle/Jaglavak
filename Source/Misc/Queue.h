@@ -19,30 +19,11 @@ class ThreadSafeQueue
     condition_variable mVar;
     volatile bool mShuttingDown;
 
-public:
-    ThreadSafeQueue( size_t capacity = DEFAULT_CAPACITY )
-    {
-        assert( (capacity & (capacity - 1)) == 0 );
-
-        mBuffer.resize( capacity );
-        mCount = 0;
-        mWrapMask = capacity - 1;
-        mWriteCursor = 0;
-        mShuttingDown = false;
-    }
-
-    ~ThreadSafeQueue()
-    {
-        mShuttingDown = true;
-        mVar.notify_all();    
-    }
-
-    size_t PushMulti( const T* objs, size_t count, size_t minimum )
+    size_t PushInternal( const T* objs, size_t count, size_t minimum )
     {
         unique_lock< mutex > lock( mMutex );
 
         size_t numPushed = 0;
-
         while( numPushed < count )
         {
             size_t capacity = mBuffer.size();
@@ -67,28 +48,12 @@ public:
         return numPushed;
     }
 
-    void PushMulti( const T* objs, size_t count )
-    {
-        this->PushMulti( objs, count, count );
-    }
-
-    void PushMulti( const vector< T >& elems )
-    {
-        this->PushMulti( elems.data(), elems.size() );
-    }
-
-    void Push( const T& obj )
-    {
-        this->PushMulti( &obj, 1 );
-    }
-
-    size_t PopMulti( T* dest, size_t limit, size_t minimum )
+    size_t PopInternal( T* dest, size_t limit, size_t minimum )
     {
         unique_lock< mutex > lock( mMutex );
 
         size_t numPopped = 0;
         size_t readCursor = mWriteCursor - mCount;
-
         while( numPopped < limit )
         {
             if( mCount > 0 )
@@ -112,12 +77,45 @@ public:
         return numPopped;
     }
 
+public:
+    ThreadSafeQueue( size_t capacity = DEFAULT_CAPACITY )
+    {
+        assert( (capacity & (capacity - 1)) == 0 );
+
+        mBuffer.resize( capacity );
+        mCount = 0;
+        mWrapMask = capacity - 1;
+        mWriteCursor = 0;
+        mShuttingDown = false;
+    }
+
+    ~ThreadSafeQueue()
+    {
+        mShuttingDown = true;
+        mVar.notify_all();    
+    }
+
+    void Push( const T* objs, size_t count )
+    {
+        this->PushInternal( objs, count, count );
+    }
+
+    void Push( const vector< T >& elems )
+    {
+        this->Push( elems.data(), elems.size() );
+    }
+
+    void Push( const T& obj )
+    {
+        this->Push( &obj, 1 );
+    }
+
     vector< T > PopMulti( size_t limit = DEFAULT_BATCH_SIZE )
     {
         vector< T > result;
         result.resize( limit );
 
-        size_t numPopped = this->PopMulti( result.data(), limit, 0 );
+        size_t numPopped = this->PopInternal( result.data(), limit, 0 );
         result.resize( numPopped );
 
         return result;
@@ -125,7 +123,7 @@ public:
 
     bool PopBlocking( T& result )
     {
-        size_t success = this->PopMulti( &result, 1, 1 );
+        size_t success = this->PopInternal( &result, 1, 1 );
         return success;
     }
 };

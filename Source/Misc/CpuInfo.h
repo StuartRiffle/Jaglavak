@@ -5,10 +5,10 @@ struct CpuInfo
 {
     static void Cpuid( int leaf, unsigned int* dest )
     {
-    #if TOOLCHAIN_MSVC
-        __cpuid( (int*) dest leaf );
-    #elif TOOLCHAIN_GCC
+    #if TOOLCHAIN_GCC
         __get_cpuid( leaf, dest + 0, dest + 1, dest + 2, dest + 3 );
+    #elif TOOLCHAIN_MSVC
+        __cpuid( (int*) dest leaf );
     #endif
     }
 
@@ -39,12 +39,12 @@ struct CpuInfo
 
     static int DetectCpuCores()
     {
-    #if TOOLCHAIN_MSVC
+    #if TOOLCHAIN_GCC
+        return( sysconf( _SC_NPROCESSORS_ONLN ) );
+    #elif TOOLCHAIN_MSVC
         SYSTEM_INFO si = { 0 };
         GetSystemInfo( &si );
         return( si.dwNumberOfProcessors );
-    #elif TOOLCHAIN_GCC
-        return( sysconf( _SC_NPROCESSORS_ONLN ) );
     #endif
     }
 
@@ -73,26 +73,26 @@ struct CpuInfo
 
     static INLINE u64 GetClockTick()
     { 
-    #if TOOLCHAIN_MSVC
-        LARGE_INTEGER tick; 
-        QueryPerformanceCounter( &tick ); 
-        return( tick.QuadPart ); 
-    #elif TOOLCHAIN_GCC
+    #if TOOLCHAIN_GCC
         timespec ts;
         clock_gettime( CLOCK_REALTIME, &ts );
         return( (ts.tv_sec * 1000000000) + ts.tv_nsec );    
+    #elif TOOLCHAIN_MSVC
+        LARGE_INTEGER tick; 
+        QueryPerformanceCounter( &tick ); 
+        return( tick.QuadPart ); 
     #endif
     }
 
     static INLINE u64 GetClockFrequency()
     {
-    #if TOOLCHAIN_MSVC
+    #if TOOLCHAIN_GCC
+        return( 1000000000 );
+    #elif TOOLCHAIN_MSVC
         static LARGE_INTEGER freq = { 0 };
         if( !freq.QuadPart )
             QueryPerformanceFrequency( &freq );
         return( freq.QuadPart );
-    #elif TOOLCHAIN_GCC
-        return( 1000000000 );
     #endif
     }
 };

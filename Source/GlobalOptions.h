@@ -7,16 +7,13 @@ union GlobalOptions
     {
         // These are exposed as UCI settings
 
-        int     mAllowSimd;
-        int     mAllowCuda;
-        int     mAllowMulticore;
-        int     mMaxCpuCores;
+        int     mEnableSimd;
+        int     mEnableCuda;
+        int     mEnableMulticore;
         int     mMaxTreeNodes;
         int     mMaxPendingJobs;
-        int     mCudaStreams;
         int     mCudaQueueDepth;
-        int     mCudaJobBatch;
-        int     mNumLocalWorkers;
+        int     mNumSimdWorkers;
 
         int     mNumInitialPlays;
         int     mNumAsyncPlays;

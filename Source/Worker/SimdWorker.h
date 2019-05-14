@@ -6,12 +6,12 @@ extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, S
 extern void PlayGamesSSE4(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
 extern void PlayGamesX64(    const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
 
-class LocalWorker : public AsyncWorker
+class SimdWorker : public AsyncWorker
 {
     const GlobalOptions*    mOptions;
     BatchQueue*             mWorkQueue;
     BatchQueue*             mDoneQueue;
-    unique_ptr< thread > mWorkThread;
+    unique_ptr< thread >    mWorkThread;
 
     int ChooseSimdLevelForPlayout( int count )
     {
@@ -26,7 +26,7 @@ class LocalWorker : public AsyncWorker
         if( (count > 4) && (mOptions->mDetectedSimdLevel >= 8) )
             simdLevel = 8;
 
-        if( !mOptions->mAllowSimd )
+        if( !mOptions->mEnableSimd )
             simdLevel = 1;
 
         if( mOptions->mForceSimdLevel )
@@ -58,7 +58,7 @@ class LocalWorker : public AsyncWorker
             case 8:   PlayGamesAVX512( &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
             case 4:   PlayGamesAVX2(   &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
             case 2:   PlayGamesSSE4(   &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
-            default:  PlayGamesX64(    &batch->mParams, batch->mPosition.data(), batch->mResults.data(), simdCount ); break;
+            default:  PlayGamesX64(    &batch->mParams, batch->mPosition.data(), batch->mResults.data(), count ); break;
             }
 
             mDoneQueue->Push( batch );
@@ -67,7 +67,7 @@ class LocalWorker : public AsyncWorker
 
 public:
 
-    LocalWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
+    SimdWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions = options;
         mWorkQueue = jobQueue;
@@ -76,7 +76,7 @@ public:
         mWorkThread = unique_ptr< thread >( new thread( [this] { this->JobThread(); } ) );
     }
 
-    ~LocalWorker()
+    ~SimdWorker()
     {
         mWorkThread->join();
     }

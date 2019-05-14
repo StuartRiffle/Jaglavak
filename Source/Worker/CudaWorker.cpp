@@ -1,6 +1,9 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Jaglavak.h"
+#include "Platform.h"
+#include "Chess.h"
+#include "Common.h"
+
 #include "CudaSupport.h"
 #include "CudaWorker.h"
 
@@ -107,6 +110,10 @@ void CudaWorker::LaunchThread()
 
         cudaStream_t stream = mStreamId[streamIndex];
 
+        slot->mParams[0] = batch->mParams;
+        for( int i = 0; i < batch->GetCount(); i++ )
+            slot->mInputs[i] = batch->mPosition[i];
+
         slot->mParams.CopyToDeviceAsync( stream );
         slot->mInputs.CopyToDeviceAsync( stream );
         slot->mOutputs.ClearOnDeviceAsync( stream );
@@ -149,8 +156,9 @@ void CudaWorker::Update()
             activeList.pop_front();
 
             BatchRef batch = slot->mBatch;
+            batch->mResults.reserve( batch->GetCount() );
             for( int i = 0; i < batch->GetCount(); i++ )
-                batch->mResults[i] = slot->mOutputs[i];
+                batch->mResults.push_back( slot->mOutputs[i] );
 
             mFreeSlots.push_back( slot );
             completedBatches.push_back( batch );
@@ -160,5 +168,5 @@ void CudaWorker::Update()
     lock.unlock();
     mVar.notify_all();
 
-    mDoneQueue->PushMulti( completedBatches );
+    mDoneQueue->Push( completedBatches );
 }

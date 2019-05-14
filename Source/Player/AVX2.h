@@ -126,18 +126,6 @@ INLINE simd4_avx2 SelectWithMask< simd4_avx2 >( const simd4_avx2& mask, const si
     return( _mm256_select( b.vec, a.vec, mask.vec ) );
 }
 
-template<>
-void SimdInsert< simd4_avx2 >( simd4_avx2& dest, u64 val, int lane )
-{
-    // FIXME: do something better using insert/extract intrinsics
-
-    ALIGN_SIMD u64 qwords[4];
-
-    *((simd4_avx2*) qwords) = dest;
-    qwords[lane] = val;
-    dest = *((simd4_avx2*) qwords);
-}
-
 template<> 
 INLINE void Transpose< simd4_avx2 >( const simd4_avx2* src, int srcStep, simd4_avx2* dest, int destStep )
 {

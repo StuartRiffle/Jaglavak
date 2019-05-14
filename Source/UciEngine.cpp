@@ -1,6 +1,9 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Jaglavak.h"
+#include "Platform.h"
+#include "Chess.h"
+#include "Common.h"
+
 #include "CpuInfo.h"
 #include "Serialization.h"
 #include "Tokenizer.h"
@@ -24,10 +27,9 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 
     static UciOptionInfo sOptions[] = 
     {
-        OPTION_INDEX( mAllowSimd ),         "AllowSimd",            0, 0, 0,
-        OPTION_INDEX( mAllowCuda ),         "AllowCuda",            0, 0, 0,
-        OPTION_INDEX( mAllowMulticore ),    "AllowMulticore",       0, 0, 0,
-        OPTION_INDEX( mMaxCpuCores ),       "MaxCpuCores",          0, 1024, 0,
+        OPTION_INDEX( mEnableSimd ),        "EnableSimd",            0, 1, 0,
+        OPTION_INDEX( mEnableCuda ),        "EnableCuda",            0, 1, 1,
+        OPTION_INDEX( mEnableMulticore ),   "EnableMulticore",       0, 1, 0,
         OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
         OPTION_INDEX( mNumInitialPlays ),   "NumInitialPlayouts",   0, 64, 0,
         OPTION_INDEX( mNumAsyncPlays ),     "NumAsyncPlayouts",     0, 10000, 1,
@@ -36,7 +38,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
         OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
         OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,
-        OPTION_INDEX( mNumLocalWorkers ),   "NumLocalWorkers",      1, 10, 1,
+        OPTION_INDEX( mNumSimdWorkers ),    "NumSimdWorkers",      1, 10, 0,
 
         -1
     };

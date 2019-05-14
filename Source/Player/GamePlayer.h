@@ -29,12 +29,9 @@ public:
         for( int i = 0; i < simdCount; i++ )
         {
             PositionT< SIMD > simdPos;
-            Swizzle< SIMD >( pos, &simdPos );
+            Swizzle< SIMD >( pos + (i * LANES), &simdPos );
 
-            PlayOneGameSimd( simdPos, dest );
-
-            pos  += LANES;
-            dest += LANES;
+            PlayOneGameSimd( simdPos, dest + (i * LANES));
         }
     }
 
@@ -85,14 +82,12 @@ protected:
     {
         if( pos.mResult == RESULT_UNKNOWN )
         {
-            // FIXME: position changed after game ended
-
             MoveList moveList;
             moveList.UnpackMoveMap( pos, moveMap );
 
             assert( moveList.mCount > 0 );
-            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
 
+            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
             return moveList.mMove[randomIdx];
         }
 
