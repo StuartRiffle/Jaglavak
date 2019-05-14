@@ -1,0 +1,3 @@
+[submodule "External/Pistache"]
+	path = External/Pistache
+	url = https://github.com/oktal/pistache.git
