@@ -66,7 +66,6 @@ struct CudaLaunchSlot
     CudaBuffer< PlayoutParams > mParams;
     CudaBuffer< Position >      mInputs;
     CudaBuffer< ScoreCard >     mOutputs;
-    int                         mCount;
     cudaEvent_t                 mReadyEvent; 
 };
 

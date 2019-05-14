@@ -16,6 +16,10 @@ int main( int argc, char** argv )
 
     auto engine( unique_ptr< UciEngine >( new UciEngine() ) );
 
+    engine->ProcessCommand( "uci" );
+    engine->ProcessCommand( "position startpos" );
+    engine->ProcessCommand( "go" );
+
     while( !feof( stdin ) )
     {
         char buf[8192];

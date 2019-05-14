@@ -50,7 +50,6 @@ void CudaWorker::Initialize( int deviceIndex, int jobSlots )
         slot.mParams.Init( 1 );
         slot.mInputs.Init( PLAYOUT_BATCH_MAX );
         slot.mOutputs.Init( PLAYOUT_BATCH_MAX );
-        slot.mCount = 0;
 
         CUDA_REQUIRE(( cudaEventCreate( &slot.mReadyEvent ) ));
         mFreeSlots.push_back( &slot );
@@ -118,14 +117,14 @@ void CudaWorker::LaunchThread()
         slot->mInputs.CopyToDeviceAsync( stream );
         slot->mOutputs.ClearOnDeviceAsync( stream );
 
-        int totalWidth = slot->mCount * batch->mParams.mNumGamesEach;
+        int totalWidth = batch->GetCount() * batch->mParams.mNumGamesEach;
         int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
 
         PlayGamesCudaAsync( 
             slot->mParams.mDevice, 
             slot->mInputs.mDevice, 
             slot->mOutputs.mDevice, 
-            slot->mCount,
+            batch->GetCount(),
             blockCount, 
             mProp.warpSize, 
             stream );
