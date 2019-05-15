@@ -6,11 +6,16 @@ find_package( Boost )
 set( CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_30 --disable-warnings -cudart static" )
 set( CMAKE_CUDA_SEPARABLE_COMPILATION ON )
 
+link_directories(
+    External/p2/lib
+)
+
 include_directories( 
     Source 
     Source/Misc
     Source/Player
     Source/Worker
+    External/p2/include
 )
 
 add_executable( Jaglavak 
@@ -32,5 +37,13 @@ target_compile_options( SSE4     PRIVATE -msse4.1 )
 target_compile_options( AVX2     PRIVATE -mavx2 )
 target_compile_options( AVX512   PRIVATE -mavx512f -mavx512dq -mavx512bw )
 target_compile_options( Jaglavak PUBLIC  -std=c++11 )
-target_link_options(    Jaglavak PUBLIC  -fopenmp )
-target_link_libraries(  Jaglavak PUBLIC  X64 SSE4 AVX2 AVX512 CUDA )
+
+target_link_options( Jaglavak PUBLIC -fopenmp )
+target_link_libraries( Jaglavak PUBLIC
+    X64 
+    SSE4 
+    AVX2 
+    AVX512 
+    CUDA
+    libpistache.a
+)
