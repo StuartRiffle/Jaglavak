@@ -15,11 +15,11 @@ union GlobalOptions
         int     mCudaQueueDepth;
         int     mNumSimdWorkers;
 
-        int     mNumInitialPlays;
-        int     mNumAsyncPlays;
+        int     mNumInitialPlayouts;
+        int     mNumAsyncPlayouts;
         int     mExplorationFactor;
         int     mPlayoutMaxMoves;
-        int     mDrawsHaveValue;
+        int     mDrawsWorthHalf;
         int     mBatchSize;
 
         // These are not

@@ -7,7 +7,7 @@
 #include "CudaSupport.h"
 #include "CudaWorker.h"
 #include "Serialization.h"
-
+#include "GamePlayer.h"
 
 TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
     mOptions( options )
@@ -59,6 +59,10 @@ void TreeSearch::Init()
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
+            // FIXME
+            if( i == 0 )
+                continue;
+
             shared_ptr< CudaWorker > worker( new CudaWorker( mOptions, &mWorkQueue, &mDoneQueue ) );
             worker->Initialize( i, mOptions->mCudaQueueDepth );
 
@@ -171,7 +175,7 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     u64 childPlays = Max< u64 >( scores.mPlays, 1 );
     u64 childWins  = scores.mWins[node->mColor];
     
-    if( mOptions->mDrawsHaveValue )
+    if( mOptions->mDrawsWorthHalf )
     {
         int draws = scores.mPlays - (scores.mWins[WHITE] + scores.mWins[BLACK]);
         childWins += draws / 2;
@@ -264,14 +268,27 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
             return( newNode->mGameResult );
         }
 
-        batch->Append( newPos, pathFromRoot );
-
-        // Pretend that we played a game here so that the UCT value changes
-
         ScoreCard scores;
-        scores.mPlays = 1;
-        newNode->mInfo->mScores += scores;
 
+        if( mOptions->mNumInitialPlayouts > 0 )
+        {
+            PlayoutParams playoutParams = this->GetPlayoutParams();
+            GamePlayer< u64 > player( &playoutParams, mRandom.GetNext() );
+
+            for( int i = 0; i < mOptions->mNumInitialPlayouts; i++ )
+                player.PlayGames( &newPos, &scores, 1 );            
+        }
+        else 
+        {
+            // Pretend that we played a game here so that the UCT value changes
+
+            scores.mPlays = 1;
+        }
+
+        if( mOptions->mNumAsyncPlayouts > 0 )
+            batch->Append( newPos, pathFromRoot );
+
+        newNode->mInfo->mScores += scores;
         return scores;
     }
 
@@ -318,6 +335,7 @@ void TreeSearch::DumpStats( TreeNode* node )
         }
     }
 
+    printf( "\n" );
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
         string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
@@ -377,13 +395,22 @@ void TreeSearch::UpdateAsyncWorkers()
         worker->Update();
 }
 
+PlayoutParams TreeSearch::GetPlayoutParams()
+{
+    PlayoutParams params = { 0 };
+
+    params.mRandomSeed      = mRandom.GetNext();
+    params.mNumGamesEach    = mOptions->mNumAsyncPlayouts;
+    params.mMaxMovesPerGame = mOptions->mPlayoutMaxMoves;
+    params.mEnableMulticore = mOptions->mEnableMulticore;
+
+    return params;
+}
+
 BatchRef TreeSearch::ExpandTree()
 {
     BatchRef batch( new PlayoutBatch );
-
-    batch->mParams.mRandomSeed      = mRandom.GetNext();
-    batch->mParams.mNumGamesEach    = mOptions->mNumAsyncPlays;
-    batch->mParams.mMaxMovesPerGame = mOptions->mPlayoutMaxMoves;
+    batch->mParams = this->GetPlayoutParams();
 
     int batchSize = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
     for( int i = 0; i < batchSize; i++ )
@@ -413,10 +440,11 @@ void TreeSearch::SearchThread()
             this->ProcessIncomingScores();
 
             auto batch = this->ExpandTree();
-            mWorkQueue.Push( batch );
+            if( batch->GetCount() > 0 )
+                mWorkQueue.Push( batch );
 
             static int counter = 0;
-            if( ++counter > 0 )
+            if( ++counter > 10000 )
             {
                 this->DumpStats( this->mSearchRoot );
                 counter = 0;

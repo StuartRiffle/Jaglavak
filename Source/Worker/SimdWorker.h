@@ -13,29 +13,7 @@ class SimdWorker : public AsyncWorker
     BatchQueue*             mDoneQueue;
     unique_ptr< thread >    mWorkThread;
 
-    int ChooseSimdLevelForPlayout( int count )
-    {
-        int simdLevel = 1;
-
-        if( (count > 1) && (mOptions->mDetectedSimdLevel >= 2) )
-            simdLevel = 2;
-
-        if( (count > 2) && (mOptions->mDetectedSimdLevel >= 4) )
-            simdLevel = 4;
-
-        if( (count > 4) && (mOptions->mDetectedSimdLevel >= 8) )
-            simdLevel = 8;
-
-        if( !mOptions->mEnableSimd )
-            simdLevel = 1;
-
-        if( mOptions->mForceSimdLevel )
-            simdLevel = mOptions->mForceSimdLevel;
-
-        return simdLevel;
-    }
-
-    void JobThread()
+    void WorkThread()
     {
         for( ;; )
         {
@@ -44,14 +22,17 @@ class SimdWorker : public AsyncWorker
                 break;
 
             size_t count = batch->GetCount();
-
-            assert( batch->mPathFromRoot.size() == count );
+            assert( count == batch->mPathFromRoot.size() );
             assert( count <= PLAYOUT_BATCH_MAX );
 
-            batch->mResults.resize( count );
+            int simdLevel = mOptions->mDetectedSimdLevel;
+            if( !mOptions->mEnableSimd )
+                simdLevel = 1;
+            if( mOptions->mForceSimdLevel )
+                simdLevel = mOptions->mForceSimdLevel;
 
-            int simdLevel   = ChooseSimdLevelForPlayout( count );
-            int simdCount   = (count + simdLevel - 1) / simdLevel;
+            int simdCount = (count + simdLevel - 1) / simdLevel;
+            batch->mResults.resize( count );
 
             switch( simdLevel )
             {
@@ -73,7 +54,7 @@ public:
         mWorkQueue = jobQueue;
         mDoneQueue = resultQueue;
 
-        mWorkThread = unique_ptr< thread >( new thread( [this] { this->JobThread(); } ) );
+        mWorkThread = unique_ptr< thread >( new thread( [this] { this->WorkThread(); } ) );
     }
 
     ~SimdWorker()

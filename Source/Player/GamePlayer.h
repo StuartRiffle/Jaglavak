@@ -23,15 +23,14 @@ public:
     PDECL void PlayGames( const Position* pos, ScoreCard* dest, int simdCount )
     {
         assert( (uintptr_t) pos % sizeof( SIMD ) == 0 );
-        const SIMD* src = (SIMD*) pos;
 
-        #pragma omp parallel for schedule(dynamic)
+        #pragma omp parallel for if (mParams->mEnableMulticore) schedule(dynamic)
         for( int i = 0; i < simdCount; i++ )
         {
             PositionT< SIMD > simdPos;
             Swizzle< SIMD >( pos + (i * LANES), &simdPos );
 
-            PlayOneGameSimd( simdPos, dest + (i * LANES));
+            PlayOneGameSimd( simdPos, dest + (i * LANES) );
         }
     }
 
