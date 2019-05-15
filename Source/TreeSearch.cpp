@@ -3,10 +3,10 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "Common.h"
-#include "SimdWorker.h"
+#include "CpuWorker.h"
 #include "CudaSupport.h"
 #include "CudaWorker.h"
-#include "Serialization.h"
+#include "FEN.h"
 #include "GamePlayer.h"
 
 TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
@@ -49,9 +49,9 @@ TreeSearch::~TreeSearch()
 
 void TreeSearch::Init()
 {
-    for( int i = 0; i < mOptions->mNumSimdWorkers; i++ )
+    for( int i = 0; i < mOptions->mNumCpuWorkers; i++ )
     {
-        auto worker = new SimdWorker( mOptions, &mWorkQueue, &mDoneQueue );
+        auto worker = new CpuWorker( mOptions, &mWorkQueue, &mDoneQueue );
         mAsyncWorkers.push_back( shared_ptr< AsyncWorker >( worker ) );
     }
 
@@ -60,7 +60,7 @@ void TreeSearch::Init()
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
             // FIXME
-            if( i == 0 )
+            if( i == 1 )
                 continue;
 
             shared_ptr< CudaWorker > worker( new CudaWorker( mOptions, &mWorkQueue, &mDoneQueue ) );
@@ -177,24 +177,34 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     
     if( mOptions->mDrawsWorthHalf )
     {
-        int draws = scores.mPlays - (scores.mWins[WHITE] + scores.mWins[BLACK]);
+        u64 draws = scores.mPlays - (scores.mWins[WHITE] + scores.mWins[BLACK]);
         childWins += draws / 2;
     }
 
     double invChildPlays = 1.0 / childPlays;
     double childWinRatio = childWins * invChildPlays;
-    double exploringness = mOptions->mExplorationFactor * 0.01;
 
     double uct = 
         childWinRatio + 
-        exploringness * sqrt( log( nodePlays ) * 2 * invChildPlays ) +
-        childInfo.mPrior;
+        sqrt( log( nodePlays ) * 2 * invChildPlays ) * mOptions->mExplorationFactor +
+        childInfo.mPrior -
+        childInfo.mVirtualLoss;
+
+    assert( childInfo.mPrior == 0 );
 
     return uct;
 }
 
+void TreeSearch::DecayVirtualLoss( TreeNode* node )
+{
+    for( int i = 0; i < (int) node->mBranch.size(); i++ )
+        node->mBranch[i].mVirtualLoss *= mOptions->mVirtualLossDecay;
+}
+
 int TreeSearch::SelectNextBranch( TreeNode* node )
 {
+    this->DecayVirtualLoss( node );
+
     int numBranches = (int) node->mBranch.size();
     assert( numBranches > 0 );
 
@@ -219,7 +229,7 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
     for( int i = 0; i < numBranches; i++ )
     {
         double uct = CalculateUct( node, i );
-        if( uct > highestUct )
+        if( (i == 0) || (uct > highestUct) )
         {
             highestUct = uct;
             highestIdx = i;
@@ -242,7 +252,14 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
     int chosenBranchIdx = SelectNextBranch( node );
     BranchInfo* chosenBranch = &node->mBranch[chosenBranchIdx];
 
+    assert( chosenBranch->mPrior == 0 );
+
     pathFromRoot.Append( chosenBranch->mMove );
+    chosenBranch->mVirtualLoss += mOptions->mVirtualLoss;
+
+#if DEBUG   
+    chosenBranch->mDebugLossCounter++;
+#endif
 
     if( !chosenBranch->mNode )
     {
@@ -339,12 +356,13 @@ void TreeSearch::DumpStats( TreeNode* node )
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
         string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
-        printf( "%s%s  %2d) %5s %.15f %12ld/%-12ld\n", 
+        printf( "%s%s  %2d) %5s %.15f %.5f %12ld/%-12ld\n", 
             (i == bestRatioIdx)? ">" : " ", 
             (i == bestDenomIdx)? "***" : "   ", 
             i,
             moveText.c_str(), 
             this->CalculateUct( node, i ), 
+            node->mBranch[i].mVirtualLoss,
             node->mBranch[i].mScores.mWins[node->mColor], node->mBranch[i].mScores.mPlays );
     }
 }
@@ -359,15 +377,27 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
 
     int childIdx = node->FindMoveIndex( move );
     if( childIdx < 0 )
-        return;
+        return; // FIXME: should never happen
 
-    TreeNode* child = node->mBranch[childIdx].mNode;
+    BranchInfo& childInfo = node->mBranch[childIdx];
+
+    TreeNode* child = childInfo.mNode;
     if( child == NULL )
-        return;
+        return; // FIXME: should never happen
 
     DeliverScores( child, pathFromRoot, scores, depth + 1 );
 
-    node->mBranch[childIdx].mScores += scores;
+    childInfo.mScores += scores;
+
+    // Remove the virtual loss we added while building the batch
+
+    childInfo.mVirtualLoss -= mOptions->mVirtualLoss;
+    if( childInfo.mVirtualLoss < 0 )
+        childInfo.mVirtualLoss = 0;
+
+#if DEBUG   
+    childInfo.mDebugLossCounter--;
+#endif
 }
 
 void TreeSearch::ProcessScoreBatch( BatchRef& batch )
@@ -413,7 +443,7 @@ BatchRef TreeSearch::ExpandTree()
     batch->mParams = this->GetPlayoutParams();
 
     int batchSize = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
-    for( int i = 0; i < batchSize; i++ )
+    while( batch->GetCount() < batchSize )
     {
         MoveList pathFromRoot;
         ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot, batch );
@@ -439,16 +469,24 @@ void TreeSearch::SearchThread()
             this->UpdateAsyncWorkers();
             this->ProcessIncomingScores();
 
-            auto batch = this->ExpandTree();
-            if( batch->GetCount() > 0 )
-                mWorkQueue.Push( batch );
-
-            static int counter = 0;
-            if( ++counter > 10000 )
+            if( mWorkQueue.PeekCount() < mOptions->mMaxPendingJobs )
             {
-                this->DumpStats( this->mSearchRoot );
-                counter = 0;
+                auto batch = this->ExpandTree();
+                if( batch->GetCount() > 0 )
+                    mWorkQueue.Push( batch );
+
+                static int counter = 0;
+                if( ++counter > 10 )
+                {
+                    this->DumpStats( this->mSearchRoot );
+                    counter = 0;
+                }
             }
+            else
+            {
+                PlatSleep( 1 );
+            }
+
         }
     }
 }

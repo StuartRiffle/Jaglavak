@@ -3,6 +3,7 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "Common.h"
+#include "FEN.h"
 
 void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info )
 {

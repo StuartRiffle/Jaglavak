@@ -118,6 +118,8 @@ void CudaWorker::LaunchThread()
         slot->mOutputs.ClearOnDeviceAsync( stream );
 
         int totalWidth = batch->GetCount() * batch->mParams.mNumGamesEach;
+        batch->mParams.mNumGamesEach = 1;
+
         int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
 
         PlayGamesCudaAsync( 

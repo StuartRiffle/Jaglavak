@@ -6,12 +6,34 @@ extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, S
 extern void PlayGamesSSE4(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
 extern void PlayGamesX64(    const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
 
-class SimdWorker : public AsyncWorker
+class CpuWorker : public AsyncWorker
 {
     const GlobalOptions*    mOptions;
     BatchQueue*             mWorkQueue;
     BatchQueue*             mDoneQueue;
     unique_ptr< thread >    mWorkThread;
+
+    int ChooseSimdLevelForPlayout( int count )
+    {
+        int simdLevel = 1;
+
+        if( (count > 1) && (mOptions->mDetectedSimdLevel >= 2) )
+            simdLevel = 2;
+
+        if( (count > 2) && (mOptions->mDetectedSimdLevel >= 4) )
+            simdLevel = 4;
+
+        if( (count > 4) && (mOptions->mDetectedSimdLevel >= 8) )
+            simdLevel = 8;
+
+        if( !mOptions->mEnableSimd )
+            simdLevel = 1;
+
+        if( mOptions->mForceSimdLevel )
+            simdLevel = mOptions->mForceSimdLevel;
+
+        return simdLevel;
+    }
 
     void WorkThread()
     {
@@ -25,14 +47,9 @@ class SimdWorker : public AsyncWorker
             assert( count == batch->mPathFromRoot.size() );
             assert( count <= PLAYOUT_BATCH_MAX );
 
-            int simdLevel = mOptions->mDetectedSimdLevel;
-            if( !mOptions->mEnableSimd )
-                simdLevel = 1;
-            if( mOptions->mForceSimdLevel )
-                simdLevel = mOptions->mForceSimdLevel;
-
+            int simdLevel = this->ChooseSimdLevelForPlayout( count );
             int simdCount = (count + simdLevel - 1) / simdLevel;
-            batch->mResults.resize( count );
+            batch->mResults.resize( simdCount * simdLevel );
 
             switch( simdLevel )
             {
@@ -48,7 +65,7 @@ class SimdWorker : public AsyncWorker
 
 public:
 
-    SimdWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
+    CpuWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions = options;
         mWorkQueue = jobQueue;
@@ -57,7 +74,7 @@ public:
         mWorkThread = unique_ptr< thread >( new thread( [this] { this->WorkThread(); } ) );
     }
 
-    ~SimdWorker()
+    ~CpuWorker()
     {
         mWorkThread->join();
     }

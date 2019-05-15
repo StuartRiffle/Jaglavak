@@ -4,6 +4,10 @@
 #include <assert.h>
 #include <cuda_runtime_api.h>
 
+#ifndef NDEBUG
+#define DEBUG (1)
+#endif
+
 #if defined( __CUDA_ARCH__ )
 
     // We are running __device__ code

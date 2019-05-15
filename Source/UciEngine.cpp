@@ -5,7 +5,7 @@
 #include "Common.h"
 
 #include "CpuInfo.h"
-#include "Serialization.h"
+#include "FEN.h"
 #include "Tokenizer.h"
 #include "UciEngine.h"
 #include "Version.h"
@@ -14,8 +14,11 @@ UciEngine::UciEngine() : mDebugMode( false )
 {
     this->SetDefaultOptions();
 
-    mOptions.mDetectedSimdLevel  = CpuInfo::DetectSimdLevel();
-    mOptions.mForceSimdLevel     = 0;
+    mOptions.mDetectedSimdLevel = CpuInfo::DetectSimdLevel();
+    mOptions.mForceSimdLevel    = 0;
+    mOptions.mExplorationFactor = 1.41f;
+    mOptions.mVirtualLoss       = 0.1f;
+    mOptions.mVirtualLossDecay  = 0.999f;
 
     mSearcher = unique_ptr<  TreeSearch >( new TreeSearch( &mOptions ) );
     mSearcher->Init();
@@ -28,18 +31,17 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
     static UciOptionInfo sOptions[] = 
     {
         OPTION_INDEX( mEnableSimd ),        "EnableSimd",            0, 1, 0,
-        OPTION_INDEX( mEnableCuda ),        "EnableCuda",            0, 1, 0,
+        OPTION_INDEX( mEnableCuda ),        "EnableCuda",            0, 1, 1,
         OPTION_INDEX( mEnableMulticore ),   "EnableMulticore",       0, 1, 0,
         OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
-        OPTION_INDEX( mNumInitialPlayouts ),   "NumInitialPlayouts",   0, 64, 1,
-        OPTION_INDEX( mNumAsyncPlayouts ),     "NumAsyncPlayouts",     0, 10000, 0,
-        OPTION_INDEX( mBatchSize ),         "BatchSize",            1, 8192, 1,
-        OPTION_INDEX( mExplorationFactor ), "ExplorationFactor",    0, 1000, 141,
+        OPTION_INDEX( mNumInitialPlayouts ),   "NumInitialPlayouts",   0, 64, 0,
+        OPTION_INDEX( mNumAsyncPlayouts ),     "NumAsyncPlayouts",     0, 10000, 1,
+        OPTION_INDEX( mBatchSize ),         "BatchSize",            1, 8192, 128,
         OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
         OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
-        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,
-        OPTION_INDEX( mNumSimdWorkers ),    "NumSimdWorkers",      1, 10, 0,
-        OPTION_INDEX( mDrawsWorthHalf ),    "DrawsWorthHalf",      1, 10, 0,
+        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 8,
+        OPTION_INDEX( mNumCpuWorkers ),    "NumCpuWorkers",      1, 10, 0,
+        OPTION_INDEX( mDrawsWorthHalf ),    "DrawsWorthHalf",      1, 10, 1,
 
         -1
     };

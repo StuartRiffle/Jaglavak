@@ -30,7 +30,8 @@ public:
             PositionT< SIMD > simdPos;
             Swizzle< SIMD >( pos + (i * LANES), &simdPos );
 
-            PlayOneGameSimd( simdPos, dest + (i * LANES) );
+            for( int reps = 0; reps < mParams->mNumGamesEach; reps++ )
+                PlayOneGameSimd( simdPos, dest + (i * LANES) );
         }
     }
 

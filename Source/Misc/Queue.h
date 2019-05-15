@@ -126,5 +126,11 @@ public:
         size_t success = this->PopInternal( &result, 1, 1 );
         return success;
     }
+
+    size_t PeekCount()
+    {
+        unique_lock< mutex > lock( mMutex );
+        return mCount;
+    }
 };
 

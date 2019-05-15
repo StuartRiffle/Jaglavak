@@ -6,7 +6,7 @@
     cudaError_t status = (_CALL); \
     if( status != cudaSuccess ) \
     { \
-        printf( "ERROR: failure in " #_CALL " [%d]\n", status ); \
+        printf( "ERROR: failure in " #_CALL " [%s]\n", cudaGetErrorName( status ) ); \
         return; \
     } \
 }

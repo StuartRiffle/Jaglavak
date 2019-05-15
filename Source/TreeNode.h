@@ -9,12 +9,14 @@ struct BranchInfo
     MoveSpec    mMove;
     ScoreCard   mScores;
     double      mPrior;
+    double      mVirtualLoss;
 
 #if DEBUG    
+    int         mDebugLossCounter;
     char        mMoveText[MAX_MOVETEXT_LENGTH];
 #endif
 
-    BranchInfo() { memset( this, 0, sizeof( this ) ); }
+    BranchInfo() { memset( this, 0, sizeof( *this ) ); }
 };
 
 struct ALIGN_SIMD TreeLink

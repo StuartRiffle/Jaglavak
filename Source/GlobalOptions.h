@@ -13,16 +13,19 @@ union GlobalOptions
         int     mMaxTreeNodes;
         int     mMaxPendingJobs;
         int     mCudaQueueDepth;
-        int     mNumSimdWorkers;
+        int     mNumCpuWorkers;
 
         int     mNumInitialPlayouts;
         int     mNumAsyncPlayouts;
-        int     mExplorationFactor;
         int     mPlayoutMaxMoves;
         int     mDrawsWorthHalf;
         int     mBatchSize;
 
         // These are not
+
+        float   mExplorationFactor;
+        float   mVirtualLoss;
+        float   mVirtualLossDecay;
 
         int     mDetectedSimdLevel;
         int     mForceSimdLevel;
