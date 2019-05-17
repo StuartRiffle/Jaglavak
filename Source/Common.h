@@ -32,6 +32,7 @@ using std::unique_lock;
 #include "GlobalOptions.h"
 #include "CpuInfo.h"
 #include "Random.h"
+#include "Timer.h"
 #include "ThreadSync.h"
 #include "Queue.h"
 #include "PlayoutParams.h"

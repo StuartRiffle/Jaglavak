@@ -22,11 +22,4 @@ struct Timer
     {
         return this->GetElapsedTicks() * 1.0f / CpuInfo::GetClockFrequency();
     }
-
-    i64 GetElapsedMs()  
-    { 
-        float sec = this->GetElapsedSec();
-        float ms = sec * (1.0f / 1000);
-        return (int) ms;
-    }
 };

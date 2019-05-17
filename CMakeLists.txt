@@ -12,9 +12,10 @@ add_library( AVX2   STATIC Source/Player/AVX2.cpp )
 add_library( AVX512 STATIC Source/Player/AVX512.cpp )
 add_library( CUDA   STATIC Source/Player/CudaKernel.cu )
 
-target_compile_options( SSE4     PRIVATE -msse4.1 )
-target_compile_options( AVX2     PRIVATE -mavx2 )
-target_compile_options( AVX512   PRIVATE -mavx512f -mavx512dq -mavx512bw )
+target_compile_options( X64      PRIVATE -fopenmp -msse4.1 )
+target_compile_options( SSE4     PRIVATE -fopenmp -msse4.1 )
+target_compile_options( AVX2     PRIVATE -fopenmp -mavx2 )
+target_compile_options( AVX512   PRIVATE -fopenmp -mavx512f -mavx512dq -mavx512bw )
 
 include_directories( 
     Source 
@@ -36,7 +37,7 @@ add_executable( Jaglavak
     Source/Worker/CudaWorker.cpp
 )
 
-target_compile_options( Jaglavak PUBLIC -std=c++11 )
+target_compile_options( Jaglavak PUBLIC -fopenmp -std=c++11 )
 target_link_options(    Jaglavak PUBLIC -fopenmp )
 target_link_libraries(  Jaglavak PUBLIC
     X64 

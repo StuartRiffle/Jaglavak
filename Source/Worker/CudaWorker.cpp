@@ -169,9 +169,6 @@ void CudaWorker::Update()
             for( int i = 0; i < batch->GetCount(); i++ )
             {
                 ScoreCard& scores = slot->mOutputs[i];
-                assert( scores.mPlays == 1 );
-                assert( scores.mWins[BLACK] + scores.mWins[WHITE] <= 1 );
-
                 batch->mResults.push_back( scores );
             }
 
