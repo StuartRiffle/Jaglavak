@@ -2,6 +2,7 @@
 
 #include "Platform.h"
 #include "Chess.h"
+#include "ScoreCard.h"
 #include "GamePlayer.h"
 #include "AVX512.h"
 

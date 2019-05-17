@@ -17,6 +17,7 @@
 #include <atomic>
 #include <condition_variable>
 
+using std::atomic;
 using std::vector;
 using std::list;
 using std::string;    
@@ -27,6 +28,7 @@ using std::shared_ptr;
 using std::unique_ptr;
 using std::unique_lock;
 
+#include "ScoreCard.h"
 #include "GlobalOptions.h"
 #include "CpuInfo.h"
 #include "Random.h"

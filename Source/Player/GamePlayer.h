@@ -24,20 +24,22 @@ public:
     {
         assert( (uintptr_t) pos % sizeof( SIMD ) == 0 );
 
+        int totalIters = simdCount * mParams->mNumGamesEach;
+
         #pragma omp parallel for if (mParams->mEnableMulticore) schedule(dynamic)
-        for( int i = 0; i < simdCount; i++ )
+        for( int i = 0; i < totalIters; i++ )
         {
             PositionT< SIMD > simdPos;
-            Swizzle< SIMD >( pos + (i * LANES), &simdPos );
+            int idx = i % simdCount;
 
-            for( int reps = 0; reps < mParams->mNumGamesEach; reps++ )
-                PlayOneGameSimd( simdPos, dest + (i * LANES) );
+            Swizzle< SIMD >( pos + (idx * LANES), &simdPos );
+            PlayOneGame( simdPos, dest + (idx * LANES) );
         }
     }
 
 protected:
 
-    PDECL void PlayOneGameSimd( const PositionT< SIMD >& startPos, ScoreCard* outScores )
+    PDECL void PlayOneGame( const PositionT< SIMD >& startPos, ScoreCard* outScores )
     {
         PositionT< SIMD > simdPos = startPos;
         MoveMapT< SIMD > simdMoveMap;
@@ -45,22 +47,23 @@ protected:
 
         for( int i = 0; i < mParams->mMaxMovesPerGame; i++ )
         {
-            MoveSpecT< SIMD > simdSpec = this->ChoosePlayoutMovesSimd( simdPos, simdMoveMap );
+            MoveSpecT< SIMD > simdSpec = ChoosePlayoutMoves( simdPos, simdMoveMap );
+
             simdPos.Step( simdSpec, &simdMoveMap );
+            if( GamesAreAllDone( simdPos ) )
+                break;
         }
 
-        Position ALIGN_SIMD pos[LANES];
-        Unswizzle< SIMD >( &simdPos, pos );
-
+        u64* results = (u64*) &simdPos.mResult;
         for( int lane = 0; lane < LANES; lane++ )
         {
-            outScores[lane].mWins[WHITE] += (pos[lane].mResult == RESULT_WHITE_WIN);
-            outScores[lane].mWins[BLACK] += (pos[lane].mResult == RESULT_BLACK_WIN);
+            outScores[lane].mWins[WHITE] += (results[lane] == RESULT_WHITE_WIN);
+            outScores[lane].mWins[BLACK] += (results[lane] == RESULT_BLACK_WIN);
             outScores[lane].mPlays++;
         }
     }
 
-    PDECL MoveSpecT< SIMD > ChoosePlayoutMovesSimd( const PositionT< SIMD >& simdPos, const MoveMapT< SIMD >& simdMoveMap )
+    PDECL MoveSpecT< SIMD > ChoosePlayoutMoves( const PositionT< SIMD >& simdPos, const MoveMapT< SIMD >& simdMoveMap )
     {
         Position ALIGN_SIMD pos[LANES];
         MoveMap  ALIGN_SIMD moveMap[LANES];
@@ -70,7 +73,7 @@ protected:
         Unswizzle< SIMD >( &simdMoveMap, moveMap );
 
         for( int lane = 0; lane < LANES; lane++ )
-            spec[lane] = this->ChoosePlayoutMove( pos[lane], moveMap[lane] );
+            spec[lane] = this->ChooseMove( pos[lane], moveMap[lane] );
 
         MoveSpecT< SIMD > simdSpec;
         simdSpec.Unpack( spec );
@@ -78,7 +81,7 @@ protected:
         return simdSpec;
     }
 
-    PDECL MoveSpec ChoosePlayoutMove( const Position& pos, const MoveMap& moveMap )
+    PDECL MoveSpec ChooseMove( const Position& pos, const MoveMap& moveMap )
     {
         if( pos.mResult == RESULT_UNKNOWN )
         {
@@ -94,5 +97,17 @@ protected:
         MoveSpec nullMove( 0, 0, 0 );
         return nullMove;
     }
+
+    PDECL bool GamesAreAllDone( const PositionT< SIMD >& simdPos )
+    {
+        u64* results = (u64*) &simdPos.mResult;
+
+        for( int i = 0; i < LANES; i++ )
+            if( results[i] == RESULT_UNKNOWN )
+                return false;
+
+        return true;
+    }
+
 };
 

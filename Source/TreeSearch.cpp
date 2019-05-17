@@ -281,7 +281,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
         if( newNode->mGameOver )
         {
-            newNode->mInfo->mScores = newNode->mGameResult;
+            newNode->mInfo->mScores += newNode->mGameResult;
             return( newNode->mGameResult );
         }
 
@@ -289,21 +289,18 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
         if( mOptions->mNumInitialPlayouts > 0 )
         {
-            PlayoutParams playoutParams = this->GetPlayoutParams();
+            PlayoutParams playoutParams = batch->mParams;
+            playoutParams.mNumGamesEach = mOptions->mNumInitialPlayouts;
+
             GamePlayer< u64 > player( &playoutParams, mRandom.GetNext() );
-
-            for( int i = 0; i < mOptions->mNumInitialPlayouts; i++ )
-                player.PlayGames( &newPos, &scores, 1 );            
-        }
-        else 
-        {
-            // Pretend that we played a game here so that the UCT value changes
-
-            scores.mPlays = 1;
+            player.PlayGames( &newPos, &scores, 1 );            
         }
 
         if( mOptions->mNumAsyncPlayouts > 0 )
+        {
             batch->Append( newPos, pathFromRoot );
+            scores.mPlays += batch->mParams.mNumGamesEach;
+        }
 
         newNode->mInfo->mScores += scores;
         return scores;
@@ -363,7 +360,7 @@ void TreeSearch::DumpStats( TreeNode* node )
             moveText.c_str(), 
             this->CalculateUct( node, i ), 
             node->mBranch[i].mVirtualLoss,
-            node->mBranch[i].mScores.mWins[node->mColor], node->mBranch[i].mScores.mPlays );
+            (u64) node->mBranch[i].mScores.mWins[node->mColor], (u64) node->mBranch[i].mScores.mPlays );
     }
 }
 
@@ -387,7 +384,12 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
 
     DeliverScores( child, pathFromRoot, scores, depth + 1 );
 
-    childInfo.mScores += scores;
+
+    childInfo.mScores.mWins[WHITE] += scores.mWins[WHITE];
+    childInfo.mScores.mWins[BLACK] += scores.mWins[BLACK];
+    // mPlays already credited when scheduling batch
+
+    //childInfo.mScores += scores;
 
     // Remove the virtual loss we added while building the batch
 
@@ -442,13 +444,23 @@ BatchRef TreeSearch::ExpandTree()
     BatchRef batch( new PlayoutBatch );
     batch->mParams = this->GetPlayoutParams();
 
-    int batchSize = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
-    while( batch->GetCount() < batchSize )
+    int batchLimit = Min( mOptions->mBatchSize, PLAYOUT_BATCH_MAX );
+
+    for( ;; )
     {
         MoveList pathFromRoot;
         ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot, batch );
 
         mSearchRoot->mInfo->mScores += rootScores;
+
+        if( mOptions->mNumAsyncPlayouts == 0 )
+        {
+            assert( batch->GetCount() == 0 );
+            break;
+        }
+
+        if( batch->GetCount() == batchLimit )
+            break;
     }
 
     return batch;

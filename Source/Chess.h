@@ -7,5 +7,4 @@
 #include "Chess/MoveMap.h"
 #include "Chess/Position.h"
 #include "Chess/MoveList.h"
-#include "Chess/ScoreCard.h"
 

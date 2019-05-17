@@ -2,6 +2,7 @@
 
 #include "Platform.h"
 #include "Chess.h"
+#include "ScoreCard.h"
 #include "GamePlayer.h"
 
 __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )

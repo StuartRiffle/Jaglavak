@@ -17,7 +17,7 @@ UciEngine::UciEngine() : mDebugMode( false )
     mOptions.mDetectedSimdLevel = CpuInfo::DetectSimdLevel();
     mOptions.mForceSimdLevel    = 0;
     mOptions.mExplorationFactor = 1.41f;
-    mOptions.mVirtualLoss       = 0.001f;
+    mOptions.mVirtualLoss       = 0;
     mOptions.mVirtualLossDecay  = 1.0f;//0.999f;
 
     mSearcher = unique_ptr<  TreeSearch >( new TreeSearch( &mOptions ) );
@@ -38,8 +38,8 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( mNumAsyncPlayouts ),     "NumAsyncPlayouts",     0, 10000, 1,
         OPTION_INDEX( mBatchSize ),         "BatchSize",            1, 8192, 128,
         OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
-        OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
-        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 8,
+        OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 300,
+        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 16,
         OPTION_INDEX( mNumCpuWorkers ),    "NumCpuWorkers",      1, 10, 0,
         OPTION_INDEX( mDrawsWorthHalf ),    "DrawsWorthHalf",      1, 10, 0,
 

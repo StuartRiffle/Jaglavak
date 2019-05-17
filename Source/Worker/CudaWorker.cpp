@@ -102,23 +102,25 @@ void CudaWorker::LaunchThread()
         if( !mWorkQueue->PopBlocking( batch ) )
             break;
 
+        int totalWidth = batch->GetCount() * batch->mParams.mNumGamesEach;
+
         slot->mBatch = batch;
+        slot->mParams[0] = batch->mParams;
+        slot->mParams[0].mNumGamesEach = 1;
+
+        for( int i = 0; i < batch->GetCount(); i++ )
+            slot->mInputs[i] = batch->mPosition[i];
 
         int streamIndex = mStreamIndex++;
         mStreamIndex %= CUDA_NUM_STREAMS;
 
         cudaStream_t stream = mStreamId[streamIndex];
 
-        slot->mParams[0] = batch->mParams;
-        for( int i = 0; i < batch->GetCount(); i++ )
-            slot->mInputs[i] = batch->mPosition[i];
-
         slot->mParams.CopyToDeviceAsync( stream );
         slot->mInputs.CopyToDeviceAsync( stream );
         slot->mOutputs.ClearOnDeviceAsync( stream );
 
-        int totalWidth = batch->GetCount() * batch->mParams.mNumGamesEach;
-        batch->mParams.mNumGamesEach = 1;
+        DEBUG_LOG("Launching %d\n", batch->GetCount());
 
         int blockCount = (totalWidth + mProp.warpSize - 1) / mProp.warpSize;
 

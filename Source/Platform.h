@@ -1,7 +1,9 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#include <stdint.h>
 #include <assert.h>
+#include <atomic>
 #include <cuda_runtime_api.h>
 
 #ifndef NDEBUG
@@ -18,6 +20,7 @@
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
     #define PDECL               __device__
+    #define atomic64_t          uint64_t
 
 #elif defined( __GNUC__ )
 
@@ -40,10 +43,12 @@
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
     #define INLINE              inline __attribute__(( always_inline ))
+    #define atomic64_t          std::atomic_uint64_t
     #define PDECL         
 
     #define stricmp             strcasecmp
     #define strnicmp            strncasecmp
+
 
 #elif defined( _MSC_VER )
 
@@ -67,6 +72,7 @@
     #define DEBUGBREAK          __debugbreak
     #define INLINE              __forceinline
     #define PRId64              "I64d"
+    #define atomic64_t          std::atomic_uint64_t
     #define PDECL         
 
     extern "C" void * __cdecl memset(void *, int, size_t);
@@ -76,8 +82,6 @@
     #error
 #endif
 
-
-#include <stdint.h>
 
 typedef uint64_t u64;
 typedef uint32_t u32;
@@ -127,4 +131,12 @@ INLINE PDECL void PlatSleep( int ms )
 #endif
 }
 
-
+INLINE PDECL u64 PlatAddAtomic( atomic64_t* dest, u64 val )
+{
+#if ON_CUDA_DEVICE
+    atomicAdd( (unsigned long long*) dest, val );
+#else
+    dest->fetch_add( val );
+#endif
+    return (u64) *dest;
+}
