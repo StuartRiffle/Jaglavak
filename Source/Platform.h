@@ -16,7 +16,7 @@
 
     #define ON_CUDA_DEVICE      (1)
     #define ALIGN( _N )         __align__( _N )
-    #define ALIGN_SIMD
+    #define ALIGN_SIMD          __align__( 64 )
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
     #define PDECL               __device__
@@ -140,3 +140,6 @@ INLINE PDECL u64 PlatAddAtomic( atomic64_t* dest, u64 val )
 #endif
     return (u64) *dest;
 }
+
+
+#define DEBUG_VALIDATE_BATCH_RESULTS (0)

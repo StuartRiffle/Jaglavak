@@ -404,6 +404,19 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
 
 void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 {
+#if DEBUG_VALIDATE_BATCH_RESULTS
+    for( int i = 0; i < batch->GetCount(); i++ )
+    {
+        ScoreCard checkScores;
+        GamePlayer< u64 > player( &batch->mParams, i );
+        player.PlayGames( &batch->mPosition[i], &checkScores, 1 );
+
+        assert( checkScores.mWins[0] == batch->mResults[i].mWins[0] );
+        assert( checkScores.mWins[1] == batch->mResults[i].mWins[1] );
+        assert( checkScores.mPlays == batch->mResults[i].mPlays );
+    }
+#endif
+
     for( int i = 0; i < batch->GetCount(); i++ )
         this->DeliverScores( mSearchRoot, batch->mPathFromRoot[i], batch->mResults[i] );
 }

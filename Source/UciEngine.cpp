@@ -39,7 +39,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( mBatchSize ),         "BatchSize",            1, 8192, 128,
         OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
         OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 300,
-        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 16,
+        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,
         OPTION_INDEX( mNumCpuWorkers ),    "NumCpuWorkers",      1, 10, 0,
         OPTION_INDEX( mDrawsWorthHalf ),    "DrawsWorthHalf",      1, 10, 0,
 

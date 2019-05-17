@@ -67,6 +67,7 @@ struct CudaLaunchSlot
     CudaBuffer< Position >      mInputs;
     CudaBuffer< ScoreCard >     mOutputs;
     cudaEvent_t                 mReadyEvent; 
+    u64                         mNumLaunches;
 };
 
 extern void PlayGamesCudaAsync( 

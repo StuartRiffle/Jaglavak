@@ -89,9 +89,11 @@ protected:
             moveList.UnpackMoveMap( pos, moveMap );
 
             assert( moveList.mCount > 0 );
-
-            int randomIdx = (int) mRandom.GetRange( moveList.mCount );
-            return moveList.mMove[randomIdx];
+            if( moveList.mCount > 0 )
+            {
+                int randomIdx = (int) mRandom.GetRange( moveList.mCount );
+                return moveList.mMove[randomIdx];
+            }
         }
 
         MoveSpec nullMove( 0, 0, 0 );

@@ -9,14 +9,11 @@ __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos,
 {
     int x = (blockIdx.x * blockDim.x) + threadIdx.x;
     int idx = x % count;
+    
+    int salt = x;
+    GamePlayer< u64 > player( params, salt );
 
-    ScoreCard scores;
-    GamePlayer< u64 > player( params, x );
-    player.PlayGames( pos + idx, &scores, 1 );
-
-    atomicAdd( (unsigned long long*) &dest[idx].mWins[BLACK], scores.mWins[BLACK] );
-    atomicAdd( (unsigned long long*) &dest[idx].mWins[WHITE], scores.mWins[WHITE] );
-    atomicAdd( (unsigned long long*) &dest[idx].mPlays,       scores.mPlays );
+    player.PlayGames( pos + idx, dest + idx, 1 );
 }
 
 #if !ON_CUDA_DEVICE
