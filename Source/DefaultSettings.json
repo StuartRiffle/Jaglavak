@@ -1,16 +1,16 @@
 {
+    "EnableMulticore":      0,
     "EnableSimd":           0,
     "EnableCuda":           1,
-    "EnableMulticore":      0,
     "MaxTreeNodes":         10000000,
     "MaxPendingBatches":    100,
     "CudaQueueDepth":       100,
     "NumCpuWorkers":        0,
     "NumInitialPlayouts":   0,
     "NumAsyncPlayouts":     10,
-    "PlayoutMaxMoves":      200,
+    "MaxPlayoutMoves":      200,
     "DrawsWorthHalf":       1,
-    "BatchSize":            4096
+    "MaxBatchSize":            4096
 }
 
 

@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <time.h>
 #include <math.h>
+#include <float.h>
 #include <algorithm>
 #include <string>
 #include <vector>

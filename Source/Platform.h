@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <assert.h>
 #include <atomic>
+
+#include <omp.h>
 #include <cuda_runtime_api.h>
 
 #ifndef NDEBUG

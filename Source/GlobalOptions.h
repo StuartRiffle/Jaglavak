@@ -10,23 +10,27 @@ union GlobalOptions
         int     mEnableSimd;
         int     mEnableCuda;
         int     mEnableMulticore;
-        int     mMaxCores;
 
         int     mDrawsWorthHalf;
-        int     mNumInitialPlayouts;
-        int     mNumAsyncPlayouts;
-        int     mPlayoutMaxMoves;
-
-        int     mMaxTreeNodes;
-        int     mBatchSize;
+        int     mMaxInitialPlayouts;
+        int     mMaxAsyncPlayouts;
+        int     mMaxPlayoutMoves;
+        int     mMinPendingBatches;
         int     mMaxPendingBatches;
+        int     mMinBatchSize;
+        int     mMaxBatchSize;
+        int     mMaxTreeNodes;
+        int     mNumWarmupLevels;
+
         int     mCudaQueueDepth;
         int     mNumCpuWorkers;
+        int     mTimeSafetyBuffer;
+        int     mSearchSleepTime;
+        int     mUciUpdateDelay;
 
         // These are not
 
         float   mExplorationFactor;
-
         int     mDetectedSimdLevel;
         int     mForceSimdLevel;
     };

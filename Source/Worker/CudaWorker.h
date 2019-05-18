@@ -31,6 +31,7 @@ public:
     ~CudaWorker();
 
     static int GetDeviceCount();
+    const cudaDeviceProp& GetDeviceProperties() { return mProp; }
     void Initialize( int deviceIndex, int jobSlots );
     void Shutdown();
 

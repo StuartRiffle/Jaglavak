@@ -91,8 +91,7 @@ public:
 
     ~ThreadSafeQueue()
     {
-        mShuttingDown = true;
-        mVar.notify_all();    
+        this->Terminate();
     }
 
     void Push( const T* objs, size_t count )
@@ -124,13 +123,19 @@ public:
     bool PopBlocking( T& result )
     {
         size_t success = this->PopInternal( &result, 1, 1 );
-        return success;
+        return success && !mShuttingDown;
     }
 
     size_t PeekCount()
     {
         unique_lock< mutex > lock( mMutex );
         return mCount;
+    }
+
+    void Terminate()
+    {
+        mShuttingDown = true;
+        mVar.notify_all();
     }
 };
 

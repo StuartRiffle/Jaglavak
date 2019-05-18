@@ -3,25 +3,55 @@
 
 struct UciSearchConfig
 {
-    int                 mWhiteTimeLeft;   
-    int                 mBlackTimeLeft;   
-    int                 mWhiteTimeInc;    
-    int                 mBlackTimeInc;    
-    int                 mTimeControlMoves;
-    int                 mMateSearchDepth; 
-    int                 mDepthLimit;       
-    int                 mNodesLimit;       
-    int                 mTimeLimit; 
-    MoveList            mLimitMoves;
+    int         mWhiteTimeLeft;   
+    int         mBlackTimeLeft;   
+    int         mWhiteTimeInc;    
+    int         mBlackTimeInc;    
+    int         mTimeControlMoves;
+    int         mMateSearchDepth; 
+    int         mDepthLimit;       
+    int         mNodesLimit;       
+    int         mTimeLimit; 
+    MoveList    mLimitMoves;
 
     UciSearchConfig()   { this->Clear(); }
     void Clear()        { memset( this, 0, sizeof( *this ) ); }
+};
+
+struct TreeSearchParameters
+{
+    int         mBatchSize;
+    int         mMaxPending;
+    int         mInitialPlayouts;
+    int         mAsyncPlayouts;
+};
+
+struct TreeSearchMetrics
+{
+    u64         mNumBatchesMade;
+    u64         mNumBatchesDone;
+    u64         mNumNodesCreated;
+
+    void Clear() { memset( this, 0, sizeof( *this )); }
+
+    void operator+=( const TreeSearchMetrics& rhs )
+    {
+        u64* src = (u64*) &rhs;
+        u64* dest = (u64*) this;
+        int count = (int) (sizeof( *this ) / sizeof( u64 ));
+
+        for( int i = 0; i < count; i++ )
+            dest[i] += src[i];
+    }
 };
 
 struct TreeSearch
 {
     GlobalOptions*          mOptions;
     UciSearchConfig         mUciConfig;
+    TreeSearchParameters    mSearchParams;
+    TreeSearchMetrics       mSearchMetrics;
+    TreeSearchMetrics       mTotalMetrics;
     RandomGen               mRandom;
 
     TreeNode*               mNodePool;
@@ -37,14 +67,11 @@ struct TreeSearch
     volatile bool           mSearchingNow;
     volatile bool           mShuttingDown;
     Timer                   mSearchTimer;
-    int                     mDeepestLevel;
+    int                     mDeepestLevelSearched;
+    Timer                   mUciUpdateTimer;
 
     BatchQueue              mWorkQueue;
     BatchQueue              mDoneQueue;
-    size_t                  mBatchesMade;
-    size_t                  mBatchesMadeThisSearch;
-    size_t                  mBatchesDone;
-    size_t                  mBatchesDoneThisSearch;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > mAsyncWorkers;
@@ -61,13 +88,19 @@ struct TreeSearch
     void ProcessScoreBatch( BatchRef& batch )    ;
 
     PlayoutParams GetPlayoutParams();
-    BatchRef ExpandTree();
+    BatchRef CreateNewBatch();
     void DumpStats( TreeNode* node );
 
     bool IsTimeToMove();
     void ProcessIncomingScores();
     void UpdateAsyncWorkers();
+    void AdjustForWarmup();
     void SearchThread();
+
+    int GetRandomUnexploredBranch( TreeNode* node );
+    MoveSpec SendUciStatus();
+    void ExtractBestLine( TreeNode* node, MoveList* dest );
+
 
 public:
 

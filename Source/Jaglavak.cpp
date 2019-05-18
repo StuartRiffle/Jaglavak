@@ -6,6 +6,11 @@
 #include "UciEngine.h"
 #include "Version.h"
 
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 int main( int argc, char** argv )
 {
     setvbuf( stdin,  NULL, _IONBF, 0 );
