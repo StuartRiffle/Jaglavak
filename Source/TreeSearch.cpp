@@ -192,24 +192,15 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     double uct = 
         childWinRatio + 
         sqrt( log( nodePlays ) * 2 * invChildPlays ) * mOptions->mExplorationFactor +
-        childInfo.mPrior -
-        childInfo.mVirtualLoss;
+        childInfo.mPrior;
 
     assert( childInfo.mPrior == 0 );
 
     return uct;
 }
 
-void TreeSearch::DecayVirtualLoss( TreeNode* node )
-{
-    for( int i = 0; i < (int) node->mBranch.size(); i++ )
-        node->mBranch[i].mVirtualLoss *= mOptions->mVirtualLossDecay;
-}
-
 int TreeSearch::SelectNextBranch( TreeNode* node )
 {
-    this->DecayVirtualLoss( node );
-
     int numBranches = (int) node->mBranch.size();
     assert( numBranches > 0 );
 
@@ -260,7 +251,6 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
     assert( chosenBranch->mPrior == 0 );
 
     pathFromRoot.Append( chosenBranch->mMove );
-    chosenBranch->mVirtualLoss += mOptions->mVirtualLoss;
 
 #if DEBUG   
     chosenBranch->mDebugLossCounter++;
@@ -358,13 +348,12 @@ void TreeSearch::DumpStats( TreeNode* node )
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
         string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
-        printf( "%s%s  %2d) %5s %.15f %.5f %12ld/%-12ld\n", 
+        printf( "%s%s  %2d) %5s %.15f %12ld/%-12ld\n", 
             (i == bestRatioIdx)? ">" : " ", 
             (i == bestDenomIdx)? "***" : "   ", 
             i,
             moveText.c_str(), 
             this->CalculateUct( node, i ), 
-            node->mBranch[i].mVirtualLoss,
             (u64) node->mBranch[i].mScores.mWins[node->mColor], (u64) node->mBranch[i].mScores.mPlays );
     }
 }
@@ -395,12 +384,6 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
     // mPlays already credited when scheduling batch
 
     //childInfo.mScores += scores;
-
-    // Remove the virtual loss we added while building the batch
-
-    childInfo.mVirtualLoss -= mOptions->mVirtualLoss;
-    if( childInfo.mVirtualLoss < 0 )
-        childInfo.mVirtualLoss = 0;
 
 #if DEBUG   
     childInfo.mDebugLossCounter--;

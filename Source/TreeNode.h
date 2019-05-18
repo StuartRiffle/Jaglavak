@@ -9,7 +9,6 @@ struct BranchInfo
     MoveSpec    mMove;
     ScoreCard   mScores;
     double      mPrior;
-    double      mVirtualLoss;
 
 #if DEBUG    
     int         mDebugLossCounter;

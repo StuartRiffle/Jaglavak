@@ -17,8 +17,6 @@ UciEngine::UciEngine() : mDebugMode( false )
     mOptions.mDetectedSimdLevel = CpuInfo::DetectSimdLevel();
     mOptions.mForceSimdLevel    = 0;
     mOptions.mExplorationFactor = 1.41f;
-    mOptions.mVirtualLoss       = 0;
-    mOptions.mVirtualLossDecay  = 1.0f;//0.999f;
 
     mSearcher = unique_ptr<  TreeSearch >( new TreeSearch( &mOptions ) );
     mSearcher->Init();

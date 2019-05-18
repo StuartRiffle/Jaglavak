@@ -26,8 +26,6 @@ union GlobalOptions
         // These are not
 
         float   mExplorationFactor;
-        float   mVirtualLoss;
-        float   mVirtualLossDecay;
 
         int     mDetectedSimdLevel;
         int     mForceSimdLevel;

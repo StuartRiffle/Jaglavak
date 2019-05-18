@@ -50,7 +50,6 @@ struct TreeSearch
 
     double CalculateUct( TreeNode* node, int childIndex );
     void CalculatePriors( TreeNode* node, MoveList& pathFromRoot );
-    void DecayVirtualLoss( TreeNode* node );
     int SelectNextBranch( TreeNode* node );
     ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );
 
