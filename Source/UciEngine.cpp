@@ -26,23 +26,25 @@ UciEngine::UciEngine() : mDebugMode( false )
 
 const UciOptionInfo* UciEngine::GetOptionInfo()
 {
-    #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _FIELD ) / sizeof( int ))
+    #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, m##_FIELD ) / sizeof( int )), #_FIELD
 
     static UciOptionInfo sOptions[] = 
     {
-        OPTION_INDEX( mEnableSimd ),        "EnableSimd",            0, 1, 1,
-        OPTION_INDEX( mEnableCuda ),        "EnableCuda",            0, 1, 0,
-        OPTION_INDEX( mEnableMulticore ),   "EnableMulticore",       0, 1, 1,
-        OPTION_INDEX( mMaxTreeNodes ),      "MaxTreeNodes",         0, 1000000000, 1000000,
-        OPTION_INDEX( mNumInitialPlayouts ),"NumInitialPlayouts",   0, 64, 1,
-        OPTION_INDEX( mNumAsyncPlayouts ),  "NumAsyncPlayouts",     0, 10000, 10,
-        OPTION_INDEX( mBatchSize ),         "BatchSize",            1, 128, 1024,
-        OPTION_INDEX( mCudaQueueDepth ),    "CudaQueueDepth",       0, 8192, 128,
-        OPTION_INDEX( mPlayoutMaxMoves ),   "PlayoutMaxMoves",      0, 1000, 200,
-        OPTION_INDEX( mMaxPendingJobs ),    "MaxPendingJobs",       0, 1000000, 128,
-        OPTION_INDEX( mNumCpuWorkers ),     "NumCpuWorkers",      1, 10, 2,
-        OPTION_INDEX( mDrawsWorthHalf ),    "DrawsWorthHalf",      1, 10, 1,
+        OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   0,          
+        OPTION_INDEX( EnableMulticore ),        CHECKBOX,   1,          
+        OPTION_INDEX( MaxCores ),               0,          0,  
 
+        OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
+        OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
+        OPTION_INDEX( NumAsyncPlayouts ),       0,          10,         
+        OPTION_INDEX( PlayoutMaxMoves ),        0,          200,        
+
+        OPTION_INDEX( MaxTreeNodes ),           0,          1000000,    
+        OPTION_INDEX( BatchSize ),              0,          4096,       
+        OPTION_INDEX( MaxPendingBatches ),      0,          128,        
+        OPTION_INDEX( CudaQueueDepth ),         0,          128,        
+        OPTION_INDEX( NumCpuWorkers ),          0,          2,          
         -1
     };
 
@@ -53,7 +55,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 void UciEngine::SetDefaultOptions()
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
-        mOptions.mOption[info->mIndex] = info->mDefault;
+        mOptions.mOption[info->mIndex] = info->mValue;
 }
 
 void UciEngine::SetOptionByName( const char* name, int value )
@@ -80,15 +82,15 @@ bool UciEngine::ProcessCommand( const char* cmd )
         const UciOptionInfo* option = this->GetOptionInfo();
         while( option->mIndex >= 0 )
         {
-            if( (option->mMin == 0) && (option->mMax == 1) )
-                printf( "option name %s type check default %s\n", option->mName, option->mDefault? "true" : "false" );
+            if( option->mIsCheckbox )
+                printf( "option type check name   %-20s default  %d\n", option->mName, option->mValue );
             else
-                printf( "option name %s type spin min %d max %d default %d\n", option->mName, option->mMin, option->mMax, option->mDefault );
+                printf( "option type spin  name   %-20s default  %d\n", option->mName, option->mValue );
 
             option++;
         }
 
-        printf( "uciok\n" );
+        printf( "uciok\n\n" );
     }
     else if( t.Consume( "setoption" ) )
     {

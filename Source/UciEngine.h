@@ -1,13 +1,17 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+enum
+{
+    CHECKBOX = 1,
+};
+
 struct UciOptionInfo
 {
     int         mIndex;
     const char* mName;
-    int         mMin;
-    int         mMax;
-    int         mDefault;
+    int         mIsCheckbox;
+    int         mValue;
 };
 
 

@@ -10,16 +10,18 @@ union GlobalOptions
         int     mEnableSimd;
         int     mEnableCuda;
         int     mEnableMulticore;
-        int     mMaxTreeNodes;
-        int     mMaxPendingJobs;
-        int     mCudaQueueDepth;
-        int     mNumCpuWorkers;
+        int     mMaxCores;
 
+        int     mDrawsWorthHalf;
         int     mNumInitialPlayouts;
         int     mNumAsyncPlayouts;
         int     mPlayoutMaxMoves;
-        int     mDrawsWorthHalf;
+
+        int     mMaxTreeNodes;
         int     mBatchSize;
+        int     mMaxPendingBatches;
+        int     mCudaQueueDepth;
+        int     mNumCpuWorkers;
 
         // These are not
 

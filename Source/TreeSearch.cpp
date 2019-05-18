@@ -506,7 +506,7 @@ void TreeSearch::SearchThread()
             this->UpdateAsyncWorkers();
             this->ProcessIncomingScores();
 
-            if( mWorkQueue.PeekCount() < mOptions->mMaxPendingJobs )
+            if( mWorkQueue.PeekCount() < mOptions->mMaxPendingBatches )
             {
                 auto batch = this->ExpandTree();
                 if( batch->GetCount() > 0 )
@@ -516,7 +516,7 @@ void TreeSearch::SearchThread()
                 }
 
                 static int counter = 0;
-                if( ++counter > 100 )
+                if( ++counter > 10 )
                 {
                     float elapsed = timer.GetElapsedSec();
                     u64 totalGames = (mBatchesDone * mOptions->mBatchSize * mOptions->mNumAsyncPlayouts);
