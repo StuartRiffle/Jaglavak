@@ -36,9 +36,13 @@ struct TreeSearch
     Semaphore               mSearchThreadIsIdle;
     volatile bool           mSearchingNow;
     volatile bool           mShuttingDown;
+    Timer                   mSearchTimer;
+    int                     mDeepestLevel;
 
     BatchQueue              mWorkQueue;
     BatchQueue              mDoneQueue;
+    size_t                  mBatchesMade;
+    size_t                  mBatchesMadeThisSearch;
     size_t                  mBatchesDone;
     size_t                  mBatchesDoneThisSearch;
 
@@ -60,6 +64,7 @@ struct TreeSearch
     BatchRef ExpandTree();
     void DumpStats( TreeNode* node );
 
+    bool IsTimeToMove();
     void ProcessIncomingScores();
     void UpdateAsyncWorkers();
     void SearchThread();

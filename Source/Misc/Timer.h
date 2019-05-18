@@ -22,4 +22,9 @@ struct Timer
     {
         return this->GetElapsedTicks() * 1.0f / CpuInfo::GetClockFrequency();
     }
+
+    int GetElapsedMs() const
+    {
+        return this->GetElapsedTicks() * 1000 / CpuInfo::GetClockFrequency();
+    }
 };

@@ -83,7 +83,10 @@ void TreeSearch::Reset()
     startPos.Reset();
 
     this->SetPosition( startPos );
+
+    mBatchesMade = 0;
     mBatchesDone = 0;
+    mSearchDepth = 0;
 }
 
 void TreeSearch::SetUciSearchConfig( const UciSearchConfig& config )
@@ -94,6 +97,9 @@ void TreeSearch::SetUciSearchConfig( const UciSearchConfig& config )
 void TreeSearch::StartSearching()
 {
     this->StopSearching();
+
+    mBatchesMadeThisSearch = 0;
+    mBatchesDoneThisSearch = 0;
 
     mSearchingNow = true;
     mSearchThreadGo.Post();
@@ -106,8 +112,6 @@ void TreeSearch::StopSearching()
         mSearchingNow = false;
         mSearchThreadIsIdle.Wait();
     }
-
-    mBatchesDoneThisSearch = 0;
 }
 
 
@@ -199,13 +203,9 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     return uct;
 }
 
-int TreeSearch::SelectNextBranch( TreeNode* node )
+int TreeSearch::GetRandomUnexploredBranch( TreeNode* node )
 {
     int numBranches = (int) node->mBranch.size();
-    assert( numBranches > 0 );
-
-    // Choose an untried branch at random
-
     int idx = (int) mRandom.GetRange( numBranches );
 
     for( int i = 0; i < numBranches; i++ )
@@ -213,19 +213,30 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
         if( !node->mBranch[idx].mNode )
             return idx;
 
-        if( ++idx == numBranches )
-            idx = 0;
+        idx = (idx + 1) % numBranches;
     }
+
+    return( -1 );
+}
+
+int TreeSearch::SelectNextBranch( TreeNode* node )
+{
+    int numBranches = (int) node->mBranch.size();
+    assert( numBranches > 0 );
+
+    int randomBranch = GetRandomUnexploredBranch( node );
+    if( randomBranch >= 0 )
+        return randomBranch;
 
     // This node is fully expanded, so choose the move with highest UCT
 
-    double highestUct = 0;
+    double highestUct = DBL_MIN;
     int highestIdx = 0;
 
     for( int i = 0; i < numBranches; i++ )
     {
         double uct = CalculateUct( node, i );
-        if( (i == 0) || (uct > highestUct) )
+        if( uct > highestUct )
         {
             highestUct = uct;
             highestIdx = i;
@@ -251,6 +262,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
     assert( chosenBranch->mPrior == 0 );
 
     pathFromRoot.Append( chosenBranch->mMove );
+    mDeepestLevel = Max( mDeepestLevel, pathFromRoot.mCount );
 
 #if DEBUG   
     chosenBranch->mDebugLossCounter++;
@@ -318,18 +330,18 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
 void TreeSearch::DumpStats( TreeNode* node )
 {
-    u64 bestDenom = 0;
-    int bestDenomIdx = 0;
+    u64 bestPlays = 0;
+    int bestPlaysIdx = 0;
 
     float bestRatio = 0;
     int bestRatioIdx = 0;
 
     for( int i = 0; i < (int) node->mBranch.size(); i++ )
     {
-        if( node->mBranch[i].mScores.mPlays > bestDenom )
+        if( node->mBranch[i].mScores.mPlays > bestPlays )
         {
-            bestDenom = node->mBranch[i].mScores.mPlays;
-            bestDenomIdx = i;
+            bestPlays = node->mBranch[i].mScores.mPlays;
+            bestPlaysIdx = i;
         }
 
         if( node->mBranch[i].mScores.mPlays > 0 )
@@ -350,12 +362,46 @@ void TreeSearch::DumpStats( TreeNode* node )
         string moveText = SerializeMoveSpec( node->mBranch[i].mMove );
         printf( "%s%s  %2d) %5s %.15f %12ld/%-12ld\n", 
             (i == bestRatioIdx)? ">" : " ", 
-            (i == bestDenomIdx)? "***" : "   ", 
+            (i == bestPlaysIdx)? "***" : "   ", 
             i,
             moveText.c_str(), 
             this->CalculateUct( node, i ), 
             (u64) node->mBranch[i].mScores.mWins[node->mColor], (u64) node->mBranch[i].mScores.mPlays );
     }
+}
+
+
+bool TreeSearch::IsTimeToMove()
+{
+    const float MS_TO_SEC = 0.0001f;
+
+    bool    whiteToMove     = mSearchRoot->mPos.mWhiteToMove; 
+    int     requiredMoves   = mUciConfig.mTimeControlMoves;
+    float   timeBuffer      = mOptions->mTimeBuffer * MS_TO_SEC;
+    float   timeElapsed     = mSearchTimer.GetElapsedSec() + timeBuffer;
+    float   timeInc         = (whiteToMove? mUciConfig.mWhiteTimeInc  : mUciConfig.mBlackTimeInc)  * MS_TO_SEC;
+    float   timeLeftAtStart = (whiteToMove? mUciConfig.mWhiteTimeLeft : mUciConfig.mBlackTimeLeft) * MS_TO_SEC;
+    float   timeLimit       = mUciConfig.mTimeLimit * MS_TO_SEC;
+    float   timeLeft        = timeLeftAtStart - timeElapsed;
+    u64     nodesDone       = mBatchesDoneThisSearch * mOptions->mBatchSize;
+
+    if( timeLimit > 0 )
+        if( timeLeft <= 0 )
+            return true;
+
+    if( requiredMoves > 0 )
+        if( timeElapsed >= (timeLeft / requiredMoves) )
+            return true;
+
+    if( mUciConfig.mNodesLimit > 0 )
+        if( nodesDone >= mUciConfig.mNodesLimit )
+            return true;
+
+    if( mUciConfig.mDepthLimit > 0 )
+        if( mDeepestLevel >= mUciConfig.mDepthLimit )
+            return true;
+
+    return false;
 }
 
 
@@ -429,8 +475,6 @@ void TreeSearch::ProcessIncomingScores()
 
 void TreeSearch::UpdateAsyncWorkers()
 {
-    for( auto& worker : mAsyncWorkers )
-        worker->Update();
 }
 
 PlayoutParams TreeSearch::GetPlayoutParams()
@@ -477,47 +521,90 @@ void TreeSearch::SearchThread()
     {
         mSearchThreadIsIdle.Post();
         mSearchThreadGo.Wait();
+        mSearchTimer.Reset();
 
         if( mShuttingDown )
-            break;
-
-        Timer timer;
-        u64 numBatches = 0;
-
+            return;
+            
         while( mSearchingNow )
         {
-            this->UpdateAsyncWorkers();
-            this->ProcessIncomingScores();
+            if( IsTimeToMove() )
+                break;
 
-            if( mWorkQueue.PeekCount() < mOptions->mMaxPendingBatches )
-            {
-                auto batch = this->ExpandTree();
-                if( batch->GetCount() > 0 )
-                {
-                    mWorkQueue.Push( batch );
-                    numBatches++;
-                }
+            for( auto& worker : mAsyncWorkers )
+                worker->Update();
+                
+            ProcessIncomingScores();
 
-                static int counter = 0;
-                if( ++counter > 10 )
-                {
-                    float elapsed = timer.GetElapsedSec();
-                    u64 totalGames = (mBatchesDone * mOptions->mBatchSize * mOptions->mNumAsyncPlayouts);
-                    u64 batchesPerSec = (u64) (mBatchesDone / elapsed);
-                    u64 gamesPerSec = (u64) (totalGames / elapsed);
-                    DEBUG_LOG( "%.2f elapsed, %ld batches/sec %ld games/sec\n", elapsed, batchesPerSec, gamesPerSec );
-                    this->DumpStats( this->mSearchRoot );
-                    counter = 0;
-                }
-            }
-            else
+            if( mUpdateTimer.GetElapsedSec() >= mOptions->mUciUpdateDelay )
+                SendUciStatus();
+
+            if( mWorkQueue.PeekCount() >= mOptions->mMaxPendingBatches )
             {
-                PlatSleep( 1 );
+                PlatSleep( mOptions->mSearchSleepTime );
+                continue;
             }
 
+            auto batch = ExpandTree();
+            if( batch->GetCount() > 0 )
+            {
+                mWorkQueue.Push( batch );
+                mBatchesMadeThisSearch++;
+                mBatchesMade++;
+            }
         }
+
+        MoveSpec bestMove = SendUciStatus();
+        printf( "bestmove %s\n", SerializeMoveSpec( bestMove ) );
     }
 }
 
+void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
+{
+    u64 bestPlays = 0;
+    int bestPlaysIdx = -1;
+    int numBranches = (int) node->mBranch.size();
+
+    for( int i = 0; i < numBranches; i++ )
+    {
+        if( !node->mBranch[i].mNode )
+            return;
+
+        u64 branchPlays = (u64) node->mBranch[i].mScores.mPlays;
+        if( branchPlays > bestPlays )
+        {
+            bestPlays = branchPlays;
+            bestPlaysIdx = i;
+        }
+    }
+
+    assert( bestPlaysIdx >= 0 );
+    const BranchInfo& branchInfo = node->mBranch[bestPlaysIdx];
+
+    dest->Append( branchInfo.mMove );
+    ExtractBestLine( branchInfo.mNode, dest );
+}
+
+MoveSpec TreeSearch::SendUciStatus( bool printBestMove )
+{
+    u64 nodesDone = mBatchesDoneThisSearch * mOptions->mBatchSize;
+    u64 nodesPerSec = (u64) (nodesDone / mSearchTimer.GetElapsedSec());
+
+    MoveList bestLine;
+    ExtractBestLine( mSearchRoot, &bestLine );
+
+    printf( "info" );
+    printf( " nps %12"PRId64 , nodesPerSec );
+    printf( " depth %2d", mSearchDepth );
+    printf( " nodes %12"PRId64, nodesDone );
+    printf( " time %9d", mSearchTimer.GetElapsedMs() ),
+    printf( " pv %s", SerializeMoveList( bestLine ).c_str() );
+    printf( "\n" );
+
+    if( printBestMove )
+        printf( "bestmove %s\n", SerializeMoveSpec( bestLine.mMove[0] ) );
+
+    mUpdateTimer.Reset();
+}
 
 

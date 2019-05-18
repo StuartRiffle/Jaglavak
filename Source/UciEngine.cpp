@@ -188,17 +188,13 @@ bool UciEngine::ProcessCommand( const char* cmd )
     {
         mSearcher->StopSearching();
     }
-    else if( t.Consume( "ponderhit" ) )
-    {
-        printf( "info string WARNING: ponderhit not supported\n" );
-    }
     else if( t.Consume( "quit" ) )
     {
         return true;
     }
     else
     {
-        printf( "info string ERROR: invalid command\n" );
+        printf( "info string ERROR\n" );
     }
 
     return false;
