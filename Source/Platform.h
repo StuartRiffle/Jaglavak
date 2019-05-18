@@ -10,13 +10,15 @@
 #define DEBUG (1)
 #endif
 
+#define SIMD_ALIGNMENT (64)
+
 #if defined( __CUDA_ARCH__ )
 
     // We are running __device__ code
 
     #define ON_CUDA_DEVICE      (1)
     #define ALIGN( _N )         __align__( _N )
-    #define ALIGN_SIMD          __align__( 64 )
+    #define ALIGN_SIMD          __align__( SIMD_ALIGNMENT )
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
     #define PDECL               __device__
@@ -39,7 +41,7 @@
 
     #define TOOLCHAIN_GCC       (1)
     #define ALIGN( _N )         __attribute__(( aligned( _N ) ))
-    #define ALIGN_SIMD          ALIGN( 64 )
+    #define ALIGN_SIMD          ALIGN( SIMD_ALIGNMENT )
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
     #define INLINE              inline __attribute__(( always_inline ))
@@ -67,7 +69,7 @@
     
     #define TOOLCHAIN_MSVC      (1)
     #define ALIGN( _N )         __declspec( align( _N ) )
-    #define ALIGN_SIMD          ALIGN( 64 )
+    #define ALIGN_SIMD          ALIGN( SIMD_ALIGNMENT )
     #define RESTRICT            __restrict
     #define DEBUGBREAK          __debugbreak
     #define INLINE              __forceinline
@@ -88,7 +90,6 @@ typedef uint32_t u32;
 typedef uint16_t u16;
 typedef uint8_t  u8;
 
-//#define ALIGN_SIMD  ALIGN( 64 )
 #define DEBUG_LOG   printf
 
 

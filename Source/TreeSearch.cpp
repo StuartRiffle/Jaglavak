@@ -15,6 +15,8 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     mSearchRoot = NULL;
     mShuttingDown = false;
     mSearchingNow = false;
+    mBatchesDone = 0;
+    mBatchesDoneThisSearch = 0;
 
     mRandom.SetSeed( randomSeed );
 
@@ -59,7 +61,7 @@ void TreeSearch::Init()
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            // FIXME
+            // FIXME make a mask parameter
             if( i == 1 )
                 continue;
 
@@ -81,6 +83,7 @@ void TreeSearch::Reset()
     startPos.Reset();
 
     this->SetPosition( startPos );
+    mBatchesDone = 0;
 }
 
 void TreeSearch::SetUciSearchConfig( const UciSearchConfig& config )
@@ -103,6 +106,8 @@ void TreeSearch::StopSearching()
         mSearchingNow = false;
         mSearchThreadIsIdle.Wait();
     }
+
+    mBatchesDoneThisSearch = 0;
 }
 
 
@@ -402,11 +407,8 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
 #endif
 }
 
-u64 batchesDone = 0;
-
 void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 {
-    batchesDone++;
 #if DEBUG_VALIDATE_BATCH_RESULTS
     for( int i = 0; i < batch->GetCount(); i++ )
     {
@@ -424,6 +426,9 @@ void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 
     for( int i = 0; i < batch->GetCount(); i++ )
         this->DeliverScores( mSearchRoot, batch->mPathFromRoot[i], batch->mResults[i] );
+
+    mBatchesDoneThisSearch++;
+    mBatchesDone++;
 }
 
 void TreeSearch::ProcessIncomingScores()
@@ -514,8 +519,8 @@ void TreeSearch::SearchThread()
                 if( ++counter > 100 )
                 {
                     float elapsed = timer.GetElapsedSec();
-                    u64 totalGames = (batchesDone * mOptions->mBatchSize * mOptions->mNumAsyncPlayouts);
-                    u64 batchesPerSec = (u64) (batchesDone / elapsed);
+                    u64 totalGames = (mBatchesDone * mOptions->mBatchSize * mOptions->mNumAsyncPlayouts);
+                    u64 batchesPerSec = (u64) (mBatchesDone / elapsed);
                     u64 gamesPerSec = (u64) (totalGames / elapsed);
                     DEBUG_LOG( "%.2f elapsed, %ld batches/sec %ld games/sec\n", elapsed, batchesPerSec, gamesPerSec );
                     this->DumpStats( this->mSearchRoot );

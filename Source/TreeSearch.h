@@ -40,6 +40,7 @@ struct TreeSearch
     BatchQueue              mWorkQueue;
     BatchQueue              mDoneQueue;
     size_t                  mBatchesDone;
+    size_t                  mBatchesDoneThisSearch;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > mAsyncWorkers;
