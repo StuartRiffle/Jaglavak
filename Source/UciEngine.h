@@ -15,7 +15,7 @@ struct UciOptionInfo
 };
 
 
-class TreeSearch;
+struct TreeSearch;
 
 class UciEngine
 {

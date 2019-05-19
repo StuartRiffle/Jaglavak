@@ -8,7 +8,7 @@ struct CpuInfo
     #if TOOLCHAIN_GCC
         __get_cpuid( leaf, dest + 0, dest + 1, dest + 2, dest + 3 );
     #elif TOOLCHAIN_MSVC
-        __cpuid( (int*) dest leaf );
+        __cpuid( (int*) dest, leaf );
     #endif
     }
 

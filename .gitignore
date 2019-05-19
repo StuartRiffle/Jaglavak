@@ -9,27 +9,28 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # Visual Studio spam
-Projects/.vs/
-Projects/ipch/
-Projects/x64/
-Projects/Debug/
-Projects/*.aps
-Projects/*.ncb
-Projects/*.opensdf
-Projects/*.sdf
-Projects/*.cachefile
-Projects/*.psess
-Projects/*.vsp
-Projects/*.vspx
-Projects/*.sap
-Projects/*.suo
-Projects/*.user
-Projects/*.userosscache
-Projects/*.sln.docstates
-Projects/*.VC.opendb
-Projects/*.VC.db
-Projects/*.pdb
-Projects/*.nvact
+.vs/
+Project/.vs/
+Project/ipch/
+Project/x64/
+Project/Debug/
+Project/*.aps
+Project/*.ncb
+Project/*.opensdf
+Project/*.sdf
+Project/*.cachefile
+Project/*.psess
+Project/*.vsp
+Project/*.vspx
+Project/*.sap
+Project/*.suo
+Project/*.user
+Project/*.userosscache
+Project/*.sln.docstates
+Project/*.VC.opendb
+Project/*.VC.db
+Project/*.pdb
+Project/*.nvact
 
 .vscode/
 
