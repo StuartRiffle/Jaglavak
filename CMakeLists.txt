@@ -5,7 +5,7 @@ find_package( Boost )
 
 set( CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch=sm_30 --disable-warnings -cudart static" )
 set( CMAKE_CUDA_SEPARABLE_COMPILATION ON )
-set( COMMON_FLAGS -fsanitize=address -fopenmp )
+set( COMMON_FLAGS -fopenmp )
 
 add_library( X64    STATIC Source/Player/X64.cpp )
 add_library( SSE4   STATIC Source/Player/SSE4.cpp )

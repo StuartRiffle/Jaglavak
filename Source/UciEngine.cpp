@@ -29,7 +29,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
     static UciOptionInfo sOptions[] = 
     {
         OPTION_INDEX( EnableSimd ),             CHECKBOX,   0,          
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   0,          
         OPTION_INDEX( EnableMulticore ),        CHECKBOX,   0,          
 
         OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          

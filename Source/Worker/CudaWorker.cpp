@@ -25,7 +25,7 @@ CudaWorker::~CudaWorker()
 int CudaWorker::GetDeviceCount()
 {
     int count = 0;
-    cudaGetDeviceCount( &count );
+    auto res = cudaGetDeviceCount( &count );
 
     return( count );
 }
