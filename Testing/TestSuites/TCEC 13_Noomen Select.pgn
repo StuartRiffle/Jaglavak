@@ -1,0 +1,734 @@
+﻿[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's Indian Sämisch"]
+[Black "?"]
+[Result "*"]
+[ECO "E83"]
+[PlyCount "13"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. f3 O-O 6. Be3 Nbd7 7. Qd2 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Najdorf 6.Bg5"]
+[Black "?"]
+[Result "*"]
+[ECO "B42"]
+[PlyCount "14"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 b5 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "English 1... b6"]
+[Black "?"]
+[Result "*"]
+[ECO "A10"]
+[PlyCount "4"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. c4 b6 2. Nc3 Bb7 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's gambit 3.Nf3 g5"]
+[Black "?"]
+[Result "*"]
+[ECO "C37"]
+[PlyCount "7"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Nc3 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Semi-Slav Moscow"]
+[Black "?"]
+[Result "*"]
+[ECO "D15"]
+[PlyCount "27"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bh4 dxc4 7. e4 g5 8. Bg3 b5
+9. Be2 Bb7 10. Ne5 Nbd7 11. O-O Bg7 12. Nxf7 Kxf7 13. e5 Nd5 14. Ne4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "French Classical"]
+[Black "?"]
+[Result "*"]
+[ECO "C17"]
+[PlyCount "21"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 c5 6. Nf3 Nc6 7. Be3 a6 8. Qd2 b5
+9. a3 Bb7 10. Bd3 Be7 11. O-O *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Trompovsky 2... c5"]
+[Black "?"]
+[Result "*"]
+[ECO "A45"]
+[PlyCount "7"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. Bg5 c5 3. d5 Qb6 4. Nc3 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Caro-Kann Advance"]
+[Black "?"]
+[Result "*"]
+[ECO "B12"]
+[PlyCount "14"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. e4 c6 2. d4 d5 3. e5 Bf5 4. Nf3 e6 5. Be2 Nd7 6. O-O Ne7 7. Nbd2 h6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "QGD Chigorin"]
+[Black "?"]
+[Result "*"]
+[ECO "D07"]
+[PlyCount "6"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 Nc6 3. Nf3 Bg4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Rauzer"]
+[Black "?"]
+[Result "*"]
+[ECO "B80"]
+[PlyCount "23"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 e6 7. Qd2 a6 8.
+O-O-O Bd7 9. f4 Be7 10. Nf3 b5 11. Bxf6 gxf6 12. Kb1 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Nimzo-Indian Sämisch"]
+[Black "?"]
+[Result "*"]
+[ECO "E24"]
+[PlyCount "14"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 Nc6 7. e4 d6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Latvian gambit 3.Bc4"]
+[Black "?"]
+[Result "*"]
+[ECO "C40"]
+[PlyCount "5"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. e4 e5 2. Nf3 f5 3. Bc4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Queen's gambit"]
+[Black "?"]
+[Result "*"]
+[ECO "A00"]
+[PlyCount "20"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Nbd7 5. e3 Be7 6. Nf3 O-O 7. Qc2 b6 8. cxd5
+exd5 9. Bd3 Bb7 10. O-O-O c5 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Pirc-Ufimzev"]
+[Black "?"]
+[Result "*"]
+[ECO "B06"]
+[PlyCount "14"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Nf3 Bg7 5. Be3 Nc6 6. Qd2 O-O 7. O-O-O Bg4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's Indian Fianchetto"]
+[Black "?"]
+[Result "*"]
+[ECO "E69"]
+[PlyCount "26"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 g6 3. Nf3 Bg7 4. g3 d6 5. Bg2 O-O 6. O-O Nbd7 7. Nc3 e5 8. e4
+c6 9. h3 Qb6 10. Re1 exd4 11. Nxd4 Re8 12. Nc2 Qc7 13. Be3 a6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "French Classical 4.e5"]
+[Black "?"]
+[Result "*"]
+[ECO "C11"]
+[PlyCount "19"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 c5 6. Nf3 Nc6 7. Be3 Be7 8. Qd2
+O-O 9. dxc5 Nxc5 10. O-O-O *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Dutch 3.g4 gambit"]
+[Black "?"]
+[Result "*"]
+[ECO "A80"]
+[PlyCount "5"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. d4 f5 2. Nc3 Nf6 3. g4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Keres attack"]
+[Black "?"]
+[Result "*"]
+[ECO "B21"]
+[PlyCount "12"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. g4 h6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Queen's gambit accepted"]
+[Black "?"]
+[Result "*"]
+[ECO "D90"]
+[PlyCount "18"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 dxc4 3. e4 c5 4. d5 Nf6 5. Nc3 b5 6. Bf4 Qa5 7. e5 Ne4 8. Nge2
+Na6 9. f3 Nb4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Ruy Lopez Bird"]
+[Black "?"]
+[Result "*"]
+[ECO "C66"]
+[PlyCount "6"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nd4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Queen's Pawn 1.d4 c5"]
+[Black "?"]
+[Result "*"]
+[ECO "A09"]
+[PlyCount "3"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 c5 2. d5 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Caro-Kann 3.Qf3"]
+[Black "?"]
+[Result "*"]
+[ECO "B11"]
+[PlyCount "6"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. e4 c6 2. Nc3 d5 3. Qf3 Nf6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Benoni Fianchetto line"]
+[Black "?"]
+[Result "*"]
+[ECO "A62"]
+[PlyCount "19"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 e6 3. g3 c5 4. d5 exd5 5. cxd5 d6 6. Nc3 g6 7. Bg2 Bg7 8. Nf3
+O-O 9. O-O a6 10. a4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Scandinavian 3... Qa5"]
+[Black "?"]
+[Result "*"]
+[ECO "B01"]
+[PlyCount "10"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d4 Nf6 5. Bd2 c6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's Indian 5.Be3"]
+[Black "?"]
+[Result "*"]
+[ECO "E73"]
+[PlyCount "20"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Be3 O-O 6. Be2 Na6 7. Qd2 e5 8. d5
+Bd7 9. f3 Nh5 10. O-O-O f5 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Najdorf 6.Be3"]
+[Black "?"]
+[Result "*"]
+[ECO "B33"]
+[PlyCount "26"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 e6 7. f3 b5 8. Qd2
+Nbd7 9. O-O-O Bb7 10. g4 Nb6 11. a3 Rc8 12. Kb1 Nfd7 13. Rg1 Be7 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Slav Classical"]
+[Black "?"]
+[Result "*"]
+[ECO "D17"]
+[PlyCount "18"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 Na6 7. e3 Nb4 8. Bxc4
+e6 9. O-O Be7 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Cochrane gambit"]
+[Black "?"]
+[Result "*"]
+[ECO "C51"]
+[PlyCount "8"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nxf7 Kxf7 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Benko gambit"]
+[Black "?"]
+[Result "*"]
+[ECO "A59"]
+[PlyCount "10"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. bxa6 g6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "French Classical"]
+[Black "?"]
+[Result "*"]
+[ECO "C05"]
+[PlyCount "19"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 c5 6. Nf3 Be7 7. Be3 O-O 8. Qd2
+b6 9. h4 Ba6 10. O-O-O *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Queen's gambit 3... Be7"]
+[Black "?"]
+[Result "*"]
+[ECO "D27"]
+[PlyCount "17"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Be7 4. cxd5 exd5 5. Bf4 c6 6. Qc2 g6 7. e3 Bf5 8. Qd2
+Nd7 9. f3 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Ruy Lopez 3... f5"]
+[Black "?"]
+[Result "*"]
+[ECO "C63"]
+[PlyCount "13"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 f5 4. d3 fxe4 5. dxe4 Nf6 6. O-O d6 7. Bc4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Old Indian"]
+[Black "?"]
+[Result "*"]
+[ECO "A46"]
+[PlyCount "13"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 d6 3. Nc3 e5 4. Nf3 Nbd7 5. e4 Be7 6. Be2 O-O 7. O-O *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Rauzer"]
+[Black "?"]
+[Result "*"]
+[ECO "B38"]
+[PlyCount "20"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 e6 7. Qd2 Be7 8.
+O-O-O O-O 9. Kb1 a6 10. h4 Bd7 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Reversed Blumenfeld"]
+[Black "?"]
+[Result "*"]
+[ECO "A03"]
+[PlyCount "13"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. Nf3 d5 2. c4 d4 3. b4 Nf6 4. Bb2 c5 5. e3 dxe3 6. fxe3 cxb4 7. Be2 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Modern Defence"]
+[Black "?"]
+[Result "*"]
+[ECO "A41"]
+[PlyCount "7"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. e4 g6 2. d4 d6 3. c4 e5 4. Nc3 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's Indian Sämisch"]
+[Black "?"]
+[Result "*"]
+[ECO "E97"]
+[PlyCount "15"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. f3 O-O 6. Bg5 a6 7. Qd2 Nbd7 8. O-O-O
+*
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Two Knights 4.Ng5"]
+[Black "?"]
+[Result "*"]
+[ECO "C57"]
+[PlyCount "18"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Na5 6. Bb5+ c6 7. dxc6 bxc6 8.
+Be2 h6 9. Nh3 g5 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Dutch Leningrad"]
+[Black "?"]
+[Result "*"]
+[ECO "A87"]
+[PlyCount "14"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 f5 2. Nf3 Nf6 3. g3 g6 4. Bg2 Bg7 5. O-O d6 6. c4 O-O 7. Nc3 e6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Caro-Kann Larsen"]
+[Black "?"]
+[Result "*"]
+[ECO "B12"]
+[PlyCount "11"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Nxf6+ gxf6 6. Nf3 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Queen's Indian 4.a3"]
+[Black "?"]
+[Result "*"]
+[ECO "E12"]
+[PlyCount "20"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. a3 Bb7 5. Nc3 g6 6. Qc2 Bg7 7. e4 O-O 8. Bg5 h6
+9. Bh4 Qe8 10. O-O-O d6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Scheveningen"]
+[Black "?"]
+[Result "*"]
+[ECO "B22"]
+[PlyCount "14"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nc3 d6 6. g4 h6 7. Be3 a6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Queen's Pawn 1... d6"]
+[Black "?"]
+[Result "*"]
+[ECO "A41"]
+[PlyCount "4"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. d4 d6 2. Nf3 Bg4 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "French Winawer"]
+[Black "?"]
+[Result "*"]
+[ECO "C18"]
+[PlyCount "15"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Ne7 7. Qg4 O-O 8. Bd3
+*
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Benoni 7.Nd2"]
+[Black "?"]
+[Result "*"]
+[ECO "A61"]
+[PlyCount "13"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+[SourceVersionDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 c5 4. d5 exd5 5. cxd5 d6 6. Nc3 g6 7. Nd2 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Ruy Lopez Zaitsev"]
+[Black "?"]
+[Result "*"]
+[ECO "C92"]
+[PlyCount "34"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3
+O-O 9. h3 Bb7 10. d4 Re8 11. Nbd2 Bf8 12. a4 h6 13. Bc2 exd4 14. cxd4 Nb4 15.
+Bb1 bxa4 16. Rxa4 a5 17. Ra3 Ra6 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Semi-Slav 7.g4"]
+[Black "?"]
+[Result "*"]
+[ECO "D30"]
+[PlyCount "23"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. e3 Nbd7 6. Qc2 Bd6 7. g4 Bb4 8. Bd2
+Qe7 9. Rg1 Bxc3 10. Bxc3 Ne4 11. O-O-O O-O 12. Be1 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's gambit 3.Nf3 h5"]
+[Black "?"]
+[Result "*"]
+[ECO "C77"]
+[PlyCount "8"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 h5 4. d4 g5 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "King's Indian Mar del Plata"]
+[Black "?"]
+[Result "*"]
+[ECO "E99"]
+[PlyCount "18"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. O-O Nc6 8. d5
+Ne7 9. Ne1 Nd7 *
+
+[Event "?"]
+[Site "?"]
+[Date "2018.05.11"]
+[Round "?"]
+[White "Sicilian Najdorf 6.Bg5"]
+[Black "?"]
+[Result "*"]
+[ECO "B96"]
+[PlyCount "16"]
+[EventDate "2018.05.11"]
+[SourceDate "2018.05.11"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 Nbd7 7. Qe2 g6 8.
+O-O-O Bg7 *
+

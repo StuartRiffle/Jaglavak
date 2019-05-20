@@ -18,7 +18,7 @@ struct BranchInfo
     BranchInfo() { memset( this, 0, sizeof( *this ) ); }
 };
 
-struct ALIGN_SIMD TreeLink
+struct TreeLink
 {
     TreeNode*           mPrev;
     TreeNode*           mNext;

@@ -10,9 +10,12 @@ union GlobalOptions
         int     mEnableSimd;
         int     mEnableCuda;
         int     mEnableMulticore;
+        int     mCpuAffinityMask;
+        int     mGpuAffinityMask;
 
         int     mDrawsWorthHalf;
-        int     mMaxInitialPlayouts;
+        int     mNumInitialPlayouts;
+        int     mMinAsyncPlayouts;
         int     mMaxAsyncPlayouts;
         int     mMaxPlayoutMoves;
         int     mMinPendingBatches;
@@ -20,7 +23,7 @@ union GlobalOptions
         int     mMinBatchSize;
         int     mMaxBatchSize;
         int     mMaxTreeNodes;
-        int     mNumWarmupLevels;
+        int     mNumWarmupBatches;
 
         int     mCudaQueueDepth;
         int     mNumCpuWorkers;

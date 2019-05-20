@@ -49,7 +49,7 @@ class CpuWorker : public AsyncWorker
 
             int simdLevel = this->ChooseSimdLevelForPlayout( count );
             int simdCount = (count + simdLevel - 1) / simdLevel;
-            batch->mResults.resize( simdCount * simdLevel );
+            batch->mResults.resize( count * simdLevel );
 
             switch( simdLevel )
             {

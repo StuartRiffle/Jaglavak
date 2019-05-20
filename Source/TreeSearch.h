@@ -31,6 +31,7 @@ struct TreeSearchMetrics
     u64         mNumBatchesMade;
     u64         mNumBatchesDone;
     u64         mNumNodesCreated;
+    u64         mNumGamesPlayed;
 
     void Clear() { memset( this, 0, sizeof( *this )); }
 
@@ -50,9 +51,11 @@ struct TreeSearch
     GlobalOptions*          mOptions;
     UciSearchConfig         mUciConfig;
     TreeSearchParameters    mSearchParams;
-    TreeSearchMetrics       mSearchMetrics;
-    TreeSearchMetrics       mTotalMetrics;
     RandomGen               mRandom;
+
+    TreeSearchMetrics       mMetrics;
+    TreeSearchMetrics       mSearchStartMetrics;
+    TreeSearchMetrics       mStatsStartMetrics;
 
     TreeNode*               mNodePool;
     size_t                  mNodePoolEntries;

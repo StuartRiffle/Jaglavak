@@ -90,8 +90,11 @@ void TreeSearch::Reset()
 
     this->SetPosition( startPos );
 
-    mSearchMetrics.Clear();
-    mTotalMetrics.Clear();
+    mMetrics.Clear();
+    mSearchStartMetrics.Clear();
+    mStatsStartMetrics.Clear();
+
+    mDeepestLevelSearched = 0;
 }
 
 void TreeSearch::SetUciSearchConfig( const UciSearchConfig& config )
@@ -103,7 +106,7 @@ void TreeSearch::StartSearching()
 {
     this->StopSearching();
 
-    mSearchMetrics.Clear();
+    mSearchStartMetrics = mMetrics;
 
     mSearchingNow = true;
     mSearchThreadGo.Post();
@@ -115,8 +118,6 @@ void TreeSearch::StopSearching()
     {
         mSearchingNow = false;
         mSearchThreadIsIdle.Wait();
-
-        mTotalMetrics += mSearchMetrics;
     }
 }
 
@@ -149,7 +150,7 @@ TreeNode* TreeSearch::AllocNode()
     node->Clear();
     MoveToFront( node );
 
-    mSearchMetrics.mNumNodesCreated++;
+    mMetrics.mNumNodesCreated++;
     return node;
 }
 
@@ -336,7 +337,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
 bool TreeSearch::IsTimeToMove()
 {
-    const float MS_TO_SEC = 0.0001f;
+    const float MS_TO_SEC = 0.001f;
 
     bool    whiteToMove     = mSearchRoot->mPos.mWhiteToMove; 
     int     requiredMoves   = mUciConfig.mTimeControlMoves;
@@ -348,15 +349,15 @@ bool TreeSearch::IsTimeToMove()
     float   timeLeft        = timeLeftAtStart - timeElapsed;
 
     if( timeLimit > 0 )
-        if( timeLeft <= 0 )
+        if( timeElapsed > timeLimit )
             return true;
 
-    if( requiredMoves > 0 )
-        if( timeElapsed >= (timeLeft / requiredMoves) )
+    if( (requiredMoves > 0) && (timeLeftAtStart > 0) )
+        if( timeElapsed >= (timeLeftAtStart / requiredMoves) )
             return true;
 
     if( mUciConfig.mNodesLimit > 0 )
-        if( mSearchMetrics.mNumNodesCreated >= mUciConfig.mNodesLimit )
+        if( mMetrics.mNumNodesCreated >= mUciConfig.mNodesLimit )
             return true;
 
     if( mUciConfig.mDepthLimit > 0 )
@@ -416,9 +417,12 @@ void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 #endif
 
     for( int i = 0; i < batch->GetCount(); i++ )
+    {
         this->DeliverScores( mSearchRoot, batch->mPathFromRoot[i], batch->mResults[i] );
+        mMetrics.mNumGamesPlayed += batch->mResults[i].mPlays;
+    }
 
-    mSearchMetrics.mNumBatchesDone++;
+    mMetrics.mNumBatchesDone++;
 }
 
 PlayoutParams TreeSearch::GetPlayoutParams()
@@ -461,35 +465,15 @@ BatchRef TreeSearch::CreateNewBatch()
 
 void TreeSearch::AdjustForWarmup()
 {
-    int currLevel = 1;
-    u64 currNodes = mSearchMetrics.mNumNodesCreated;
+	bool warmingUp = (mMetrics.mNumBatchesDone < mOptions->mNumWarmupBatches);
 
-    while( currNodes > (1 << currLevel) )
-        currLevel++;
-
-    int levelDiff = Max( mOptions->mNumWarmupLevels - currLevel, 0 );
-    levelDiff >>= 4;
-
-    mSearchParams.mBatchSize        = Max( mOptions->mMaxBatchSize       >> levelDiff, mOptions->mMinBatchSize );
-    mSearchParams.mMaxPending       = Max( mOptions->mMaxPendingBatches  >> levelDiff, mOptions->mMinPendingBatches );
-    mSearchParams.mInitialPlayouts  = Max( mOptions->mMaxInitialPlayouts >> levelDiff, 0 );
-    mSearchParams.mAsyncPlayouts    = Max( mOptions->mMaxAsyncPlayouts   >> levelDiff, 0 );
+    mSearchParams.mBatchSize       = warmingUp? mOptions->mMinBatchSize      : mOptions->mMaxBatchSize;
+    mSearchParams.mMaxPending      = warmingUp? mOptions->mMinPendingBatches : mOptions->mMaxPendingBatches;
+    mSearchParams.mAsyncPlayouts   = warmingUp? mOptions->mMinAsyncPlayouts  : mOptions->mMaxAsyncPlayouts;
+	mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
 
     if( mSearchParams.mInitialPlayouts + mSearchParams.mAsyncPlayouts == 0 )
         mSearchParams.mAsyncPlayouts = 1;
-
-    static int levelPrev = -1;
-    if( currLevel != levelPrev )
-    {
-        printf( "Level %d batch %d pending %d initial %d async %d\n",
-            currLevel,
-            mSearchParams.mBatchSize,
-            mSearchParams.mMaxPending,
-            mSearchParams.mInitialPlayouts,
-            mSearchParams.mAsyncPlayouts );
-
-        levelPrev = currLevel;
-    }
 }
 
 void TreeSearch::SearchThread()
@@ -516,7 +500,7 @@ void TreeSearch::SearchThread()
             for( auto& batch : mDoneQueue.PopMulti() )
                 ProcessScoreBatch( batch );
 
-            if( mSearchMetrics.mNumBatchesDone > 0 )
+            if( mMetrics.mNumBatchesDone > 0 )
                 if( mUciUpdateTimer.GetElapsedMs() >= mOptions->mUciUpdateDelay )
                     SendUciStatus();
 
@@ -530,7 +514,7 @@ void TreeSearch::SearchThread()
             if( batch->GetCount() > 0 )
             {
                 mWorkQueue.Push( batch );
-                mSearchMetrics.mNumBatchesMade++;
+                mMetrics.mNumBatchesMade++;
             }
         }
 
@@ -567,19 +551,33 @@ void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
 
 MoveSpec TreeSearch::SendUciStatus()
 {
-    u64 nodesDone = mSearchMetrics.mNumNodesCreated;
-    u64 nodesPerSec = (u64) (nodesDone / mSearchTimer.GetElapsedSec());
+    float dt = mUciUpdateTimer.GetElapsedSec();
+
+    u64 nodesDone = mMetrics.mNumNodesCreated - mStatsStartMetrics.mNumNodesCreated;
+    u64 nodesPerSec = (u64) (nodesDone / dt);
+
+    u64 batchesDone = mMetrics.mNumBatchesDone - mStatsStartMetrics.mNumBatchesDone;
+    u64 batchesPerSec = (u64) (batchesDone / dt);
+
+    u64 gamesDone = mMetrics.mNumGamesPlayed - mStatsStartMetrics.mNumGamesPlayed;
+    u64 gamesPerSec = (u64) (gamesDone / dt);
 
     MoveList bestLine;
     ExtractBestLine( mSearchRoot, &bestLine );
 
     printf( "info" );
     printf( " nps %" PRId64 "   ", nodesPerSec );
+    printf( " bps %" PRId64, batchesPerSec );
+    printf( " gps %" PRId64, gamesPerSec );
+
     printf( " depth %d", mDeepestLevelSearched );
-    printf( " nodes %" PRId64, nodesDone );
+//    printf( " nodes %" PRId64, mMetrics.mNumNodesCreated );
+//    printf( " batches %" PRId64, mMetrics.mNumBatchesDone );
     printf( " time %d", mSearchTimer.GetElapsedMs() ),
     printf( " pv %s", SerializeMoveList( bestLine ).c_str() );
     printf( "\n" );
+
+    mStatsStartMetrics = mMetrics;
 
     mUciUpdateTimer.Reset();
     return bestLine.mMove[0];
