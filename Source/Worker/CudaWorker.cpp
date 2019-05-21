@@ -164,6 +164,7 @@ void CudaWorker::Update()
             activeList.pop_front();
 
             BatchRef batch = slot->mBatch;
+            assert( batch->mResults.size() == 0 );
             batch->mResults.reserve( batch->GetCount() );
 
             for( int i = 0; i < batch->GetCount(); i++ )

@@ -144,5 +144,28 @@ INLINE PDECL u64 PlatAddAtomic( atomic64_t* dest, u64 val )
     return (u64) *dest;
 }
 
+INLINE PDECL u64 PlatCountBits64( u64 n )
+{
+#if ON_CUDA_DEVICE
+    return( __popcll( n ) );
+#elif ENABLE_POPCNT
+    #if TOOLCHAIN_GCC
+        return( __builtin_popcountll( n ) );
+    #elif TOOLCHAIN_MSVC
+        return( __popcnt64( n ) );
+    #endif
+#else
+    const u64 mask01 = 0x0101010101010101ULL;
+    const u64 mask0F = 0x0F0F0F0F0F0F0F0FULL;
+    const u64 mask33 = 0x3333333333333333ULL;
+    const u64 mask55 = 0x5555555555555555ULL;
+    n =  n - ((n >> 1) & mask55);
+    n = (n & mask33) + ((n >> 2) & mask33);
+    n = (n + (n >> 4)) & mask0F;
+    n = (n * mask01) >> 56;
+    return( n );
+#endif
+}
+
 
 #define DEBUG_VALIDATE_BATCH_RESULTS (0)

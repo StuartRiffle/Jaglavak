@@ -16,16 +16,6 @@ void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, Branch
     MoveList moveList;
     moveList.UnpackMoveMap( pos, moveMap );
 
-    mBranch.resize( moveList.mCount );
-
-    for( int i = 0; i < moveList.mCount; i++ )
-    {
-        mBranch[i].mMove = moveList.mMove[i];
-#if DEBUG        
-        MoveSpecToString( moveList.mMove[i], mBranch[i].mMoveText );
-#endif
-    }
-
     if (pos.mResult != RESULT_UNKNOWN )
     {
         assert( moveList.mCount == 0 );
@@ -34,6 +24,18 @@ void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, Branch
         mGameResult.mWins[BLACK] = (pos.mResult == RESULT_BLACK_WIN);
         mGameResult.mPlays = 1;
         mGameOver = true;
+    }
+    else
+    {
+        mBranch.resize( moveList.mCount );
+
+        for( int i = 0; i < moveList.mCount; i++ )
+        {
+            mBranch[i].mMove = moveList.mMove[i];
+#if DEBUG        
+            MoveSpecToString( moveList.mMove[i], mBranch[i].mMoveText );
+#endif
+        }
     }
 }
 

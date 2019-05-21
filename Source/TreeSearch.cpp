@@ -259,10 +259,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
     MoveToFront( node );
 
     if( node->mGameOver )
-    {
-        node->mInfo->mScores += node->mGameResult;
         return( node->mGameResult );
-    }
 
     int chosenBranchIdx = SelectNextBranch( node );
     BranchInfo* chosenBranch = &node->mBranch[chosenBranchIdx];
