@@ -115,10 +115,11 @@ const PDECL u64         EP_SQUARES              = RANK_3 | RANK_6;
 const PDECL u64         CORNER_SQUARES          = (FILE_A | FILE_H) & (RANK_1 | RANK_8);
 
 template< typename T > struct   MoveSpecT;
-template< typename T > struct   MoveMapT;
-template< typename T > struct   PositionT;
-
 typedef MoveSpecT< u8 >         MoveSpec;
-typedef MoveMapT<  u64 >        MoveMap;
+
+template< typename T > struct   MoveMapT;
+typedef MoveMapT< u64 >         MoveMap;
+
+template< typename T > struct   PositionT;
 typedef PositionT< u64 >        Position;
 

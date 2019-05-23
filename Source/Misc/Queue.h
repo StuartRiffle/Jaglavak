@@ -109,21 +109,27 @@ public:
         this->Push( &obj, 1 );
     }
 
-    vector< T > PopMulti( size_t limit = DEFAULT_BATCH_SIZE )
+    bool PopBlocking( T& result )
+    {
+        size_t success = this->PopInternal( &result, 1, 1 );
+        return success && !mShuttingDown;
+    }
+
+    vector< T > PopMulti( size_t limit = DEFAULT_BATCH_SIZE, size_t minimum = 0 )
     {
         vector< T > result;
         result.resize( limit );
 
-        size_t numPopped = this->PopInternal( result.data(), limit, 0 );
+        size_t numPopped = this->PopInternal( result.data(), limit, minimum );
         result.resize( numPopped );
 
         return result;
     }
 
-    bool PopBlocking( T& result )
+    vector< T > PopMultiBlocking( size_t limit = DEFAULT_BATCH_SIZE )
     {
-        size_t success = this->PopInternal( &result, 1, 1 );
-        return success && !mShuttingDown;
+        vector< T > result = this->PopMulti( limit, 1 );
+        return result;
     }
 
     size_t PeekCount()

@@ -81,9 +81,6 @@
     <ClInclude Include="..\Source\Player\AVX512.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Player\CudaSupport.h">
-      <Filter>Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Player\GamePlayer.h">
       <Filter>Player</Filter>
     </ClInclude>
@@ -101,6 +98,15 @@
     <ClInclude Include="..\Source\TreeSearch.h" />
     <ClInclude Include="..\Source\UciEngine.h" />
     <ClInclude Include="..\Source\Version.h" />
+    <ClInclude Include="..\Source\Player\SimdSwitch.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\CudaSupport.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Misc\Allocator.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp">

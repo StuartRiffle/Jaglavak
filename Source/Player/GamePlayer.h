@@ -1,83 +1,14 @@
-
-
-
-
-
-
-
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 #include "Random.h"
 #include "PlayoutParams.h"
 
-#if !ON_CUDA_DEVICE
-#include <stdio.h>
-static void PositionToString2( const Position& p, char* str )
-{
-    Position pos = p;
-    if( pos.mBoardFlipped )
-    {
-        Position flipped;
-        flipped.FlipFrom( pos );
-    }
-
-    char* cur = str;
-
-    for( u64 bit = 1ULL << 63; bit != 0; bit >>= 1 )
-    {
-        if( pos.mWhitePawns   & bit )   *cur++ = 'P'; else
-        if( pos.mWhiteKnights & bit )   *cur++ = 'N'; else
-        if( pos.mWhiteBishops & bit )   *cur++ = 'B'; else
-        if( pos.mWhiteRooks   & bit )   *cur++ = 'R'; else
-        if( pos.mWhiteQueens  & bit )   *cur++ = 'Q'; else
-        if( pos.mWhiteKing    & bit )   *cur++ = 'K'; else
-        if( pos.mBlackPawns   & bit )   *cur++ = 'p'; else
-        if( pos.mBlackKnights & bit )   *cur++ = 'n'; else
-        if( pos.mBlackBishops & bit )   *cur++ = 'b'; else
-        if( pos.mBlackRooks   & bit )   *cur++ = 'r'; else
-        if( pos.mBlackQueens  & bit )   *cur++ = 'q'; else
-        if( pos.mBlackKing    & bit )   *cur++ = 'k'; else
-        {
-            if( (cur > str) && (cur[-1] >= '1') && (cur[-1] < '8') )
-                cur[-1]++;
-            else
-                *cur++ = '1';
-        }
-
-        if( bit & FILE_H )
-            *cur++ = (bit & RANK_1)? ' ' : '/';
-    }
-
-    str = cur;
-
-    *str++ = pos.mWhiteToMove? 'w' : 'b';
-    *str++ = ' ';
-
-    if(   pos.mCastlingAndEP & SQUARE_H1 )     *str++ = 'K';
-    if(   pos.mCastlingAndEP & SQUARE_A1 )     *str++ = 'Q';
-    if(   pos.mCastlingAndEP & SQUARE_H8 )     *str++ = 'k';
-    if(   pos.mCastlingAndEP & SQUARE_A8 )     *str++ = 'q';
-    if( !(pos.mCastlingAndEP & CASTLE_ROOKS) ) *str++ = '-';
-
-    *str++ = ' ';
-
-    if( pos.mCastlingAndEP & EP_SQUARES )
-    {
-        int idx = (int) LowestBitIndex( (u64) (pos.mCastlingAndEP & EP_SQUARES) );
-        *str++ = "hgfedcba"[idx & 7];
-        *str++ = "12345678"[idx / 8]; 
-        *str++ = ' ';
-    }
-    else
-    {
-        *str++ = '-';
-        *str++ = ' ';
-    }
-
-    sprintf( str, "%d %d", (int) pos.mHalfmoveClock, (int) pos.mFullmoveNum );
-}
-#endif
+extern void PlayGamesSimd( const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
+extern void PlayGamesAVX512( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
+extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
+extern void PlayGamesSSE4(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
+extern void PlayGamesX64(    const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
 
 
 template< typename SIMD >
@@ -107,9 +38,10 @@ public:
         {
             PositionT< SIMD > simdPos;
             int idx = i % simdCount;
+            int offset = idx * LANES;
 
-            Swizzle< SIMD >( pos + (idx * LANES), &simdPos );
-            PlayOneGame( simdPos, dest + (idx * LANES) );
+            Swizzle< SIMD >( pos + offset, &simdPos );
+            PlayOneGame( simdPos, dest + offset );
         }
     }
 
@@ -214,12 +146,10 @@ protected:
             buf[word++] = 0;
         }
 
-        // Keep just that bit, and clear the rest
-
-        u64 idx;
+        u64 destIdx;
         u64 wordVal = buf[word];
         while( bitsToSkip-- )
-            idx = ConsumeLowestBitIndex( wordVal );
+            destIdx = ConsumeLowestBitIndex( wordVal );
 
         word++;
         while( word < count )
@@ -228,7 +158,7 @@ protected:
         moveList.UnpackMoveMap( pos, sparseMap );
 
         for( int i = 0; i < moveList.mCount; i++ )
-            if( moveList.mMove[i].mDest == idx )
+            if( moveList.mMove[i].mDest == destIdx )
                 return moveList.mMove[i];
 
         assert( moveList.mCount == 0 );
