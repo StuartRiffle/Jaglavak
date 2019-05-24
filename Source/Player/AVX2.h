@@ -129,20 +129,20 @@ INLINE simd4_avx2 SelectWithMask< simd4_avx2 >( const simd4_avx2& mask, const si
 template<> 
 INLINE void Transpose< simd4_avx2 >( const simd4_avx2* src, int srcStep, simd4_avx2* dest, int destStep )
 {
-    simd4_avx2  abcd = src[srcStep * 0];
-    simd4_avx2  efgh = src[srcStep * 1];
-    simd4_avx2  ijkl = src[srcStep * 2];
-    simd4_avx2  nopq = src[srcStep * 3];
+    simd4_avx2 abcd = src[srcStep * 0];
+    simd4_avx2 efgh = src[srcStep * 1];
+    simd4_avx2 ijkl = src[srcStep * 2];
+    simd4_avx2 nopq = src[srcStep * 3];
 
-    simd4_avx2  aecg = _mm256_unpacklo_epi64( abcd, efgh );
-    simd4_avx2  bfdh = _mm256_unpackhi_epi64( abcd, efgh );
-    simd4_avx2  inkp = _mm256_unpacklo_epi64( ijkl, nopq );
-    simd4_avx2  jolq = _mm256_unpackhi_epi64( ijkl, nopq );
+    simd4_avx2 aecg = _mm256_unpacklo_epi64( abcd, efgh );
+    simd4_avx2 bfdh = _mm256_unpackhi_epi64( abcd, efgh );
+    simd4_avx2 inkp = _mm256_unpacklo_epi64( ijkl, nopq );
+    simd4_avx2 jolq = _mm256_unpackhi_epi64( ijkl, nopq );
 
-    simd4_avx2  aein = _mm256_permute2f128_si256( aecg, inkp, 0x20 );
-    simd4_avx2  bfjo = _mm256_permute2f128_si256( bfdh, jolq, 0x20 );
-    simd4_avx2  cgkp = _mm256_permute2f128_si256( aecg, inkp, 0x31 );
-    simd4_avx2  dhlq = _mm256_permute2f128_si256( bfdh, jolq, 0x31 ); 
+    simd4_avx2 aein = _mm256_permute2f128_si256( aecg, inkp, 0x20 );
+    simd4_avx2 bfjo = _mm256_permute2f128_si256( bfdh, jolq, 0x20 );
+    simd4_avx2 cgkp = _mm256_permute2f128_si256( aecg, inkp, 0x31 );
+    simd4_avx2 dhlq = _mm256_permute2f128_si256( bfdh, jolq, 0x31 ); 
 
     dest[destStep * 0] = aein;
     dest[destStep * 1] = bfjo;

@@ -4,7 +4,7 @@
 #include "Random.h"
 #include "PlayoutParams.h"
 
-extern void PlayGamesSimd( const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
+extern void PlayGamesSimd(   const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
 extern void PlayGamesAVX512( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
 extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
 extern void PlayGamesSSE4(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
@@ -50,7 +50,7 @@ protected:
     PDECL void PlayOneGame( const PositionT< SIMD >& startPos, ScoreCard* outScores )
     {
         PositionT< SIMD > simdPos = startPos;
-        MoveMapT< SIMD > simdMoveMap;
+        MoveMapT< SIMD >  simdMoveMap;
         simdPos.CalcMoveMap( &simdMoveMap );
 
         for( int i = 0; i < mParams->mMaxMovesPerGame; i++ )
@@ -121,7 +121,6 @@ protected:
         // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
 
         const int count = (int) offsetof( MoveMap, mCheckMask ) / sizeof( u64 );
-
         sparseMap = moveMap;
 
         // Choose a lucky random bit (move) to keep
@@ -133,7 +132,7 @@ protected:
         assert( total > 0 );
         u64 bitsToSkip = mRandom.GetRange( total );
 
-        // Find which word it's in
+        // Find out which word it's in
 
         int word = 0;
         while( word < count )
@@ -146,6 +145,8 @@ protected:
             buf[word++] = 0;
         }
 
+        // Identify the bit and clear the rest
+
         u64 destIdx;
         u64 wordVal = buf[word];
         while( bitsToSkip-- )
@@ -156,6 +157,8 @@ protected:
             buf[word++] = 0;
 
         moveList.UnpackMoveMap( pos, sparseMap );
+
+
 
         for( int i = 0; i < moveList.mCount; i++ )
             if( moveList.mMove[i].mDest == destIdx )

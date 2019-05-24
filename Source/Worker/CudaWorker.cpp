@@ -121,15 +121,16 @@ void CudaWorker::LaunchBatch( BatchRef batch )
     mInFlightByStream[streamIndex].push_back( launch );
 }
 
-void CudaWorker::LandBatch()
+void CudaWorker::LandBatch( BatchRef& batch )
 {
-    BatchRef batch = launch->mBatch;
     assert( batch->mResults.size() == 0 );
-
     batch->mResults.reserve( batch->GetCount() );
+
     for( int i = 0; i < batch->GetCount(); i++ )
     {
         const PlayoutResult& result = launch->mOutputs[i];
+        assert( result.mScores.mPlays == 1 );
+
         batch->mResults.push_back( result.mScores );
     }
 
@@ -167,7 +168,7 @@ void CudaWorker::Update()
         auto& running = mInFlightByStream[i];
         while( !running.empty() )
         {
-            LaunchInfoRef launch = running.front();
+            LaunchInfoRef& launch = running.front();
             if( cudaEventQuery( launch->mReadyEvent ) != cudaSuccess )
                 break;
 
