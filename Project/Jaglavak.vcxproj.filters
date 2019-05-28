@@ -107,6 +107,9 @@
     <ClInclude Include="..\Source\Misc\Allocator.h">
       <Filter>Misc</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Worker\OclWorker.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp">
@@ -128,9 +131,15 @@
     <ClCompile Include="..\Source\TreeNode.cpp" />
     <ClCompile Include="..\Source\TreeSearch.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
+    <ClCompile Include="OclWorker.cpp">
+      <Filter>Worker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
+    <None Include="OclKernel.cl">
+      <Filter>Player</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="..\Source\Player\CudaKernel.cu">

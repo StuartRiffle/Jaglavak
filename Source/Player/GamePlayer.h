@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Random.h"
+#include "GlobalOptions.h"
 #include "PlayoutParams.h"
 
 extern void PlayGamesSimd(   const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );

@@ -48,6 +48,7 @@
     <ClInclude Include="..\Source\Worker\CudaWorker.h" />
     <ClInclude Include="..\Source\Worker\Encoding.h" />
     <ClInclude Include="..\Source\Worker\InferenceWorker.h" />
+    <ClInclude Include="..\Source\Worker\OclWorker.h" />
     <ClInclude Include="..\Source\Worker\TensorFlow.h" />
   </ItemGroup>
   <ItemGroup>
@@ -63,12 +64,14 @@
     <ClCompile Include="..\Source\TreeSearch.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp" />
+    <ClCompile Include="OclWorker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
     <CudaCompile Include="..\Source\Player\CudaKernel.cu">
       <FileType>Document</FileType>
     </CudaCompile>
+    <None Include="OclKernel.cl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{911F7612-9014-4AC2-A8A0-5F3700AFC2DA}</ProjectGuid>
