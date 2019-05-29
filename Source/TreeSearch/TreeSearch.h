@@ -76,6 +76,7 @@ struct TreeSearch
 
     BatchQueue              mWorkQueue;
     BatchQueue              mDoneQueue;
+    int                     mNumPending;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > mAsyncWorkers;

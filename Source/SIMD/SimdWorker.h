@@ -15,7 +15,7 @@ class SimdWorker : public AsyncWorker
         for( ;; )
         {
             BatchRef batch;
-            if( !mWorkQueue->PopBlocking( batch ) )
+            if( !mWorkQueue->Pop( batch ) )
                 break;
 
             size_t count = batch->mPosition.size();

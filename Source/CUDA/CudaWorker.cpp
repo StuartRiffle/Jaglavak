@@ -67,7 +67,7 @@ cudaEvent_t CudaWorker::AllocEvent()
     }
     else
     {
-        cudaEvent_t result = mEventCache.back();
+        result = mEventCache.back();
         mEventCache.pop_back();
     }
 
@@ -79,36 +79,38 @@ void CudaWorker::FreeEvent( cudaEvent_t event )
     mEventCache.push_back( event );
 }
 
+extern volatile LaunchInfo* debugLaunch = NULL;
+
 void CudaWorker::LaunchThread()
 {
     CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
 
     for( ;; )
     {
-        vector< BatchRef > batches = mWorkQueue->PopMultiBlocking( mOptions->mCudaBatchesPerLaunch );
-        if( batches.empty() )
-            break;
-
+        vector< BatchRef > newBatches = mWorkQueue->PopMulti( mOptions->mCudaBatchesPerLaunch );
         if( mShuttingDown )
             break;
 
-        unique_lock< mutex > lock( mMutex );
-
         LaunchInfoRef launch( new LaunchInfo() );
-        launch->mBatches = batches;
+        launch->mBatches = newBatches;
+
+        unique_lock< mutex > lock( mMutex );
 
         // Combine the batches into one big buffer
 
         int total = 0;
-        for( auto& batch : batches )
+        for( auto& batch : launch->mBatches )
             total += batch->GetCount();
 
         mHeap.Alloc( total, &launch->mParams );
         mHeap.Alloc( total, &launch->mInputs );
         mHeap.Alloc( total, &launch->mOutputs );
+                                     
+        debugLaunch = (LaunchInfo*) launch.get();
+        static volatile LaunchInfo* really = debugLaunch;
 
         int offset = 0;
-        for( auto& batch : batches )
+        for( auto& batch : launch->mBatches )
         {
             int count = batch->GetCount();
             for( int i = 0; i < count; i++ )
@@ -134,6 +136,7 @@ void CudaWorker::LaunchThread()
         launch->mParams.CopyUpToDeviceAsync( stream );
         launch->mInputs.CopyUpToDeviceAsync( stream );
         launch->mOutputs.ClearOnDeviceAsync( stream );
+
         CUDA_REQUIRE(( cudaEventRecord( launch->mStartTimer, stream ) ));
 
         PlayGamesCudaAsync( 
@@ -163,14 +166,14 @@ void CudaWorker::Update()
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
     {
-        auto& running = mInFlightByStream[i];
-        while( !running.empty() )
+        auto& inFlight = mInFlightByStream[i];
+        while( !inFlight.empty() )
         {
-            LaunchInfoRef& launch = running.front();
+            LaunchInfoRef launch = inFlight.front();
             if( cudaEventQuery( launch->mReadyEvent ) != cudaSuccess )
                 break;
 
-            running.pop_front();
+            inFlight.pop_front();
 
             int offset = 0;
             for( auto& batch : launch->mBatches )
