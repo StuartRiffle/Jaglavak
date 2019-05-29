@@ -90,7 +90,6 @@ struct TreeSearch
     void DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& score, int depth = 0 );
     void ProcessScoreBatch( BatchRef& batch )    ;
 
-    PlayoutParams GetPlayoutParams();
     BatchRef CreateNewBatch();
     void DumpStats( TreeNode* node );
 

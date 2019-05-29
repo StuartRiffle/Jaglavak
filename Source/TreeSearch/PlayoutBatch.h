@@ -4,7 +4,8 @@
 struct PlayoutBatch
 {
     // Inputs
-    vector< Position > mRequests;
+    vector< Position > mPosition;
+    PlayoutParams mParams;
 
     // Outputs
     vector< ScoreCard > mResults;
@@ -14,15 +15,15 @@ struct PlayoutBatch
 
     int GetCount() const
     {
-        return (int) mRequests.size();
+        return (int) mPosition.size();
     }
 
     void Append( const PlayoutParams& params, const Position& pos, const MoveList& pathFromRoot )
     {
-        mRequests.push_back( pos );
+        mPosition.push_back( pos );
         mPathFromRoot.push_back( pathFromRoot );
 
-        assert( mRequests.size() == mPathFromRoot.size() );
+        assert( mPosition.size() == mPathFromRoot.size() );
     }
 };
 

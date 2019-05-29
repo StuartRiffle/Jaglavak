@@ -12,7 +12,6 @@ class CpuWorker : public AsyncWorker
 
     void WorkThread()
     {
-
         for( ;; )
         {
             BatchRef batch;

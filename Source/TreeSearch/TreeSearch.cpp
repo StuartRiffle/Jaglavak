@@ -422,22 +422,14 @@ void TreeSearch::ProcessScoreBatch( BatchRef& batch )
     mMetrics.mNumBatchesDone++;
 }
 
-PlayoutParams TreeSearch::GetPlayoutParams()
-{
-    PlayoutParams params = { 0 };
-
-    params.mRandomSeed      = mRandom.GetNext();
-    params.mNumGamesEach    = mOptions->mMaxAsyncPlayouts;
-    params.mMaxMovesPerGame = mOptions->mMaxPlayoutMoves;
-    params.mEnableMulticore = mOptions->mEnableMulticore;
-
-    return params;
-}
-
 BatchRef TreeSearch::CreateNewBatch()
 {
     BatchRef batch( new PlayoutBatch );
-    batch->mParams = this->GetPlayoutParams();
+
+    batch->mParams.mRandomSeed      = mRandom.GetNext();
+    batch->mParams.mNumGamesEach    = mOptions->mMaxAsyncPlayouts;
+    batch->mParams.mMaxMovesPerGame = mOptions->mMaxPlayoutMoves;
+    batch->mParams.mEnableMulticore = mOptions->mEnableMulticore;
 
     for( ;; )
     {
@@ -446,10 +438,7 @@ BatchRef TreeSearch::CreateNewBatch()
         mSearchRoot->mInfo->mScores += rootScores;
 
         if( mSearchParams.mAsyncPlayouts == 0 )
-        {
-            assert( batch->GetCount() == 0 );
             break;
-        }
 
         int batchLimit = Min( mSearchParams.mBatchSize, PLAYOUT_BATCH_MAX );
         if( batch->GetCount() >= batchLimit )

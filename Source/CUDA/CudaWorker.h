@@ -39,6 +39,7 @@ class CudaWorker : public AsyncWorker
     int                     mStreamIndex;
     cudaStream_t            mStreamId[CUDA_NUM_STREAMS];
     list< LaunchInfoRef >   mInFlightByStream[CUDA_NUM_STREAMS];
+    vector< cudaEvent_t >   mEventCache;
 
 public:    
     CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue );
@@ -48,6 +49,9 @@ public:
     const cudaDeviceProp& GetDeviceProperties() { return mProp; }
     void Initialize( int deviceIndex, int jobSlots );
     void Shutdown();
+
+    cudaEvent_t AllocEvent();
+    void FreeEvent( cudaEvent_t event );
 
 private:
     void LaunchThread();

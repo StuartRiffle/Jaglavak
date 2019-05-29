@@ -138,6 +138,15 @@ INLINE PDECL void PlatSleep( int ms )
 #endif
 }
 
+INLINE PDECL void PlatStoreAtomic( atomic64_t* dest, u64 val )
+{
+#if ON_CUDA_DEVICE
+    atomicExch( (unsigned long long*) dest, val );
+#else
+    dest->store( val );
+#endif
+}
+
 INLINE PDECL u64 PlatAddAtomic( atomic64_t* dest, u64 val )
 {
 #if ON_CUDA_DEVICE

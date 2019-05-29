@@ -50,7 +50,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( MaxTreeNodes ),           0,          1000000,    
         OPTION_INDEX( NumWarmupBatches ),       0,          100,       
 
-        OPTION_INDEX( CudaQueueDepth ),         0,          128,        
+        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          16,        
         OPTION_INDEX( NumCpuWorkers ),          0,          1,          
 
         OPTION_INDEX( TimeSafetyBuffer ),       0,          100,          
