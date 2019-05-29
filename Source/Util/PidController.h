@@ -12,7 +12,7 @@ class PidController
 
     float  mVariable;
     float  mTarget;
-    float  mAccumError;
+    float  mAddError;
     float  mPrevError;
     Config  mPidConfig;
 
@@ -26,12 +26,12 @@ class PidController
         float error = mTarget - value + mConfig.mBias;
         float slope = (mPrevError - error) / dt;
 
-        mAccumError += error * dt;
+        mAddError += error * dt;
         mPrevError = error;
 
         mVariable =
             mConfig.mProportionalGain * error +
-            mConfig.mIntegralGain     * mAccumError +
+            mConfig.mIntegralGain     * mAddError +
             mConfig.mDerivativeGain   * slope +
             mConfig.mBias;
 

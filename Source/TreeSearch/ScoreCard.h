@@ -22,12 +22,18 @@ struct ScoreCard
         mPlays = 0;
     }
 
-    PDECL ScoreCard& operator+=( const ScoreCard& sc )
+    PDECL ScoreCard& operator=(const ScoreCard& sc)
+    {
+        PlatStoreAtomic( &mWins[BLACK], sc.mWins[BLACK] );
+        PlatStoreAtomic( &mWins[WHITE], sc.mWins[WHITE] );
+        PlatStoreAtomic( &mPlays, sc.mPlays );
+        return *this;
+    }
+
+    PDECL void Add( const ScoreCard& sc )
     {
         PlatAddAtomic( &mWins[BLACK], sc.mWins[BLACK] );
         PlatAddAtomic( &mWins[WHITE], sc.mWins[WHITE] );
         PlatAddAtomic( &mPlays, sc.mPlays );
-
-        return *this;
     }
 };

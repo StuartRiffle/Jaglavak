@@ -46,12 +46,15 @@ struct CudaBuffer
     }   
 };
 
+#include "Allocator.h"
+
 class CudaAllocator
 {
-    void*           mHostBuffer;
-    void*           mDeviceBuffer;
-    size_t          mHeapSize;
-    HeapAllocator   mHeap;
+    void*   mHostBuffer;
+    void*   mDeviceBuffer;
+    size_t  mHeapSize;
+
+    HeapAllocator< uintptr_t > mHeap;
 
 public:
 
@@ -67,7 +70,7 @@ public:
         this->Shutdown();
     }
 
-    Init( size_t heapSize )
+    void Init( size_t heapSize )
     {
         mHostBuffer = NULL;
         mDeviceBuffer = NULL;
@@ -90,14 +93,15 @@ public:
     }
 
     template< typename T >
-    void Alloc( size_t size, CudaBuffer< T >* dest )
+    void Alloc( size_t count, CudaBuffer< T >* dest )
     {
+        size_t size = count * sizeof( T );
         size_t offset = mHeap.Alloc( size );
 
-        dest->mHost   = (void*) ((uintptr_t) mHostBuffer   + offset);
-        dest->mDevice = (void*) ((uintptr_t) mDeviceBuffer + offset);
+        dest->mHost   = (T*) ((uintptr_t) mHostBuffer   + offset);
+        dest->mDevice = (T*) ((uintptr_t) mDeviceBuffer + offset);
         dest->mOffset = offset;
-        dest->mSize   = size;                                 `
+        dest->mBufferSize = size;                                 
     }
 
     template< typename T >

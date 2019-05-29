@@ -3,11 +3,11 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "Common.h"
-#include "CpuWorker.h"
-#include "CudaSupport.h"
-#include "CudaWorker.h"
 #include "FEN.h"
 #include "GamePlayer.h"
+
+#include "SIMD/SimdWorker.h"
+#include "CUDA/CudaWorker.h"
 
 TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
     mOptions( options )
@@ -19,7 +19,8 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     mRandom.SetSeed( randomSeed );
 
     mNodePoolEntries = mOptions->mMaxTreeNodes;
-    mNodePool = new TreeNode[mNodePoolEntries];
+    mNodePoolBuf.resize( mNodePoolEntries * sizeof( TreeNode ) + SIMD_ALIGNMENT );
+    mNodePool = (TreeNode*) (((uintptr_t) mNodePoolBuf.data() + SIMD_ALIGNMENT - 1) & ~(SIMD_ALIGNMENT - 1));
 
     for( int i = 0; i < mNodePoolEntries; i++ )
     {
@@ -47,15 +48,13 @@ TreeSearch::~TreeSearch()
 
     mSearchThreadGo.Post();
     mSearchThread->join();
-
-    delete[] mNodePool;
 }
 
 void TreeSearch::Init()
 {
-    for( int i = 0; i < mOptions->mNumCpuWorkers; i++ )
+    for( int i = 0; i < mOptions->mNumSimdWorkers; i++ )
     {
-        auto worker = new CpuWorker( mOptions, &mWorkQueue, &mDoneQueue );
+        auto worker = new SimdWorker( mOptions, &mWorkQueue, &mDoneQueue );
         mAsyncWorkers.push_back( shared_ptr< AsyncWorker >( worker ) );
     }
 
@@ -63,16 +62,12 @@ void TreeSearch::Init()
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            // FIXME make a mask parameter
-            if( i == 1 )
-                continue;
+            if( mOptions->mGpuAffinityMask )
+                if( ((1 << i) & mOptions->mGpuAffinityMask) == 0 )
+                    continue;
 
             shared_ptr< CudaWorker > worker( new CudaWorker( mOptions, &mWorkQueue, &mDoneQueue ) );
-            worker->Initialize( i, mOptions->mCudaQueueDepth );
-
-            int warpSize = worker->GetDeviceProperties().warpSize;
-            if( mOptions->mMinBatchSize < warpSize )
-                mOptions->mMinBatchSize = warpSize;
+            worker->Initialize( i );
 
             mAsyncWorkers.push_back( worker );
         }
@@ -203,10 +198,8 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
 
     double uct = 
         childWinRatio + 
-        sqrt( log( nodePlays ) * 2 * invChildPlays ) * mOptions->mExplorationFactor +
+        sqrt( log( (double) nodePlays ) * 2 * invChildPlays ) * mOptions->mExplorationFactor +
         childInfo.mPrior;
-
-    assert( childInfo.mPrior == 0 );
 
     return uct;
 }
@@ -293,7 +286,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 
         if( newNode->mGameOver )
         {
-            newNode->mInfo->mScores += newNode->mGameResult;
+            newNode->mInfo->mScores.Add( newNode->mGameResult );
             return( newNode->mGameResult );
         }
 
@@ -304,7 +297,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
             PlayoutParams playoutParams = batch->mParams;
             playoutParams.mNumGamesEach = mSearchParams.mInitialPlayouts;
 
-            GamePlayer< u64 > player( &playoutParams, mRandom.GetNext() );
+            GamePlayer< u64 > player( &playoutParams, (int) mRandom.GetNext() );
             player.PlayGames( &newPos, &scores, 1 );            
         }
 
@@ -314,15 +307,15 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
             scores.mPlays += batch->mParams.mNumGamesEach;
         }
 
-        newNode->mInfo->mScores += scores;
+        newNode->mInfo->mScores.Add( scores );
         return scores;
     }
 
     ScoreCard branchScores = ExpandAtLeaf( pathFromRoot, chosenBranch->mNode, batch );
 
-    // Accumulate the scores on our way back down the tree
+    // Addulate the scores on our way back down the tree
 
-    chosenBranch->mScores += branchScores;
+    chosenBranch->mScores.Add( branchScores );
 
     // Mark each node MRU on the way
 
@@ -422,34 +415,28 @@ void TreeSearch::ProcessScoreBatch( BatchRef& batch )
     mMetrics.mNumBatchesDone++;
 }
 
-PlayoutParams TreeSearch::GetPlayoutParams()
-{
-    PlayoutParams params = { 0 };
-
-    params.mRandomSeed      = mRandom.GetNext();
-    params.mNumGamesEach    = mOptions->mMaxAsyncPlayouts;
-    params.mMaxMovesPerGame = mOptions->mMaxPlayoutMoves;
-    params.mEnableMulticore = mOptions->mEnableMulticore;
-
-    return params;
-}
-
 BatchRef TreeSearch::CreateNewBatch()
 {
     BatchRef batch( new PlayoutBatch );
-    batch->mParams = this->GetPlayoutParams();
+
+    batch->mParams.mRandomSeed      = mRandom.GetNext();
+    batch->mParams.mNumGamesEach    = mOptions->mNumAsyncPlayouts;
+    batch->mParams.mMaxMovesPerGame = mOptions->mMaxPlayoutMoves;
+    batch->mParams.mEnableMulticore = mOptions->mEnableMulticore;
+
+    mSearchParams.mBatchSize       = mOptions->mBatchSize;
+    mSearchParams.mMaxPending      = mOptions->mMaxPendingBatches;
+    mSearchParams.mAsyncPlayouts   = mOptions->mNumAsyncPlayouts;
+    mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
 
     for( ;; )
     {
         MoveList pathFromRoot;
         ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, mSearchRoot, batch );
-        mSearchRoot->mInfo->mScores += rootScores;
+        mSearchRoot->mInfo->mScores.Add( rootScores );
 
         if( mSearchParams.mAsyncPlayouts == 0 )
-        {
-            assert( batch->GetCount() == 0 );
             break;
-        }
 
         int batchLimit = Min( mSearchParams.mBatchSize, PLAYOUT_BATCH_MAX );
         if( batch->GetCount() >= batchLimit )
@@ -462,15 +449,8 @@ BatchRef TreeSearch::CreateNewBatch()
 
 void TreeSearch::AdjustForWarmup()
 {
-	bool warmingUp = (mMetrics.mNumBatchesDone < mOptions->mNumWarmupBatches);
+    // FIXME: remove this
 
-    mSearchParams.mBatchSize       = warmingUp? mOptions->mMinBatchSize      : mOptions->mMaxBatchSize;
-    mSearchParams.mMaxPending      = warmingUp? mOptions->mMinPendingBatches : mOptions->mMaxPendingBatches;
-    mSearchParams.mAsyncPlayouts   = warmingUp? mOptions->mMinAsyncPlayouts  : mOptions->mMaxAsyncPlayouts;
-	mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
-
-    if( mSearchParams.mInitialPlayouts + mSearchParams.mAsyncPlayouts == 0 )
-        mSearchParams.mAsyncPlayouts = 1;
 }
 
 void TreeSearch::SearchThread()
@@ -486,8 +466,6 @@ void TreeSearch::SearchThread()
         mSearchTimer.Reset();
         while( mSearchingNow )
         {
-            AdjustForWarmup();
-
             if( IsTimeToMove() )
                 break;
 

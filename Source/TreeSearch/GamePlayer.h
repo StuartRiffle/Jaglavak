@@ -4,13 +4,6 @@
 #include "Random.h"
 #include "PlayoutParams.h"
 
-extern void PlayGamesSimd(   const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
-extern void PlayGamesAVX512( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
-extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
-extern void PlayGamesSSE4(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
-extern void PlayGamesX64(    const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count );
-
-
 template< typename SIMD >
 class GamePlayer
 {
@@ -21,7 +14,7 @@ class GamePlayer
 
 public:
 
-    PDECL GamePlayer( const PlayoutParams* params, int salt = 0 )
+    PDECL GamePlayer( const PlayoutParams* params, u64 salt = 0 )
     {
         mParams = params;
         mRandom.SetSeed( params->mRandomSeed + salt );

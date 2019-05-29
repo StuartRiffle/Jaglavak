@@ -1,12 +1,14 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#include "CudaSupport.h"
+
 struct LaunchInfo
 {
-    BatchRef mBatch;
-
-    CudaBuffer< PlayoutRequest > mInputs;
-    CudaBuffer< PlayoutResult >  mOutputs;
+    vector< BatchRef >          mBatches;
+    CudaBuffer< PlayoutParams > mParams;
+    CudaBuffer< Position >      mInputs;
+    CudaBuffer< ScoreCard >     mOutputs;
 
     cudaEvent_t mStartTimer;
     cudaEvent_t mStopTimer; 
@@ -19,7 +21,7 @@ class CudaWorker : public AsyncWorker
 {
     enum
     {
-        CUDA_MAX_STREAMS = 16
+        CUDA_NUM_STREAMS = 16
     };
 
     const GlobalOptions*    mOptions;
@@ -37,8 +39,9 @@ class CudaWorker : public AsyncWorker
     condition_variable      mVar;
 
     int                     mStreamIndex;
-    cudaStream_t            mStreamId[CUDA_MAX_STREAMS];
-    list< LaunchInfoRef >   mInFlightByStream[CUDA_MAX_STREAMS];
+    cudaStream_t            mStreamId[CUDA_NUM_STREAMS];
+    list< LaunchInfoRef >   mInFlightByStream[CUDA_NUM_STREAMS];
+    vector< cudaEvent_t >   mEventCache;
 
 public:    
     CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue );
@@ -46,8 +49,11 @@ public:
 
     static int GetDeviceCount();
     const cudaDeviceProp& GetDeviceProperties() { return mProp; }
-    void Initialize( int deviceIndex, int jobSlots );
+    void Initialize( int deviceIndex );
     void Shutdown();
+
+    cudaEvent_t AllocEvent();
+    void FreeEvent( cudaEvent_t event );
 
 private:
     void LaunchThread();

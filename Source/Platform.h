@@ -12,6 +12,10 @@
 #define DEBUG (1)
 #endif
 
+#ifndef ENABLE_POPCNT
+#define ENABLE_POPCNT (0)
+#endif
+
 #define SIMD_ALIGNMENT (64)
 
 #if defined( __CUDA_ARCH__ )
@@ -131,6 +135,15 @@ INLINE PDECL void PlatSleep( int ms )
     nanosleep( &request, &remaining );
 #elif TOOLCHAIN_MSVC
     Sleep( ms );
+#endif
+}
+
+INLINE PDECL void PlatStoreAtomic( atomic64_t* dest, u64 val )
+{
+#if ON_CUDA_DEVICE
+    atomicExch( (unsigned long long*) dest, val );
+#else
+    dest->store( val );
 #endif
 }
 

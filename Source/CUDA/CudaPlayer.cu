@@ -11,7 +11,7 @@ __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos,
     int idx = x % count;
     
     int salt = x;
-    GamePlayer< u64 > player( params, salt );
+    GamePlayer< u64 > player( params + idx, salt );
 
     player.PlayGames( pos + idx, dest + idx, 1 );
 }

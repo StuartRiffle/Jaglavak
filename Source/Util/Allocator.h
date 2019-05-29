@@ -14,13 +14,13 @@ class HeapAllocator
 public:
     const T INVALID = T( ~0 );
 
-    void Init( T range, T base = 0, T align = 64 )
+    void Init( T range, T base = 0, T alignment = 128 )
     {
-        assert( align & (align - 1) == 0 );
-        assert( base  & (align - 1) == 0 );
-        assert( range & (align - 1) == 0 );
+        assert( (alignment & (alignment - 1)) == 0 );
+        assert( (base      & (alignment - 1)) == 0 );
+        assert( (range     & (alignment - 1)) == 0 );
 
-        mAlign = align;
+        mAlign = alignment;
         mUsed.clear();
         mFree.clear();
         mFree[base] = range;
@@ -30,7 +30,7 @@ public:
     {
         unique_lock< mutex > lock( mMutex );
 
-        size = (size + align - 1) & (align - 1);
+        size = (size + mAlign - 1) & ~(mAlign - 1);
 
         auto iter = mFree.begin();
         while( iter != mFree.end() )
@@ -46,6 +46,8 @@ public:
                 T nextAddr = next->first;
                 T nextSize = next->second;
 
+                // Combine adjacent free blocks
+
                 if( nextAddr == (freeAddr + freeSize) )
                 {
                     iter->second += nextSize;
@@ -56,6 +58,7 @@ public:
 
             if( size <= freeSize )
             {
+                T addr = freeAddr;
                 assert( mUsed.find( addr ) == mUsed.end() );
                 mUsed[addr] = size;
 
@@ -78,7 +81,7 @@ public:
         unique_lock< mutex > lock( mMutex );
 
         auto iter = mUsed.find( addr );
-        assert( iter != mUsedBlocks.end() );
+        assert( iter != mUsed.end() );
         assert( mFree.find( addr ) == mFree.end() );
 
         T size = iter->second;

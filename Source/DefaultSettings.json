@@ -5,7 +5,7 @@
     "MaxTreeNodes":         10000000,
     "MaxPendingBatches":    100,
     "CudaQueueDepth":       100,
-    "NumCpuWorkers":        0,
+    "NumSimdWorkers":        0,
     "NumInitialPlayouts":   0,
     "NumAsyncPlayouts":     10,
     "MaxPlayoutMoves":      200,

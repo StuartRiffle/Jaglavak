@@ -4,14 +4,17 @@
     <Filter Include="Chess">
       <UniqueIdentifier>{7a0668f8-ee1e-4359-9a56-6bed5451038d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{a9210191-64e1-4688-9e36-5552a315e3da}</UniqueIdentifier>
+    <Filter Include="CUDA">
+      <UniqueIdentifier>{0ec58702-a008-4e18-adad-835b0576a7e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Worker">
-      <UniqueIdentifier>{a648d9ec-a868-4401-8fc0-0ca6a062a413}</UniqueIdentifier>
+    <Filter Include="SIMD">
+      <UniqueIdentifier>{99c19bad-987c-4fcc-bfff-87b193118208}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Misc">
-      <UniqueIdentifier>{2e07fe75-4f28-46a8-b232-9d6f75cb29f8}</UniqueIdentifier>
+    <Filter Include="TreeSearch">
+      <UniqueIdentifier>{786503bf-7523-4803-85d3-da80227a7673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{adbe6f83-e3b1-4ca7-a0e9-78375f38ed31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,108 +36,119 @@
     <ClInclude Include="..\Source\Chess\Position.h">
       <Filter>Chess</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Misc\CpuInfo.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\FEN.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\Perft.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\Queue.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\Random.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\ThreadSync.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\Timer.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Misc\Tokenizer.h">
-      <Filter>Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Worker\AsyncWorker.h">
-      <Filter>Worker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Worker\CpuWorker.h">
-      <Filter>Worker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Worker\CudaWorker.h">
-      <Filter>Worker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Worker\Encoding.h">
-      <Filter>Worker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Worker\InferenceWorker.h">
-      <Filter>Worker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Worker\TensorFlow.h">
-      <Filter>Worker</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Player\AVX2.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Player\AVX512.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Player\GamePlayer.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Player\SSE4.h">
-      <Filter>Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Chess.h" />
     <ClInclude Include="..\Source\Common.h" />
     <ClInclude Include="..\Source\GlobalOptions.h" />
     <ClInclude Include="..\Source\Platform.h" />
-    <ClInclude Include="..\Source\PlayoutBatch.h" />
-    <ClInclude Include="..\Source\PlayoutParams.h" />
-    <ClInclude Include="..\Source\ScoreCard.h" />
-    <ClInclude Include="..\Source\TreeNode.h" />
-    <ClInclude Include="..\Source\TreeSearch.h" />
     <ClInclude Include="..\Source\UciEngine.h" />
     <ClInclude Include="..\Source\Version.h" />
-    <ClInclude Include="..\Source\Player\SimdSwitch.h">
-      <Filter>Player</Filter>
+    <ClInclude Include="..\Source\CUDA\CudaSupport.h">
+      <Filter>CUDA</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Player\CudaSupport.h">
-      <Filter>Worker</Filter>
+    <ClInclude Include="..\Source\CUDA\CudaWorker.h">
+      <Filter>CUDA</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Misc\Allocator.h">
-      <Filter>Misc</Filter>
+    <ClInclude Include="..\Source\Util\Allocator.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\CpuInfo.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\FEN.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\Perft.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\PidController.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\Queue.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\Random.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\ThreadSync.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\Timer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\Tokenizer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\AsyncWorker.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\GamePlayer.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\PlayoutBatch.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\PlayoutParams.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\ScoreCard.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\TreeNode.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\TreeSearch.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\SIMD\AVX2.h">
+      <Filter>SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\SIMD\AVX512.h">
+      <Filter>SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\SIMD\SimdPlayer.h">
+      <Filter>SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\SIMD\SimdWorker.h">
+      <Filter>SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\SIMD\SSE4.h">
+      <Filter>SIMD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Worker\CudaWorker.cpp">
-      <Filter>Worker</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player\AVX2.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player\AVX512.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player\SSE4.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player\X64.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
-    <ClCompile Include="..\Source\TreeNode.cpp" />
-    <ClCompile Include="..\Source\TreeSearch.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
+    <ClCompile Include="..\Source\CUDA\CudaWorker.cpp">
+      <Filter>CUDA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\TreeNode.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\SIMD\AVX2.cpp">
+      <Filter>SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\SIMD\AVX512.cpp">
+      <Filter>SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\SIMD\SSE4.cpp">
+      <Filter>SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\SIMD\X64.cpp">
+      <Filter>SIMD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="..\Source\Player\CudaKernel.cu">
-      <Filter>Player</Filter>
+    <CudaCompile Include="..\Source\CUDA\CudaPlayer.cu">
+      <Filter>CUDA</Filter>
     </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\CMakeLists.txt" />
   </ItemGroup>
 </Project>

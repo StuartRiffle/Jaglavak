@@ -6,16 +6,7 @@ struct PlayoutParams
     u64     mRandomSeed;
     int     mMaxMovesPerGame;
     int     mEnableMulticore;
+    int     mNumGamesEach;
 };
 
-struct PlayoutRequest
-{
-    Position        mPosition;
-    PlayoutParams   mParams;
-};
-
-struct PlayoutResult
-{
-    ScoreCard       mScores;
-};
 
