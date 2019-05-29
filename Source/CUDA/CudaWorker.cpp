@@ -42,6 +42,7 @@ void CudaWorker::Initialize( int deviceIndex  )
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
         CUDA_REQUIRE(( cudaStreamCreateWithFlags( mStreamId + i, cudaStreamNonBlocking ) ));
 
+    mHeap.Init( mOptions->mCudaHeapMegs * 1024 * 1024 );
     mLaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 }
 

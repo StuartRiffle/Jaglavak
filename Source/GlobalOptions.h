@@ -21,6 +21,7 @@ union GlobalOptions
         int     mMaxPendingBatches;
         int     mMaxTreeNodes;
 
+        int     mCudaHeapMegs;
         int     mCudaBatchesPerLaunch;
         int     mNumSimdWorkers;
         int     mTimeSafetyBuffer;

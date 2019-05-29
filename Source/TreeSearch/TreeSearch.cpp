@@ -19,9 +19,8 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     mRandom.SetSeed( randomSeed );
 
     mNodePoolEntries = mOptions->mMaxTreeNodes;
-
-    mNodePoolBuf = new uint8_t[mNodePoolEntries * sizeof( TreeNode ) + SIMD_ALIGNMENT];
-    mNodePool = (TreeNode*) (((uintptr_t) mNodePoolBuf + SIMD_ALIGNMENT - 1) & (SIMD_ALIGNMENT - 1));
+    mNodePoolBuf.resize( mNodePoolEntries * sizeof( TreeNode ) + SIMD_ALIGNMENT );
+    mNodePool = (TreeNode*) (((uintptr_t) mNodePoolBuf.data() + SIMD_ALIGNMENT - 1) & ~(SIMD_ALIGNMENT - 1));
 
     for( int i = 0; i < mNodePoolEntries; i++ )
     {
@@ -49,8 +48,6 @@ TreeSearch::~TreeSearch()
 
     mSearchThreadGo.Post();
     mSearchThread->join();
-
-    delete[] mNodePoolBuf;
 }
 
 void TreeSearch::Init()
@@ -427,6 +424,11 @@ BatchRef TreeSearch::CreateNewBatch()
     batch->mParams.mMaxMovesPerGame = mOptions->mMaxPlayoutMoves;
     batch->mParams.mEnableMulticore = mOptions->mEnableMulticore;
 
+    mSearchParams.mBatchSize       = mOptions->mBatchSize;
+    mSearchParams.mMaxPending      = mOptions->mMaxPendingBatches;
+    mSearchParams.mAsyncPlayouts   = mOptions->mNumAsyncPlayouts;
+    mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
+
     for( ;; )
     {
         MoveList pathFromRoot;
@@ -449,10 +451,6 @@ void TreeSearch::AdjustForWarmup()
 {
     // FIXME: remove this
 
-    mSearchParams.mBatchSize       = mOptions->mBatchSize;
-    mSearchParams.mMaxPending      = mOptions->mMaxPendingBatches;
-    mSearchParams.mAsyncPlayouts   = mOptions->mNumAsyncPlayouts;
-	mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
 }
 
 void TreeSearch::SearchThread()

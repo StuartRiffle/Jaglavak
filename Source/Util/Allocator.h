@@ -14,13 +14,13 @@ class HeapAllocator
 public:
     const T INVALID = T( ~0 );
 
-    void Init( T range, T base = 0, T align = 128 )
+    void Init( T range, T base = 0, T alignment = 128 )
     {
-        assert( align & (align - 1) == 0 );
-        assert( base  & (align - 1) == 0 );
-        assert( range & (align - 1) == 0 );
+        assert( (alignment & (alignment - 1)) == 0 );
+        assert( (base      & (alignment - 1)) == 0 );
+        assert( (range     & (alignment - 1)) == 0 );
 
-        mAlign = align;
+        mAlign = alignment;
         mUsed.clear();
         mFree.clear();
         mFree[base] = range;
@@ -30,7 +30,7 @@ public:
     {
         unique_lock< mutex > lock( mMutex );
 
-        size = (size + mAlign - 1) & (mAlign - 1);
+        size = (size + mAlign - 1) & ~(mAlign - 1);
 
         auto iter = mFree.begin();
         while( iter != mFree.end() )

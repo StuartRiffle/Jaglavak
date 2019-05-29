@@ -93,8 +93,9 @@ public:
     }
 
     template< typename T >
-    void Alloc( size_t size, CudaBuffer< T >* dest )
+    void Alloc( size_t count, CudaBuffer< T >* dest )
     {
+        size_t size = count * sizeof( T );
         size_t offset = mHeap.Alloc( size );
 
         dest->mHost   = (T*) ((uintptr_t) mHostBuffer   + offset);
