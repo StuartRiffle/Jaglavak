@@ -19,56 +19,54 @@
     <ClInclude Include="..\Source\Chess\Operations.h" />
     <ClInclude Include="..\Source\Chess\Position.h" />
     <ClInclude Include="..\Source\Common.h" />
+    <ClInclude Include="..\Source\CUDA\CudaSupport.h" />
+    <ClInclude Include="..\Source\CUDA\CudaWorker.h" />
     <ClInclude Include="..\Source\GlobalOptions.h" />
-    <ClInclude Include="..\Source\Misc\Allocator.h" />
-    <ClInclude Include="..\Source\Misc\CpuInfo.h" />
-    <ClInclude Include="..\Source\Misc\FEN.h" />
-    <ClInclude Include="..\Source\Misc\Perft.h" />
-    <ClInclude Include="..\Source\Misc\Queue.h" />
-    <ClInclude Include="..\Source\Misc\Random.h" />
-    <ClInclude Include="..\Source\Misc\ThreadSync.h" />
-    <ClInclude Include="..\Source\Misc\Timer.h" />
-    <ClInclude Include="..\Source\Misc\Tokenizer.h" />
     <ClInclude Include="..\Source\Platform.h" />
-    <ClInclude Include="..\Source\Player\AVX2.h" />
-    <ClInclude Include="..\Source\Player\AVX512.h" />
-    <ClInclude Include="..\Source\Player\CudaSupport.h" />
-    <ClInclude Include="..\Source\Player\GamePlayer.h" />
-    <ClInclude Include="..\Source\Player\SimdSwitch.h" />
-    <ClInclude Include="..\Source\Player\SSE4.h" />
-    <ClInclude Include="..\Source\PlayoutBatch.h" />
-    <ClInclude Include="..\Source\PlayoutParams.h" />
-    <ClInclude Include="..\Source\ScoreCard.h" />
-    <ClInclude Include="..\Source\TreeNode.h" />
-    <ClInclude Include="..\Source\TreeSearch.h" />
+    <ClInclude Include="..\Source\SIMD\AVX2.h" />
+    <ClInclude Include="..\Source\SIMD\AVX512.h" />
+    <ClInclude Include="..\Source\SIMD\SimdPlayer.h" />
+    <ClInclude Include="..\Source\SIMD\SimdWorker.h" />
+    <ClInclude Include="..\Source\SIMD\SSE4.h" />
+    <ClInclude Include="..\Source\TreeSearch\AsyncWorker.h" />
+    <ClInclude Include="..\Source\TreeSearch\GamePlayer.h" />
+    <ClInclude Include="..\Source\TreeSearch\PlayoutBatch.h" />
+    <ClInclude Include="..\Source\TreeSearch\PlayoutParams.h" />
+    <ClInclude Include="..\Source\TreeSearch\ScoreCard.h" />
+    <ClInclude Include="..\Source\TreeSearch\TreeNode.h" />
+    <ClInclude Include="..\Source\TreeSearch\TreeSearch.h" />
     <ClInclude Include="..\Source\UciEngine.h" />
+    <ClInclude Include="..\Source\Util\Allocator.h" />
+    <ClInclude Include="..\Source\Util\CpuInfo.h" />
+    <ClInclude Include="..\Source\Util\FEN.h" />
+    <ClInclude Include="..\Source\Util\Perft.h" />
+    <ClInclude Include="..\Source\Util\PidController.h" />
+    <ClInclude Include="..\Source\Util\Queue.h" />
+    <ClInclude Include="..\Source\Util\Random.h" />
+    <ClInclude Include="..\Source\Util\ThreadSync.h" />
+    <ClInclude Include="..\Source\Util\Timer.h" />
+    <ClInclude Include="..\Source\Util\Tokenizer.h" />
     <ClInclude Include="..\Source\Version.h" />
-    <ClInclude Include="..\Source\Worker\AsyncWorker.h" />
-    <ClInclude Include="..\Source\Worker\CpuWorker.h" />
-    <ClInclude Include="..\Source\Worker\CudaWorker.h" />
-    <ClInclude Include="..\Source\Worker\Encoding.h" />
-    <ClInclude Include="..\Source\Worker\InferenceWorker.h" />
-    <ClInclude Include="..\Source\Worker\TensorFlow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\CUDA\CudaWorker.cpp" />
     <ClCompile Include="..\Source\Jaglavak.cpp" />
-    <ClCompile Include="..\Source\Player\AVX2.cpp" />
-    <ClCompile Include="..\Source\Player\AVX512.cpp">
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotSet</EnableEnhancedInstructionSet>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player\SSE4.cpp" />
-    <ClCompile Include="..\Source\Player\X64.cpp" />
-    <ClCompile Include="..\Source\TreeNode.cpp" />
-    <ClCompile Include="..\Source\TreeSearch.cpp" />
+    <ClCompile Include="..\Source\SIMD\AVX2.cpp" />
+    <ClCompile Include="..\Source\SIMD\AVX512.cpp" />
+    <ClCompile Include="..\Source\SIMD\SSE4.cpp" />
+    <ClCompile Include="..\Source\SIMD\X64.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\TreeNode.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
-    <ClCompile Include="..\Source\Worker\CudaWorker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
-    <CudaCompile Include="..\Source\Player\CudaKernel.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="..\Source\CUDA\CudaPlayer.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\CMakeLists.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{911F7612-9014-4AC2-A8A0-5F3700AFC2DA}</ProjectGuid>

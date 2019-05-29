@@ -12,6 +12,10 @@
 #define DEBUG (1)
 #endif
 
+#ifndef ENABLE_POPCNT
+#define ENABLE_POPCNT (0)
+#endif
+
 #define SIMD_ALIGNMENT (64)
 
 #if defined( __CUDA_ARCH__ )

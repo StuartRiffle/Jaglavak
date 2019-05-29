@@ -20,11 +20,11 @@ elseif( "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" )
 endif()
 
 
-add_library( X64    STATIC Source/Player/X64.cpp )
-add_library( SSE4   STATIC Source/Player/SSE4.cpp )
-add_library( AVX2   STATIC Source/Player/AVX2.cpp )
-add_library( AVX512 STATIC Source/Player/AVX512.cpp )
-add_library( CUDA   STATIC Source/Player/CudaKernel.cu )
+add_library( X64    STATIC Source/SIMD/X64.cpp )
+add_library( SSE4   STATIC Source/SIMD/SSE4.cpp )
+add_library( AVX2   STATIC Source/SIMD/AVX2.cpp )
+add_library( AVX512 STATIC Source/SIMD/AVX512.cpp )
+add_library( CUDA   STATIC Source/CUDA/CudaPlayer.cu )
 
 target_compile_options( X64      PRIVATE ${FLAGS_COMMON} )
 target_compile_options( SSE4     PRIVATE ${FLAGS_COMMON} )
@@ -33,9 +33,8 @@ target_compile_options( AVX512   PRIVATE ${FLAGS_COMMON} ${FLAGS_AVX512} )
 
 include_directories( 
     Source 
-    Source/Misc
-    Source/Player
-    Source/Worker
+    Source/Util
+    Source/TreeSearch
 )
 
 add_executable( Jaglavak 
@@ -43,7 +42,7 @@ add_executable( Jaglavak
     Source/TreeNode.cpp
     Source/TreeSearch.cpp
     Source/UciEngine.cpp
-    Source/Worker/CudaWorker.cpp
+    Source/CUDA/CudaWorker.cpp
 )
 
 target_compile_options( Jaglavak PUBLIC ${FLAGS_COMMON} -std=c++11 )
