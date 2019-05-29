@@ -30,7 +30,7 @@ int CudaWorker::GetDeviceCount()
     return( count );
 }
 
-void CudaWorker::Initialize( int deviceIndex, int jobSlots )
+void CudaWorker::Initialize( int deviceIndex  )
 {
     mDeviceIndex = deviceIndex;
     mStreamIndex = 0;

@@ -18,7 +18,7 @@ struct PlayoutBatch
         return (int) mPosition.size();
     }
 
-    void Append( const PlayoutParams& params, const Position& pos, const MoveList& pathFromRoot )
+    void Append( const Position& pos, const MoveList& pathFromRoot )
     {
         mPosition.push_back( pos );
         mPathFromRoot.push_back( pathFromRoot );

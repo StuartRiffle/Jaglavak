@@ -57,6 +57,7 @@ struct TreeSearch
     TreeSearchMetrics       mSearchStartMetrics;
     TreeSearchMetrics       mStatsStartMetrics;
 
+    uint8_t*                mNodePoolBuf;
     TreeNode*               mNodePool;
     size_t                  mNodePoolEntries;
     TreeLink                mMruListHead;

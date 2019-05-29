@@ -1,6 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#include "CudaSupport.h"
+
 struct LaunchInfo
 {
     vector< BatchRef >          mBatches;
@@ -47,7 +49,7 @@ public:
 
     static int GetDeviceCount();
     const cudaDeviceProp& GetDeviceProperties() { return mProp; }
-    void Initialize( int deviceIndex, int jobSlots );
+    void Initialize( int deviceIndex );
     void Shutdown();
 
     cudaEvent_t AllocEvent();

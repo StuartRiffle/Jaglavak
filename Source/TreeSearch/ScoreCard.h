@@ -30,7 +30,7 @@ struct ScoreCard
         return *this;
     }
 
-    PDECL void Accum( const ScoreCard& sc )
+    PDECL void Add( const ScoreCard& sc )
     {
         PlatAddAtomic( &mWins[BLACK], sc.mWins[BLACK] );
         PlatAddAtomic( &mWins[WHITE], sc.mWins[WHITE] );

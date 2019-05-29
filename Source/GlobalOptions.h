@@ -16,13 +16,13 @@ union GlobalOptions
         int     mDrawsWorthHalf;
         int     mNumInitialPlayouts;
         int     mNumAsyncPlayouts;
-        int     mNumPlayoutMoves;
+        int     mMaxPlayoutMoves;
         int     mBatchSize;
         int     mMaxPendingBatches;
         int     mMaxTreeNodes;
 
         int     mCudaBatchesPerLaunch;
-        int     mNumCpuWorkers;
+        int     mNumSimdWorkers;
         int     mTimeSafetyBuffer;
         int     mSearchSleepTime;
         int     mUciUpdateDelay;

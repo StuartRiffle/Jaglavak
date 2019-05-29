@@ -1,9 +1,9 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-#include "SimdSwitch.h"
+#include "SimdPlayer.h"
 
-class CpuWorker : public AsyncWorker
+class SimdWorker : public AsyncWorker
 {
     const GlobalOptions*    mOptions;
     BatchQueue*             mWorkQueue;
@@ -24,7 +24,7 @@ class CpuWorker : public AsyncWorker
             ScoreCard ALIGN_SIMD scores[PLAYOUT_BATCH_MAX];
             memset( scores, 0, sizeof( ScoreCard ) * count );
 
-            PlayGamesSimd( mOptions, &batch->mParams, batch->mPosition.data(), scores, count );
+            PlayGamesSimd( mOptions, &batch->mParams, batch->mPosition.data(), scores, (int) count );
 
             assert( batch->mResults.size() == 0 );
             batch->mResults.assign( scores, scores + count );
@@ -35,7 +35,7 @@ class CpuWorker : public AsyncWorker
 
 public:
 
-    CpuWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
+    SimdWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
         mOptions    = options;
         mWorkQueue  = jobQueue;
@@ -43,7 +43,7 @@ public:
         mWorkThread = unique_ptr< thread >( new thread( [this] { this->WorkThread(); } ) );
     }
 
-    ~CpuWorker()
+    ~SimdWorker()
     {
         mWorkThread->join();
     }

@@ -26,13 +26,12 @@ struct TreeLink
 
 struct TreeNode : public TreeLink
 {
-    Position            mPos;
     BranchInfo*         mInfo;
     int                 mColor;
     vector<BranchInfo>  mBranch;
-
     bool                mGameOver;
     ScoreCard           mGameResult;
+    Position            mPos;
 
     TreeNode() : mInfo( NULL ) { Clear(); }
     ~TreeNode() { Clear(); }

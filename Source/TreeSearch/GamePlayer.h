@@ -14,7 +14,7 @@ class GamePlayer
 
 public:
 
-    PDECL GamePlayer( const PlayoutParams* params, int salt = 0 )
+    PDECL GamePlayer( const PlayoutParams* params, u64 salt = 0 )
     {
         mParams = params;
         mRandom.SetSeed( params->mRandomSeed + salt );
