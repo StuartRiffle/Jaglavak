@@ -60,17 +60,11 @@ struct MoveList
     PDECL int LookupMove( const MoveSpec& spec )
     {
         for( int idx = 0; idx < mCount; idx++ )
-        {
-            if( (mMove[idx].mSrc != spec.mSrc) || (mMove[idx].mDest != spec.mDest) )
-                continue;
+            if( (mMove[idx].mSrc == spec.mSrc) && (mMove[idx].mDest == spec.mDest) )
+                if( mMove[idx].GetPromoteChar() == spec.GetPromoteChar() )
+                    return idx;
 
-            if( mMove[idx].GetPromoteChar() != spec.GetPromoteChar() )
-                continue;
-
-            return( idx );
-        }
-
-        return( -1 );
+        return -1;
     }
 
     PDECL MoveSpec Remove( int idx )

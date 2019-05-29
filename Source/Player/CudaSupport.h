@@ -14,42 +14,28 @@
 template< typename T >
 struct CudaBuffer
 {
-    T* mHost;
-    T* mDevice;
-    size_t mBufferSize;
+    T*      mHost;
+    T*      mDevice;
+    size_t  mOffset;
+    size_t  mBufferSize;
 
-    CudaBuffer() : mHost( NULL ), mDevice( NULL ), mBufferSize( 0 ) {}
+    CudaBuffer() { this->SetNull(); }
 
-    ~CudaBuffer()
-    {
-        if( mHost )
-            cudaFreeHost( mHost );
-
-        if( mDevice )
-            cudaFree( mDevice );
-    }
+    void SetNull() { mBufferSize = 0; }
+    bool IsNull() const { return (mBufferSize != 0); }
 
     T& operator[]( size_t idx )
     {
+        assert( idx * sizeof( T ) < mBufferSize );
         return mHost[idx];
     }
 
-    void Init( int count )
-    {
-        mHost = NULL;
-        mDevice = NULL;
-        mBufferSize = count * sizeof( T );
-
-        CUDA_REQUIRE(( cudaMallocHost( (void**) &mHost, mBufferSize ) ));
-        CUDA_REQUIRE(( cudaMalloc( (void**) &mDevice, mBufferSize ) ));        
-    }
-    
-    void CopyToDeviceAsync( cudaStream_t stream = NULL ) const
+    void CopyUpToDeviceAsync( cudaStream_t stream = NULL ) const
     {
         cudaMemcpyAsync( mDevice, mHost, mBufferSize, cudaMemcpyHostToDevice, stream );
     }
 
-    void CopyToHostAsync( cudaStream_t stream = NULL ) const
+    void CopyDownToHostAsync( cudaStream_t stream = NULL ) const
     {
         cudaMemcpyAsync( mHost, mDevice, mBufferSize, cudaMemcpyDeviceToHost, stream );
     }
@@ -60,15 +46,72 @@ struct CudaBuffer
     }   
 };
 
-struct CudaLaunchSlot
+class CudaAllocator
 {
-    BatchRef                    mBatch;
-    CudaBuffer< PlayoutParams > mParams;
-    CudaBuffer< Position >      mInputs;
-    CudaBuffer< ScoreCard >     mOutputs;
-    cudaEvent_t                 mReadyEvent; 
-    u64                         mNumLaunches;
+    void*           mHostBuffer;
+    void*           mDeviceBuffer;
+    size_t          mHeapSize;
+    HeapAllocator   mHeap;
+
+public:
+
+    CudaAllocator()
+    {
+        mHostBuffer = NULL;
+        mDeviceBuffer = NULL;
+        mHeapSize = 0;
+    }
+
+    ~CudaAllocator()
+    {
+        this->Shutdown();
+    }
+
+    Init( size_t heapSize )
+    {
+        mHostBuffer = NULL;
+        mDeviceBuffer = NULL;
+        mHeapSize = heapSize;
+        mHeap.Init( mHeapSize );
+
+        CUDA_REQUIRE(( cudaMallocHost( (void**) &mHostBuffer, heapSize ) ));
+        CUDA_REQUIRE(( cudaMalloc( (void**) &mDeviceBuffer, heapSize ) ));        
+    }
+
+    void Shutdown()
+    {
+        assert( mHostBuffer );
+        CUDA_REQUIRE(( cudaFreeHost( mHostBuffer ) ));
+        mHostBuffer = NULL;
+
+        assert( mDeviceBuffer );
+        CUDA_REQUIRE(( cudaFree( mDeviceBuffer ) ));        
+        mDeviceBuffer = NULL;
+    }
+
+    template< typename T >
+    void Alloc( size_t size, CudaBuffer< T >* dest )
+    {
+        size_t offset = mHeap.Alloc( size );
+
+        dest->mHost   = (void*) ((uintptr_t) mHostBuffer   + offset);
+        dest->mDevice = (void*) ((uintptr_t) mDeviceBuffer + offset);
+        dest->mOffset = offset;
+        dest->mSize   = size;                                 `
+    }
+
+    template< typename T >
+    void Free( CudaBuffer< T >& buf )
+    {
+        if( !buf.IsNull() )
+        {
+            mHeap.Free( buf.mOffset );
+            buf.SetNull();
+        }
+    }
 };
+
+
 
 extern void PlayGamesCudaAsync( 
     const PlayoutParams* params, 

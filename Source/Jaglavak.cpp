@@ -31,8 +31,8 @@ r1b3k1/p2p1nP1/2pqr1Rp/1p2p2P/2B1PnQ1/1P6/P1PP4/1K4R1 w - - bm Rxh6; id "Nolot.1
 */
     //engine->ProcessCommand( "uci" );
     //engine->ProcessCommand( "position startpos fen r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - -" );
-    //engine->ProcessCommand( "go" );
-
+    engine->ProcessCommand( "go" );
+    
     while( !feof( stdin ) )
     {
         char buf[8192];

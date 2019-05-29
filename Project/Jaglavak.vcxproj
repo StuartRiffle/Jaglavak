@@ -20,6 +20,7 @@
     <ClInclude Include="..\Source\Chess\Position.h" />
     <ClInclude Include="..\Source\Common.h" />
     <ClInclude Include="..\Source\GlobalOptions.h" />
+    <ClInclude Include="..\Source\Misc\Allocator.h" />
     <ClInclude Include="..\Source\Misc\CpuInfo.h" />
     <ClInclude Include="..\Source\Misc\FEN.h" />
     <ClInclude Include="..\Source\Misc\Perft.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\Source\Player\AVX512.h" />
     <ClInclude Include="..\Source\Player\CudaSupport.h" />
     <ClInclude Include="..\Source\Player\GamePlayer.h" />
+    <ClInclude Include="..\Source\Player\SimdSwitch.h" />
     <ClInclude Include="..\Source\Player\SSE4.h" />
     <ClInclude Include="..\Source\PlayoutBatch.h" />
     <ClInclude Include="..\Source\PlayoutParams.h" />

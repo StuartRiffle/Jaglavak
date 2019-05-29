@@ -10,7 +10,7 @@
     "NumAsyncPlayouts":     10,
     "MaxPlayoutMoves":      200,
     "DrawsWorthHalf":       1,
-    "MaxBatchSize":            4096
+    "MaxBatchSize":         4096
 }
 
 

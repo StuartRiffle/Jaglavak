@@ -4,8 +4,18 @@
 struct PlayoutParams
 {
     u64     mRandomSeed;
-    int     mNumGamesEach;
     int     mMaxMovesPerGame;
-
-    bool    mEnableMulticore;
+    int     mEnableMulticore;
 };
+
+struct PlayoutRequest
+{
+    Position        mPosition;
+    PlayoutParams   mParams;
+};
+
+struct PlayoutResult
+{
+    ScoreCard       mScores;
+};
+

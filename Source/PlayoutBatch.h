@@ -4,34 +4,29 @@
 struct PlayoutBatch
 {
     // Inputs
-
-    PlayoutParams mParams;
-    vector< Position > mPosition;
+    vector< PlayoutRequest > mRequests;
 
     // Outputs
-
-    vector< ScoreCard > mResults;
+    vector< PlayoutResult > mResults;
 
     // This gets carried along so we know where the results should go
-
     vector< MoveList > mPathFromRoot;
-
-    PlayoutBatch()
-    {
-        memset( &mParams, 0, sizeof( mParams ) );
-    }
 
     int GetCount() const
     {
-        return (int) mPosition.size();
+        return (int) mRequests.size();
     }
 
-    void Append( const Position& pos, const MoveList& pathFromRoot )
+    void Append( const PlayoutParams& params, const Position& pos, const MoveList& pathFromRoot )
     {
-        mPosition.push_back( pos );
+        PlayoutRequest req;
+        req.mParams = params;
+        req.mPosition = pos;
+
+        mRequests.push_back( req );
         mPathFromRoot.push_back( pathFromRoot );
 
-        assert( mPosition.size() == mPathFromRoot.size() );
+        assert( mRequests.size() == mPathFromRoot.size() );
     }
 };
 

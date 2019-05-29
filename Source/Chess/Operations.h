@@ -7,6 +7,8 @@ struct SimdWidth
     enum { LANES = 1 };
 };
 
+// These are the functions that SIMD types need to implement
+
 template< typename T > INLINE PDECL T       MaskAllClear()                                                      { return(  T( 0 ) ); }
 template< typename T > INLINE PDECL T       MaskAllSet()                                                        { return( ~T( 0 ) ); }
 template< typename T > INLINE PDECL T       MaskOut( const T& val, const T& bitsToClear )                       { return( val & ~bitsToClear ); }

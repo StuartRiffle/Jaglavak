@@ -20,7 +20,8 @@ struct Timer
 
     float GetElapsedSec() const
     {
-        return this->GetElapsedTicks() * 1.0f / CpuInfo::GetClockFrequency();
+        static float sInvFreq = 1.0f / CpuInfo::GetClockFrequency(); 
+        return this->GetElapsedTicks() * sInvFreq;
     }
 
     int GetElapsedMs() const

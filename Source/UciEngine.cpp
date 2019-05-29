@@ -29,13 +29,14 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
     static UciOptionInfo sOptions[] = 
     {
         OPTION_INDEX( EnableSimd ),             CHECKBOX,   0,          
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   0,          
         OPTION_INDEX( EnableMulticore ),        CHECKBOX,   0,          
         OPTION_INDEX( CpuAffinityMask ),        CHECKBOX,   0,          
         OPTION_INDEX( GpuAffinityMask ),        CHECKBOX,   0,          
 
         OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
         OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
+        OPTION_INDEX( MaxPlayoutMoves ),        0,          200,          
 
         OPTION_INDEX( MinAsyncPlayouts ),       0,          10,         
         OPTION_INDEX( MaxAsyncPlayouts ),       0,          128,         
@@ -50,7 +51,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( NumWarmupBatches ),       0,          100,       
 
         OPTION_INDEX( CudaQueueDepth ),         0,          128,        
-        OPTION_INDEX( NumCpuWorkers ),          0,          0,          
+        OPTION_INDEX( NumCpuWorkers ),          0,          1,          
 
         OPTION_INDEX( TimeSafetyBuffer ),       0,          100,          
         OPTION_INDEX( SearchSleepTime ),        0,          100,          
