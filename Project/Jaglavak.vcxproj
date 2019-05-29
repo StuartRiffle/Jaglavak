@@ -118,6 +118,8 @@
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <AdditionalOptions>--disable-warnings %(AdditionalOptions)</AdditionalOptions>
       <Warning>W0</Warning>
+      <GPUDebugInfo>true</GPUDebugInfo>
+      <Optimization>InheritFromHost</Optimization>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

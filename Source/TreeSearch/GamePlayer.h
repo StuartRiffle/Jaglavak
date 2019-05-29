@@ -111,7 +111,7 @@ protected:
         MoveMap sparseMap;
         u64* buf = (u64*) &sparseMap;
 
-        // All the fields in the MoveMap (up to mCheckMask) represent moves as bits
+        // All the fields in the MoveMap (up to mCheckMask) represent (potential) moves as bits
 
         const int count = (int) offsetof( MoveMap, mCheckMask ) / sizeof( u64 );
         sparseMap = moveMap;
@@ -140,10 +140,14 @@ protected:
 
         // Identify the bit and clear the rest
 
-        u64 destIdx;
+        u64 destIdx = 0;
         u64 wordVal = buf[word];
         while( bitsToSkip-- )
             destIdx = ConsumeLowestBitIndex( wordVal );
+
+        u64 destOrig = destIdx;
+        if( pos.mBoardFlipped )
+            destIdx = FlipSquareIndex( destIdx );
 
         word++;
         while( word < count )
@@ -151,22 +155,20 @@ protected:
 
         moveList.UnpackMoveMap( pos, sparseMap );
 
-
-
         for( int i = 0; i < moveList.mCount; i++ )
             if( moveList.mMove[i].mDest == destIdx )
                 return moveList.mMove[i];
 
-        assert( moveList.mCount == 0 );
+        // The bit we chose is not a valid destination (maybe the move
+        // would leave the king in check). So 
+
+        if( moveList.mCount == 0 )
+            moveList.UnpackMoveMap( pos, moveMap );
 
         static u64 sCounts[MAX_POSSIBLE_MOVES] = { 0 };
         sCounts[moveList.mCount]++;
 
-        if( moveList.mCount == 0 )
-        {
-            moveList.UnpackMoveMap( pos, moveMap );
-        }
-
+        assert( moveList.mCount > 0 );
         u64 idx = mRandom.GetRange( moveList.mCount );
         return moveList.mMove[idx];
     }

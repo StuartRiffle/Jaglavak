@@ -15,6 +15,7 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     mSearchRoot = NULL;
     mShuttingDown = false;
     mSearchingNow = false;
+    mNumPending = 0;
 
     mRandom.SetSeed( randomSeed );
 
@@ -417,17 +418,12 @@ void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 
 BatchRef TreeSearch::CreateNewBatch()
 {
-    BatchRef batch( new PlayoutBatch );
+    BatchRef batch( new PlayoutBatch() );
 
     batch->mParams.mRandomSeed      = mRandom.GetNext();
     batch->mParams.mNumGamesEach    = mOptions->mNumAsyncPlayouts;
     batch->mParams.mMaxMovesPerGame = mOptions->mMaxPlayoutMoves;
     batch->mParams.mEnableMulticore = mOptions->mEnableMulticore;
-
-    mSearchParams.mBatchSize       = mOptions->mBatchSize;
-    mSearchParams.mMaxPending      = mOptions->mMaxPendingBatches;
-    mSearchParams.mAsyncPlayouts   = mOptions->mNumAsyncPlayouts;
-    mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
 
     for( ;; )
     {
@@ -447,12 +443,6 @@ BatchRef TreeSearch::CreateNewBatch()
 }
 
 
-void TreeSearch::AdjustForWarmup()
-{
-    // FIXME: remove this
-
-}
-
 void TreeSearch::SearchThread()
 {
     for( ;; )
@@ -463,6 +453,11 @@ void TreeSearch::SearchThread()
         if( mShuttingDown )
             return;
             
+        mSearchParams.mBatchSize       = mOptions->mBatchSize;
+        mSearchParams.mMaxPending      = mOptions->mMaxPendingBatches;
+        mSearchParams.mAsyncPlayouts   = mOptions->mNumAsyncPlayouts;
+        mSearchParams.mInitialPlayouts = mOptions->mNumInitialPlayouts;
+
         mSearchTimer.Reset();
         while( mSearchingNow )
         {
@@ -472,14 +467,18 @@ void TreeSearch::SearchThread()
             for( auto& worker : mAsyncWorkers )
                 worker->Update();
 
-            for( auto& batch : mDoneQueue.PopMulti() )
+            auto completed = mDoneQueue.PopAll();
+            for( auto& batch : completed )
+            {
                 ProcessScoreBatch( batch );
+                mNumPending--;
+            }
 
             if( mMetrics.mNumBatchesDone > 0 )
                 if( mUciUpdateTimer.GetElapsedMs() >= mOptions->mUciUpdateDelay )
                     SendUciStatus();
 
-            if( mWorkQueue.PeekCount() >= mSearchParams.mMaxPending )
+            if( mNumPending >= mSearchParams.mMaxPending )
             {
                 PlatSleep( mOptions->mSearchSleepTime );
                 continue;
@@ -489,6 +488,8 @@ void TreeSearch::SearchThread()
             if( batch->GetCount() > 0 )
             {
                 mWorkQueue.Push( batch );
+                mNumPending++;
+
                 mMetrics.mNumBatchesMade++;
             }
         }

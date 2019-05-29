@@ -22,7 +22,7 @@ struct CudaBuffer
     CudaBuffer() { this->SetNull(); }
 
     void SetNull() { mBufferSize = 0; }
-    bool IsNull() const { return (mBufferSize != 0); }
+    bool IsNull() const { return (mBufferSize == 0); }
 
     T& operator[]( size_t idx )
     {
