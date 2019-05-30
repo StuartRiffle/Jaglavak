@@ -29,7 +29,7 @@
     #define INLINE              __forceinline__    
     #define PDECL               __device__
 
-    typedef uint64_t atomic_t;
+    typedef uint64_t atomic64_t;
 
 #elif defined( __GNUC__ )
 
@@ -57,7 +57,7 @@
     #define stricmp             strcasecmp
     #define strnicmp            strncasecmp
 
-    typedef std::atomic< uint64_t > atomic_t;
+    typedef std::atomic< uint64_t > atomic64_t;
 
 #elif defined( _MSC_VER )
 
@@ -83,7 +83,7 @@
     #define PRId64              "I64d"
     #define PDECL         
 
-    typedef std::atomic< uint64_t > atomic_t;
+    typedef std::atomic< uint64_t > atomic64_t;
     
     extern "C" void * __cdecl memset(void *, int, size_t);
     #pragma intrinsic( memset )        
