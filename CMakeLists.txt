@@ -16,6 +16,7 @@ elseif( "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" )
 	set( FLAGS_COMMON -msse4.1 -fopenmp )
 	set( FLAGS_AVX2   -mavx2 )
 	set( FLAGS_AVX512 -mavx512f -mavx512dq -mavx512bw )
+    set( CMAKE_EXE_LINKER_FLAGS -fopemp )
 
 endif()
 
@@ -46,7 +47,6 @@ add_executable( Jaglavak
 )
 
 target_compile_options( Jaglavak PUBLIC ${FLAGS_COMMON} -std=c++11 )
-target_link_options(    Jaglavak PUBLIC -fopenmp )
 target_link_libraries(  Jaglavak PUBLIC
     X64 
     SSE4 
