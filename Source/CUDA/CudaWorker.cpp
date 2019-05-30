@@ -79,8 +79,6 @@ void CudaWorker::FreeEvent( cudaEvent_t event )
     mEventCache.push_back( event );
 }
 
-extern volatile LaunchInfo* debugLaunch = NULL;
-
 void CudaWorker::LaunchThread()
 {
     CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
@@ -106,9 +104,6 @@ void CudaWorker::LaunchThread()
         mHeap.Alloc( total, &launch->mInputs );
         mHeap.Alloc( total, &launch->mOutputs );
                                      
-        debugLaunch = (LaunchInfo*) launch.get();
-        static volatile LaunchInfo* really = debugLaunch;
-
         int offset = 0;
         for( auto& batch : launch->mBatches )
         {
