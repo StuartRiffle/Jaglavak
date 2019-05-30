@@ -28,7 +28,8 @@
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
     #define PDECL               __device__
-    #define atomic64_t          uint64_t
+
+    typedef uint64_t atomic_t;
 
 #elif defined( __GNUC__ )
 
@@ -51,12 +52,12 @@
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
     #define INLINE              inline __attribute__(( always_inline ))
-    #define atomic64_t          std::atomic_uint64_t
     #define PDECL         
 
     #define stricmp             strcasecmp
     #define strnicmp            strncasecmp
 
+    typedef std::atomic< uint64_t > atomic_t;
 
 #elif defined( _MSC_VER )
 
@@ -80,9 +81,10 @@
     #define DEBUGBREAK          __debugbreak
     #define INLINE              __forceinline
     #define PRId64              "I64d"
-    #define atomic64_t          std::atomic_uint64_t
     #define PDECL         
 
+    typedef std::atomic< uint64_t > atomic_t;
+    
     extern "C" void * __cdecl memset(void *, int, size_t);
     #pragma intrinsic( memset )        
 
