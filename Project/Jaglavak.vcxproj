@@ -60,6 +60,7 @@
     <ClCompile Include="..\Source\UciEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Docker\Dockerfile" />
     <None Include="..\Source\DefaultSettings.json" />
   </ItemGroup>
   <ItemGroup>

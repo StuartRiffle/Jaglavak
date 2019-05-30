@@ -53,7 +53,8 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
     #undef OPTION_INDEX
     return sOptions;
 }
-
+
+
 void UciEngine::SetDefaultOptions()
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )

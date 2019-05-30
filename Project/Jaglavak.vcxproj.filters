@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
+    <None Include="..\Docker\Dockerfile" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="..\Source\CUDA\CudaPlayer.cu">
