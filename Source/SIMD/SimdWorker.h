@@ -18,17 +18,19 @@ class SimdWorker : public AsyncWorker
             if( !mWorkQueue->Pop( batch ) )
                 break;
 
-            size_t count = batch->mPosition.size();
-            assert( count <= PLAYOUT_BATCH_MAX );
+            int count = (int) batch->mPosition.size();
+            int paddedCount = count + SIMD_WIDEST * 2;
 
-            ScoreCard ALIGN_SIMD scores[PLAYOUT_BATCH_MAX];
-            memset( scores, 0, sizeof( ScoreCard ) * count );
+            batch->mResults.resize( paddedCount ); // TODO: align this
 
-            PlayGamesSimd( mOptions, &batch->mParams, batch->mPosition.data(), scores, (int) count );
+            PlayGamesSimd( 
+                mOptions, 
+                &batch->mParams, 
+                batch->mPosition.data(), 
+                batch->mResults.data(),
+                count );
 
-            assert( batch->mResults.size() == 0 );
-            batch->mResults.assign( scores, scores + count );
-
+            batch->mResults.resize( count );
             mDoneQueue->Push( batch );
         }
     }

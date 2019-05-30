@@ -1,6 +1,15 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+template< typename T >
+INLINE PDECL T SignedShift( const T& bits, int shift )
+{
+    if( shift > 0 )
+        return( bits << (shift) );
+    else 
+        return( bits >> ((-shift)) );
+}
+
 template< int SHIFT, typename T >
 INLINE PDECL T Shift( const T& bits )
 {

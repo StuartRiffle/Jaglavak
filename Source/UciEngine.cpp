@@ -28,23 +28,24 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 
     static UciOptionInfo sOptions[] = 
     {
-        OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
-        OPTION_INDEX( NumSimdWorkers ),         0,          0,          
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
         OPTION_INDEX( EnableMulticore ),        CHECKBOX,   1,          
+        OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
+        OPTION_INDEX( NumSimdWorkers ),         0,          2,          
+
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
         OPTION_INDEX( CpuAffinityMask ),        CHECKBOX,   0,          
         OPTION_INDEX( GpuAffinityMask ),        CHECKBOX,   1,          
         OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
         OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
         OPTION_INDEX( MaxPlayoutMoves ),        0,          200,          
-        OPTION_INDEX( NumAsyncPlayouts ),       0,          10,         
+        OPTION_INDEX( NumAsyncPlayouts ),       0,          2,         
         OPTION_INDEX( MaxPendingBatches ),      0,          128,        
         OPTION_INDEX( BatchSize ),              0,          128,       
-        OPTION_INDEX( MaxTreeNodes ),           0,          1000000,    
+        OPTION_INDEX( MaxTreeNodes ),           0,          10000000,    
         OPTION_INDEX( CudaHeapMegs ),           0,          64,        
-        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          8,        
+        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          16,        
         OPTION_INDEX( TimeSafetyBuffer ),       0,          100,          
-        OPTION_INDEX( SearchSleepTime ),        0,          100,          
+        OPTION_INDEX( SearchSleepTime ),        0,          1,          
         OPTION_INDEX( UciUpdateDelay ),         0,          500,          
         -1
     };
@@ -52,7 +53,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
     #undef OPTION_INDEX
     return sOptions;
 }
-
+
 void UciEngine::SetDefaultOptions()
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
@@ -76,9 +77,9 @@ bool UciEngine::ProcessCommand( const char* cmd )
     Tokenizer t( cmd );
 
     if( t.Consume( "uci" ) )
-    {                                                                                        
-        printf( "id name Jaglavak %d.%d.%d\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH );
-        printf( "id author Stuart Riffle\n" );
+    {       
+        cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
+        cout << "id author Stuart Riffle" << endl << endl;
 
         const UciOptionInfo* option = this->GetOptionInfo();
         while( option->mIndex >= 0 )
@@ -91,7 +92,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
             option++;
         }
 
-        printf( "uciok\n\n" );
+        cout << "uciok" << endl;
     }
     else if( t.Consume( "setoption" ) )
     {

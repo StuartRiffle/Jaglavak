@@ -53,30 +53,30 @@ struct TreeSearch
     TreeSearchParameters    mSearchParams;
     RandomGen               mRandom;
 
-    TreeSearchMetrics       mMetrics;
-    TreeSearchMetrics       mSearchStartMetrics;
-    TreeSearchMetrics       mStatsStartMetrics;
-
     vector< uint8_t >       mNodePoolBuf;
     TreeNode*               mNodePool;
-    size_t                  mNodePoolEntries;
-    TreeLink                mMruListHead;
+    size_t                  mNodePoolEntries;                                       
 
+    TreeLink                mMruListHead;
     TreeNode*               mSearchRoot;
     BranchInfo              mRootInfo;
+
+    BatchQueue              mWorkQueue;
+    BatchQueue              mDoneQueue;
+    int                     mNumPending;
 
     unique_ptr< thread >    mSearchThread;
     Semaphore               mSearchThreadGo;
     Semaphore               mSearchThreadIsIdle;
     volatile bool           mSearchingNow;
     volatile bool           mShuttingDown;
-    Timer                   mSearchTimer;
-    int                     mDeepestLevelSearched;
-    Timer                   mUciUpdateTimer;
 
-    BatchQueue              mWorkQueue;
-    BatchQueue              mDoneQueue;
-    int                     mNumPending;
+    Timer                   mSearchTimer;
+    Timer                   mUciUpdateTimer;
+    int                     mDeepestLevelSearched;
+    TreeSearchMetrics       mMetrics;
+    TreeSearchMetrics       mSearchStartMetrics;
+    TreeSearchMetrics       mStatsStartMetrics;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > mAsyncWorkers;

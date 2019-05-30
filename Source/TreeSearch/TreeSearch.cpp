@@ -434,8 +434,7 @@ BatchRef TreeSearch::CreateNewBatch()
         if( mSearchParams.mAsyncPlayouts == 0 )
             break;
 
-        int batchLimit = Min( mSearchParams.mBatchSize, PLAYOUT_BATCH_MAX );
-        if( batch->GetCount() >= batchLimit )
+        if( batch->GetCount() >= mSearchParams.mBatchSize )
             break;
     }
 
@@ -467,8 +466,7 @@ void TreeSearch::SearchThread()
             for( auto& worker : mAsyncWorkers )
                 worker->Update();
 
-            auto completed = mDoneQueue.PopAll();
-            for( auto& batch : completed )
+            for( auto& batch : mDoneQueue.PopAll() )
             {
                 ProcessScoreBatch( batch );
                 mNumPending--;
@@ -494,13 +492,21 @@ void TreeSearch::SearchThread()
             }
         }
 
-        MoveSpec bestMove = SendUciStatus();
-        printf( "bestmove %s\n", SerializeMoveSpec( bestMove ).c_str() );
+        MoveList bestLine;
+        ExtractBestLine( mSearchRoot, &bestLine );
+
+        cout << "bestmove " << SerializeMoveSpec( bestLine.mMove[0] );
+        if( bestLine.mCount > 1 )
+            cout << " ponder " << SerializeMoveSpec( bestLine.mMove[1] );
+        cout << endl;
     }
 }
 
 void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
 {
+    if( !node )
+        return;
+
     u64 bestPlays = 0;
     int bestPlaysIdx = -1;
     int numBranches = (int) node->mBranch.size();
@@ -518,7 +524,9 @@ void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
         }
     }
 
-    assert( bestPlaysIdx >= 0 );
+    if( bestPlaysIdx < 0 )
+        return;
+
     const BranchInfo& branchInfo = node->mBranch[bestPlaysIdx];
 
     dest->Append( branchInfo.mMove );
@@ -541,17 +549,15 @@ MoveSpec TreeSearch::SendUciStatus()
     MoveList bestLine;
     ExtractBestLine( mSearchRoot, &bestLine );
 
-    printf( "info" );
-    printf( " nps %" PRId64 "   ", nodesPerSec );
-    printf( " bps %" PRId64, batchesPerSec );
-    printf( " gps %" PRId64, gamesPerSec );
-
-    printf( " depth %d", mDeepestLevelSearched );
-//    printf( " nodes %" PRId64, mMetrics.mNumNodesCreated );
-//    printf( " batches %" PRId64, mMetrics.mNumBatchesDone );
-    printf( " time %d", mSearchTimer.GetElapsedMs() ),
-    printf( " pv %s", SerializeMoveList( bestLine ).c_str() );
-    printf( "\n" );
+    cout << "info" <<
+        " nps " <<   nodesPerSec <<
+        " bps " <<   batchesPerSec <<
+        " gps " <<   gamesPerSec <<
+        " depth " << mDeepestLevelSearched <<
+        " nodes " << mMetrics.mNumNodesCreated <<
+        " time " <<  mSearchTimer.GetElapsedMs() <<
+        " pv " <<    SerializeMoveList( bestLine ) <<
+        endl;
 
     mStatsStartMetrics = mMetrics;
 

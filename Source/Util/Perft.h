@@ -103,12 +103,10 @@ struct Perft
             u64 count = (depth > 1)? Perft::CalcPerft( next, depth - 1 ) : 1;
             total += count;
 
-            printf( "info string divide %d ", depth );
             string moveText = SerializeMoveSpec( valid.mMove[i] );
-
-            printf( "%s  %" PRId64 "\n", moveText.c_str(), count );
+            cout << "info string divide " << depth << " " << moveText << "  " << count << endl;
         }
 
-        printf( "info string divide %d total %" PRId64 "\n", depth, total );
+        cout << "info string divide " << depth << " total " << total << endl;
     }
 };

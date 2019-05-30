@@ -1,14 +1,17 @@
-cutechess-cli \
--debug \
--engine name=Jaglavak \
-cmd=javlavak.exe \
-dir=C:\git\javlavak\build\Release\x64 \
-proto=uci \
-st=3 \
--engine name=Stockfish \
-cmd=stockfish-7-x64.exe \
-dir=.. \
-proto=uci \
-depth=9 \
-st=1 \
+cutechess-cli ^
+    -debug ^
+    -openings file=TCEC9.pgn ^
+    ^
+    -engine name=Jaglavak ^
+    cmd=Jaglavak.exe ^
+    dir=C:\dev\Jaglavak\Project\x64\Release ^
+    proto=uci ^
+    st=1000 ^
+    ^
+    -engine name=Stockfish ^
+    cmd=stockfish_10_x64.exe ^
+    dir=. ^
+    proto=uci ^
+    depth=9 ^
+    st=1 
 

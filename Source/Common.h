@@ -17,6 +17,7 @@
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
+#include <iostream>
 
 using std::atomic;
 using std::vector;
@@ -29,6 +30,8 @@ using std::thread;
 using std::shared_ptr;
 using std::unique_ptr;
 using std::unique_lock;
+using std::cout;
+using std::endl;
 
 #include "ScoreCard.h"
 #include "GlobalOptions.h"

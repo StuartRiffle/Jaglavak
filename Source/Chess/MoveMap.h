@@ -6,14 +6,14 @@
 template< typename SIMD >
 struct ALIGN_SIMD MoveMapT
 {
-    SIMD        mSlidingMovesNW;
-    SIMD        mSlidingMovesNE;
-    SIMD        mSlidingMovesSW;
-    SIMD        mSlidingMovesSE;
     SIMD        mSlidingMovesN;
+    SIMD        mSlidingMovesNW;
     SIMD        mSlidingMovesW;
-    SIMD        mSlidingMovesE;
+    SIMD        mSlidingMovesSW;
     SIMD        mSlidingMovesS;
+    SIMD        mSlidingMovesSE;
+    SIMD        mSlidingMovesE;
+    SIMD        mSlidingMovesNE;
 
     SIMD        mKnightMovesNNW;
     SIMD        mKnightMovesNNE;

@@ -16,7 +16,8 @@
 #define ENABLE_POPCNT (0)
 #endif
 
-#define SIMD_ALIGNMENT (64)
+#define SIMD_WIDEST    (8)
+#define SIMD_ALIGNMENT (SIMD_WIDEST * 8)
 
 #if defined( __CUDA_ARCH__ )
 
