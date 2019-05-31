@@ -6,25 +6,25 @@
 template< typename T >
 struct MoveSpecT
 {
-    T   mSrc;
-    T   mDest;
-    T   mType;
-    T   mFlags;
+    T   _Src;
+    T   _Dest;
+    T   _Type;
+    T   _Flags;
 
     INLINE PDECL MoveSpecT() {}
-    INLINE PDECL MoveSpecT( const T& _src, const T& _dest, const T& _type = MOVE ) : mSrc(  _src ), mDest(  _dest ), mType(  _type ), mFlags(  0 ) {}
-    INLINE PDECL void Set(  const T& _src, const T& _dest, const T& _type = MOVE ) { mSrc = _src;   mDest = _dest;   mType = _type;   mFlags = 0; }
+    INLINE PDECL MoveSpecT( T src, T dest, T type = MOVE ) : _Src(  src ), _Dest( dest ), _Type( type ), _Flags( 0 ) {}
+    INLINE PDECL void Set(  const T& _src, const T& _dest, const T& _type = MOVE ) { _Src = _src;   _Dest = _dest;   _Type = _type;   _Flags = 0; }
 
-    template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : mSrc( rhs.mSrc ), mDest( rhs.mDest ), mType( rhs.mType ) {}
+    template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : _Src( rhs._Src ), _Dest( rhs._Dest ), _Type( rhs._Type ) {}
 
-    INLINE PDECL int  IsCapture() const       { return( ((mType >= CAPTURE_LOSING) && (mType <= CAPTURE_WINNING)) || ((mType >= CAPTURE_PROMOTE_KNIGHT) && (mType <= CAPTURE_PROMOTE_QUEEN)) ); }
-    INLINE PDECL int  IsPromotion() const     { return( (mType >= PROMOTE_KNIGHT) && (mType <= CAPTURE_PROMOTE_QUEEN) ); }
-    INLINE PDECL int  IsSpecial() const       { return( mFlags != 0 ); }
-    INLINE PDECL void Flip()                  { mSrc = FlipSquareIndex( mSrc ); mDest = FlipSquareIndex( mDest ); }
-    INLINE PDECL char GetPromoteChar() const  { return( "\0\0\0\0nbrqnbrq\0\0"[mType] ); }
+    INLINE PDECL int  IsCapture() const       { return( ((_Type >= CAPTURE_LOSING) && (_Type <= CAPTURE_WINNING)) || ((_Type >= CAPTURE_PROMOTE_KNIGHT) && (_Type <= CAPTURE_PROMOTE_QUEEN)) ); }
+    INLINE PDECL int  IsPromotion() const     { return( (_Type >= PROMOTE_KNIGHT) && (_Type <= CAPTURE_PROMOTE_QUEEN) ); }
+    INLINE PDECL int  IsSpecial() const       { return( _Flags != 0 ); }
+    INLINE PDECL void Flip()                  { _Src = FlipSquareIndex( _Src ); _Dest = FlipSquareIndex( _Dest ); }
+    INLINE PDECL char GetPromoteChar() const  { return( "\0\0\0\0nbrqnbrq\0\0"[_Type] ); }
 
-    INLINE PDECL bool operator==( const MoveSpecT& rhs ) const { return( (mSrc == rhs.mSrc) && (mDest == rhs.mDest) && (mType == rhs.mType) ); }
-    INLINE PDECL bool operator!=( const MoveSpecT& rhs ) const { return( (mSrc != rhs.mSrc) || (mDest != rhs.mDest) || (mType != rhs.mType) ); }
+    INLINE PDECL bool operator==( const MoveSpecT& rhs ) const { return( (_Src == rhs._Src) && (_Dest == rhs._Dest) && (_Type == rhs._Type) ); }
+    INLINE PDECL bool operator!=( const MoveSpecT& rhs ) const { return( (_Src != rhs._Src) || (_Dest != rhs._Dest) || (_Type != rhs._Type) ); }
 
     template< typename SCALARSPEC >
     INLINE PDECL void Unpack( const SCALARSPEC* moves )
@@ -34,10 +34,10 @@ struct MoveSpecT
 
         for( int i = 0; i < LANES; i++ )
         {
-            unpacked[i].mSrc   = moves[i].mSrc;
-            unpacked[i].mDest  = moves[i].mDest;
-            unpacked[i].mType  = moves[i].mType;
-            unpacked[i].mFlags = moves[i].mFlags;
+            unpacked[i]._Src   = moves[i]._Src;
+            unpacked[i]._Dest  = moves[i]._Dest;
+            unpacked[i]._Type  = moves[i]._Type;
+            unpacked[i]._Flags = moves[i]._Flags;
         }
 
         Swizzle< T >( unpacked, this );
@@ -49,19 +49,19 @@ struct MoveSpecT
 //
 struct MoveList
 {
-    int         mCount;
-    MoveSpec    mMove[MAX_POSSIBLE_MOVES];
+    int         _Count;
+    MoveSpec    _Move[MAX_POSSIBLE_MOVES];
 
     INLINE PDECL      MoveList()                      { this->Clear(); }
-    INLINE PDECL void Clear()                         { mCount = 0; }
-    INLINE PDECL void FlipAll()                       { for( int i = 0; i < mCount; i++ ) mMove[i].Flip(); }
-    INLINE PDECL void Append( const MoveSpec& spec )  { mMove[mCount++] = spec; }
+    INLINE PDECL void Clear()                         { _Count = 0; }
+    INLINE PDECL void FlipAll()                       { for( int i = 0; i < _Count; i++ ) _Move[i].Flip(); }
+    INLINE PDECL void Append( const MoveSpec& spec )  { _Move[_Count++] = spec; }
 
     PDECL int LookupMove( const MoveSpec& spec )
     {
-        for( int idx = 0; idx < mCount; idx++ )
-            if( (mMove[idx].mSrc == spec.mSrc) && (mMove[idx].mDest == spec.mDest) )
-                if( mMove[idx].GetPromoteChar() == spec.GetPromoteChar() )
+        for( int idx = 0; idx < _Count; idx++ )
+            if( (_Move[idx]._Src == spec._Src) && (_Move[idx]._Dest == spec._Dest) )
+                if( _Move[idx].GetPromoteChar() == spec.GetPromoteChar() )
                     return idx;
 
         return -1;
@@ -69,22 +69,22 @@ struct MoveList
 
     PDECL MoveSpec Remove( int idx )
     {
-        MoveSpec result = mMove[idx];
-        mMove[idx] = mMove[--mCount];
+        MoveSpec result = _Move[idx];
+        _Move[idx] = _Move[--_Count];
         return result;
     }
 
     PDECL void DiscardMovesBelow( int type )
     {
-        int prevCount = mCount;
+        int prevCount = _Count;
 
-        for( mCount = 0; mCount < prevCount; mCount++ )
-            if( mMove[mCount].mType < type )
+        for( _Count = 0; _Count < prevCount; _Count++ )
+            if( _Move[_Count]._Type < type )
                 break;
 
-        for( int idx = mCount + 1; idx < prevCount; idx++ )
-            if( mMove[idx].mType >= type )
-                mMove[mCount++] = mMove[idx];
+        for( int idx = _Count + 1; idx < prevCount; idx++ )
+            if( _Move[idx]._Type >= type )
+                _Move[_Count++] = _Move[idx];
     }
 
     PDECL void DiscardQuietMoves()
@@ -96,34 +96,34 @@ struct MoveList
     {
         this->Clear();
 
-        u64 whitePieces = pos.mWhitePawns | pos.mWhiteKnights | pos.mWhiteBishops | pos.mWhiteRooks | pos.mWhiteQueens | pos.mWhiteKing;
+        u64 whitePieces = pos._WhitePawns | pos._WhiteKnights | pos._WhiteBishops | pos._WhiteRooks | pos._WhiteQueens | pos._WhiteKing;
 
-        if( mmap.mPawnMovesN )      this->StorePawnMoves( pos, mmap.mPawnMovesN,     SHIFT_N            );
-        if( mmap.mPawnDoublesN )    this->StorePawnMoves( pos, mmap.mPawnDoublesN,   SHIFT_N * 2        );
-        if( mmap.mPawnAttacksNE )   this->StorePawnMoves( pos, mmap.mPawnAttacksNE,  SHIFT_NE           );
-        if( mmap.mPawnAttacksNW )   this->StorePawnMoves( pos, mmap.mPawnAttacksNW,  SHIFT_NW           );
-        if( mmap.mCastlingMoves )   this->StoreKingMoves( pos, mmap.mCastlingMoves,  pos.mWhiteKing     );
-        if( mmap.mKingMoves )       this->StoreKingMoves( pos, mmap.mKingMoves,      pos.mWhiteKing     );
+        if( mmap._PawnMovesN )      this->StorePawnMoves( pos, mmap._PawnMovesN,     SHIFT_N            );
+        if( mmap._PawnDoublesN )    this->StorePawnMoves( pos, mmap._PawnDoublesN,   SHIFT_N * 2        );
+        if( mmap._PawnAttacksNE )   this->StorePawnMoves( pos, mmap._PawnAttacksNE,  SHIFT_NE           );
+        if( mmap._PawnAttacksNW )   this->StorePawnMoves( pos, mmap._PawnAttacksNW,  SHIFT_NW           );
+        if( mmap._CastlingMoves )   this->StoreKingMoves( pos, mmap._CastlingMoves,  pos._WhiteKing     );
+        if( mmap._KingMoves )       this->StoreKingMoves( pos, mmap._KingMoves,      pos._WhiteKing     );
 
-        if( mmap.mSlidingMovesNW )  this->StoreSlidingMoves< SHIFT_NW >( pos, mmap.mSlidingMovesNW, whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesNE )  this->StoreSlidingMoves< SHIFT_NE >( pos, mmap.mSlidingMovesNE, whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesSW )  this->StoreSlidingMoves< SHIFT_SW >( pos, mmap.mSlidingMovesSW, whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesSE )  this->StoreSlidingMoves< SHIFT_SE >( pos, mmap.mSlidingMovesSE, whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesN  )  this->StoreSlidingMoves< SHIFT_N  >( pos, mmap.mSlidingMovesN,  whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesW  )  this->StoreSlidingMoves< SHIFT_W  >( pos, mmap.mSlidingMovesW,  whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesE  )  this->StoreSlidingMoves< SHIFT_E  >( pos, mmap.mSlidingMovesE,  whitePieces, mmap.mCheckMask );
-        if( mmap.mSlidingMovesS  )  this->StoreSlidingMoves< SHIFT_S  >( pos, mmap.mSlidingMovesS,  whitePieces, mmap.mCheckMask );
+        if( mmap._SlidingMovesNW )  this->StoreSlidingMoves< SHIFT_NW >( pos, mmap._SlidingMovesNW, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesNE )  this->StoreSlidingMoves< SHIFT_NE >( pos, mmap._SlidingMovesNE, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesSW )  this->StoreSlidingMoves< SHIFT_SW >( pos, mmap._SlidingMovesSW, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesSE )  this->StoreSlidingMoves< SHIFT_SE >( pos, mmap._SlidingMovesSE, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesN  )  this->StoreSlidingMoves< SHIFT_N  >( pos, mmap._SlidingMovesN,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesW  )  this->StoreSlidingMoves< SHIFT_W  >( pos, mmap._SlidingMovesW,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesE  )  this->StoreSlidingMoves< SHIFT_E  >( pos, mmap._SlidingMovesE,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesS  )  this->StoreSlidingMoves< SHIFT_S  >( pos, mmap._SlidingMovesS,  whitePieces, mmap._CheckMask );
 
-        if( mmap.mKnightMovesNNW )  this->StoreStepMoves( pos, mmap.mKnightMovesNNW, SHIFT_N + SHIFT_NW );
-        if( mmap.mKnightMovesNNE )  this->StoreStepMoves( pos, mmap.mKnightMovesNNE, SHIFT_N + SHIFT_NE );
-        if( mmap.mKnightMovesWNW )  this->StoreStepMoves( pos, mmap.mKnightMovesWNW, SHIFT_W + SHIFT_NW );
-        if( mmap.mKnightMovesENE )  this->StoreStepMoves( pos, mmap.mKnightMovesENE, SHIFT_E + SHIFT_NE );
-        if( mmap.mKnightMovesWSW )  this->StoreStepMoves( pos, mmap.mKnightMovesWSW, SHIFT_W + SHIFT_SW );
-        if( mmap.mKnightMovesESE )  this->StoreStepMoves( pos, mmap.mKnightMovesESE, SHIFT_E + SHIFT_SE );
-        if( mmap.mKnightMovesSSW )  this->StoreStepMoves( pos, mmap.mKnightMovesSSW, SHIFT_S + SHIFT_SW );
-        if( mmap.mKnightMovesSSE )  this->StoreStepMoves( pos, mmap.mKnightMovesSSE, SHIFT_S + SHIFT_SE );
+        if( mmap._KnightMovesNNW )  this->StoreStepMoves( pos, mmap._KnightMovesNNW, SHIFT_N + SHIFT_NW );
+        if( mmap._KnightMovesNNE )  this->StoreStepMoves( pos, mmap._KnightMovesNNE, SHIFT_N + SHIFT_NE );
+        if( mmap._KnightMovesWNW )  this->StoreStepMoves( pos, mmap._KnightMovesWNW, SHIFT_W + SHIFT_NW );
+        if( mmap._KnightMovesENE )  this->StoreStepMoves( pos, mmap._KnightMovesENE, SHIFT_E + SHIFT_NE );
+        if( mmap._KnightMovesWSW )  this->StoreStepMoves( pos, mmap._KnightMovesWSW, SHIFT_W + SHIFT_SW );
+        if( mmap._KnightMovesESE )  this->StoreStepMoves( pos, mmap._KnightMovesESE, SHIFT_E + SHIFT_SE );
+        if( mmap._KnightMovesSSW )  this->StoreStepMoves( pos, mmap._KnightMovesSSW, SHIFT_S + SHIFT_SW );
+        if( mmap._KnightMovesSSE )  this->StoreStepMoves( pos, mmap._KnightMovesSSE, SHIFT_S + SHIFT_SE );
 
-        if( pos.mBoardFlipped )
+        if( pos._BoardFlipped )
             this->FlipAll();
     }
 
@@ -135,7 +135,7 @@ struct MoveList
         pos.CalcMoveMap( &mmap );
         this->UnpackMoveMap( pos, mmap );
 
-        return( this->mCount );
+        return( this->_Count );
     }
 
 private:
@@ -143,13 +143,13 @@ private:
     {
         u64 src         = SquareBit( (u64) srcIdx );
         u64 dest        = SquareBit( (u64) destIdx );
-        int src_val     = (src  & pos.mWhitePawns)? 1 : ((src  & (pos.mWhiteKnights | pos.mWhiteBishops))? 3 : ((src  & pos.mWhiteRooks)? 5 : ((src  & pos.mWhiteQueens)? 9 : 20)));
-        int dest_val    = (dest & pos.mBlackPawns)? 1 : ((dest & (pos.mBlackKnights | pos.mBlackBishops))? 3 : ((dest & pos.mBlackRooks)? 5 : ((dest & pos.mBlackQueens)? 9 :  0)));
+        int src_val     = (src  & pos._WhitePawns)? 1 : ((src  & (pos._WhiteKnights | pos._WhiteBishops))? 3 : ((src  & pos._WhiteRooks)? 5 : ((src  & pos._WhiteQueens)? 9 : 20)));
+        int dest_val    = (dest & pos._BlackPawns)? 1 : ((dest & (pos._BlackKnights | pos._BlackBishops))? 3 : ((dest & pos._BlackRooks)? 5 : ((dest & pos._BlackQueens)? 9 :  0)));
         int relative    = SignOrZero( dest_val - src_val );
         int capture     = dest_val? (relative + 2) : 0;
         int type        = promote? (promote + (capture? 4 : 0)) : capture;
 
-        mMove[mCount++].Set( srcIdx, destIdx, type );
+        _Move[_Count++].Set( srcIdx, destIdx, type );
     }
 
     PDECL void StorePromotions( const Position& pos, u64 dest, int ofs ) 

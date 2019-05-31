@@ -6,13 +6,13 @@ class HeapAllocator
 {
     typedef map< T, T > AddrToSizeMap;
 
-    AddrToSizeMap   mFree;
-    AddrToSizeMap   mUsed;
-    mutex           mMutex;
-    T               mRange;
-    T               mAlign;
-    T               mTotalAllocated;
-    T               mHighestAllocated;
+    AddrToSizeMap   _Free;
+    AddrToSizeMap   _Used;
+    mutex           _Mutex;
+    T               _Range;
+    T               _Align;
+    T               _TotalAllocated;
+    T               _HighestAllocated;
 
 public:
     const T INVALID = T( ~0 );
@@ -23,30 +23,30 @@ public:
         assert( (base      & (alignment - 1)) == 0 );
         assert( (range     & (alignment - 1)) == 0 );
 
-        mRange = range;
-        mAlign = alignment;
-        mTotalAllocated = 0;
-        mHighestAllocated = 0;
+        _Range = range;
+        _Align = alignment;
+        _TotalAllocated = 0;
+        _HighestAllocated = 0;
 
-        mUsed.clear();
-        mFree.clear();
-        mFree[base] = range;
+        _Used.clear();
+        _Free.clear();
+        _Free[base] = range;
     }
 
     T Alloc( T size )
     {
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
-        size = (size + mAlign - 1) & ~(mAlign - 1);
+        size = (size + _Align - 1) & ~(_Align - 1);
 
-        auto iter = mFree.begin();
-        while( iter != mFree.end() )
+        auto iter = _Free.begin();
+        while( iter != _Free.end() )
         {
             T freeAddr = iter->first;
             T freeSize = iter->second;
 
             auto next = iter;
-            if( ++next != mFree.end() )
+            if( ++next != _Free.end() )
             {
                 T nextAddr = next->first;
                 T nextSize = next->second;
@@ -54,7 +54,7 @@ public:
                 if( nextAddr == (freeAddr + freeSize) )
                 {
                     iter->second += nextSize;
-                    mFree.erase( next );
+                    _Free.erase( next );
                     continue;
                 }
             }
@@ -63,16 +63,16 @@ public:
             {
                 T addr = freeAddr;
 
-                assert( mUsed.find( addr ) == mUsed.end() );
-                mUsed[addr] = size;
+                assert( _Used.find( addr ) == _Used.end() );
+                _Used[addr] = size;
 
-                mFree.erase( iter );
+                _Free.erase( iter );
                 if( size < freeSize )
-                    mFree[freeAddr + size] = freeSize - size;
+                    _Free[freeAddr + size] = freeSize - size;
 
-                mTotalAllocated += size;
-                if( mTotalAllocated > mHighestAllocated )
-                    mHighestAllocated = mTotalAllocated;
+                _TotalAllocated += size;
+                if( _TotalAllocated > _HighestAllocated )
+                    _HighestAllocated = _TotalAllocated;
 
                 return addr;
             }
@@ -86,31 +86,31 @@ public:
 
     void Free( T addr )
     {
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
-        auto iter = mUsed.find( addr );
-        assert( iter != mUsed.end() );
-        assert( mFree.find( addr ) == mFree.end() );
+        auto iter = _Used.find( addr );
+        assert( iter != _Used.end() );
+        assert( _Free.find( addr ) == _Free.end() );
 
         T size = iter->second;
-        assert( mTotalAllocated >= size );
-        mTotalAllocated -= size;
+        assert( _TotalAllocated >= size );
+        _TotalAllocated -= size;
 
-        mFree[addr] = size;
-        mUsed.erase( iter );
+        _Free[addr] = size;
+        _Used.erase( iter );
     }
 
     void DebugValidate()
     {
 #if DEBUG
-        auto iterUsed = mUsed.begin();
-        auto iterFree = mFree.begin();
+        auto iterUsed = _Used.begin();
+        auto iterFree = _Free.begin();
 
         size_t offset = 0;
 
         for( ;; )
         {
-            if( iterFree != mFree.end() )
+            if( iterFree != _Free.end() )
             {
                 if(iterFree->first == offset)
                 {
@@ -120,7 +120,7 @@ public:
                 }
             }
 
-            if( iterUsed != mUsed.end() )
+            if( iterUsed != _Used.end() )
             {
                 if(iterUsed->first == offset)
                 {
@@ -130,13 +130,13 @@ public:
                 }
             }
 
-            if( iterFree == mFree.end() && iterUsed == mUsed.end() )
+            if( iterFree == _Free.end() && iterUsed == _Used.end() )
                 break;
 
             assert( 0 );
         }
 
-        assert( offset == mRange );
+        assert( offset == _Range );
 #endif
     }
 };

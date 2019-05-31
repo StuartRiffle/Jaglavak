@@ -5,14 +5,14 @@ struct TreeNode;
 
 struct BranchInfo
 {
-    TreeNode*   mNode;
-    MoveSpec    mMove;
-    ScoreCard   mScores;
-    double      mPrior;
+    TreeNode*   _Node;
+    MoveSpec    _Move;
+    ScoreCard   _Scores;
+    double      _Prior;
 
 #if DEBUG    
-    int         mDebugLossCounter;
-    char        mMoveText[MAX_MOVETEXT_LENGTH];
+    int         _DebugLossCounter;
+    char        _MoveText[MAX_MOVETEXT_LENGTH];
 #endif
 
     BranchInfo() { memset( this, 0, sizeof( *this ) ); }
@@ -20,20 +20,20 @@ struct BranchInfo
 
 struct TreeLink
 {
-    TreeNode*           mPrev;
-    TreeNode*           mNext;
+    TreeNode*           _Prev;
+    TreeNode*           _Next;
 };
 
 struct TreeNode : public TreeLink
 {
-    BranchInfo*         mInfo;
-    int                 mColor;
-    vector<BranchInfo>  mBranch;
-    bool                mGameOver;
-    ScoreCard           mGameResult;
-    Position            mPos;
+    BranchInfo*         _Info;
+    int                 _Color;
+    vector<BranchInfo>  _Branch;
+    bool                _GameOver;
+    ScoreCard           _GameResult;
+    Position            _Pos;
 
-    TreeNode() : mInfo( NULL ) { Clear(); }
+    TreeNode() : _Info( NULL ) { Clear(); }
     ~TreeNode() { Clear(); }
 
     void InitPosition( const Position& pos, const MoveMap& moveMap, BranchInfo* info = NULL );

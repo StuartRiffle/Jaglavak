@@ -10,21 +10,21 @@
 #include "UciEngine.h"
 #include "Version.h"
 
-UciEngine::UciEngine() : mDebugMode( false ) 
+UciEngine::UciEngine() : _DebugMode( false ) 
 {
     this->SetDefaultOptions();
 
-    mOptions.mDetectedSimdLevel = CpuInfo::DetectSimdLevel();
-    mOptions.mForceSimdLevel    = 0;
-    mOptions.mExplorationFactor = 1.41f;
+    _Options._DetectedSimdLevel = CpuInfo::DetectSimdLevel();
+    _Options._ForceSimdLevel    = 0;
+    _Options._ExplorationFactor = 1.41f;
 
-    mSearcher = unique_ptr<  TreeSearch >( new TreeSearch( &mOptions ) );
-    mSearcher->Init();
+    _Searcher = unique_ptr<  TreeSearch >( new TreeSearch( &_Options ) );
+    _Searcher->Init();
 }
 
 const UciOptionInfo* UciEngine::GetOptionInfo()
 {
-    #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, m##_FIELD ) / sizeof( int )), #_FIELD
+    #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _##_FIELD ) / sizeof( int )), #_FIELD
 
     static UciOptionInfo sOptions[] = 
     {
@@ -57,17 +57,17 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 
 void UciEngine::SetDefaultOptions()
 {
-    for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
-        mOptions.mOption[info->mIndex] = info->mValue;
+    for( const UciOptionInfo* info = GetOptionInfo(); info->_Index >= 0; info++ )
+        _Options._Option[info->_Index] = info->_Value;
 }
 
 void UciEngine::SetOptionByName( const char* name, int value )
 {
-    for( const UciOptionInfo* info = GetOptionInfo(); info->mIndex >= 0; info++ )
+    for( const UciOptionInfo* info = GetOptionInfo(); info->_Index >= 0; info++ )
     {
-        if( !stricmp( name, info->mName ) )
+        if( !stricmp( name, info->_Name ) )
         {
-            mOptions.mOption[info->mIndex] = value;
+            _Options._Option[info->_Index] = value;
             break;
         }
     }
@@ -83,12 +83,12 @@ bool UciEngine::ProcessCommand( const char* cmd )
         cout << "id author Stuart Riffle" << endl << endl;
 
         const UciOptionInfo* option = this->GetOptionInfo();
-        while( option->mIndex >= 0 )
+        while( option->_Index >= 0 )
         {
-            if( option->mIsCheckbox )
-                printf( "option type check name   %-20s default  %d\n", option->mName, option->mValue );
+            if( option->_IsCheckbox )
+                printf( "option type check name   %-20s default  %d\n", option->_Name, option->_Value );
             else
-                printf( "option type spin  name   %-20s default  %d\n", option->mName, option->mValue );
+                printf( "option type spin  name   %-20s default  %d\n", option->_Name, option->_Value );
 
             option++;
         }
@@ -108,9 +108,9 @@ bool UciEngine::ProcessCommand( const char* cmd )
     else if( t.Consume( "debug" ) )
     {
         if( t.Consume( "on" ) )       
-            mDebugMode = true;
+            _DebugMode = true;
         else 
-            mDebugMode = false;
+            _DebugMode = false;
     }
     else if( t.Consume( "isready" ) )
     {
@@ -118,7 +118,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
     }
     else if( t.Consume( "ucinewgame" ) )
     {
-        mSearcher->Reset();
+        _Searcher->Reset();
     }
     else if( t.Consume( "position" ) )
     {
@@ -144,7 +144,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
             }
         }
 
-        mSearcher->SetPosition( pos, &moveList );
+        _Searcher->SetPosition( pos, &moveList );
     }
     else if( t.Consume( "go" ) )
     {
@@ -152,16 +152,16 @@ bool UciEngine::ProcessCommand( const char* cmd )
 
         for( ;; )
         {
-            if(      t.Consume( "wtime" ) )          conf.mWhiteTimeLeft       = t.ConsumeInt();
-            else if( t.Consume( "btime" ) )          conf.mBlackTimeLeft       = t.ConsumeInt();
-            else if( t.Consume( "winc" ) )           conf.mWhiteTimeInc        = t.ConsumeInt();
-            else if( t.Consume( "binc" ) )           conf.mBlackTimeInc        = t.ConsumeInt();
-            else if( t.Consume( "movestogo" ) )      conf.mTimeControlMoves    = t.ConsumeInt();
-            else if( t.Consume( "mate" ) )           conf.mMateSearchDepth     = t.ConsumeInt();
-            else if( t.Consume( "depth" ) )          conf.mDepthLimit          = t.ConsumeInt();
-            else if( t.Consume( "nodes" ) )          conf.mNodesLimit          = t.ConsumeInt();
-            else if( t.Consume( "movetime" ) )       conf.mTimeLimit           = t.ConsumeInt();
-            else if( t.Consume( "infinite" ) )       conf.mTimeLimit           = 0;
+            if(      t.Consume( "wtime" ) )          conf._WhiteTimeLeft       = t.ConsumeInt();
+            else if( t.Consume( "btime" ) )          conf._BlackTimeLeft       = t.ConsumeInt();
+            else if( t.Consume( "winc" ) )           conf._WhiteTimeInc        = t.ConsumeInt();
+            else if( t.Consume( "binc" ) )           conf._BlackTimeInc        = t.ConsumeInt();
+            else if( t.Consume( "movestogo" ) )      conf._TimeControlMoves    = t.ConsumeInt();
+            else if( t.Consume( "mate" ) )           conf._MateSearchDepth     = t.ConsumeInt();
+            else if( t.Consume( "depth" ) )          conf._DepthLimit          = t.ConsumeInt();
+            else if( t.Consume( "nodes" ) )          conf._NodesLimit          = t.ConsumeInt();
+            else if( t.Consume( "movetime" ) )       conf._TimeLimit           = t.ConsumeInt();
+            else if( t.Consume( "infinite" ) )       conf._TimeLimit           = 0;
             else if( t.Consume( "searchmoves" ) )
             {
                 for( const char* movetext = t.ConsumeNext(); movetext; movetext = t.ConsumeNext() )
@@ -169,7 +169,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
                     MoveSpec spec;
                     StringToMoveSpec( movetext, spec );
 
-                    conf.mLimitMoves.Append( spec );
+                    conf._LimitMoves.Append( spec );
                 }
             }
             else if( t.Consume( "ponder" ) )
@@ -180,15 +180,15 @@ bool UciEngine::ProcessCommand( const char* cmd )
                 break;
         }
 
-        if( conf.mMateSearchDepth )
+        if( conf._MateSearchDepth )
             printf( "info string WARNING: mate search is not supported\n" );
 
-        mSearcher->SetUciSearchConfig( conf );
-        mSearcher->StartSearching();
+        _Searcher->SetUciSearchConfig( conf );
+        _Searcher->StartSearching();
     }
     else if( t.Consume( "stop" ) )
     {
-        mSearcher->StopSearching();
+        _Searcher->StopSearching();
     }
     else if( t.Consume( "quit" ) )
     {

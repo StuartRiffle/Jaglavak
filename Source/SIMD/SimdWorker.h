@@ -5,33 +5,33 @@
 
 class SimdWorker : public AsyncWorker
 {
-    const GlobalOptions*    mOptions;
-    BatchQueue*             mWorkQueue;
-    BatchQueue*             mDoneQueue;
-    unique_ptr< thread >    mWorkThread;
+    const GlobalOptions*    _Options;
+    BatchQueue*             _WorkQueue;
+    BatchQueue*             _DoneQueue;
+    unique_ptr< thread >    _WorkThread;
 
     void WorkThread()
     {
         for( ;; )
         {
             BatchRef batch;
-            if( !mWorkQueue->Pop( batch ) )
+            if( !_WorkQueue->Pop( batch ) )
                 break;
 
-            int count = (int) batch->mPosition.size();
+            int count = (int) batch->_Position.size();
             int paddedCount = count + SIMD_WIDEST * 2;
 
-            batch->mResults.resize( paddedCount ); // TODO: align this
+            batch->_GameResults.resize( paddedCount ); // TODO: align this
 
             PlayGamesSimd( 
-                mOptions, 
-                &batch->mParams, 
-                batch->mPosition.data(), 
-                batch->mResults.data(),
+                _Options, 
+                &batch->_Params, 
+                batch->_Position.data(), 
+                batch->_GameResults.data(),
                 count );
 
-            batch->mResults.resize( count );
-            mDoneQueue->Push( batch );
+            batch->_GameResults.resize( count );
+            _DoneQueue->Push( batch );
         }
     }
 
@@ -39,14 +39,14 @@ public:
 
     SimdWorker( const GlobalOptions* options, BatchQueue* jobQueue, BatchQueue* resultQueue )
     {
-        mOptions    = options;
-        mWorkQueue  = jobQueue;
-        mDoneQueue  = resultQueue;
-        mWorkThread = unique_ptr< thread >( new thread( [this] { this->WorkThread(); } ) );
+        _Options    = options;
+        _WorkQueue  = jobQueue;
+        _DoneQueue  = resultQueue;
+        _WorkThread = unique_ptr< thread >( new thread( [this] { this->WorkThread(); } ) );
     }
 
     ~SimdWorker()
     {
-        mWorkThread->join();
+        _WorkThread->join();
     }
 };

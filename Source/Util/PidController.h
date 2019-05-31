@@ -1,20 +1,20 @@
 #pragma once
 struct PidConfig
 {
-    float  mProportionalGain;
-    float  mIntegralGain;
-    float  mDerivativeGain;
-    float  mBias;
+    float  _ProportionalGain;
+    float  _IntegralGain;
+    float  _DerivativeGain;
+    float  _Bias;
 };
 
 class PidController
 {
 
-    float  mVariable;
-    float  mTarget;
-    float  mAddError;
-    float  mPrevError;
-    Config  mPidConfig;
+    float  _Variable;
+    float  _Target;
+    float  _AddError;
+    float  _PrevError;
+    Config _PidConfig;
 
     PidController()
     {
@@ -23,47 +23,23 @@ class PidController
 
     float Update( float value, float dt )
     {
-        float error = mTarget - value + mConfig.mBias;
-        float slope = (mPrevError - error) / dt;
+        float error = _Target - value + _Config._Bias;
+        float slope = (_PrevError - error) / dt;
 
-        mAddError += error * dt;
-        mPrevError = error;
+        _AddError += error * dt;
+        _PrevError = error;
 
-        mVariable =
-            mConfig.mProportionalGain * error +
-            mConfig.mIntegralGain     * mAddError +
-            mConfig.mDerivativeGain   * slope +
-            mConfig.mBias;
+        _Variable =
+            _Config._ProportionalGain * error +
+            _Config._IntegralGain     * _AddError +
+            _Config._DerivativeGain   * slope +
+            _Config._Bias;
 
-        return mVariable;
+        return _Variable;
     }
 
     void SetParameters( float kp, float ki, float kd )
     {
     }
-};
-
-template< typename T >
-class ManagedQueue
-{
-    Queue< T >      mQueue;
-    PidController   mLengthController;
-    int             mBufferLength;
-    u64             m
-
-    void PushBlocking( const T& elem )
-    {
-    }
-
-    bool TryPush( const T& elem )
-    {
-    }
-
-    bool TryPop( T& dest )
-    {
-    }
-    // controller watches the done queue
-
-
 };
 

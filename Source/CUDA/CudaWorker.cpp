@@ -10,10 +10,10 @@
 
 CudaWorker::CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue )
 {
-    mOptions = options;
-    mWorkQueue = workQueue;
-    mDoneQueue = doneQueue;
-    mShuttingDown = false;
+    _Options = options;
+    _WorkQueue = workQueue;
+    _DoneQueue = doneQueue;
+    _ShuttingDown = false;
 }
 
 CudaWorker::~CudaWorker()
@@ -32,43 +32,43 @@ int CudaWorker::GetDeviceCount()
 
 void CudaWorker::Initialize( int deviceIndex  )
 {
-    mDeviceIndex = deviceIndex;
-    mStreamIndex = 0;
+    _DeviceIndex = deviceIndex;
+    _StreamIndex = 0;
 
-    CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
-    CUDA_REQUIRE(( cudaGetDeviceProperties( &mProp, mDeviceIndex ) ));
+    CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
+    CUDA_REQUIRE(( cudaGetDeviceProperties( &_Prop, _DeviceIndex ) ));
     CUDA_REQUIRE(( cudaDeviceSetCacheConfig( cudaFuncCachePreferL1 ) ));
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
-        CUDA_REQUIRE(( cudaStreamCreateWithFlags( mStreamId + i, cudaStreamNonBlocking ) ));
+        CUDA_REQUIRE(( cudaStreamCreateWithFlags( _StreamId + i, cudaStreamNonBlocking ) ));
 
-    mHeap.Init( mOptions->mCudaHeapMegs * 1024 * 1024 );
-    mLaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
+    _Heap.Init( _Options->_CudaHeapMegs * 1024 * 1024 );
+    _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 }
 
 void CudaWorker::Shutdown()
 {
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
-        cudaStreamDestroy( mStreamId[i] );
+        cudaStreamDestroy( _StreamId[i] );
 
-    mShuttingDown = true;
-    mVar.notify_all();        
-    mLaunchThread->join();
+    _ShuttingDown = true;
+    _Var.notify_all();        
+    _LaunchThread->join();
 }
 
 cudaEvent_t CudaWorker::AllocEvent()
 {
     cudaEvent_t result = NULL;
 
-    if(mEventCache.empty())
+    if(_EventCache.empty())
     {
         auto status = cudaEventCreate( &result );
         assert( status == cudaSuccess );
     }
     else
     {
-        result = mEventCache.back();
-        mEventCache.pop_back();
+        result = _EventCache.back();
+        _EventCache.pop_back();
     }
 
     return result;
@@ -76,84 +76,84 @@ cudaEvent_t CudaWorker::AllocEvent()
 
 void CudaWorker::FreeEvent( cudaEvent_t event )
 {
-    mEventCache.push_back( event );
+    _EventCache.push_back( event );
 }
 
 void CudaWorker::LaunchThread()
 {
-    CUDA_REQUIRE(( cudaSetDevice( mDeviceIndex ) ));
+    CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
 
     for( ;; )
     {
-        vector< BatchRef > newBatches = mWorkQueue->PopMulti( mOptions->mCudaBatchesPerLaunch );
-        if( mShuttingDown )
+        vector< BatchRef > newBatches = _WorkQueue->PopMulti( _Options->_CudaBatchesPerLaunch );
+        if( _ShuttingDown )
             break;
 
         LaunchInfoRef launch( new LaunchInfo() );
-        launch->mBatches = newBatches;
+        launch->_Batches = newBatches;
 
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
         // Combine the batches into one big buffer
 
         int total = 0;
-        for( auto& batch : launch->mBatches )
+        for( auto& batch : launch->_Batches )
             total += batch->GetCount();
 
-        mHeap.Alloc( total, &launch->mParams );
-        mHeap.Alloc( total, &launch->mInputs );
-        mHeap.Alloc( total, &launch->mOutputs );
+        _Heap.Alloc( total, &launch->_Params );
+        _Heap.Alloc( total, &launch->_Inputs );
+        _Heap.Alloc( total, &launch->_Outputs );
                                      
         int offset = 0;
-        for( auto& batch : launch->mBatches )
+        for( auto& batch : launch->_Batches )
         {
             int count = batch->GetCount();
             for( int i = 0; i < count; i++ )
             {
-                launch->mInputs[offset + i] = batch->mPosition[i];
-                launch->mParams[offset + i] = batch->mParams;
+                launch->_Inputs[offset + i] = batch->_Position[i];
+                launch->_Params[offset + i] = batch->_Params;
             }
             offset += count;
         }
 
-        launch->mStartTimer = this->AllocEvent();
-        launch->mStopTimer  = this->AllocEvent(); 
-        launch->mReadyEvent = this->AllocEvent();
+        launch->_StartTimer = this->AllocEvent();
+        launch->_StopTimer  = this->AllocEvent(); 
+        launch->_ReadyEvent = this->AllocEvent();
 
-        int streamIndex = mStreamIndex++;
-        mStreamIndex %= CUDA_NUM_STREAMS;
-        cudaStream_t stream = mStreamId[streamIndex];
+        int strea_Index = _StreamIndex++;
+        _StreamIndex %= CUDA_NUM_STREAMS;
+        cudaStream_t stream = _StreamId[strea_Index];
 
-        int totalWidth = total * mOptions->mNumAsyncPlayouts;
-        int blockSize  = mProp.warpSize;
+        int totalWidth = total * _Options->_NumAsyncPlayouts;
+        int blockSize  = _Prop.warpSize;
         int blockCount = (totalWidth + blockSize - 1) / blockSize;
 
-        launch->mParams.CopyUpToDeviceAsync( stream );
-        launch->mInputs.CopyUpToDeviceAsync( stream );
-        launch->mOutputs.ClearOnDeviceAsync( stream );
+        launch->_Params.CopyUpToDeviceAsync( stream );
+        launch->_Inputs.CopyUpToDeviceAsync( stream );
+        launch->_Outputs.ClearOnDeviceAsync( stream );
 
-        CUDA_REQUIRE(( cudaEventRecord( launch->mStartTimer, stream ) ));
+        CUDA_REQUIRE(( cudaEventRecord( launch->_StartTimer, stream ) ));
 
         PlayGamesCudaAsync( 
-            launch->mParams.mDevice, 
-            launch->mInputs.mDevice, 
-            launch->mOutputs.mDevice, 
+            launch->_Params._Device, 
+            launch->_Inputs._Device, 
+            launch->_Outputs._Device, 
             total,
             blockCount, 
             blockSize, 
             stream );
 
-        CUDA_REQUIRE(( cudaEventRecord( launch->mStopTimer, stream ) ));
-        launch->mOutputs.CopyDownToHostAsync( stream );
-        CUDA_REQUIRE(( cudaEventRecord( launch->mReadyEvent, stream ) ));
+        CUDA_REQUIRE(( cudaEventRecord( launch->_StopTimer, stream ) ));
+        launch->_Outputs.CopyDownToHostAsync( stream );
+        CUDA_REQUIRE(( cudaEventRecord( launch->_ReadyEvent, stream ) ));
 
-        mInFlightByStream[streamIndex].push_back( launch );
+        _InFlightByStream[strea_Index].push_back( launch );
     }
 }
 
 void CudaWorker::Update() 
 {
-    unique_lock< mutex > lock( mMutex );
+    unique_lock< mutex > lock( _Mutex );
 
     // This is called from the main thread to gather completed batches
 
@@ -161,35 +161,35 @@ void CudaWorker::Update()
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
     {
-        auto& inFlight = mInFlightByStream[i];
+        auto& inFlight = _InFlightByStream[i];
         while( !inFlight.empty() )
         {
             LaunchInfoRef launch = inFlight.front();
-            if( cudaEventQuery( launch->mReadyEvent ) != cudaSuccess )
+            if( cudaEventQuery( launch->_ReadyEvent ) != cudaSuccess )
                 break;
 
             inFlight.pop_front();
 
             int offset = 0;
-            for( auto& batch : launch->mBatches )
+            for( auto& batch : launch->_Batches )
             {
-                ScoreCard* results = (ScoreCard*) &launch->mOutputs[offset];
+                ScoreCard* results = (ScoreCard*) &launch->_Outputs[offset];
 
-                batch->mResults.assign( results, results + batch->GetCount() );
+                batch->_GameResults.assign( results, results + batch->GetCount() );
                 offset += batch->GetCount();
 
                 completed.push_back( batch );
             }
 
-            mHeap.Free( launch->mParams );
-            mHeap.Free( launch->mInputs );
-            mHeap.Free( launch->mOutputs );
+            _Heap.Free( launch->_Params );
+            _Heap.Free( launch->_Inputs );
+            _Heap.Free( launch->_Outputs );
 
-            this->FreeEvent( launch->mStartTimer );
-            this->FreeEvent( launch->mStopTimer );
-            this->FreeEvent( launch->mReadyEvent );
+            this->FreeEvent( launch->_StartTimer );
+            this->FreeEvent( launch->_StopTimer );
+            this->FreeEvent( launch->_ReadyEvent );
         }
     }
 
-    mDoneQueue->Push( completed );
+    _DoneQueue->Push( completed );
 }

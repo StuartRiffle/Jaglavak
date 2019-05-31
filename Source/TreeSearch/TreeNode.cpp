@@ -9,31 +9,31 @@ void TreeNode::InitPosition( const Position& pos, const MoveMap& moveMap, Branch
 {
     this->Clear();
 
-    mPos = pos;
-    mInfo = info;
-    mColor = pos.mWhiteToMove? WHITE : BLACK;
+    _Pos = pos;
+    _Info = info;
+    _Color = pos._WhiteToMove? WHITE : BLACK;
 
     MoveList moveList;
     moveList.UnpackMoveMap( pos, moveMap );
 
-    if (pos.mResult != RESULT_UNKNOWN )
+    if (pos._GameResult != RESULT_UNKNOWN )
     {
-        assert( moveList.mCount == 0 );
+        assert( moveList._Count == 0 );
 
-        mGameResult.mWins[WHITE] = (pos.mResult == RESULT_WHITE_WIN);
-        mGameResult.mWins[BLACK] = (pos.mResult == RESULT_BLACK_WIN);
-        mGameResult.mPlays = 1;
-        mGameOver = true;
+        _GameResult._Wins[WHITE] = (pos._GameResult == RESULT_WHITE_WIN);
+        _GameResult._Wins[BLACK] = (pos._GameResult == RESULT_BLACK_WIN);
+        _GameResult._Plays = 1;
+        _GameOver = true;
     }
     else
     {
-        mBranch.resize( moveList.mCount );
+        _Branch.resize( moveList._Count );
 
-        for( int i = 0; i < moveList.mCount; i++ )
+        for( int i = 0; i < moveList._Count; i++ )
         {
-            mBranch[i].mMove = moveList.mMove[i];
+            _Branch[i]._Move = moveList._Move[i];
 #if DEBUG        
-            MoveSpecToString( moveList.mMove[i], mBranch[i].mMoveText );
+            MoveSpecToString( moveList._Move[i], _Branch[i]._MoveText );
 #endif
         }
     }
@@ -43,25 +43,25 @@ void TreeNode::Clear()
 {
     // We should only ever be clearing leaf nodes, because of the MRU ordering
 
-    for( auto& info : mBranch )
-        assert( info.mNode == NULL );
+    for( auto& info : _Branch )
+        assert( info._Node == NULL );
 
-    if( mInfo )
+    if( _Info )
     {
-        assert( mInfo->mNode == this );
-        mInfo->mNode = NULL;
+        assert( _Info->_Node == this );
+        _Info->_Node = NULL;
     }
 
-    mInfo = NULL;
-    mBranch.clear();
-    mGameResult.Clear();
-    mGameOver = false;
+    _Info = NULL;
+    _Branch.clear();
+    _GameResult.Clear();
+    _GameOver = false;
 }
 
 int TreeNode::FindMoveIndex( const MoveSpec& move )
 {
-    for( int i = 0; i < (int) mBranch.size(); i++ )
-        if( mBranch[i].mMove == move )
+    for( int i = 0; i < (int) _Branch.size(); i++ )
+        if( _Branch[i]._Move == move )
             return( i );
 
     return( -1 );
@@ -69,9 +69,9 @@ int TreeNode::FindMoveIndex( const MoveSpec& move )
 
 void TreeNode::SanityCheck()
 {
-    for( auto& info : mBranch )
-        if( info.mNode )
-            assert( info.mNode->mInfo == &info );
+    for( auto& info : _Branch )
+        if( info._Node )
+            assert( info._Node->_Info == &info );
 
-    assert( mInfo->mNode == this );
+    assert( _Info->_Node == this );
 }

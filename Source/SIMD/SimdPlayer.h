@@ -3,13 +3,13 @@
 
 static void PlayGamesSimd( const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
-    int simdLevel = options->mDetectedSimdLevel;
+    int simdLevel = options->_DetectedSimdLevel;
 
-    if( !options->mEnableSimd )
+    if( !options->_EnableSimd )
         simdLevel = 1;
 
-    if( options->mForceSimdLevel )
-        simdLevel = options->mForceSimdLevel;
+    if( options->_ForceSimdLevel )
+        simdLevel = options->_ForceSimdLevel;
 
     int simdCount = (count + simdLevel - 1) / simdLevel;
 

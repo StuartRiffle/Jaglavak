@@ -10,10 +10,10 @@ struct Perft
         MoveList valid;
         valid.FindMoves( pos );
 
-        for( int i = 0; i < valid.mCount; i++ )
+        for( int i = 0; i < valid._Count; i++ )
         {
             Position next = pos;
-            next.Step( valid.mMove[i] );
+            next.Step( valid._Move[i] );
 
             if( depth == (MAX_PARALLEL_DEPTH + 1) )
                 dest->push_back( next );
@@ -55,10 +55,10 @@ struct Perft
 
         u64 total = 0;
 
-        for( int i = 0; i < valid.mCount; i++ )
+        for( int i = 0; i < valid._Count; i++ )
         {
             Position next = pos;
-            next.Step( valid.mMove[i] );
+            next.Step( valid._Move[i] );
 
             if( depth == 2 )
             {
@@ -95,15 +95,15 @@ struct Perft
 
         u64 total = 0;
 
-        for( int i = 0; i < valid.mCount; i++ )
+        for( int i = 0; i < valid._Count; i++ )
         {
             Position next = pos;
-            next.Step( valid.mMove[i] );
+            next.Step( valid._Move[i] );
 
             u64 count = (depth > 1)? Perft::CalcPerft( next, depth - 1 ) : 1;
             total += count;
 
-            string moveText = SerializeMoveSpec( valid.mMove[i] );
+            string moveText = SerializeMoveSpec( valid._Move[i] );
             cout << "info string divide " << depth << " " << moveText << "  " << count << endl;
         }
 

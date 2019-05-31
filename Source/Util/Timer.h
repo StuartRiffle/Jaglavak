@@ -3,19 +3,19 @@
 
 struct Timer
 {
-    u64 mStartTime;
+    u64 _StartTime;
 
     Timer() { this->Reset(); }
-    Timer( const Timer& rhs ) : mStartTime( rhs.mStartTime ) {}
+    Timer( const Timer& rhs ) : _StartTime( rhs._StartTime ) {}
 
     void Reset()         
     { 
-        mStartTime = CpuInfo::GetClockTick(); 
+        _StartTime = CpuInfo::GetClockTick(); 
     }
 
     u64 GetElapsedTicks() const
     {
-        return CpuInfo::GetClockTick() - mStartTime;
+        return CpuInfo::GetClockTick() - _StartTime;
     }
 
     float GetElapsedSec() const

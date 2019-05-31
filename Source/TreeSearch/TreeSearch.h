@@ -3,16 +3,16 @@
 
 struct UciSearchConfig
 {
-    int         mWhiteTimeLeft;   
-    int         mBlackTimeLeft;   
-    int         mWhiteTimeInc;    
-    int         mBlackTimeInc;    
-    int         mTimeControlMoves;
-    int         mMateSearchDepth; 
-    int         mDepthLimit;       
-    int         mNodesLimit;       
-    int         mTimeLimit; 
-    MoveList    mLimitMoves;
+    int         _WhiteTimeLeft;   
+    int         _BlackTimeLeft;   
+    int         _WhiteTimeInc;    
+    int         _BlackTimeInc;    
+    int         _TimeControlMoves;
+    int         _MateSearchDepth; 
+    int         _DepthLimit;       
+    int         _NodesLimit;       
+    int         _TimeLimit; 
+    MoveList    _LimitMoves;
 
     UciSearchConfig()   { this->Clear(); }
     void Clear()        { memset( this, 0, sizeof( *this ) ); }
@@ -20,18 +20,18 @@ struct UciSearchConfig
 
 struct TreeSearchParameters
 {
-    int         mBatchSize;
-    int         mMaxPending;
-    int         mInitialPlayouts;
-    int         mAsyncPlayouts;
+    int         _BatchSize;
+    int         _MaxPending;
+    int         _InitialPlayouts;
+    int         _AsyncPlayouts;
 };
 
 struct TreeSearchMetrics
 {
-    u64         mNumBatchesMade;
-    u64         mNumBatchesDone;
-    u64         mNumNodesCreated;
-    u64         mNumGamesPlayed;
+    u64         _NumBatchesMade;
+    u64         _NumBatchesDone;
+    u64         _NumNodesCreated;
+    u64         _NumGamesPlayed;
 
     void Clear() { memset( this, 0, sizeof( *this )); }
 
@@ -48,38 +48,38 @@ struct TreeSearchMetrics
 
 struct TreeSearch
 {
-    GlobalOptions*          mOptions;
-    UciSearchConfig         mUciConfig;
-    TreeSearchParameters    mSearchParams;
-    RandomGen               mRandom;
+    GlobalOptions*          _Options;
+    UciSearchConfig         _UciConfig;
+    TreeSearchParameters    _SearchParams;
+    RandomGen               _Random;
 
-    vector< uint8_t >       mNodePoolBuf;
-    TreeNode*               mNodePool;
-    size_t                  mNodePoolEntries;                                       
+    vector< uint8_t >       _NodePoolBuf;
+    TreeNode*               _NodePool;
+    size_t                  _NodePoolEntries;                                       
 
-    TreeLink                mMruListHead;
-    TreeNode*               mSearchRoot;
-    BranchInfo              mRootInfo;
+    TreeLink                _MruListHead;
+    TreeNode*               _SearchRoot;
+    BranchInfo              _RootInfo;
 
-    BatchQueue              mWorkQueue;
-    BatchQueue              mDoneQueue;
-    int                     mNumPending;
+    BatchQueue              _WorkQueue;
+    BatchQueue              _DoneQueue;
+    int                     _NumPending;
 
-    unique_ptr< thread >    mSearchThread;
-    Semaphore               mSearchThreadGo;
-    Semaphore               mSearchThreadIsIdle;
-    volatile bool           mSearchingNow;
-    volatile bool           mShuttingDown;
+    unique_ptr< thread >    _SearchThread;
+    Semaphore               _SearchThreadGo;
+    Semaphore               _SearchThreadIsIdle;
+    volatile bool           _SearchingNow;
+    volatile bool           _ShuttingDown;
 
-    Timer                   mSearchTimer;
-    Timer                   mUciUpdateTimer;
-    int                     mDeepestLevelSearched;
-    TreeSearchMetrics       mMetrics;
-    TreeSearchMetrics       mSearchStartMetrics;
-    TreeSearchMetrics       mStatsStartMetrics;
+    Timer                   _SearchTimer;
+    Timer                   _UciUpdateTimer;
+    int                     _DeepestLevelSearched;
+    TreeSearchMetrics       _Metrics;
+    TreeSearchMetrics       _SearchStartMetrics;
+    TreeSearchMetrics       _StatsStartMetrics;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
-    vector< AsyncWorkerRef > mAsyncWorkers;
+    vector< AsyncWorkerRef > _AsyncWorkers;
 
     TreeNode* AllocNode();
     void MoveToFront( TreeNode* node );
@@ -101,14 +101,14 @@ struct TreeSearch
     void AdjustForWarmup();
     void SearchThread();
 
-    int GetRandomUnexploredBranch( TreeNode* node );
+    int GetRando_UnexploredBranch( TreeNode* node );
     MoveSpec SendUciStatus();
     void ExtractBestLine( TreeNode* node, MoveList* dest );
 
 
 public:
 
-    TreeSearch( GlobalOptions* options, u64 randomSeed = 1 );
+    TreeSearch( GlobalOptions* options, u64 rando_Seed = 1 );
     ~TreeSearch();
 
     void Init();

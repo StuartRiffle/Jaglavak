@@ -3,37 +3,37 @@
 
 struct ScoreCard
 {
-    atomic64_t mWins[2];
-    atomic64_t mPlays;
+    atomic64_t _Wins[2];
+    atomic64_t _Plays;
 
     PDECL ScoreCard() { this->Clear(); }
 
     PDECL ScoreCard( const ScoreCard& rhs ) 
     {
-        mWins[BLACK] = (u64) rhs.mWins[BLACK];
-        mWins[WHITE] = (u64) rhs.mWins[WHITE];
-        mPlays = (u64) rhs.mPlays;
+        _Wins[BLACK] = (u64) rhs._Wins[BLACK];
+        _Wins[WHITE] = (u64) rhs._Wins[WHITE];
+        _Plays = (u64) rhs._Plays;
     }
 
     PDECL void Clear()
     {
-        mWins[BLACK] = 0;
-        mWins[WHITE] = 0;
-        mPlays = 0;
+        _Wins[BLACK] = 0;
+        _Wins[WHITE] = 0;
+        _Plays = 0;
     }
 
     PDECL ScoreCard& operator=(const ScoreCard& sc)
     {
-        PlatStoreAtomic( &mWins[BLACK], sc.mWins[BLACK] );
-        PlatStoreAtomic( &mWins[WHITE], sc.mWins[WHITE] );
-        PlatStoreAtomic( &mPlays, sc.mPlays );
+        PlatStoreAtomic( &_Wins[BLACK], sc._Wins[BLACK] );
+        PlatStoreAtomic( &_Wins[WHITE], sc._Wins[WHITE] );
+        PlatStoreAtomic( &_Plays, sc._Plays );
         return *this;
     }
 
     PDECL void Add( const ScoreCard& sc )
     {
-        PlatAddAtomic( &mWins[BLACK], sc.mWins[BLACK] );
-        PlatAddAtomic( &mWins[WHITE], sc.mWins[WHITE] );
-        PlatAddAtomic( &mPlays, sc.mPlays );
+        PlatAddAtomic( &_Wins[BLACK], sc._Wins[BLACK] );
+        PlatAddAtomic( &_Wins[WHITE], sc._Wins[WHITE] );
+        PlatAddAtomic( &_Plays, sc._Plays );
     }
 };

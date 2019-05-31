@@ -6,46 +6,46 @@
 template< typename SIMD >
 struct ALIGN_SIMD MoveMapT
 {
-    SIMD        mSlidingMovesN;
-    SIMD        mSlidingMovesNW;
-    SIMD        mSlidingMovesW;
-    SIMD        mSlidingMovesSW;
-    SIMD        mSlidingMovesS;
-    SIMD        mSlidingMovesSE;
-    SIMD        mSlidingMovesE;
-    SIMD        mSlidingMovesNE;
+    SIMD        _SlidingMovesN;
+    SIMD        _SlidingMovesNW;
+    SIMD        _SlidingMovesW;
+    SIMD        _SlidingMovesSW;
+    SIMD        _SlidingMovesS;
+    SIMD        _SlidingMovesSE;
+    SIMD        _SlidingMovesE;
+    SIMD        _SlidingMovesNE;
 
-    SIMD        mKnightMovesNNW;
-    SIMD        mKnightMovesNNE;
-    SIMD        mKnightMovesWNW;
-    SIMD        mKnightMovesENE;
-    SIMD        mKnightMovesWSW;
-    SIMD        mKnightMovesESE;
-    SIMD        mKnightMovesSSW;
-    SIMD        mKnightMovesSSE;
+    SIMD        _KnightMovesNNW;
+    SIMD        _KnightMovesNNE;
+    SIMD        _KnightMovesWNW;
+    SIMD        _KnightMovesENE;
+    SIMD        _KnightMovesWSW;
+    SIMD        _KnightMovesESE;
+    SIMD        _KnightMovesSSW;
+    SIMD        _KnightMovesSSE;
 
-    SIMD        mPawnMovesN;
-    SIMD        mPawnDoublesN;
-    SIMD        mPawnAttacksNE;
-    SIMD        mPawnAttacksNW;
+    SIMD        _PawnMovesN;
+    SIMD        _PawnDoublesN;
+    SIMD        _PawnAttacksNE;
+    SIMD        _PawnAttacksNW;
 
-    SIMD        mCastlingMoves;
-    SIMD        mKingMoves;
-    SIMD        mCheckMask;
+    SIMD        _CastlingMoves;
+    SIMD        _KingMoves;
+    SIMD        _CheckMask;
 
     INLINE PDECL SIMD CalcMoveTargets() const
     {
-        SIMD slidingMoves   = mSlidingMovesNW | mSlidingMovesNE | mSlidingMovesSW | mSlidingMovesSE | mSlidingMovesN  | mSlidingMovesW  | mSlidingMovesE  | mSlidingMovesS;
-        SIMD knightMoves    = mKnightMovesNNW | mKnightMovesNNE | mKnightMovesWNW | mKnightMovesENE | mKnightMovesWSW | mKnightMovesESE | mKnightMovesSSW | mKnightMovesSSE;
-        SIMD otherMoves     = mPawnMovesN | mPawnDoublesN | mPawnAttacksNE | mPawnAttacksNW | mCastlingMoves | mKingMoves;
-        SIMD targets        = (slidingMoves & mCheckMask) | knightMoves | otherMoves;
+        SIMD slidingMoves   = _SlidingMovesNW | _SlidingMovesNE | _SlidingMovesSW | _SlidingMovesSE | _SlidingMovesN  | _SlidingMovesW  | _SlidingMovesE  | _SlidingMovesS;
+        SIMD knightMoves    = _KnightMovesNNW | _KnightMovesNNE | _KnightMovesWNW | _KnightMovesENE | _KnightMovesWSW | _KnightMovesESE | _KnightMovesSSW | _KnightMovesSSE;
+        SIMD otherMoves     = _PawnMovesN | _PawnDoublesN | _PawnAttacksNE | _PawnAttacksNW | _CastlingMoves | _KingMoves;
+        SIMD targets        = (slidingMoves & _CheckMask) | knightMoves | otherMoves;
 
         return( targets );
     }
 
     INLINE PDECL SIMD IsInCheck() const
     {
-        return( ~CmpEqual( mCheckMask, MaskAllSet< SIMD >() ) );
+        return( ~CmpEqual( _CheckMask, MaskAllSet< SIMD >() ) );
     }
 };
 

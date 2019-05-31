@@ -8,10 +8,10 @@ enum
 
 struct UciOptionInfo
 {
-    int         mIndex;
-    const char* mName;
-    int         mIsCheckbox;
-    int         mValue;
+    int         _Index;
+    const char* _Name;
+    int         _IsCheckbox;
+    int         _Value;
 };
 
 
@@ -19,9 +19,9 @@ struct TreeSearch;
 
 class UciEngine
 {
-    unique_ptr< TreeSearch >   mSearcher;
-    GlobalOptions   mOptions;
-    bool            mDebugMode;
+    unique_ptr< TreeSearch >   _Searcher;
+    GlobalOptions   _Options;
+    bool            _DebugMode;
 
 public:
     UciEngine();

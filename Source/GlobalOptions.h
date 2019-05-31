@@ -7,34 +7,34 @@ union GlobalOptions
     {
         // These are exposed as UCI settings
 
-        int     mEnableSimd;
-        int     mEnableCuda;
-        int     mEnableMulticore;
-        int     mCpuAffinityMask;
-        int     mGpuAffinityMask;
+        int     _EnableSimd;
+        int     _EnableCuda;
+        int     _EnableMulticore;
+        int     _CpuAffinityMask;
+        int     _GpuAffinityMask;
 
-        int     mDrawsWorthHalf;
-        int     mNumInitialPlayouts;
-        int     mNumAsyncPlayouts;
-        int     mMaxPlayoutMoves;
-        int     mBatchSize;
-        int     mMaxPendingBatches;
-        int     mMaxTreeNodes;
+        int     _DrawsWorthHalf;
+        int     _NumInitialPlayouts;
+        int     _NumAsyncPlayouts;
+        int     _MaxPlayoutMoves;
+        int     _BatchSize;
+        int     _MaxPendingBatches;
+        int     _MaxTreeNodes;
 
-        int     mCudaHeapMegs;
-        int     mCudaBatchesPerLaunch;
-        int     mNumSimdWorkers;
-        int     mTimeSafetyBuffer;
-        int     mSearchSleepTime;
-        int     mUciUpdateDelay;
+        int     _CudaHeapMegs;
+        int     _CudaBatchesPerLaunch;
+        int     _NumSimdWorkers;
+        int     _TimeSafetyBuffer;
+        int     _SearchSleepTime;
+        int     _UciUpdateDelay;
 
         // These are not
 
-        float   mExplorationFactor;
-        int     mDetectedSimdLevel;
-        int     mForceSimdLevel;
+        float   _ExplorationFactor;
+        int     _DetectedSimdLevel;
+        int     _ForceSimdLevel;
     };
 
-    int mOption[1];
+    int _Option[1];
 };
 

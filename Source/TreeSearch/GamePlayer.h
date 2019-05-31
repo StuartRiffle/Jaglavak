@@ -9,24 +9,24 @@ class GamePlayer
 {
     enum { LANES = SimdWidth< SIMD >::LANES };
 
-    const PlayoutParams* mParams;
-    RandomGen mRandom;
+    const PlayoutParams* _Params;
+    RandomGen _Random;
 
 public:
 
     PDECL GamePlayer( const PlayoutParams* params, u64 salt = 0 )
     {
-        mParams = params;
-        mRandom.SetSeed( params->mRandomSeed + salt );
+        _Params = params;
+        _Random.SetSeed( params->_RandomSeed + salt );
     }
 
     PDECL void PlayGames( const Position* pos, ScoreCard* dest, int simdCount )
     {
         assert( (uintptr_t) pos % sizeof( SIMD ) == 0 );
 
-        int totalIters = simdCount * mParams->mNumGamesEach;
+        int totalIters = simdCount * _Params->_NumGamesEach;
 
-        #pragma omp parallel for schedule(dynamic) if (mParams->mEnableMulticore)
+        #pragma omp parallel for schedule(dynamic) if (_Params->_EnableMulticore)
         for( int i = 0; i < totalIters; i++ )
         {
             PositionT< SIMD > simdPos;
@@ -46,7 +46,7 @@ protected:
         MoveMapT< SIMD >  simdMoveMap;
         simdPos.CalcMoveMap( &simdMoveMap );
 
-        for( int i = 0; i < mParams->mMaxMovesPerGame; i++ )
+        for( int i = 0; i < _Params->_MaxMovesPerGame; i++ )
         {
             MoveSpecT< SIMD > simdSpec = ChoosePlayoutMoves( simdPos, simdMoveMap );
 
@@ -55,12 +55,12 @@ protected:
                 break;
         }
 
-        u64* results = (u64*) &simdPos.mResult;
+        u64* results = (u64*) &simdPos._GameResult;
         for( int lane = 0; lane < LANES; lane++ )
         {
-            outScores[lane].mWins[WHITE] += (results[lane] == RESULT_WHITE_WIN);
-            outScores[lane].mWins[BLACK] += (results[lane] == RESULT_BLACK_WIN);
-            outScores[lane].mPlays++;
+            outScores[lane]._Wins[WHITE] += (results[lane] == RESULT_WHITE_WIN);
+            outScores[lane]._Wins[BLACK] += (results[lane] == RESULT_BLACK_WIN);
+            outScores[lane]._Plays++;
         }
     }
 
@@ -84,10 +84,10 @@ protected:
 
     PDECL MoveSpec ChooseMove( const Position& pos, const MoveMap& moveMap )
     {
-        if( pos.mResult == RESULT_UNKNOWN )
+        if( pos._GameResult == RESULT_UNKNOWN )
         {
-            MoveSpec randomMove = SelectRandomMove( pos, moveMap );
-            return randomMove;
+            MoveSpec rando_Move = SelectRando_Move( pos, moveMap );
+            return rando_Move;
         }
 
         MoveSpec nullMove( 0, 0, 0 );
@@ -96,7 +96,7 @@ protected:
 
     PDECL bool GamesAreAllDone( const PositionT< SIMD >& simdPos )
     {
-        u64* results = (u64*) &simdPos.mResult;
+        u64* results = (u64*) &simdPos._GameResult;
 
         for( int i = 0; i < LANES; i++ )
             if( results[i] == RESULT_UNKNOWN )
@@ -105,17 +105,17 @@ protected:
         return true;
     }
 
-    PDECL MoveSpec SelectRandomMove( const Position& pos, const MoveMap& moveMap )
+    PDECL MoveSpec SelectRando_Move( const Position& pos, const MoveMap& moveMap )
     {
-        u64 rseed = mRandom.s;
+        u64 rseed = _Random.s;
 
         MoveList moveList;
         MoveMap sparseMap;
         u64* buf = (u64*) &sparseMap;
 
-        // All the fields in the MoveMap (up to mCheckMask) represent (potential) moves as bits
+        // All the fields in the MoveMap (up to _CheckMask) represent (potential) moves as bits
 
-        const int count = (int) offsetof( MoveMap, mCheckMask ) / sizeof( u64 );
+        const int count = (int) offsetof( MoveMap, _CheckMask ) / sizeof( u64 );
         sparseMap = moveMap;
 
         // Choose a lucky random bit (move) to keep
@@ -125,7 +125,7 @@ protected:
             total += PlatCountBits64( buf[i] );
 
         assert( total > 0 );
-        u64 bitsToSkip = mRandom.GetRange( total );
+        u64 bitsToSkip = _Random.GetRange( total );
 
         // Find out which word it's in
 
@@ -150,7 +150,7 @@ protected:
             destIdx = LowestBitIndex( wordVal );
         }
 
-        bool isSlidingMove = word < offsetof( MoveMap, mKnightMovesNNW );
+        bool isSlidingMove = word < offsetof( MoveMap, _KnightMovesNNW );
         if( isSlidingMove )
         {
             assert( buf[word] & SquareBit( destIdx ) );
@@ -187,28 +187,28 @@ protected:
         moveList.UnpackMoveMap( pos, sparseMap );
 
         static u64 sCounts[MAX_POSSIBLE_MOVES] = { 0 };
-        //sCounts[moveList.mCount]++;
+        //sCounts[moveList._Count]++;
 
-        for( int i = 0; i < moveList.mCount; i++ )
+        for( int i = 0; i < moveList._Count; i++ )
         { 
-            if( moveList.mMove[i].mDest == destIdx )
+            if( moveList._Move[i]._Dest == destIdx )
             {
-                sCounts[moveList.mCount]++;
-                return moveList.mMove[i];
+                sCounts[moveList._Count]++;
+                return moveList._Move[i];
             }
         }
 
         // The bit we chose is not a valid destination (maybe the move
         // would leave the king in check). So 
 
-        if( moveList.mCount == 0 )
+        if( moveList._Count == 0 )
             moveList.UnpackMoveMap( pos, moveMap );
 
-        sCounts[moveList.mCount]++;
+        sCounts[moveList._Count]++;
 
-        assert( moveList.mCount > 0 );
-        u64 idx = mRandom.GetRange( moveList.mCount );
-        return moveList.mMove[idx];
+        assert( moveList._Count > 0 );
+        u64 idx = _Random.GetRange( moveList._Count );
+        return moveList._Move[idx];
     }
 };
 

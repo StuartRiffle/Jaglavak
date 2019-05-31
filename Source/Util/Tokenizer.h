@@ -3,11 +3,11 @@
 
 class Tokenizer
 {
-    vector< char > mStr;
-    char*          mCursor;
+    vector< char > _Str;
+    char*          _Cursor;
 
-    void SkipWhite()    { while( *mCursor &&  isspace( *mCursor ) ) mCursor++; }
-    void SkipNonWhite() { while( *mCursor && !isspace( *mCursor ) ) mCursor++; }
+    void SkipWhite()    { while( *_Cursor &&  isspace( *_Cursor ) ) _Cursor++; }
+    void SkipNonWhite() { while( *_Cursor && !isspace( *_Cursor ) ) _Cursor++; }
 
 public:
 
@@ -19,30 +19,30 @@ public:
     void Set( const char* str )
     {
         size_t len = strlen( str );
-        mStr.clear();
-        mStr.reserve( len + 1 );
-        mStr.insert( mStr.end(), str, str + len + 1 );
+        _Str.clear();
+        _Str.reserve( len + 1 );
+        _Str.insert( _Str.end(), str, str + len + 1 );
 
-        mCursor = &mStr[0];
+        _Cursor = &_Str[0];
         this->SkipWhite();
     }
 
     bool StartsWith( const char* target )
     {
         size_t targetLen = strlen( target );
-        return( strnicmp( mCursor, target, targetLen ) == 0 );
+        return( strnicmp( _Cursor, target, targetLen ) == 0 );
     }
 
     bool Consume( const char* target )
     {
         size_t targetLen = strlen( target );
-        if( strnicmp( mCursor, target, targetLen ) != 0 )
+        if( strnicmp( _Cursor, target, targetLen ) != 0 )
             return( false );
 
-        if( mCursor[targetLen] && !isspace( mCursor[targetLen] ) )
+        if( _Cursor[targetLen] && !isspace( _Cursor[targetLen] ) )
             return( false );
 
-        mCursor += targetLen;
+        _Cursor += targetLen;
         this->SkipWhite();
 
         return( true );
@@ -50,15 +50,15 @@ public:
 
     const char* ConsumeNext()
     {
-        const char* start = mCursor;
+        const char* start = _Cursor;
 
         this->SkipNonWhite();
         this->SkipWhite();
 
-        if( mCursor > start )
+        if( _Cursor > start )
         {
-            if( *mCursor )
-                mCursor[-1] = '\0';
+            if( *_Cursor )
+                _Cursor[-1] = '\0';
 
             return( start );
         }
@@ -68,11 +68,11 @@ public:
 
     bool ConsumePosition( Position& pos )
     {
-        const char* after = StringToPosition( mCursor, pos );
+        const char* after = StringToPosition( _Cursor, pos );
         if( after == NULL )
             return( false );
 
-        mCursor = (char*) after;
+        _Cursor = (char*) after;
         this->SkipWhite();
 
         return( true );
@@ -80,15 +80,15 @@ public:
 
     const char* ConsumeAll()
     {
-        const char* start = mCursor;
+        const char* start = _Cursor;
 
-        while( *mCursor )
-            mCursor++;
+        while( *_Cursor )
+            _Cursor++;
 
-        while( (mCursor > start) && isspace( mCursor[-1] ) )
-            mCursor--;
+        while( (_Cursor > start) && isspace( _Cursor[-1] ) )
+            _Cursor--;
 
-        *mCursor = '\0';
+        *_Cursor = '\0';
         return( start );
     }
 

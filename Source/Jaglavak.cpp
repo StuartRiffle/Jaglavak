@@ -8,13 +8,27 @@
 
 int main( int argc, char** argv )
 {
-    setvbuf( stdin,  NULL, _IONBF, 0 );
-    setvbuf( stdout, NULL, _IONBF, 0 );
-
     printf( "JAGLAVAK CHESS ENGINE %d.%d.%d\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH );
     printf( "Stuart Riffle\n\n" );
 
-    auto engine( unique_ptr< UciEngine >( new UciEngine() ) );
+    unique_ptr< UciEngine > engine( new UciEngine() );
+
+    engine->ProcessCommand( "uci" );
+    //engine->ProcessCommand( "position startpos fen r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - -" );
+    engine->ProcessCommand( "position startpos moves e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 g8e7 d1g4 d8c7 g4g7 h8g8 g7h7 c5d4 g1e2 b8c6 f2f4 d4c3 h2h4 d5d4 e2c3 d4c3 h4h5 c8d7 f4f5 c7e5 e1f2 g8h8 f1e2 h8h7 c1e3 e7f5 e3c1 e5c5 c1e3 c5e3" );
+    engine->ProcessCommand( "go" );
+    
+    string cmd;
+    while( getline( std::cin, cmd ) ) 
+    {
+        bool timeToExit = engine->ProcessCommand( cmd.c_str() );
+        if( timeToExit )
+            break;
+    }
+
+    return 0;
+}
+
 
 /*
 r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - - bm Nxh6; id "Nolot.1";
@@ -29,25 +43,3 @@ r4r1k/4bppb/2n1p2p/p1n1P3/1p1p1BNP/3P1NP1/qP2QPB1/2RR2K1 w - - bm Ng5; id "Nolot
 r1b2rk1/1p1nbppp/pq1p4/3B4/P2NP3/2N1p3/1PP3PP/R2Q1R1K w - - bm Rxf7; id "Nolot.10";
 r1b3k1/p2p1nP1/2pqr1Rp/1p2p2P/2B1PnQ1/1P6/P1PP4/1K4R1 w - - bm Rxh6; id "Nolot.11";
 */
-    engine->ProcessCommand( "uci" );
-    //engine->ProcessCommand( "position startpos fen r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - -" );
-    engine->ProcessCommand( "position startpos moves e2e4 e7e6 d2d4 d7d5 b1c3 f8b4 e4e5 c7c5 a2a3 b4c3 b2c3 g8e7 d1g4 d8c7 g4g7 h8g8 g7h7 c5d4 g1e2 b8c6 f2f4 d4c3 h2h4 d5d4 e2c3 d4c3 h4h5 c8d7 f4f5 c7e5 e1f2 g8h8 f1e2 h8h7 c1e3 e7f5 e3c1 e5c5 c1e3 c5e3" );
-    engine->ProcessCommand( "go" );
-    
-    while( !feof( stdin ) )
-    {
-        char buf[8192];
-
-        const char* cmd = fgets( buf, sizeof( buf ), stdin );
-        if( cmd == NULL )
-            continue;
-
-        bool timeToExit = engine->ProcessCommand( cmd );
-        if( timeToExit )
-            break;
-    }
-
-    return 0;
-}
-
-

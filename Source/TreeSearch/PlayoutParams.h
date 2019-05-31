@@ -3,10 +3,10 @@
 
 struct PlayoutParams
 {
-    u64     mRandomSeed;
-    int     mMaxMovesPerGame;
-    int     mEnableMulticore;
-    int     mNumGamesEach;
+    u64     _RandomSeed;
+    int     _MaxMovesPerGame;
+    int     _EnableMulticore;
+    int     _NumGamesEach;
 };
 
 

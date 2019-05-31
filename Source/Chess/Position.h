@@ -6,51 +6,51 @@
 template< typename SIMD >
 struct ALIGN_SIMD PositionT
 {
-    SIMD        mWhitePawns;        /// Bitmask of the white pawns 
-    SIMD        mWhiteKnights;      /// Bitmask of the white knights    
-    SIMD        mWhiteBishops;      /// Bitmask of the white bishops    
-    SIMD        mWhiteRooks;        /// Bitmask of the white rooks 
-    SIMD        mWhiteQueens;       /// Bitmask of the white queens    
-    SIMD        mWhiteKing;         /// Bitmask of the white king 
+    SIMD        _WhitePawns;        /// Bitmask of the white pawns 
+    SIMD        _WhiteKnights;      /// Bitmask of the white knights    
+    SIMD        _WhiteBishops;      /// Bitmask of the white bishops    
+    SIMD        _WhiteRooks;        /// Bitmask of the white rooks 
+    SIMD        _WhiteQueens;       /// Bitmask of the white queens    
+    SIMD        _WhiteKing;         /// Bitmask of the white king 
                                       
-    SIMD        mBlackPawns;        /// Bitmask of the black pawns     
-    SIMD        mBlackKnights;      /// Bitmask of the black knights
-    SIMD        mBlackBishops;      /// Bitmask of the black bishops    
-    SIMD        mBlackRooks;        /// Bitmask of the black rooks     
-    SIMD        mBlackQueens;       /// Bitmask of the black queens    
-    SIMD        mBlackKing;         /// Bitmask of the black king 
+    SIMD        _BlackPawns;        /// Bitmask of the black pawns     
+    SIMD        _BlackKnights;      /// Bitmask of the black knights
+    SIMD        _BlackBishops;      /// Bitmask of the black bishops    
+    SIMD        _BlackRooks;        /// Bitmask of the black rooks     
+    SIMD        _BlackQueens;       /// Bitmask of the black queens    
+    SIMD        _BlackKing;         /// Bitmask of the black king 
                                      
-    SIMD        mCastlingAndEP;     /// Bitmask of EP capture targets and castling targets
-    SIMD        mBoardFlipped;      /// A mask which is ~0 when this structure is white/black flipped from the actual position
-    SIMD        mWhiteToMove;       /// 1 if it's white to play, 0 if black
-    SIMD        mHalfmoveClock;     /// Number of halfmoves since the last capture or pawn move
-    SIMD        mFullmoveNum;       /// Starts at 1, increments after black moves
-    SIMD        mResult;            /// Set when the game is over
+    SIMD        _CastlingAndEP;     /// Bitmask of EP capture targets and castling targets
+    SIMD        _BoardFlipped;      /// A mask which is ~0 when this structure is white/black flipped from the actual position
+    SIMD        _WhiteToMove;       /// 1 if it's white to play, 0 if black
+    SIMD        _HalfmoveClock;     /// Number of halfmoves since the last capture or pawn move
+    SIMD        _FullmoveNum;       /// Starts at 1, increments after black moves
+    SIMD        _GameResult;            /// Set when the game is over
 
     /// Reset the fields to the start-of-game position.
     
     PDECL void Reset()
     {
-        mWhitePawns         = RANK_2;
-        mWhiteKnights       = SQUARE_B1 | SQUARE_G1;
-        mWhiteBishops       = SQUARE_C1 | SQUARE_F1;
-        mWhiteRooks         = SQUARE_A1 | SQUARE_H1;
-        mWhiteQueens        = SQUARE_D1;        
-        mWhiteKing          = SQUARE_E1;
+        _WhitePawns         = RANK_2;
+        _WhiteKnights       = SQUARE_B1 | SQUARE_G1;
+        _WhiteBishops       = SQUARE_C1 | SQUARE_F1;
+        _WhiteRooks         = SQUARE_A1 | SQUARE_H1;
+        _WhiteQueens        = SQUARE_D1;        
+        _WhiteKing          = SQUARE_E1;
 
-        mBlackPawns         = RANK_7;              
-        mBlackKnights       = SQUARE_B8 | SQUARE_G8;
-        mBlackBishops       = SQUARE_C8 | SQUARE_F8;
-        mBlackRooks         = SQUARE_A8 | SQUARE_H8;
-        mBlackQueens        = SQUARE_D8;
-        mBlackKing          = SQUARE_E8;
+        _BlackPawns         = RANK_7;              
+        _BlackKnights       = SQUARE_B8 | SQUARE_G8;
+        _BlackBishops       = SQUARE_C8 | SQUARE_F8;
+        _BlackRooks         = SQUARE_A8 | SQUARE_H8;
+        _BlackQueens        = SQUARE_D8;
+        _BlackKing          = SQUARE_E8;
 
-        mCastlingAndEP      = SQUARE_A1 | SQUARE_H1 | SQUARE_A8 | SQUARE_H8;
-        mBoardFlipped       = 0;
-        mWhiteToMove        = 1;
-        mHalfmoveClock      = 0;
-        mFullmoveNum        = 1;
-        mResult             = RESULT_UNKNOWN;
+        _CastlingAndEP      = SQUARE_A1 | SQUARE_H1 | SQUARE_A8 | SQUARE_H8;
+        _BoardFlipped       = 0;
+        _WhiteToMove        = 1;
+        _HalfmoveClock      = 0;
+        _FullmoveNum        = 1;
+        _GameResult             = RESULT_UNKNOWN;
     }
 
     /// Duplicate member values across SIMD lanes
@@ -58,26 +58,26 @@ struct ALIGN_SIMD PositionT
     template< typename SCALAR >
     PDECL void Broadcast( const PositionT< SCALAR >& src )
     {
-        mWhitePawns         = src.mWhitePawns;   
-        mWhiteKnights       = src.mWhiteKnights; 
-        mWhiteBishops       = src.mWhiteBishops; 
-        mWhiteRooks         = src.mWhiteRooks;   
-        mWhiteQueens        = src.mWhiteQueens;  
-        mWhiteKing          = src.mWhiteKing;
+        _WhitePawns         = src._WhitePawns;   
+        _WhiteKnights       = src._WhiteKnights; 
+        _WhiteBishops       = src._WhiteBishops; 
+        _WhiteRooks         = src._WhiteRooks;   
+        _WhiteQueens        = src._WhiteQueens;  
+        _WhiteKing          = src._WhiteKing;
                             
-        mBlackPawns         = src.mBlackPawns;   
-        mBlackKnights       = src.mBlackKnights; 
-        mBlackBishops       = src.mBlackBishops; 
-        mBlackRooks         = src.mBlackRooks;   
-        mBlackQueens        = src.mBlackQueens;  
-        mBlackKing          = src.mBlackKing;
+        _BlackPawns         = src._BlackPawns;   
+        _BlackKnights       = src._BlackKnights; 
+        _BlackBishops       = src._BlackBishops; 
+        _BlackRooks         = src._BlackRooks;   
+        _BlackQueens        = src._BlackQueens;  
+        _BlackKing          = src._BlackKing;
 
-        mCastlingAndEP      = src.mCastlingAndEP;
-        mBoardFlipped       = src.mBoardFlipped; 
-        mWhiteToMove        = src.mWhiteToMove;  
-        mHalfmoveClock      = src.mHalfmoveClock;
-        mFullmoveNum        = src.mFullmoveNum;  
-        mResult             = src.mResult;
+        _CastlingAndEP      = src._CastlingAndEP;
+        _BoardFlipped       = src._BoardFlipped; 
+        _WhiteToMove        = src._WhiteToMove;  
+        _HalfmoveClock      = src._HalfmoveClock;
+        _FullmoveNum        = src._FullmoveNum;  
+        _GameResult         = src._GameResult;
     }
 
 
@@ -85,36 +85,37 @@ struct ALIGN_SIMD PositionT
     
     PDECL void Step( const MoveSpecT< SIMD >& move, MoveMapT< SIMD >* nextMapOut = NULL )
     {
-        SIMD    moveSrc     = SelectWithMask( mBoardFlipped,  FlipSquareIndex( move.mSrc ), move.mSrc );
-        SIMD    srcBit      = SquareBit( moveSrc );
-        SIMD    isPawnMove  = SelectIfNotZero( srcBit & mWhitePawns, MaskAllSet< SIMD >() );
-        SIMD    isCapture   = CmpEqual( move.mType, (SIMD) CAPTURE_LOSING )
-                            | CmpEqual( move.mType, (SIMD) CAPTURE_EQUAL )
-                            | CmpEqual( move.mType, (SIMD) CAPTURE_WINNING )
-                            | CmpEqual( move.mType, (SIMD) CAPTURE_PROMOTE_KNIGHT )
-                            | CmpEqual( move.mType, (SIMD) CAPTURE_PROMOTE_BISHOP )
-                            | CmpEqual( move.mType, (SIMD) CAPTURE_PROMOTE_ROOK )
-                            | CmpEqual( move.mType, (SIMD) CAPTURE_PROMOTE_QUEEN );
+        SIMD moveSrc    = SelectWithMask( _BoardFlipped,  FlipSquareIndex( move._Src ), move._Src );
+        SIMD srcBit     = SquareBit( moveSrc );
+        SIMD isPawnMove = SelectIfNotZero( srcBit & _WhitePawns, MaskAllSet< SIMD >() );
+        SIMD isCapture  = 
+            CmpEqual( move._Type, (SIMD) CAPTURE_LOSING ) |
+            CmpEqual( move._Type, (SIMD) CAPTURE_EQUAL ) |
+            CmpEqual( move._Type, (SIMD) CAPTURE_WINNING ) |
+            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_KNIGHT ) |
+            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_BISHOP ) |
+            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_ROOK ) |
+            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_QUEEN );
 
-        this->ApplyMove( move.mSrc, move.mDest, move.mType );
+        this->ApplyMove( move._Src, move._Dest, move._Type );
         this->FlipInPlace();
 
-        mWhiteToMove        = SelectIfNotZero( mResult, mWhiteToMove,    mWhiteToMove ^ 1 );
-        mFullmoveNum        = SelectIfNotZero( mResult, mFullmoveNum,    mFullmoveNum + mWhiteToMove );
-        mHalfmoveClock      = SelectIfNotZero( mResult, mHalfmoveClock, (mHalfmoveClock + 1) & ~(isPawnMove | isCapture) );
+        _WhiteToMove   = SelectIfNotZero( _GameResult, _WhiteToMove,    _WhiteToMove ^ 1 );
+        _FullmoveNum   = SelectIfNotZero( _GameResult, _FullmoveNum,    _FullmoveNum + _WhiteToMove );
+        _HalfmoveClock = SelectIfNotZero( _GameResult, _HalfmoveClock, (_HalfmoveClock + 1) & ~(isPawnMove | isCapture) );
 
         MoveMapT< SIMD > localMap;
         MoveMapT< SIMD >* mmap = nextMapOut? nextMapOut : &localMap;
 
         this->CalcMoveMap( mmap );
 
-        SIMD    moveTargets = mmap->CalcMoveTargets();
-        SIMD    inCheck     = mmap->IsInCheck();
-        SIMD    win         = SelectIfNotZero( mWhiteToMove, (SIMD) RESULT_BLACK_WIN, (SIMD) RESULT_WHITE_WIN );
-        SIMD    winOrDraw   = SelectIfNotZero( inCheck, win, (SIMD) RESULT_DRAW );
-        SIMD    gameResult  = SelectIfZero( moveTargets, winOrDraw, (SIMD) RESULT_UNKNOWN );
+        SIMD moveTargets = mmap->CalcMoveTargets();
+        SIMD inCheck     = mmap->IsInCheck();
+        SIMD win         = SelectIfNotZero( _WhiteToMove, (SIMD) RESULT_BLACK_WIN, (SIMD) RESULT_WHITE_WIN );
+        SIMD winOrDraw   = SelectIfNotZero( inCheck, win, (SIMD) RESULT_DRAW );
+        SIMD gameResult  = SelectIfZero( moveTargets, winOrDraw, (SIMD) RESULT_UNKNOWN );
 
-        mResult = SelectIfNotZero( mResult, mResult, gameResult );
+        _GameResult = SelectIfNotZero( _GameResult, _GameResult, gameResult );
     }
 
 
@@ -135,22 +136,22 @@ struct ALIGN_SIMD PositionT
       
     PDECL void ApplyMove( const SIMD& srcIdx, const SIMD& destIdx, const SIMD& moveType )  
     {
-        SIMD    whitePawns          = mWhitePawns;    
-        SIMD    whiteKnights        = mWhiteKnights;  
-        SIMD    whiteBishops        = mWhiteBishops;  
-        SIMD    whiteRooks          = mWhiteRooks;    
-        SIMD    whiteQueens         = mWhiteQueens;   
-        SIMD    whiteKing           = mWhiteKing;     
-        SIMD    blackPawns          = mBlackPawns;    
-        SIMD    blackKnights        = mBlackKnights;  
-        SIMD    blackBishops        = mBlackBishops;  
-        SIMD    blackRooks          = mBlackRooks;    
-        SIMD    blackQueens         = mBlackQueens;   
-        SIMD    blackKing           = mBlackKing;
-        SIMD    castlingAndEP       = mCastlingAndEP;
+        SIMD    whitePawns          = _WhitePawns;    
+        SIMD    whiteKnights        = _WhiteKnights;  
+        SIMD    whiteBishops        = _WhiteBishops;  
+        SIMD    whiteRooks          = _WhiteRooks;    
+        SIMD    whiteQueens         = _WhiteQueens;   
+        SIMD    whiteKing           = _WhiteKing;     
+        SIMD    blackPawns          = _BlackPawns;    
+        SIMD    blackKnights        = _BlackKnights;  
+        SIMD    blackBishops        = _BlackBishops;  
+        SIMD    blackRooks          = _BlackRooks;    
+        SIMD    blackQueens         = _BlackQueens;   
+        SIMD    blackKing           = _BlackKing;
+        SIMD    castlingAndEP       = _CastlingAndEP;
 
-        SIMD    moveSrc             = SelectWithMask( mBoardFlipped, FlipSquareIndex( srcIdx ),  srcIdx  );
-        SIMD    moveDest            = SelectWithMask( mBoardFlipped, FlipSquareIndex( destIdx ), destIdx );
+        SIMD    moveSrc             = SelectWithMask( _BoardFlipped, FlipSquareIndex( srcIdx ),  srcIdx  );
+        SIMD    moveDest            = SelectWithMask( _BoardFlipped, FlipSquareIndex( destIdx ), destIdx );
         SIMD    srcBit              = SquareBit( moveSrc );
         SIMD    destBit             = SquareBit( moveDest );
 
@@ -175,7 +176,7 @@ struct ALIGN_SIMD PositionT
         SIMD    destKing            = SelectIfNotZero( srcKing,                        destBit );
 
         SIMD    epTargetNext        = Shift< SHIFT_S >( Shift< SHIFT_N * 2 >( srcPawn ) & destPawn );
-        SIMD    epVictimNow         = blackPawns & Shift< SHIFT_S >( destPawn & castlingAndEP & EP_SQUARES );
+        SIMD    epVicti_Now         = blackPawns & Shift< SHIFT_S >( destPawn & castlingAndEP & EP_SQUARES );
         SIMD    castleRookKing      = CmpEqual( (srcKing | destBit), (SIMD) (SQUARE_E1 | SQUARE_G1) ) & SQUARE_H1;
         SIMD    castleRookQueen     = CmpEqual( (srcKing | destBit), (SIMD) (SQUARE_E1 | SQUARE_C1) ) & SQUARE_A1;
         SIMD    disableCastleBit    = 0;                 
@@ -192,25 +193,25 @@ struct ALIGN_SIMD PositionT
         whiteRooks                  = MaskOut( whiteRooks,   srcRook )   | destRook;
         whiteQueens                 = MaskOut( whiteQueens,  srcQueen )  | destQueen;
         whiteKing                   = MaskOut( whiteKing,    srcKing )   | destKing;
-        blackPawns                  = MaskOut( MaskOut( blackPawns, destBit ), epVictimNow );
+        blackPawns                  = MaskOut( MaskOut( blackPawns, destBit ), epVicti_Now );
         blackKnights                = MaskOut( blackKnights, destBit );
         blackBishops                = MaskOut( blackBishops, destBit );
         blackRooks                  = MaskOut( blackRooks,   destBit );
         blackQueens                 = MaskOut( blackQueens,  destBit );
         castlingAndEP               = MaskOut( castlingAndEP, disableCastleBit | EP_SQUARES ) | epTargetNext;
 
-        mWhitePawns                 = SelectIfNotZero( mResult, mWhitePawns,    whitePawns    );
-        mWhiteKnights               = SelectIfNotZero( mResult, mWhiteKnights,  whiteKnights  );
-        mWhiteBishops               = SelectIfNotZero( mResult, mWhiteBishops,  whiteBishops  );
-        mWhiteRooks                 = SelectIfNotZero( mResult, mWhiteRooks,    whiteRooks    );
-        mWhiteQueens                = SelectIfNotZero( mResult, mWhiteQueens,   whiteQueens   );
-        mWhiteKing                  = SelectIfNotZero( mResult, mWhiteKing,     whiteKing     );
-        mBlackPawns                 = SelectIfNotZero( mResult, mBlackPawns,    blackPawns    );
-        mBlackKnights               = SelectIfNotZero( mResult, mBlackKnights,  blackKnights  );
-        mBlackBishops               = SelectIfNotZero( mResult, mBlackBishops,  blackBishops  );
-        mBlackRooks                 = SelectIfNotZero( mResult, mBlackRooks,    blackRooks    );
-        mBlackQueens                = SelectIfNotZero( mResult, mBlackQueens,   blackQueens   );
-        mCastlingAndEP              = SelectIfNotZero( mResult, mCastlingAndEP, castlingAndEP );
+        _WhitePawns                 = SelectIfNotZero( _GameResult, _WhitePawns,    whitePawns    );
+        _WhiteKnights               = SelectIfNotZero( _GameResult, _WhiteKnights,  whiteKnights  );
+        _WhiteBishops               = SelectIfNotZero( _GameResult, _WhiteBishops,  whiteBishops  );
+        _WhiteRooks                 = SelectIfNotZero( _GameResult, _WhiteRooks,    whiteRooks    );
+        _WhiteQueens                = SelectIfNotZero( _GameResult, _WhiteQueens,   whiteQueens   );
+        _WhiteKing                  = SelectIfNotZero( _GameResult, _WhiteKing,     whiteKing     );
+        _BlackPawns                 = SelectIfNotZero( _GameResult, _BlackPawns,    blackPawns    );
+        _BlackKnights               = SelectIfNotZero( _GameResult, _BlackKnights,  blackKnights  );
+        _BlackBishops               = SelectIfNotZero( _GameResult, _BlackBishops,  blackBishops  );
+        _BlackRooks                 = SelectIfNotZero( _GameResult, _BlackRooks,    blackRooks    );
+        _BlackQueens                = SelectIfNotZero( _GameResult, _BlackQueens,   blackQueens   );
+        _CastlingAndEP              = SelectIfNotZero( _GameResult, _CastlingAndEP, castlingAndEP );
     }
 
 
@@ -218,19 +219,19 @@ struct ALIGN_SIMD PositionT
     
     PDECL void CalcMoveMap( MoveMapT< SIMD >* RESTRICT dest ) const
     {
-        SIMD    whitePawns          = mWhitePawns;    
-        SIMD    whiteKnights        = mWhiteKnights;  
-        SIMD    whiteBishops        = mWhiteBishops;  
-        SIMD    whiteRooks          = mWhiteRooks;    
-        SIMD    whiteQueens         = mWhiteQueens;   
-        SIMD    whiteKing           = mWhiteKing;     
-        SIMD    blackPawns          = mBlackPawns;    
-        SIMD    blackKnights        = mBlackKnights;  
-        SIMD    blackBishops        = mBlackBishops;  
-        SIMD    blackRooks          = mBlackRooks;    
-        SIMD    blackQueens         = mBlackQueens;   
-        SIMD    blackKing           = mBlackKing;     
-        SIMD    castlingAndEP       = mCastlingAndEP;
+        SIMD    whitePawns          = _WhitePawns;    
+        SIMD    whiteKnights        = _WhiteKnights;  
+        SIMD    whiteBishops        = _WhiteBishops;  
+        SIMD    whiteRooks          = _WhiteRooks;    
+        SIMD    whiteQueens         = _WhiteQueens;   
+        SIMD    whiteKing           = _WhiteKing;     
+        SIMD    blackPawns          = _BlackPawns;    
+        SIMD    blackKnights        = _BlackKnights;  
+        SIMD    blackBishops        = _BlackBishops;  
+        SIMD    blackRooks          = _BlackRooks;    
+        SIMD    blackQueens         = _BlackQueens;   
+        SIMD    blackKing           = _BlackKing;     
+        SIMD    castlingAndEP       = _CastlingAndEP;
 
         SIMD    whiteDiag           = whiteBishops | whiteQueens;
         SIMD    whiteOrtho          = whiteRooks | whiteQueens;
@@ -349,29 +350,29 @@ struct ALIGN_SIMD PositionT
         SIMD    castlingMoves       = castleKing | castleQueen;
         SIMD    kingMoves           = StepOut( whiteKing, ~whitePieces & ~blackControl );
 
-        dest->mSlidingMovesNW       = SelectIfZero( mResult, slidingMovesNW );
-        dest->mSlidingMovesNE       = SelectIfZero( mResult, slidingMovesNE );
-        dest->mSlidingMovesSW       = SelectIfZero( mResult, slidingMovesSW );
-        dest->mSlidingMovesSE       = SelectIfZero( mResult, slidingMovesSE );
-        dest->mSlidingMovesN        = SelectIfZero( mResult, slidingMovesN );
-        dest->mSlidingMovesW        = SelectIfZero( mResult, slidingMovesW );
-        dest->mSlidingMovesE        = SelectIfZero( mResult, slidingMovesE );
-        dest->mSlidingMovesS        = SelectIfZero( mResult, slidingMovesS );
-        dest->mKnightMovesNNW       = SelectIfZero( mResult, knightMovesNNW );
-        dest->mKnightMovesNNE       = SelectIfZero( mResult, knightMovesNNE );
-        dest->mKnightMovesWNW       = SelectIfZero( mResult, knightMovesWNW );
-        dest->mKnightMovesENE       = SelectIfZero( mResult, knightMovesENE );
-        dest->mKnightMovesWSW       = SelectIfZero( mResult, knightMovesWSW );
-        dest->mKnightMovesESE       = SelectIfZero( mResult, knightMovesESE );
-        dest->mKnightMovesSSW       = SelectIfZero( mResult, knightMovesSSW );
-        dest->mKnightMovesSSE       = SelectIfZero( mResult, knightMovesSSE );
-        dest->mPawnMovesN           = SelectIfZero( mResult, pawnMovesN );
-        dest->mPawnDoublesN         = SelectIfZero( mResult, pawnDoublesN );
-        dest->mPawnAttacksNE        = SelectIfZero( mResult, pawnAttacksNE );
-        dest->mPawnAttacksNW        = SelectIfZero( mResult, pawnAttacksNW );
-        dest->mCastlingMoves        = SelectIfZero( mResult, castlingMoves );
-        dest->mKingMoves            = SelectIfZero( mResult, kingMoves );
-        dest->mCheckMask            = SelectIfZero( mResult, checkMask );
+        dest->_SlidingMovesNW       = SelectIfZero( _GameResult, slidingMovesNW );
+        dest->_SlidingMovesNE       = SelectIfZero( _GameResult, slidingMovesNE );
+        dest->_SlidingMovesSW       = SelectIfZero( _GameResult, slidingMovesSW );
+        dest->_SlidingMovesSE       = SelectIfZero( _GameResult, slidingMovesSE );
+        dest->_SlidingMovesN        = SelectIfZero( _GameResult, slidingMovesN );
+        dest->_SlidingMovesW        = SelectIfZero( _GameResult, slidingMovesW );
+        dest->_SlidingMovesE        = SelectIfZero( _GameResult, slidingMovesE );
+        dest->_SlidingMovesS        = SelectIfZero( _GameResult, slidingMovesS );
+        dest->_KnightMovesNNW       = SelectIfZero( _GameResult, knightMovesNNW );
+        dest->_KnightMovesNNE       = SelectIfZero( _GameResult, knightMovesNNE );
+        dest->_KnightMovesWNW       = SelectIfZero( _GameResult, knightMovesWNW );
+        dest->_KnightMovesENE       = SelectIfZero( _GameResult, knightMovesENE );
+        dest->_KnightMovesWSW       = SelectIfZero( _GameResult, knightMovesWSW );
+        dest->_KnightMovesESE       = SelectIfZero( _GameResult, knightMovesESE );
+        dest->_KnightMovesSSW       = SelectIfZero( _GameResult, knightMovesSSW );
+        dest->_KnightMovesSSE       = SelectIfZero( _GameResult, knightMovesSSE );
+        dest->_PawnMovesN           = SelectIfZero( _GameResult, pawnMovesN );
+        dest->_PawnDoublesN         = SelectIfZero( _GameResult, pawnDoublesN );
+        dest->_PawnAttacksNE        = SelectIfZero( _GameResult, pawnAttacksNE );
+        dest->_PawnAttacksNW        = SelectIfZero( _GameResult, pawnAttacksNW );
+        dest->_CastlingMoves        = SelectIfZero( _GameResult, castlingMoves );
+        dest->_KingMoves            = SelectIfZero( _GameResult, kingMoves );
+        dest->_CheckMask            = SelectIfZero( _GameResult, checkMask );
     }
 
 
@@ -384,39 +385,39 @@ struct ALIGN_SIMD PositionT
     
     PDECL void FlipFrom( const PositionT< SIMD >& prev )
     {
-        SIMD    newWhitePawns       = ByteSwap( prev.mBlackPawns   );
-        SIMD    newWhiteKnights     = ByteSwap( prev.mBlackKnights );
-        SIMD    newWhiteBishops     = ByteSwap( prev.mBlackBishops );
-        SIMD    newWhiteRooks       = ByteSwap( prev.mBlackRooks   );
-        SIMD    newWhiteQueens      = ByteSwap( prev.mBlackQueens  );
-        SIMD    newWhiteKing        = ByteSwap( prev.mBlackKing    );
-        SIMD    newBlackPawns       = ByteSwap( prev.mWhitePawns   );
-        SIMD    newBlackKnights     = ByteSwap( prev.mWhiteKnights );
-        SIMD    newBlackBishops     = ByteSwap( prev.mWhiteBishops );
-        SIMD    newBlackRooks       = ByteSwap( prev.mWhiteRooks   );
-        SIMD    newBlackQueens      = ByteSwap( prev.mWhiteQueens  );
-        SIMD    newBlackKing        = ByteSwap( prev.mWhiteKing    );
-        SIMD    newCastlingAndEP    = ByteSwap( prev.mCastlingAndEP );
-        SIMD    newBoardFlipped     = ~prev.mBoardFlipped;
+        SIMD    next_WhitePawns       = ByteSwap( prev._BlackPawns   );
+        SIMD    next_WhiteKnights     = ByteSwap( prev._BlackKnights );
+        SIMD    next_WhiteBishops     = ByteSwap( prev._BlackBishops );
+        SIMD    next_WhiteRooks       = ByteSwap( prev._BlackRooks   );
+        SIMD    next_WhiteQueens      = ByteSwap( prev._BlackQueens  );
+        SIMD    next_WhiteKing        = ByteSwap( prev._BlackKing    );
+        SIMD    next_BlackPawns       = ByteSwap( prev._WhitePawns   );
+        SIMD    next_BlackKnights     = ByteSwap( prev._WhiteKnights );
+        SIMD    next_BlackBishops     = ByteSwap( prev._WhiteBishops );
+        SIMD    next_BlackRooks       = ByteSwap( prev._WhiteRooks   );
+        SIMD    next_BlackQueens      = ByteSwap( prev._WhiteQueens  );
+        SIMD    next_BlackKing        = ByteSwap( prev._WhiteKing    );
+        SIMD    next_CastlingAndEP    = ByteSwap( prev._CastlingAndEP );
+        SIMD    next_BoardFlipped     = ~prev._BoardFlipped;
 
-        mWhitePawns                 = newWhitePawns;
-        mWhiteKnights               = newWhiteKnights;  
-        mWhiteBishops               = newWhiteBishops;  
-        mWhiteRooks                 = newWhiteRooks;    
-        mWhiteQueens                = newWhiteQueens;   
-        mWhiteKing                  = newWhiteKing;     
-        mBlackPawns                 = newBlackPawns;    
-        mBlackKnights               = newBlackKnights;  
-        mBlackBishops               = newBlackBishops;  
-        mBlackRooks                 = newBlackRooks;    
-        mBlackQueens                = newBlackQueens;   
-        mBlackKing                  = newBlackKing;     
-        mCastlingAndEP              = newCastlingAndEP; 
-        mBoardFlipped               = newBoardFlipped;  
-        mWhiteToMove                = prev.mWhiteToMove;
-        mHalfmoveClock              = prev.mHalfmoveClock;
-        mFullmoveNum                = prev.mFullmoveNum;
-        mResult                     = prev.mResult;
+        _WhitePawns     = next_WhitePawns;
+        _WhiteKnights   = next_WhiteKnights;  
+        _WhiteBishops   = next_WhiteBishops;  
+        _WhiteRooks     = next_WhiteRooks;    
+        _WhiteQueens    = next_WhiteQueens;   
+        _WhiteKing      = next_WhiteKing;     
+        _BlackPawns     = next_BlackPawns;    
+        _BlackKnights   = next_BlackKnights;  
+        _BlackBishops   = next_BlackBishops;  
+        _BlackRooks     = next_BlackRooks;    
+        _BlackQueens    = next_BlackQueens;   
+        _BlackKing      = next_BlackKing;     
+        _CastlingAndEP  = next_CastlingAndEP; 
+        _BoardFlipped   = next_BoardFlipped;  
+        _WhiteToMove    = prev._WhiteToMove;
+        _HalfmoveClock  = prev._HalfmoveClock;
+        _FullmoveNum    = prev._FullmoveNum;
+        _GameResult         = prev._GameResult;
     }
 
 

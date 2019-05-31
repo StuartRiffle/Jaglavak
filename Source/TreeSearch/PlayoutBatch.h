@@ -4,26 +4,26 @@
 struct PlayoutBatch
 {
     // Inputs
-    vector< Position > mPosition;
-    PlayoutParams mParams;
+    vector< Position > _Position;
+    PlayoutParams _Params;
 
     // Outputs
-    vector< ScoreCard > mResults;
+    vector< ScoreCard > _GameResults;
 
     // This gets carried along so we know where the results should go
-    vector< MoveList > mPathFromRoot;
+    vector< MoveList > _PathFromRoot;
 
     int GetCount() const
     {
-        return (int) mPosition.size();
+        return (int) _Position.size();
     }
 
     void Append( const Position& pos, const MoveList& pathFromRoot )
     {
-        mPosition.push_back( pos );
-        mPathFromRoot.push_back( pathFromRoot );
+        _Position.push_back( pos );
+        _PathFromRoot.push_back( pathFromRoot );
 
-        assert( mPosition.size() == mPathFromRoot.size() );
+        assert( _Position.size() == _PathFromRoot.size() );
     }
 };
 

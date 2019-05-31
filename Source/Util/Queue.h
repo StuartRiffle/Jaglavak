@@ -4,15 +4,15 @@
 template< typename T >
 class ThreadSafeQueue
 {
-    mutex mMutex;
-    condition_variable mVar;
-    list< T > mQueue;
-    volatile bool mShuttingDown;
+    list< T >           _Queue;
+    mutex               _Mutex;
+    condition_variable  _Var;
+    volatile bool       _ShuttingDown;
 
 public:
     ThreadSafeQueue()
     {
-        mShuttingDown = false;
+        _ShuttingDown = false;
     }
 
     ~ThreadSafeQueue()
@@ -22,18 +22,18 @@ public:
 
     void Terminate()
     {
-        mShuttingDown = true;
-        mVar.notify_all();
+        _ShuttingDown = true;
+        _Var.notify_all();
     }
 
     void Push( const T* objs, size_t count )
     {
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
-        mQueue.insert( mQueue.end(), objs, objs + count );
+        _Queue.insert( _Queue.end(), objs, objs + count );
 
         lock.unlock();
-        mVar.notify_all();
+        _Var.notify_all();
     }
 
     void Push( const vector< T >& elems )
@@ -48,24 +48,23 @@ public:
 
     bool Pop( T& result, bool blocking = true )
     {
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
         if( blocking )
         {
-            while( mQueue.empty() )
+            while( _Queue.empty() )
             {
-                mVar.wait( lock );
-
-                if( mShuttingDown )
+                _Var.wait( lock );
+                if( _ShuttingDown )
                     return false;
             }
         }
 
-        if( mQueue.empty() )
+        if( _Queue.empty() )
             return false;
 
-        result = mQueue.front();
-        mQueue.pop_front();
+        result = _Queue.front();
+        _Queue.pop_front();
         return true;
     }
 
@@ -77,23 +76,22 @@ public:
 
     vector< T > PopMulti( size_t limit )
     {
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
         vector< T > result;
         result.reserve( limit );
 
-        while( mQueue.size() < limit )
+        while( _Queue.size() < limit )
         {
-            mVar.wait( lock );
-
-            if( mShuttingDown )
+            _Var.wait( lock );
+            if( _ShuttingDown )
                 return result;
         }
 
-        while( (result.size() < limit) && !mQueue.empty() )
+        while( (result.size() < limit) && !_Queue.empty() )
         {
-            result.push_back( mQueue.front() );
-            mQueue.pop_front();
+            result.push_back( _Queue.front() );
+            _Queue.pop_front();
         }
 
         return result;
@@ -101,18 +99,18 @@ public:
 
     vector< T > PopAll()
     {
-        unique_lock< mutex > lock( mMutex );
+        unique_lock< mutex > lock( _Mutex );
 
-        vector< T > result( mQueue.begin(), mQueue.end() );
-        mQueue.clear();
+        vector< T > result( _Queue.begin(), _Queue.end() );
+        _Queue.clear();
 
         return result;
     }
 
     size_t PeekCount()
     {
-        unique_lock< mutex > lock( mMutex );
-        return mQueue.size();
+        unique_lock< mutex > lock( _Mutex );
+        return _Queue.size();
     }
 };
 

@@ -5,14 +5,14 @@
 
 struct LaunchInfo
 {
-    vector< BatchRef >          mBatches;
-    CudaBuffer< PlayoutParams > mParams;
-    CudaBuffer< Position >      mInputs;
-    CudaBuffer< ScoreCard >     mOutputs;
+    vector< BatchRef >          _Batches;
+    CudaBuffer< PlayoutParams > _Params;
+    CudaBuffer< Position >      _Inputs;
+    CudaBuffer< ScoreCard >     _Outputs;
 
-    cudaEvent_t mStartTimer;
-    cudaEvent_t mStopTimer; 
-    cudaEvent_t mReadyEvent; 
+    cudaEvent_t _StartTimer;
+    cudaEvent_t _StopTimer; 
+    cudaEvent_t _ReadyEvent; 
 };
 
 typedef shared_ptr< LaunchInfo > LaunchInfoRef;
@@ -24,31 +24,31 @@ class CudaWorker : public AsyncWorker
         CUDA_NUM_STREAMS = 16
     };
 
-    const GlobalOptions*    mOptions;
-    BatchQueue*             mWorkQueue;
-    BatchQueue*             mDoneQueue;
+    const GlobalOptions*    _Options;
+    BatchQueue*             _WorkQueue;
+    BatchQueue*             _DoneQueue;
 
-    int                     mDeviceIndex;      
-    cudaDeviceProp          mProp;
-    CudaAllocator           mHeap;
+    int                     _DeviceIndex;      
+    cudaDeviceProp          _Prop;
+    CudaAllocator           _Heap;
 
-    unique_ptr< thread >    mLaunchThread;
-    bool                    mShuttingDown;
+    unique_ptr< thread >    _LaunchThread;
+    bool                    _ShuttingDown;
 
-    mutex                   mMutex;
-    condition_variable      mVar;
+    mutex                   _Mutex;
+    condition_variable      _Var;
 
-    int                     mStreamIndex;
-    cudaStream_t            mStreamId[CUDA_NUM_STREAMS];
-    list< LaunchInfoRef >   mInFlightByStream[CUDA_NUM_STREAMS];
-    vector< cudaEvent_t >   mEventCache;
+    int                     _StreamIndex;
+    cudaStream_t            _StreamId[CUDA_NUM_STREAMS];
+    list< LaunchInfoRef >   _InFlightByStream[CUDA_NUM_STREAMS];
+    vector< cudaEvent_t >   _EventCache;
 
 public:    
     CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue );
     ~CudaWorker();
 
     static int GetDeviceCount();
-    const cudaDeviceProp& GetDeviceProperties() { return mProp; }
+    const cudaDeviceProp& GetDeviceProperties() { return _Prop; }
     void Initialize( int deviceIndex );
     void Shutdown();
 
