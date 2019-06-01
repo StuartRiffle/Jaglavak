@@ -1,0 +1,31 @@
+
+Arasan version 15.2 JA game log
+   move          time     depth	nodes	value	predicted
+
+1. gxf6        	00:00:10     19	11659840	-0.48	f3h4 e8c8 g1h1 f5g6 c2c3 g6f7 d1a4 c8b8 g2g3
+1. Bxg4        	00:00:10     20	12523584	+1.36	f3h4 g4e2 d1e2 e8c8 e2h5 e6e5 c2c3 h7h6 g1h1
+2. Bh3         	00:00:10     18	13035800	+2.78	g1h1 h3f1 e2f1 e7f5 d1e2 e8c8 f1h3 f8d6 e2d3
+2. Rg8+        	00:00:10     18	13243632	+6.03	f3g5 f6g5 e2h5 e7g6 e3g5 f8e7 d1f3 h3f1 g1f1
+3. fxg5        	00:00:07     18	9519320	+6.23	e2h5 e7g6 e3g5 f8e7 d1f3 h3f1 g1f1 e8c8 h5g6
+3. Nf5         	00:00:10     18	13512968	+6.79	e2h5 e8d8 d1f3 h3f1 d2f1 f8b4 a1d1 d7f6 f1g3
+4. Nxe3        	00:00:10     17	14440264	+17.54	f2f4
+4. Rxg5+       	00:00:10     13	30415872	+35.84	g1h1
+5. Bxg4        	00:00:10     12	31133728	+Mate8	c6d7
+5. Bxd1+       	00:00:10     11	32991664	+Mate8	g1h1 e3f1
+6. Qxf4+       	00:00:00     6	149732	+Mate4	f2e1 g5g2 c6d7 e8d7 f1f4
+6. Qh4+        	00:00:00     6	64363	+Mate4	f1f2 g5g1 d2f1 f8b4 c2c3
+7. Rg1+        	00:00:00     4	20632	+Mate3	d2f1 f8b4 c2c3
+7. Bb4+        	00:00:00     2	5686	+Mate2	c2c3
+8. Bxc3#       	00:00:00     2	7665	+Mate1	 mate
+
+1. b3          	00:00:10     18	11198344	+0.24	b8d7 d1d2 e8g8 c1a3 d7e5 a1d1 f6d7 g1h1 d7c5
+1. Nxe4        	00:00:10     19	12345912	+3.40	e8g8 d1g4 g8h8 c1b2 f8g8 g4h5 g8f8 d4f3 b7e4
+2. Nxc6        	00:00:06     19	8959000	+17.49	b7c6 e4d6 e8f8 d6c8 e7f6 g2c6 b8c6 d1d6 f8g8
+2. Nxd6+       	00:00:10     21	14578912	+18.36	e8f8 d6b7 c6d8 d1d7 d8b7 d7b7 a8e8 b7b6 h7h5
+3. Bxc6+       	00:00:10     18	16181184	+22.21	e8e7 c1g5 e7f8 d1d6 f8g8 c6b7 a8e8 b7a6 h7h6
+3. Qxd6        	00:00:05     14	17716552	+Mate8	c6d7 e1e6 f7e6 c1g5 e8f7 d6d7 f7g6 d7e6 g6g5
+4. Ba3         	00:00:00     6	39351	+Mate4	a8a7 d6c6 a7d7 a1d1 g7g6
+4. Qxc6+       	00:00:00     5	12879	+Mate3	a7d7 a1d1 g7g6
+5. Rad1        	00:00:00     3	5397	+Mate2	g7g6
+5. Qxd7#       	00:00:00     2	584	+Mate1	 mate
+

@@ -1,0 +1,994 @@
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Amoeba 3.0"]
+[Result "*"]
+[ECO "B94"]
+[Opening "Sicilian"]
+[PlyCount "26"]
+[Termination "unterminated"]
+[TimeControl "40/240"]
+[Variation "Najdorf, 6.Bg5"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} a6 {book} 6. Bg5 {book} Nbd7 {book}
+7. f4 {book} e6 {book} 8. Qe2 {book} Be7 {book} 9. O-O-O {book} Qc7 {book}
+10. g4 {book} b5 {book} 11. a3 {book} Bb7 {-0.05/18 5.8s}
+12. Ncxb5 {0.00/5 8.2s} axb5 {+2.46/22 16s} 13. Nxb5 {0.00/5 8.2s}
+Qc5 {+2.35/21 7.8s, No result} *
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Amoeba 3.0"]
+[Result "*"]
+[ECO "B94"]
+[Opening "Sicilian"]
+[PlyCount "26"]
+[Termination "unterminated"]
+[TimeControl "10/move"]
+[Variation "Najdorf, 6.Bg5"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} a6 {book} 6. Bg5 {book} Nbd7 {book}
+7. f4 {book} e6 {book} 8. Qe2 {book} Be7 {book} 9. O-O-O {book} Qc7 {book}
+10. g4 {book} b5 {book} 11. a3 {book} Bb7 {-0.02/19 7.4s}
+12. Ncxb5 {0.00/5 9.9s} axb5 {+2.32/20 9.5s} 13. Nxb5 {0.00/5 9.9s}
+Qc5 {+2.23/20 6.8s, No result} *
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Amoeba 3.0"]
+[Result "0-1"]
+[ECO "B94"]
+[Opening "Sicilian"]
+[PlyCount "46"]
+[TimeControl "2/move"]
+[Variation "Najdorf, 6.Bg5"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} a6 {book} 6. Bg5 {book} Nbd7 {book}
+7. f4 {book} e6 {book} 8. Qe2 {book} Be7 {book} 9. O-O-O {book} Qc7 {book}
+10. g4 {book} b5 {book} 11. a3 {book} Bb7 {-0.11/16 1.9s} 12. Nxe6 {0.00/4 1.9s}
+fxe6 {+2.93/15 1.5s} 13. Nxb5 {0.00/5 1.9s} axb5 {+6.79/16 1.4s}
+14. Bxf6 {0.00/5 1.9s} Nxf6 {+7.32/16 1.9s} 15. c3 {0.00/5 1.9s}
+Nxe4 {+9.53/15 1.9s} 16. Qxe4 {0.00/5 1.9s} Bxe4 {+18.91/17 1.9s}
+17. Bxb5+ {0.00/5 1.9s} Kf7 {+19.30/18 1.5s} 18. Rhf1 {0.00/5 1.9s}
+Rxa3 {+22.27/17 1.5s} 19. Rde1 {0.00/5 1.9s} Rxc3+ {+M13/15 1.6s}
+20. Kd2 {0.00/7 1.9s} Rc2+ {+M11/15 0.93s} 21. Kd1 {0.00/7 1.9s}
+Ra8 {+M5/13 0.009s} 22. Ba6 {0.00/7 1.9s} Rxa6 {+M3/10 0.010s}
+23. b4 {0.00/7 1.9s} Ra1# {+M1/5 0.003s, Black mates} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Amoeba 3.0"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "D15"]
+[Opening "QGD Slav"]
+[PlyCount "53"]
+[Termination "time forfeit"]
+[TimeControl "2/move"]
+[Variation "4.Nc3"]
+
+1. d4 {book} d5 {book} 2. c4 {book} c6 {book} 3. Nf3 {book} Nf6 {book}
+4. Nc3 {book} e6 {book} 5. e3 {book} Nbd7 {book} 6. Qc2 {book} Bd6 {book}
+7. g4 {book} Bb4 {book} 8. Bd2 {book} Qe7 {book} 9. Rg1 {book} Bxc3 {book}
+10. Bxc3 {book} Ne4 {book} 11. O-O-O {book} O-O {book} 12. Be1 {book}
+Nxf2 {0.00/5 1.9s} 13. Qxf2 {+3.62/17 1.9s} dxc4 {0.00/5 1.9s}
+14. Bxc4 {+4.04/16 1.5s} f6 {0.00/5 1.9s} 15. Qc2 {+4.34/16 1.5s}
+g6 {0.00/5 1.9s} 16. Bb3 {+4.55/15 1.9s} c5 {0.00/5 1.9s}
+17. Bg3 {+4.81/15 1.8s} cxd4 {0.00/5 1.9s} 18. Rxd4 {+4.91/19 1.9s}
+Kf7 {0.00/5 1.9s} 19. Bd6 {+10.73/17 1.9s} Qxd6 {0.00/5 1.9s}
+20. Rxd6 {+16.37/19 1.6s} Ne5 {0.00/5 1.9s} 21. Nxe5+ {+23.79/19 1.7s}
+fxe5 {0.00/6 1.9s} 22. Qc7+ {+25.60/17 1.9s} Kf6 {0.00/6 1.9s}
+23. Rf1+ {+M35/15 1.9s} Kg5 {0.00/7 1.9s} 24. Qe7+ {+M9/13 0.51s}
+Kxg4 {0.00/7 1.9s} 25. Rg1+ {+M7/12 0.008s} Kf3 {0.00/7 1.9s}
+26. Qxf8+ {+M5/11 0.006s} Ke4 {0.00/7 1.9s}
+27. Bc2+ {+M3/9 0.003s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Andscacs 0.95"]
+[Result "0-1"]
+[ECO "C88"]
+[Opening "Ruy Lopez"]
+[PlyCount "54"]
+[TimeControl "2/move"]
+[Variation "Closed"]
+
+1. e4 {book} e5 {book} 2. Nf3 {book} Nc6 {book} 3. Bb5 {book} a6 {book}
+4. Ba4 {book} Nf6 {book} 5. O-O {book} Be7 {book} 6. Re1 {book} b5 {book}
+7. Bb3 {book} d6 {book} 8. c3 {book} O-O {book} 9. h3 {book} Bb7 {book}
+10. d4 {book} Re8 {book} 11. Nbd2 {book} Bf8 {book} 12. a4 {book} h6 {book}
+13. Bc2 {book} exd4 {book} 14. cxd4 {book} Nb4 {book} 15. Bb1 {book} c5 {book}
+16. d5 {book} Nd7 {book} 17. Ra3 {book} f5 {book} 18. Nh2 {book}
+fxe4 {+0.71/14 2.0s} 19. axb5 {0.00/4 1.9s} axb5 {+1.20/16 2.0s}
+20. Rxa8 {0.00/4 1.9s} Qxa8 {+1.05/16 2.0s} 21. Rxe4 {0.00/5 1.9s}
+Ne5 {+1.32/17 2.0s} 22. f4 {0.00/5 1.9s} Ned3 {+2.10/18 2.0s}
+23. Rxe8 {0.00/5 1.9s} Qxe8 {+2.33/18 2.0s} 24. f5 {0.00/6 1.9s}
+Qe3+ {+M7/56 2.0s} 25. Kh1 {0.00/7 1.9s} Nf2+ {+M5/127 0.16s}
+26. Kg1 {0.00/7 1.9s} Ne4+ {+M3/127 0.038s} 27. Kh1 {0.00/7 2.1s}
+Ng3# {+M1/1 0.002s, Black mates} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Andscacs 0.95"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "E98"]
+[Opening "King's Indian"]
+[PlyCount "51"]
+[Termination "time forfeit"]
+[TimeControl "2/move"]
+[Variation "Orthodox, Aronin-Taimanov, 9.Ne1"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. Nc3 {book} Bg7 {book}
+4. e4 {book} d6 {book} 5. Nf3 {book} O-O {book} 6. Be2 {book} e5 {book}
+7. O-O {book} Nc6 {book} 8. d5 {book} Ne7 {book} 9. Ne1 {book} Nd7 {book}
+10. Be3 {book} f5 {book} 11. f3 {book} f4 {book} 12. Bf2 {book} g5 {book}
+13. b4 {book} Nf6 {book} 14. c5 {book} Ng6 {book} 15. Nd3 {+0.53/18 2.0s}
+Nxe4 {0.00/4 1.9s} 16. fxe4 {+3.50/16 2.0s} dxc5 {0.00/5 1.9s}
+17. bxc5 {+3.91/15 2.0s} h5 {0.00/5 1.9s} 18. Bxh5 {+5.35/15 2.0s}
+Nh4 {0.00/5 1.9s} 19. Rb1 {+5.28/15 2.0s} Qxd5 {0.00/5 1.9s}
+20. Nxd5 {+18.65/16 2.0s} a6 {0.00/5 1.9s} 21. Bxh4 {+23.26/15 2.0s}
+Bg4 {0.00/5 1.9s} 22. Bxg4 {+28.67/14 2.0s} gxh4 {0.00/5 1.9s}
+23. Be6+ {+M11/17 2.0s} Kh7 {0.00/6 1.9s} 24. Qh5+ {+M9/19 2.0s}
+Bh6 {0.00/6 1.9s} 25. Nxe5 {+M7/28 2.0s} Rad8 {0.00/6 1.9s}
+26. Qg6+ {+M3/127 0.040s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Apollo 1.2.1"]
+[Result "1-0"]
+[ECO "C13"]
+[Opening "French"]
+[PlyCount "17"]
+[Termination "time forfeit"]
+[TimeControl "2/move"]
+[Variation "Albin-Alekhine-Chatard attack"]
+
+1. e4 {book} e6 {book} 2. d4 {book} d5 {book} 3. Nc3 {book} Nf6 {book}
+4. Bg5 {book} Be7 {book} 5. e5 {book} Nfd7 {book} 6. h4 {book} Bxg5 {book}
+7. hxg5 {book} Qxg5 {book} 8. Nh3 {book} Qe7 {book}
+9. Nxd5 {0.00/4 1.9s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Apollo 1.2.1"]
+[Black "Jaglavak"]
+[Result "0-1"]
+[ECO "D70"]
+[Opening "Neo-Gruenfeld defense"]
+[PlyCount "18"]
+[Termination "time forfeit"]
+[TimeControl "2/move"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. f3 {book} d5 {book}
+4. cxd5 {book} Nxd5 {book} 5. e4 {book} Nb6 {book} 6. Nc3 {book} Bg7 {book}
+7. Be3 {book} O-O {book} 8. Qd2 {book} Nc6 {book} 9. O-O-O {book}
+f5 {book, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Arasan 15.2"]
+[Result "0-1"]
+[ECO "B12"]
+[Opening "Caro-Kann"]
+[PlyCount "56"]
+[Termination "time forfeit"]
+[TimeControl "2/move"]
+[Variation "Advance Variation"]
+
+1. e4 {book} c6 {book} 2. d4 {book} d5 {book} 3. e5 {book} Bf5 {book}
+4. Be3 {book} e6 {book} 5. Nd2 {book} Nd7 {book} 6. Ngf3 {book} Ne7 {book}
+7. Be2 {book} Qc7 {book} 8. O-O {book} f6 {book} 9. exf6 {0.00/5 1.9s}
+gxf6 {-0.81/16 2.0s} 10. h4 {0.00/5 1.9s} Bg4 {+0.16/16 2.0s}
+11. b4 {0.00/5 1.9s} Nf5 {+0.99/16 2.1s} 12. b5 {0.00/5 1.9s}
+cxb5 {+1.07/15 2.0s} 13. h5 {0.00/5 1.9s} Nxe3 {+2.27/15 2.1s}
+14. fxe3 {0.00/5 1.9s} Bh6 {+2.15/14 2.0s} 15. a4 {0.00/5 1.9s}
+bxa4 {+2.59/12 2.1s} 16. Rxa4 {0.00/5 1.9s} Bxe3+ {+3.07/14 2.0s}
+17. Rf2 {0.00/6 1.9s} Rg8 {+5.78/14 2.1s} 18. Ra3 {0.00/6 1.9s}
+Bxf2+ {+5.45/15 2.0s} 19. Kxf2 {0.00/6 1.9s} Bxh5 {+5.41/15 2.0s}
+20. Rxa7 {0.00/6 1.9s} Qg3+ {+11.61/16 2.1s} 21. Ke3 {0.00/6 1.9s}
+Rxa7 {+11.31/16 0.95s} 22. c4 {0.00/6 1.9s} Ra3+ {+19.27/15 2.1s}
+23. Qb3 {0.00/6 1.9s} Rxb3+ {+23.72/16 2.1s} 24. Nxb3 {0.00/7 1.9s}
+Bxf3 {+24.96/17 2.1s} 25. Bxf3 {0.00/7 1.9s} dxc4 {+29.19/16 2.1s}
+26. Nd2 {0.00/7 1.9s} Qe1+ {+M7/6 0.019s} 27. Be2 {0.00/7 1.9s}
+Rxg2 {+M5/4 0.005s} 28. Ne4 {0.00/7 1.9s}
+Qxe2+ {+M3/2 0.001s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Arasan 15.2"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "A05"]
+[Opening "Reti Opening"]
+[PlyCount "39"]
+[TimeControl "2/move"]
+
+1. Nf3 {book} Nf6 {book} 2. c4 {book} e6 {book} 3. g3 {book} b6 {book}
+4. Bg2 {book} Bb7 {book} 5. O-O {book} c5 {book} 6. Nc3 {book} Be7 {book}
+7. Re1 {book} d6 {book} 8. e4 {book} a6 {book} 9. d4 {book} cxd4 {book}
+10. Nxd4 {book} Qc7 {book} 11. b3 {+0.20/15 2.0s} Nxe4 {0.00/4 1.9s}
+12. Nxe4 {+2.98/17 2.1s} Qc6 {0.00/4 1.9s} 13. Nxc6 {+15.31/17 0.98s}
+g6 {0.00/5 1.9s} 14. Nxd6+ {+M51/12 2.1s} Bxd6 {0.00/6 1.9s}
+15. Qxd6 {+M11/11 1.1s} Nxc6 {0.00/6 1.9s} 16. Bg5 {+M9/8 0.033s}
+f6 {0.00/7 1.9s} 17. Rxe6+ {+M7/7 0.057s} Kf7 {0.00/7 1.9s}
+18. Bd5 {+M5/4 0.008s} Rab8 {0.00/7 1.9s} 19. Re7+ {+M3/2 0.002s}
+Kf8 {0.00/7 2.0s} 20. Qxf6# {+M1/2 0.004s, White mates} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Asymptote 0.6"]
+[Result "0-1"]
+[ECO "B78"]
+[Opening "Sicilian"]
+[PlyCount "48"]
+[TimeControl "2/move"]
+[Variation "Dragon, Yugoslav attack, 10.O-O-O"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} g6 {book} 6. Be3 {book} Bg7 {book}
+7. f3 {book} O-O {book} 8. Qd2 {book} Nc6 {book} 9. Bc4 {book} Bd7 {book}
+10. O-O-O {book} Rc8 {book} 11. Bb3 {book} Ne5 {book} 12. h4 {book} Nc4 {book}
+13. Bxc4 {book} Rxc4 {book} 14. h5 {0.00/4 1.9s} Nxh5 {+0.62/14 2.0s}
+15. g4 {0.00/4 1.9s} Nf6 {+0.53/13 2.0s} 16. g5 {0.00/4 1.9s}
+Nh5 {+0.97/15 2.0s} 17. Qh2 {0.00/4 1.9s} Rc8 {+1.19/11 2.0s}
+18. Qxh5 {0.00/5 1.9s} gxh5 {+6.55/14 2.0s} 19. b4 {0.00/5 1.9s}
+Rxc3 {+14.06/14 2.0s} 20. Kd2 {0.00/5 1.9s} Qc7 {+14.76/14 2.0s}
+21. f4 {0.00/5 1.9s} Qc4 {+20.54/13 2.0s} 22. Ke1 {0.00/5 1.9s}
+Rxe3+ {+M15/21 2.0s} 23. Kf2 {0.00/6 1.9s} Bxd4 {+M13/36 2.0s}
+24. Rxd4 {0.00/6 1.9s} Qe2+ {+M3/127 0.024s, White's connection stalls} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Amoeba 3.0"]
+[Result "*"]
+[ECO "B94"]
+[Opening "Sicilian"]
+[PlyCount "28"]
+[Termination "unterminated"]
+[TimeControl "2/move"]
+[Variation "Najdorf, 6.Bg5"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} a6 {book} 6. Bg5 {book} Nbd7 {book}
+7. f4 {book} e6 {book} 8. Qe2 {book} Be7 {book} 9. O-O-O {book} Qc7 {book}
+10. g4 {book} b5 {book} 11. a3 {book} Bb7 {-0.11/16 1.9s}
+12. Ncxb5 {0.00/4 1.9s} axb5 {+2.18/17 1.9s} 13. Nxb5 {0.00/5 1.9s}
+Qc5 {+2.23/15 1.5s} 14. c4 {0.00/5 1.9s} Bxe4 {+3.80/16 1.4s, No result} *
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Amoeba 3.0"]
+[Result "0-1"]
+[ECO "B94"]
+[Opening "Sicilian"]
+[PlyCount "52"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "Najdorf, 6.Bg5"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} a6 {book} 6. Bg5 {book} Nbd7 {book}
+7. f4 {book} e6 {book} 8. Qe2 {book} Be7 {book} 9. O-O-O {book} Qc7 {book}
+10. g4 {book} b5 {book} 11. a3 {book} Bb7 {-0.02/19 7.9s} 12. Nxe6 {0.00/5 9.9s}
+fxe6 {+2.66/21 7.9s} 13. Nxb5 {0.00/5 9.9s} axb5 {+6.99/19 9.0s}
+14. Bxf6 {0.00/6 9.9s} Nxf6 {+7.55/20 9.1s} 15. e5 {0.00/6 9.9s}
+Bxh1 {+7.91/22 9.5s} 16. exf6 {0.00/6 9.9s} gxf6 {+8.18/20 7.7s}
+17. f5 {0.00/6 9.9s} e5 {+9.15/21 9.5s} 18. b4 {0.00/6 9.9s}
+Rxa3 {+14.07/22 7.3s} 19. g5 {0.00/6 9.9s} Qc3 {+28.82/29 9.0s}
+20. Qxb5+ {0.00/9 9.9s} Kf8 {+29.98/30 9.5s} 21. Qa6 {0.00/9 9.9s}
+Be4 {+25.60/27 9.5s} 22. Rd3 {0.00/9 9.9s} Bxd3 {+25.60/26 9.5s}
+23. Qc8+ {0.00/9 9.9s} Qxc8 {+M11/23 2.3s} 24. Bxd3 {0.00/9 9.9s}
+Rxd3 {+M9/21 0.078s} 25. h4 {0.00/9 9.9s} Qc3 {+M5/15 0.012s}
+26. Kb1 {0.00/9 10.0s} Rd1+ {+M3/13 0.003s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Amoeba 3.0"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "D15"]
+[Opening "QGD Slav"]
+[PlyCount "45"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "4.Nc3"]
+
+1. d4 {book} d5 {book} 2. c4 {book} c6 {book} 3. Nf3 {book} Nf6 {book}
+4. Nc3 {book} e6 {book} 5. e3 {book} Nbd7 {book} 6. Qc2 {book} Bd6 {book}
+7. g4 {book} Bb4 {book} 8. Bd2 {book} Qe7 {book} 9. Rg1 {book} Bxc3 {book}
+10. Bxc3 {book} Ne4 {book} 11. O-O-O {book} O-O {book} 12. Be1 {book}
+dxc4 {0.00/6 9.9s} 13. Qxe4 {+3.98/22 9.3s} g5 {0.00/6 9.9s}
+14. Bxc4 {+5.59/20 9.5s} Qe8 {0.00/6 9.9s} 15. Bd3 {+10.31/23 9.5s}
+f5 {0.00/6 9.9s} 16. gxf5 {+6.40/21 9.5s} exf5 {0.00/6 9.9s}
+17. Rxg5+ {+12.80/18 9.5s} Kf7 {0.00/8 9.9s} 18. Bc4+ {+M21/16 9.5s}
+Kf6 {0.00/8 9.9s} 19. Qh4 {+M19/17 8.9s} Ke7 {0.00/8 9.9s}
+20. Rg7+ {+M11/15 2.5s} Kd6 {0.00/8 9.9s} 21. Qf4+ {+M9/14 0.16s}
+Qe5 {0.00/8 9.9s} 22. Qxe5+ {+M7/13 0.019s} Nxe5 {0.00/8 9.9s}
+23. Bb4+ {+M5/12 0.008s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Andscacs 0.95"]
+[Result "0-1"]
+[ECO "C88"]
+[Opening "Ruy Lopez"]
+[PlyCount "76"]
+[TimeControl "10/move"]
+[Variation "Closed"]
+
+1. e4 {book} e5 {book} 2. Nf3 {book} Nc6 {book} 3. Bb5 {book} a6 {book}
+4. Ba4 {book} Nf6 {book} 5. O-O {book} Be7 {book} 6. Re1 {book} b5 {book}
+7. Bb3 {book} d6 {book} 8. c3 {book} O-O {book} 9. h3 {book} Bb7 {book}
+10. d4 {book} Re8 {book} 11. Nbd2 {book} Bf8 {book} 12. a4 {book} h6 {book}
+13. Bc2 {book} exd4 {book} 14. cxd4 {book} Nb4 {book} 15. Bb1 {book} c5 {book}
+16. d5 {book} Nd7 {book} 17. Ra3 {book} f5 {book} 18. Nh2 {book}
+bxa4 {+0.72/18 10s} 19. exf5 {0.00/6 9.9s} Rxe1+ {+0.72/18 10s}
+20. Qxe1 {0.00/7 9.9s} Bxd5 {+0.62/21 10s} 21. g4 {0.00/7 9.9s}
+Ra7 {+0.93/19 10s} 22. g5 {0.00/7 9.9s} Qxg5+ {+2.19/21 10s}
+23. Rg3 {0.00/7 9.9s} Qe7 {+2.44/20 10s} 24. Qxe7 {0.00/7 9.9s}
+Bxe7 {+2.85/22 10s} 25. f6 {0.00/7 9.9s} Bxf6 {+3.68/21 10s}
+26. f4 {0.00/7 9.9s} Bd4+ {+5.00/25 10s} 27. Re3 {0.00/7 9.9s}
+Bxe3+ {+14.11/22 10s} 28. Kf1 {0.00/7 9.9s} Bxf4 {+14.56/23 10s}
+29. h4 {0.00/7 9.9s} Ne5 {+17.97/21 10s} 30. Nc4 {0.00/7 9.9s}
+Bxc4+ {+31.05/20 10s} 31. Bd3 {0.00/7 9.9s} Bxd3+ {+M21/20 10s}
+32. Kg1 {0.00/7 9.9s} Bxc1 {+M19/19 10s} 33. h5 {0.00/7 9.9s} Be4 {+M13/22 10s}
+34. Nf1 {0.00/7 9.9s} Rf7 {+M9/27 10s} 35. Ng3 {0.00/7 9.9s} Be3+ {+M7/114 10s}
+36. Kh2 {0.00/8 9.9s} Rf2+ {+M5/127 0.15s} 37. Kh3 {0.00/8 10s}
+Bg2+ {+M3/127 0.045s} 38. Kh2 {0.00/8 9.9s} Nf3# {+M1/1 0.002s, Black mates} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Andscacs 0.95"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "E98"]
+[Opening "King's Indian"]
+[PlyCount "57"]
+[TimeControl "10/move"]
+[Variation "Orthodox, Aronin-Taimanov, 9.Ne1"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. Nc3 {book} Bg7 {book}
+4. e4 {book} d6 {book} 5. Nf3 {book} O-O {book} 6. Be2 {book} e5 {book}
+7. O-O {book} Nc6 {book} 8. d5 {book} Ne7 {book} 9. Ne1 {book} Nd7 {book}
+10. Be3 {book} f5 {book} 11. f3 {book} f4 {book} 12. Bf2 {book} g5 {book}
+13. b4 {book} Nf6 {book} 14. c5 {book} Ng6 {book} 15. Nd3 {+0.48/20 10s}
+dxc5 {0.00/5 9.9s} 16. bxc5 {+1.17/18 10s} g4 {0.00/5 9.9s}
+17. fxg4 {+2.29/19 10s} Nxg4 {0.00/5 9.9s} 18. Bxg4 {+5.16/18 10s}
+Bxg4 {0.00/6 9.9s} 19. Qxg4 {+5.34/20 10s} Qxd5 {0.00/6 9.9s}
+20. exd5 {+15.87/18 10s} h5 {0.00/6 9.9s} 21. Qxg6 {+23.10/19 10s}
+h4 {0.00/6 9.9s} 22. Ne4 {+M21/18 10s} h3 {0.00/6 9.9s} 23. Nxe5 {+M15/18 10s}
+f3 {0.00/6 9.9s} 24. Qe6+ {+M11/22 10s} Kh8 {0.00/7 9.9s} 25. Ng5 {+M9/27 10s}
+Rf6 {0.00/8 9.9s} 26. Ng6+ {+M7/127 9.5s} Rxg6 {0.00/10 9.9s}
+27. Qxg6 {+M5/127 0.063s} Kg8 {0.00/11 9.9s} 28. Ne6 {+M3/127 0.040s}
+b5 {0.00/11 9.9s} 29. Qxg7# {+M1/1 0.002s, White mates} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Apollo 1.2.1"]
+[Result "1-0"]
+[ECO "C13"]
+[Opening "French"]
+[PlyCount "17"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "Albin-Alekhine-Chatard attack"]
+
+1. e4 {book} e6 {book} 2. d4 {book} d5 {book} 3. Nc3 {book} Nf6 {book}
+4. Bg5 {book} Be7 {book} 5. e5 {book} Nfd7 {book} 6. h4 {book} Bxg5 {book}
+7. hxg5 {book} Qxg5 {book} 8. Nh3 {book} Qe7 {book}
+9. Nxd5 {0.00/6 9.9s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Apollo 1.2.1"]
+[Black "Jaglavak"]
+[Result "0-1"]
+[ECO "D70"]
+[Opening "Neo-Gruenfeld defense"]
+[PlyCount "18"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. f3 {book} d5 {book}
+4. cxd5 {book} Nxd5 {book} 5. e4 {book} Nb6 {book} 6. Nc3 {book} Bg7 {book}
+7. Be3 {book} O-O {book} 8. Qd2 {book} Nc6 {book} 9. O-O-O {book}
+f5 {book, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Arasan 15.2"]
+[Result "0-1"]
+[ECO "B12"]
+[Opening "Caro-Kann"]
+[PlyCount "46"]
+[TimeControl "10/move"]
+[Variation "Advance Variation"]
+
+1. e4 {book} c6 {book} 2. d4 {book} d5 {book} 3. e5 {book} Bf5 {book}
+4. Be3 {book} e6 {book} 5. Nd2 {book} Nd7 {book} 6. Ngf3 {book} Ne7 {book}
+7. Be2 {book} Qc7 {book} 8. O-O {book} f6 {book} 9. exf6 {0.00/6 9.9s}
+gxf6 {-0.85/19 10s} 10. g4 {0.00/6 9.9s} Bxg4 {+0.99/20 10s}
+11. h4 {0.00/6 9.9s} Bh3 {+2.78/18 10s} 12. b4 {0.00/6 9.9s} Rg8+ {+5.66/18 10s}
+13. Ng5 {0.00/7 9.9s} fxg5 {+5.86/18 7.4s} 14. hxg5 {0.00/7 9.9s}
+Nf5 {+6.42/18 10s} 15. b5 {0.00/7 9.9s} Nxe3 {+16.80/17 10s}
+16. bxc6 {0.00/7 9.9s} Rxg5+ {+29.84/13 10s} 17. Bg4 {0.00/8 9.9s}
+Bxg4 {+M15/12 10s} 18. f4 {0.00/8 9.9s} Bxd1+ {+M15/11 10s}
+19. Kf2 {0.00/8 9.9s} Qxf4+ {+M7/6 0.074s} 20. Ke1 {0.00/9 9.9s}
+Qh4+ {+M7/6 0.030s} 21. Rf2 {0.00/9 9.9s} Rg1+ {+M5/4 0.011s}
+22. Nf1 {0.00/9 10s} Bb4+ {+M3/2 0.004s} 23. c3 {0.00/9 9.9s}
+Bxc3# {+M1/2 0.006s, Black mates} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Arasan 15.2"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "A05"]
+[Opening "Reti Opening"]
+[PlyCount "39"]
+[TimeControl "10/move"]
+
+1. Nf3 {book} Nf6 {book} 2. c4 {book} e6 {book} 3. g3 {book} b6 {book}
+4. Bg2 {book} Bb7 {book} 5. O-O {book} c5 {book} 6. Nc3 {book} Be7 {book}
+7. Re1 {book} d6 {book} 8. e4 {book} a6 {book} 9. d4 {book} cxd4 {book}
+10. Nxd4 {book} Qc7 {book} 11. b3 {-0.13/18 10s} Nxe4 {0.00/5 9.9s}
+12. Nxe4 {+3.40/19 10s} Qc6 {0.00/6 9.9s} 13. Nxc6 {+17.12/19 6.5s}
+Nxc6 {0.00/6 9.9s} 14. Nxd6+ {+17.99/21 10s} Bxd6 {0.00/7 9.9s}
+15. Bxc6+ {+21.84/18 10s} Bxc6 {0.00/7 9.9s} 16. Qxd6 {+M51/14 5.9s}
+h5 {0.00/7 9.9s} 17. Ba3 {+M7/6 0.021s} Ra7 {0.00/8 9.9s}
+18. Qxc6+ {+M5/5 0.006s} Rd7 {0.00/8 10.0s} 19. Rad1 {+M3/3 0.004s}
+e5 {0.00/8 10s} 20. Qxd7# {+M1/2 0.001s, White mates} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Asymptote 0.6"]
+[Result "0-1"]
+[ECO "B78"]
+[Opening "Sicilian"]
+[PlyCount "58"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "Dragon, Yugoslav attack, 10.O-O-O"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} g6 {book} 6. Be3 {book} Bg7 {book}
+7. f3 {book} O-O {book} 8. Qd2 {book} Nc6 {book} 9. Bc4 {book} Bd7 {book}
+10. O-O-O {book} Rc8 {book} 11. Bb3 {book} Ne5 {book} 12. h4 {book} Nc4 {book}
+13. Bxc4 {book} Rxc4 {book} 14. h5 {0.00/5 9.9s} Nxh5 {+0.58/17 10.0s}
+15. g4 {0.00/5 9.9s} Nf6 {+0.56/16 10.0s} 16. Qh2 {0.00/5 9.9s}
+h5 {+0.78/15 10.0s} 17. Qxh5 {0.00/5 9.9s} gxh5 {+7.93/18 10.0s}
+18. gxh5 {0.00/5 9.9s} Rxc3 {+8.02/18 10.0s} 19. bxc3 {0.00/6 9.9s}
+Qa5 {+8.20/19 10.0s} 20. h6 {0.00/6 9.9s} Qxc3 {+7.92/18 10.0s}
+21. hxg7 {0.00/7 9.9s} Qxe3+ {+9.48/19 10.0s} 22. Kb1 {0.00/8 9.9s}
+Rc8 {+9.76/21 10.0s} 23. Rdg1 {0.00/8 9.9s} Nh7 {+11.16/20 10.0s}
+24. Nf5 {0.00/8 9.9s} Bxf5 {+16.54/19 10.0s} 25. exf5 {0.00/8 9.9s}
+Qb6+ {+M17/18 10.0s} 26. Kc1 {0.00/8 9.9s} Qf2 {+M13/18 10.0s}
+27. c4 {0.00/8 9.9s} Rxc4+ {+M7/127 0.89s} 28. Kb1 {0.00/9 9.9s}
+Qc2+ {+M5/127 0.037s} 29. Ka1 {0.00/9 10s}
+Qc3+ {+M3/127 0.020s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Asymptote 0.6"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "E41"]
+[Opening "Nimzo-Indian"]
+[PlyCount "41"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "e3, Huebner Variation"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} e6 {book} 3. Nc3 {book} Bb4 {book}
+4. e3 {book} c5 {book} 5. Bd3 {book} Nc6 {book} 6. Nf3 {book} Bxc3+ {book}
+7. bxc3 {book} d6 {book} 8. e4 {+0.82/17 10.0s} Nxe4 {0.00/5 9.9s}
+9. Bxe4 {+3.42/18 10.0s} cxd4 {0.00/5 9.9s} 10. cxd4 {+3.20/16 10.0s}
+Nxd4 {0.00/6 9.9s} 11. Qxd4 {+6.40/18 10.0s} f5 {0.00/6 9.9s}
+12. Qxg7 {+8.00/18 10.0s} fxe4 {0.00/6 9.9s} 13. Bg5 {+16.16/21 10.0s}
+Qxg5 {0.00/6 9.9s} 14. Qxh8+ {+20.99/17 10.0s} Qg8 {0.00/8 9.9s}
+15. Qxg8+ {+26.05/17 10.0s} Ke7 {0.00/8 9.9s} 16. Ng5 {+26.96/16 10.0s}
+b5 {0.00/8 9.9s} 17. Qf7+ {+M13/27 10.0s} Kd8 {0.00/8 9.9s}
+18. Rd1 {+M11/24 10.0s} d5 {0.00/8 9.9s} 19. cxd5 {+M9/127 1.7s}
+e5 {0.00/8 9.9s} 20. Ne6+ {+M7/127 0.38s} Bxe6 {0.00/10 10s}
+21. dxe6+ {+M5/127 0.024s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "?"]
+[Round "1"]
+[White "?"]
+[Black "?"]
+[Result "?"]
+ 
+
+[Event "?"]
+[Site "?"]
+[Date "?"]
+[Round "1"]
+[White "?"]
+[Black "?"]
+[Result "?"]
+ 
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Baislicka 1.0"]
+[Result "0-1"]
+[ECO "B06"]
+[Opening "Robatsch (Modern) defense"]
+[PlyCount "46"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+
+1. e4 {book} g6 {book} 2. d4 {book} Bg7 {book} 3. Nc3 {book} d6 {book}
+4. Be3 {book} a6 {book} 5. Qd2 {book} b5 {book} 6. f3 {book} Nd7 {book}
+7. Nxb5 {0.00/5 9.9s} axb5 {+0.56/11 0.93s} 8. b4 {0.00/5 9.9s}
+Ba6 {+1.92/10 0.49s} 9. a4 {0.00/5 9.9s} bxa4 {+1.86/10 0.42s}
+10. Rxa4 {0.00/5 9.9s} Bxf1 {+2.45/11 0.52s} 11. Rxa8 {0.00/6 9.9s}
+Qxa8 {+2.48/12 1.3s} 12. Kxf1 {0.00/6 9.9s} Qa1+ {+2.43/11 1.1s}
+13. Ke2 {0.00/7 9.9s} e5 {+2.65/10 0.73s} 14. dxe5 {0.00/7 9.9s}
+Bxe5 {+2.92/10 0.92s} 15. c4 {0.00/7 9.9s} Bc3 {+4.01/11 0.66s}
+16. Qxc3 {0.00/7 9.9s} Qxc3 {+9.76/11 0.79s} 17. b5 {0.00/7 9.9s}
+Ne5 {+11.23/9 0.62s} 18. c5 {0.00/7 9.9s} Qc2+ {+13.85/10 0.45s}
+19. Bd2 {0.00/7 9.9s} Nc4 {+14.38/11 0.76s} 20. f4 {0.00/8 9.9s}
+Qxd2+ {+M21/7 0.13s} 21. Kf3 {0.00/8 9.9s} Qe3+ {+M17/6 0.022s}
+22. Kg4 {0.00/10 9.9s} Nf6+ {+M13/5 0.008s} 23. Kg5 {0.00/10 9.9s}
+h6+ {+M9/4 0.002s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Baislicka 1.0"]
+[Black "Jaglavak"]
+[Result "1-0"]
+[ECO "D07"]
+[Opening "QGD"]
+[PlyCount "39"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "Chigorin defense"]
+
+1. d4 {book} d5 {book} 2. c4 {book} Nc6 {book} 3. Nf3 {book} Bg4 {book}
+4. cxd5 {book} Bxf3 {book} 5. gxf3 {book} Qxd5 {book} 6. e3 {book} e5 {book}
+7. Nc3 {book} Bb4 {book} 8. Bd2 {book} Bxc3 {book} 9. bxc3 {book} Qd6 {book}
+10. Rg1 {+0.71/9 0.50s} Nxd4 {0.00/5 9.9s} 11. cxd4 {+3.01/9 0.40s}
+exd4 {0.00/6 9.9s} 12. Rxg7 {+3.09/9 0.57s} dxe3 {0.00/6 9.9s}
+13. Bxe3 {+4.01/9 0.82s} Qxd1+ {0.00/6 9.9s} 14. Rxd1 {+5.04/10 0.71s}
+f6 {0.00/6 9.9s} 15. Rxc7 {+8.15/10 0.38s} h5 {0.00/6 9.9s}
+16. Bb5+ {+14.41/10 0.44s} Kf8 {0.00/8 9.9s} 17. Rdd7 {+M21/10 0.38s}
+Ne7 {0.00/8 9.9s} 18. Rxe7 {+M13/5 0.014s} Rh7 {0.00/8 9.9s}
+19. Rxh7 {+M9/4 0.011s} Kg8 {0.00/8 10s}
+20. Bc4+ {+M5/2 0.003s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Barbarossa 0.5.0"]
+[Result "1-0"]
+[ECO "C41"]
+[Opening "Philidor"]
+[PlyCount "15"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "Exchange Variation"]
+
+1. e4 {book} e5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} exd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} Be7 {book} 6. Bf4 {book} O-O {book}
+7. Qd2 {book} Nc6 {book} 8. O-O-O {book, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Barbarossa 0.5.0"]
+[Black "Jaglavak"]
+[Result "0-1"]
+[ECO "E84"]
+[Opening "King's Indian"]
+[PlyCount "20"]
+[Termination "time forfeit"]
+[TimeControl "10/move"]
+[Variation "Saemisch, Panno Main line"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. Nc3 {book} Bg7 {book}
+4. e4 {book} d6 {book} 5. f3 {book} O-O {book} 6. Be3 {book} Nc6 {book}
+7. Nge2 {book} a6 {book} 8. Qd2 {book} Rb8 {book} 9. h4 {book} h5 {book}
+10. Nc1 {book} e5 {book, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "BibiChess 0.5"]
+[Result "1-0"]
+[ECO "B33"]
+[Opening "Sicilian defense"]
+[PlyCount "19"]
+[TimeControl "10/move"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} Nc6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} d6 {book} 6. Bg5 {book} e6 {book}
+7. Qd2 {book} a6 {book} 8. O-O-O {book} Bd7 {book} 9. f4 {book} b5 {book}
+10. Nxe6 {0.00/5 9.9s, Black makes an illegal move: a1a1} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "BibiChess 0.5"]
+[Black "Jaglavak"]
+[Result "0-1"]
+[ECO "D34"]
+[Opening "QGD"]
+[PlyCount "22"]
+[TimeControl "10/move"]
+[Variation "Tarrasch, Prague Variation , 9.Bg5"]
+
+1. d4 {book} d5 {book} 2. c4 {book} e6 {book} 3. Nc3 {book} c5 {book}
+4. cxd5 {book} exd5 {book} 5. Nf3 {book} Nc6 {book} 6. g3 {book} Nf6 {book}
+7. Bg2 {book} Be7 {book} 8. O-O {book} O-O {book} 9. Bg5 {book} cxd4 {book}
+10. Nxd4 {book} h6 {book} 11. Be3 {book}
+Re8 {book, White makes an illegal move: a1a1} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Bobcat 20110312"]
+[Result "*"]
+[ECO "C63"]
+[Opening "Ruy Lopez"]
+[PlyCount "28"]
+[Termination "unterminated"]
+[TimeControl "10/move"]
+[Variation "Schliemann defense"]
+
+1. e4 {book} e5 {book} 2. Nf3 {book} Nc6 {book} 3. Bb5 {book} f5 {book}
+4. exf5 {0.00/6 9.9s} e4 {-0.38/20 9.0s} 5. Bxc6 {0.00/6 9.9s}
+dxc6 {+0.32/22 9.0s} 6. g4 {0.00/6 9.9s} exf3 {+3.05/20 9.0s}
+7. Qxf3 {0.00/7 9.9s} h5 {+3.32/20 9.0s} 8. g5 {0.00/7 9.9s}
+Qxg5 {+4.58/20 9.1s} 9. d4 {0.00/7 9.9s} Qxc1+ {+10.96/19 9.0s}
+10. Qd1 {0.00/7 9.9s} Qxb2 {+11.43/19 9.0s} 11. c4 {0.00/7 9.9s}
+Qxa1 {+16.28/18 9.0s} 12. Nc3 {0.00/7 9.9s} Qxc3+ {+23.80/19 9.0s}
+13. Qd2 {0.00/7 9.9s} Qa1+ {+25.20/21 9.0s} 14. Qd1 {0.00/8 9.9s}
+Bb4+ {+25.52/22 9.0s, No result} *
+
+[Event "?"]
+[Site "?"]
+[Date "?"]
+[Round "1"]
+[White "?"]
+[Black "?"]
+[Result "?"]
+ 
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Philemon c"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "D15"]
+[Opening "QGD Slav"]
+[PlyCount "54"]
+[Termination "time forfeit"]
+[Variation "4.Nc3"]
+[WhiteTimeControl "10/move"]
+
+1. d4 {book} d5 {book} 2. c4 {book} c6 {book} 3. Nf3 {book} Nf6 {book}
+4. Nc3 {book} e6 {book} 5. e3 {book} Nbd7 {book} 6. Qc2 {book} Bd6 {book}
+7. g4 {book} Bb4 {book} 8. Bd2 {book} Qe7 {book} 9. Rg1 {book} Bxc3 {book}
+10. Bxc3 {book} Ne4 {book} 11. O-O-O {book} O-O {book} 12. Be1 {book}
+f5 {+0.22/6 1.0s} 13. gxf5 {0.00/6 9.9s} Rxf5 {+0.30/6 1.0s}
+14. cxd5 {0.00/6 9.9s} cxd5 {+0.89/6 1.0s} 15. Qxe4 {0.00/6 9.9s}
+dxe4 {+5.71/7 1.0s} 16. b4 {0.00/6 9.9s} exf3 {+9.57/6 1.0s}
+17. a4 {0.00/6 9.9s} Nb6 {+10.55/6 1.0s} 18. a5 {0.00/6 9.9s}
+Qc7+ {+10.58/7 1.0s} 19. Kb1 {0.00/7 9.9s} Qxh2 {+10.33/6 1.0s}
+20. axb6 {0.00/7 9.9s} Qxg1 {+12.92/6 1.0s} 21. bxa7 {0.00/7 9.9s}
+Qxf1 {+16.13/8 1.0s} 22. d5 {0.00/7 9.9s} Rxd5 {+17.15/7 1.0s}
+23. Rxd5 {0.00/8 9.9s} exd5 {+0.50/10 1.0s} 24. e4 {0.00/8 9.9s}
+Qxe1+ {+0.50/8 1.0s} 25. Kc2 {0.00/8 9.9s} dxe4 {+0.50/8 1.0s}
+26. b5 {0.00/8 9.9s} Bg4 {+327.57/7 1.0s} 27. b6 {0.00/8 9.9s}
+Qb4 {+327.59/8 1.0s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Shallow Blue 2.0.0"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "C88"]
+[Opening "Ruy Lopez"]
+[PlyCount "72"]
+[Termination "time forfeit"]
+[Variation "Closed"]
+[WhiteTimeControl "10/move"]
+
+1. e4 {book} e5 {book} 2. Nf3 {book} Nc6 {book} 3. Bb5 {book} a6 {book}
+4. Ba4 {book} Nf6 {book} 5. O-O {book} Be7 {book} 6. Re1 {book} b5 {book}
+7. Bb3 {book} d6 {book} 8. c3 {book} O-O {book} 9. h3 {book} Bb7 {book}
+10. d4 {book} Re8 {book} 11. Nbd2 {book} Bf8 {book} 12. a4 {book} h6 {book}
+13. Bc2 {book} exd4 {book} 14. cxd4 {book} Nb4 {book} 15. Bb1 {book} c5 {book}
+16. d5 {book} Nd7 {book} 17. Ra3 {book} f5 {book} 18. Nh2 {book}
+fxe4 {+1.06/5 1.0s} 19. axb5 {0.00/5 9.9s} axb5 {+1.68/5 1.0s}
+20. Rxa8 {0.00/5 9.9s} Qxa8 {+1.70/5 1.0s} 21. Rxe4 {0.00/5 9.9s}
+Bxd5 {+2.16/5 1.0s} 22. Rxe8 {0.00/5 9.9s} Qxe8 {+1.87/6 0.64s}
+23. g4 {0.00/6 9.9s} Ne5 {+2.28/5 1.0s} 24. g5 {0.00/6 9.9s} hxg5 {+3.23/5 1.0s}
+25. f4 {0.00/7 9.9s} gxf4 {+5.65/5 1.0s} 26. Qc2 {0.00/7 9.9s}
+Ned3 {+12.81/5 1.0s} 27. Qxd3 {0.00/7 9.9s} Nxd3 {+15.47/6 0.82s}
+28. Bxd3 {0.00/8 9.9s} Qe3+ {+16.26/6 0.77s} 29. Kf1 {0.00/8 9.9s}
+Qxd3+ {+16.26/5 1.0s} 30. Kf2 {0.00/9 9.9s} Qg3+ {+16.98/5 1.0s}
+31. Ke2 {0.00/9 9.9s} Qxh2+ {+17.19/5 1.0s} 32. Kd3 {0.00/9 9.9s}
+Qxh3+ {+17.31/5 1.0s} 33. Ke2 {0.00/9 9.9s} Qg4+ {+19.80/5 0.60s}
+34. Nf3 {0.00/9 9.9s} Qxf3+ {+M13/20 0.12s} 35. Kd2 {0.00/10 10.0s}
+Bc4 {+M9/20 0.058s} 36. b4 {0.00/10 10s}
+Qd3+ {+M5/20 0.005s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Apollo 1.2.1"]
+[Result "1-0"]
+[BlackTimeControl "1/move"]
+[ECO "E98"]
+[Opening "King's Indian"]
+[PlyCount "37"]
+[Termination "time forfeit"]
+[Variation "Orthodox, Aronin-Taimanov, 9.Ne1"]
+[WhiteTimeControl "10/move"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. Nc3 {book} Bg7 {book}
+4. e4 {book} d6 {book} 5. Nf3 {book} O-O {book} 6. Be2 {book} e5 {book}
+7. O-O {book} Nc6 {book} 8. d5 {book} Ne7 {book} 9. Ne1 {book} Nd7 {book}
+10. Be3 {book} f5 {book} 11. f3 {book} f4 {book} 12. Bf2 {book} g5 {book}
+13. b4 {book} Nf6 {book} 14. c5 {book} Ng6 {book} 15. cxd6 {0.00/5 9.9s}
+cxd6 {-0.36/10 1.2s} 16. g4 {0.00/6 9.9s} fxg3 {+0.03/11 1.2s}
+17. hxg3 {0.00/6 9.9s} Bh3 {+0.03/10 1.2s} 18. Bxa7 {0.00/6 9.9s}
+Bxf1 {+3.47/10 1.4s} 19. Kxf1 {0.00/6 9.9s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Sayuri 2018.05.23"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "C13"]
+[Opening "French"]
+[PlyCount "58"]
+[Variation "Albin-Alekhine-Chatard attack"]
+[WhiteTimeControl "10/move"]
+
+1. e4 {book} e6 {book} 2. d4 {book} d5 {book} 3. Nc3 {book} Nf6 {book}
+4. Bg5 {book} Be7 {book} 5. e5 {book} Nfd7 {book} 6. h4 {book} Bxg5 {book}
+7. hxg5 {book} Qxg5 {book} 8. Nh3 {book} Qe7 {book} 9. Nxd5 {0.00/6 9.9s}
+exd5 {+3.43/9 1.0s} 10. f4 {0.00/6 9.9s} Qb4+ {+4.73/8 0.99s}
+11. Ke2 {0.00/6 9.9s} Nxe5 {+6.66/8 0.99s} 12. dxe5 {0.00/6 9.9s}
+Bg4+ {+10.00/10 0.99s} 13. Kf2 {0.00/7 9.9s} Bxd1 {+9.92/9 0.99s}
+14. Rxd1 {0.00/7 9.9s} Qxb2 {+10.13/8 1.00s} 15. g4 {0.00/7 9.9s}
+Qxc2+ {+12.08/8 1.00s} 16. Ke1 {0.00/7 9.9s} O-O {+12.73/8 0.99s}
+17. g5 {0.00/7 9.9s} Qe4+ {+17.80/9 1.00s} 18. Kf2 {0.00/7 9.9s}
+Qxh1 {+17.80/10 0.99s} 19. g6 {0.00/7 9.9s} fxg6 {+20.09/9 1.00s}
+20. e6 {0.00/7 9.9s} Qh2+ {+20.24/9 1.00s} 21. Ke1 {0.00/7 9.9s}
+Qxa2 {+21.99/9 0.99s} 22. Rxd5 {0.00/7 9.9s} Qxd5 {+27.94/10 0.99s}
+23. Bg2 {0.00/7 9.9s} Qxg2 {+35.34/10 0.99s} 24. Ng1 {0.00/8 9.9s}
+Qxg1+ {+38.04/10 0.99s} 25. Ke2 {0.00/8 9.9s} Qg4+ {+38.20/9 1.00s}
+26. Kf2 {0.00/8 9.9s} Rxf4+ {+M7/9 0.99s} 27. Ke3 {0.00/10 9.9s}
+Qg3+ {+M5/101 0.030s} 28. Kd2 {0.00/10 10s} Rf2+ {+M3/101 0.011s}
+29. Kc1 {0.00/10 10s} Qg1# {+M1/101 0.008s, Black mates} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "CDrill 1800"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "D70"]
+[Opening "Neo-Gruenfeld defense"]
+[PlyCount "52"]
+[Termination "time forfeit"]
+[WhiteTimeControl "10/move"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} g6 {book} 3. f3 {book} d5 {book}
+4. cxd5 {book} Nxd5 {book} 5. e4 {book} Nb6 {book} 6. Nc3 {book} Bg7 {book}
+7. Be3 {book} O-O {book} 8. Qd2 {book} Nc6 {book} 9. O-O-O {book} f5 {book}
+10. h4 {0.00/5 9.9s} f4 {-0.19/5 1.0s} 11. h5 {0.00/6 9.9s} fxe3 {+2.89/6 1.0s}
+12. h6 {0.00/6 9.9s} exd2+ {+13.23/6 1.0s} 13. Kxd2 {0.00/7 9.9s}
+Qxd4+ {+14.31/5 1.0s} 14. Ke1 {0.00/7 9.9s} Qe3+ {+15.63/6 1.0s}
+15. Be2 {0.00/7 9.9s} Bxc3+ {+15.63/5 1.0s} 16. bxc3 {0.00/7 9.9s}
+Qxc3+ {+15.69/5 1.0s} 17. Kf1 {0.00/7 9.9s} Nc4 {+15.75/5 1.0s}
+18. Bxc4+ {0.00/7 9.9s} Qxc4+ {+16.05/6 1.0s} 19. Ke1 {0.00/7 9.9s}
+Nd4 {+16.50/5 1.0s} 20. e5 {0.00/7 9.9s} Rf5 {+18.14/5 1.0s}
+21. Rxd4 {0.00/7 9.9s} Qxd4 {+18.72/5 1.0s} 22. e6 {0.00/7 9.9s}
+Re5+ {+23.08/5 1.0s} 23. Ne2 {0.00/8 9.9s} Qc4 {+25.37/5 1.0s}
+24. Kf2 {0.00/8 9.9s} Qxe2+ {+M7/4 0.073s} 25. Kg3 {0.00/8 9.9s}
+Rg5+ {+M5/4 0.065s} 26. Kh4 {0.00/8 10s}
+Qf2+ {+M3/4 0.061s, White loses on time} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Deepov 0.4"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "B12"]
+[Opening "Caro-Kann"]
+[PlyCount "60"]
+[Variation "Advance Variation"]
+[WhiteTimeControl "10/move"]
+
+1. e4 {book} c6 {book} 2. d4 {book} d5 {book} 3. e5 {book} Bf5 {book}
+4. Be3 {book} e6 {book} 5. Nd2 {book} Nd7 {book} 6. Ngf3 {book} Ne7 {book}
+7. Be2 {book} Qc7 {book} 8. O-O {book} f6 {book} 9. exf6 {0.00/6 9.9s} Nxf6
+10. g4 {0.00/6 9.9s} Nxg4 11. h4 {0.00/6 9.9s} Nxe3 12. fxe3 {0.00/7 9.9s} Qg3+
+13. Kh1 {0.00/8 9.9s} Ng6 14. h5 {0.00/8 9.9s} Qh3+ 15. Kg1 {0.00/8 9.9s} Qg4+
+16. Kf2 {0.00/8 9.9s} Qxh5 17. e4 {0.00/8 9.9s} dxe4 18. Nxe4 {0.00/8 9.9s} Bxe4
+19. Ng1 {0.00/8 9.9s} Qf5+ 20. Ke1 {0.00/8 9.9s} Qa5+ 21. b4 {0.00/8 9.9s} Qxb4+
+22. c3 {0.00/8 9.9s} Qxc3+ 23. Qd2 {0.00/8 9.9s} Qxa1+ 24. Qd1 {0.00/8 9.9s}
+Bb4+ 25. Kf2 {0.00/8 9.9s} Qxa2 26. Qa1 {0.00/8 9.9s} O-O+ 27. Nf3 {0.00/8 9.9s}
+Rxf3+ 28. Kg1 {0.00/8 9.9s} Rg3+ 29. Kh2 {0.00/8 10s} Qxe2+ 30. Rf2 {0.00/8 10s}
+Qxf2# {Black mates} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Eia 0.1"]
+[Result "1-0"]
+[BlackTimeControl "1/move"]
+[ECO "A05"]
+[Opening "Reti Opening"]
+[PlyCount "21"]
+[Termination "time forfeit"]
+[WhiteTimeControl "10/move"]
+
+1. Nf3 {book} Nf6 {book} 2. c4 {book} e6 {book} 3. g3 {book} b6 {book}
+4. Bg2 {book} Bb7 {book} 5. O-O {book} c5 {book} 6. Nc3 {book} Be7 {book}
+7. Re1 {book} d6 {book} 8. e4 {book} a6 {book} 9. d4 {book} cxd4 {book}
+10. Nxd4 {book} Qc7 {book} 11. Nxe6 {0.00/5 9.9s, Black loses on time} 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Wowl 1.3.8"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "B78"]
+[Opening "Sicilian"]
+[PlyCount "52"]
+[Variation "Dragon, Yugoslav attack, 10.O-O-O"]
+[WhiteTimeControl "10/move"]
+
+1. e4 {book} c5 {book} 2. Nf3 {book} d6 {book} 3. d4 {book} cxd4 {book}
+4. Nxd4 {book} Nf6 {book} 5. Nc3 {book} g6 {book} 6. Be3 {book} Bg7 {book}
+7. f3 {book} O-O {book} 8. Qd2 {book} Nc6 {book} 9. Bc4 {book} Bd7 {book}
+10. O-O-O {book} Rc8 {book} 11. Bb3 {book} Ne5 {book} 12. h4 {book} Nc4 {book}
+13. Bxc4 {book} Rxc4 {book} 14. Bh6 {0.00/5 9.9s} Nxe4 {+2.10/11 0.90s}
+15. Bxg7 {0.00/6 9.9s} Nxd2 {+6.15/10 0.91s} 16. h5 {0.00/6 9.9s}
+Kxg7 {+10.24/10 0.91s} 17. h6+ {0.00/7 9.9s} Kh8 {+10.38/9 0.91s}
+18. b3 {0.00/7 9.9s} Nxb3+ {+15.98/10 0.92s} 19. axb3 {0.00/7 9.9s}
+Rxc3 {+15.87/9 0.92s} 20. Nb5 {0.00/7 9.9s} Bxb5 {+20.55/10 0.94s}
+21. Rxd6 {0.00/7 9.9s} Qxd6 {+28.55/11 0.94s} 22. Rd1 {0.00/7 9.9s}
+Qa3+ {+833.67/12 0.94s} 23. Kb1 {0.00/8 9.9s} Bd3 {+833.69/13 0.94s}
+24. Rxd3 {0.00/9 9.9s} Rxd3 {+833.70/14 0.94s} 25. cxd3 {0.00/9 10s}
+Rc8 {+833.70/13 0.95s} 26. g3 {0.00/9 10s} Rc1# {+833.74/13 0.94s, Black mates}
+0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2019.06.01"]
+[Round "1"]
+[White "Jaglavak"]
+[Black "Sissa 2.0.0"]
+[Result "0-1"]
+[BlackTimeControl "1/move"]
+[ECO "E41"]
+[Opening "Nimzo-Indian"]
+[PlyCount "64"]
+[Termination "time forfeit"]
+[Variation "e3, Huebner Variation"]
+[WhiteTimeControl "10/move"]
+
+1. d4 {book} Nf6 {book} 2. c4 {book} e6 {book} 3. Nc3 {book} Bb4 {book}
+4. e3 {book} c5 {book} 5. Bd3 {book} Nc6 {book} 6. Nf3 {book} Bxc3+ {book}
+7. bxc3 {book} d6 {book} 8. dxc5 {0.00/5 9.9s} dxc5 {-0.13/4 0.016s}
+9. h4 {0.00/6 9.9s} O-O {+0.33/4 0.014s} 10. h5 {0.00/6 9.9s}
+Qd7 {+0.70/4 0.069s} 11. h6 {0.00/6 9.9s} Rd8 {+0.71/4 0.012s}
+12. e4 {0.00/6 9.9s} Qxd3 {+3.23/4 0.011s} 13. Qxd3 {0.00/7 9.9s}
+Rxd3 {+3.57/4 0.007s} 14. e5 {0.00/7 9.9s} Ne4 {+3.68/4 0.023s}
+15. g4 {0.00/7 9.9s} Rxf3 {+7.07/4 0.014s} 16. O-O {0.00/7 9.9s}
+gxh6 {+8.08/4 0.013s} 17. g5 {0.00/7 9.9s} Nxg5 {+8.99/4 0.011s}
+18. Bxg5 {0.00/7 9.9s} hxg5 {+9.37/4 0.004s} 19. a4 {0.00/7 9.9s}
+Rxc3 {+10.38/4 0.004s} 20. f4 {0.00/7 9.9s} gxf4 {+11.58/4 0.006s}
+21. Rxf4 {0.00/7 9.9s} Nxe5 {+11.14/4 0.006s} 22. Rxf7 {0.00/7 9.9s}
+Nxf7 {+15.19/4 0.009s} 23. a5 {0.00/8 9.9s} Rxc4 {+15.55/4 0.005s}
+24. Ra4 {0.00/8 9.9s} Rxa4 {+21.42/4 0.003s} 25. Kf2 {0.00/8 9.9s}
+e5 {+21.51/4 0.007s} 26. Ke2 {0.00/8 9.9s} Ra3 {+21.68/4 0.012s}
+27. Kd2 {0.00/8 9.9s} e4 {+21.89/4 0.008s} 28. Kc2 {0.00/8 9.9s}
+e3 {+22.06/4 0.011s} 29. Kb2 {0.00/8 9.9s} e2 {+23.35/4 0.004s}
+30. Kxa3 {0.00/8 9.9s} e1=Q {+24.17/4 0.006s} 31. Kb2 {0.00/8 9.9s}
+Qd2+ {+M7/4 0.026s} 32. Kb1 {0.00/9 9.9s}
+Bf5+ {+M5/4 0.016s, White loses on time} 0-1
+
