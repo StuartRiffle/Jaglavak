@@ -29,9 +29,9 @@ r4r1k/4bppb/2n1p2p/p1n1P3/1p1p1BNP/3P1NP1/qP2QPB1/2RR2K1 w - - bm Ng5; id "Nolot
 r1b2rk1/1p1nbppp/pq1p4/3B4/P2NP3/2N1p3/1PP3PP/R2Q1R1K w - - bm Rxf7; id "Nolot.10";
 r1b3k1/p2p1nP1/2pqr1Rp/1p2p2P/2B1PnQ1/1P6/P1PP4/1K4R1 w - - bm Rxh6; id "Nolot.11";
 */
-    engine->ProcessCommand( "uci" );
-    engine->ProcessCommand( "position startpos fen r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - -" );
-    engine->ProcessCommand( "go" );
+    //engine->ProcessCommand( "uci" );
+    //engine->ProcessCommand( "position startpos fen r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - -" );
+    //engine->ProcessCommand( "go" );
     
     while( !feof( stdin ) )
     {

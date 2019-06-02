@@ -37,7 +37,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
         OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
         OPTION_INDEX( MaxPlayoutMoves ),        0,          200,          
-        OPTION_INDEX( NumAsyncPlayouts ),       0,          1,         
+        OPTION_INDEX( NumAsyncPlayouts ),       0,          10,         
         OPTION_INDEX( MaxPendingBatches ),      0,          128,        
         OPTION_INDEX( BatchSize ),              0,          128,       
         OPTION_INDEX( MaxTreeNodes ),           0,          1000000,    

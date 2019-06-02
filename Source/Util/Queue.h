@@ -90,8 +90,9 @@ public:
                 return result;
         }
 
-        while( (result.size() < limit) && !mQueue.empty() )
+        while( result.size() < limit ) 
         {
+            assert( !mQueue.empty() );
             result.push_back( mQueue.front() );
             mQueue.pop_front();
         }
