@@ -30,7 +30,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
     {
         OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
         OPTION_INDEX( NumSimdWorkers ),         0,          1,          
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   0,          
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
         OPTION_INDEX( EnableMulticore ),        CHECKBOX,   1,          
         OPTION_INDEX( CpuAffinityMask ),        CHECKBOX,   0,          
         OPTION_INDEX( GpuAffinityMask ),        CHECKBOX,   1,          
@@ -42,7 +42,7 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
         OPTION_INDEX( BatchSize ),              0,          128,       
         OPTION_INDEX( MaxTreeNodes ),           0,          1000000,    
         OPTION_INDEX( CudaHeapMegs ),           0,          64,        
-        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          16,        
+        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          8,        
         OPTION_INDEX( TimeSafetyBuffer ),       0,          100,          
         OPTION_INDEX( SearchSleepTime ),        0,          100,          
         OPTION_INDEX( UciUpdateDelay ),         0,          500,          
