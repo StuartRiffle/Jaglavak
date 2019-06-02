@@ -1,0 +1,138 @@
+AdjustEval ver. 1.2
+
+This is an utility to find personalities for engines.
+
+Syntax:
+AdjustEval [switches] <engine command>
+
+** switches:
+
+  /a - Commandfile for setup
+  /c - Command to reset hash. Defaults to 'new'. 
+  /d - Max depth for each position. Default=2.
+  /e - Method to set up the board. Values: edit, cbedit or setboard.
+       Default=setboard. (cbedit is used if the engine have implemented
+       Chessbase's method of edit.)
+  /i - Input file to be tested.
+  /o - Output file with settings.
+  /m - Max setings in output file (def=100).
+  /s - Init string for the engine. Defaults to 'xboard\nnew\nlevel 1 1440 0\n'.
+  /t - Time to use at each position.
+
+If there is any spaces in the switch values you should surround it ".
+eg. /s "xboard\nst 86000\nnew".
+The engine command will not need this if not the engine itself need it.
+eg. c:\Program files\crafty\wcrafty log is legal.
+
+Ex.
+
+AdjustEval /i gmpos.epd /o result.txt /t 10 /d 2 wcrafty.exe
+
+This would let crafty run through the position in gmpos.epd.
+
+The commands that are sent to the engine are:
+
+After startup AdjustEval send:
+
+xboard
+new
+level 1 1440 0
+
+This commands could be changed through the /s switch. Be sure to set the level
+(or 'st n' if this is better) so it don't make any move before the test time
+is over.
+
+Before each position AdjustEval send:
+
+new
+< setup commands >
+setboard <fen string>
+time 8640000
+otim 8640000
+sd n
+go
+
+The first 'new' command is for clearing the hash and could be
+changed through the /c switch.
+
+< setup commands > is setting up the engine with the command found in the command file
+
+The setboard command set up the board. If your engine use the old
+Winboard method (edit) you could add '/e edit' to the command line.
+Also the Chessbase extension to edit is supported, you then will use
+'/e cbedit' instead of '/e edit'. The default /e switch is '/e setboard'
+so if your engine support this you don't need to use this switch.
+
+To force the move it will send the move now (?) command at the time
+when the testtime is over.
+
+The essential command that the engine must support is 'setboard' (or 'edit'),
+'go' and '?'.
+
+The engine is running in its home directory so if it needs any ini files
+you should put it in there.
+
+** Input fileformats.
+
+EPD file with test positions.
+
+Commandfile to alter the evaluation terms.
+
+Command|Min value|Max value|Step
+
+  Command:
+    The command for changing the evaluation term.
+
+  Min value:
+    Start value for this evaluation.
+
+  Max value:
+    End value for this evaluation.
+
+  Step:
+    The change in value between each try.
+
+  Ex.
+
+  Testing eval for bad bishop and bishop pair
+
+  set badbishop|0|70|1
+  set bishoppair|0|50|1
+
+  When the test is run it will alterate through all possible values
+
+  -----------------
+  set badbishop 0
+  set bishoppair 0
+  -----------------
+  set badbishop 1
+  set bishoppair 0
+  -----------------
+         //
+  -----------------
+  set badbishop 70
+  set bishoppair 49
+  -----------------
+  set badbishop 70
+  set bishoppair 50
+  -----------------
+
+  and then save the score for each test to a file sorted by best score.
+
+History:
+-----------------------------------------------------------
+Date      Version   Remarks
+-----------------------------------------------------------
+ 8.Jan.02   1.0     -Initial version
+12.Jan.02   1.1     -Allowing step=0 and min>max in settings.
+                    -Added /m switch for adjusting number of
+                     settings in resultfile.
+ 3.Feb.02   1.2     -Bug fix: reading comment field
+-----------------------------------------------------------
+
+Known bugs:
+none.
+
+Odd Gunnar Malin
+malin@online.no
+http://home.online.no/~malin/sjakk

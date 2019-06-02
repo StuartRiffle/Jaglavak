@@ -1,0 +1,270 @@
+Intel(R) Xeon(R) CPU           X5660  @ 2.80GHz
+Physical Cores: 12, Logical Cores: 24
+Engine: Jaglavak 0.1.0
+Hash: 32, Threads: 1, time/pos: 600.000s
+Number of positions in Suite\nolot.epd: 12
+Max score = 12 x 10 = 120
+Test duration: 00h:00m:00s
+Expected time to finish: 00h:00m:00s
+
+  STS ID   STS1   STS2   STS3   STS4   STS5   STS6   STS7   STS8   STS9  STS10  STS11  STS12  STS13  STS14  STS15    ALL
+  NumPos      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+ BestCnt      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+   Score      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+
+:: STS ID and Titles ::
+STS 01: Undermining
+STS 02: Open Files and Diagonals
+STS 03: Knight Outposts
+STS 04: Square Vacancy
+STS 05: Bishop vs Knight
+STS 06: Re-Capturing
+STS 07: Offer of Simplification
+STS 08: Advancement of f/g/h Pawns
+STS 09: Advancement of a/b/c Pawns
+STS 10: Simplification
+STS 11: Activity of the King
+STS 12: Center Control
+STS 13: Pawn Play in the Center
+STS 14: Queens and Rooks to the 7th rank
+STS 15: Avoid Pointless Exchange
+
+:: Top 5 STS with high result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+:: Top 5 STS with low result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+Intel(R) Xeon(R) CPU           X5660  @ 2.80GHz
+Physical Cores: 12, Logical Cores: 24
+Engine: Jaglavak 0.1.0
+Hash: 32, Threads: 1, time/pos: 60.000s
+Number of positions in Suite\nolot.epd: 12
+Max score = 12 x 10 = 120
+Test duration: 00h:00m:00s
+Expected time to finish: 00h:00m:00s
+
+  STS ID   STS1   STS2   STS3   STS4   STS5   STS6   STS7   STS8   STS9  STS10  STS11  STS12  STS13  STS14  STS15    ALL
+  NumPos      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+ BestCnt      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+   Score      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+
+:: STS ID and Titles ::
+STS 01: Undermining
+STS 02: Open Files and Diagonals
+STS 03: Knight Outposts
+STS 04: Square Vacancy
+STS 05: Bishop vs Knight
+STS 06: Re-Capturing
+STS 07: Offer of Simplification
+STS 08: Advancement of f/g/h Pawns
+STS 09: Advancement of a/b/c Pawns
+STS 10: Simplification
+STS 11: Activity of the King
+STS 12: Center Control
+STS 13: Pawn Play in the Center
+STS 14: Queens and Rooks to the 7th rank
+STS 15: Avoid Pointless Exchange
+
+:: Top 5 STS with high result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+:: Top 5 STS with low result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+Intel(R) Xeon(R) CPU           X5660  @ 2.80GHz
+Physical Cores: 12, Logical Cores: 24
+Engine: Jaglavak 0.1.0
+Hash: 32, Threads: 1, time/pos: 10.000s
+Number of positions in Suite\nolot.epd: 12
+Max score = 12 x 10 = 120
+Test duration: 00h:00m:00s
+Expected time to finish: 00h:00m:00s
+
+  STS ID   STS1   STS2   STS3   STS4   STS5   STS6   STS7   STS8   STS9  STS10  STS11  STS12  STS13  STS14  STS15    ALL
+  NumPos      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+ BestCnt      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+   Score      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+
+:: STS ID and Titles ::
+STS 01: Undermining
+STS 02: Open Files and Diagonals
+STS 03: Knight Outposts
+STS 04: Square Vacancy
+STS 05: Bishop vs Knight
+STS 06: Re-Capturing
+STS 07: Offer of Simplification
+STS 08: Advancement of f/g/h Pawns
+STS 09: Advancement of a/b/c Pawns
+STS 10: Simplification
+STS 11: Activity of the King
+STS 12: Center Control
+STS 13: Pawn Play in the Center
+STS 14: Queens and Rooks to the 7th rank
+STS 15: Avoid Pointless Exchange
+
+:: Top 5 STS with high result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+:: Top 5 STS with low result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+Intel(R) Xeon(R) CPU           X5660  @ 2.80GHz
+Physical Cores: 12, Logical Cores: 24
+Engine: Jaglavak 0.1.0
+Hash: 32, Threads: 1, time/pos: 10.000s
+Number of positions in Suite\nolot.epd: 12
+Max score = 12 x 10 = 120
+Test duration: 00h:00m:00s
+Expected time to finish: 00h:00m:00s
+
+  STS ID   STS1   STS2   STS3   STS4   STS5   STS6   STS7   STS8   STS9  STS10  STS11  STS12  STS13  STS14  STS15    ALL
+  NumPos      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+ BestCnt      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+   Score      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+
+:: STS ID and Titles ::
+STS 01: Undermining
+STS 02: Open Files and Diagonals
+STS 03: Knight Outposts
+STS 04: Square Vacancy
+STS 05: Bishop vs Knight
+STS 06: Re-Capturing
+STS 07: Offer of Simplification
+STS 08: Advancement of f/g/h Pawns
+STS 09: Advancement of a/b/c Pawns
+STS 10: Simplification
+STS 11: Activity of the King
+STS 12: Center Control
+STS 13: Pawn Play in the Center
+STS 14: Queens and Rooks to the 7th rank
+STS 15: Avoid Pointless Exchange
+
+:: Top 5 STS with high result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+:: Top 5 STS with low result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+Intel(R) Xeon(R) CPU           X5660  @ 2.80GHz
+Physical Cores: 12, Logical Cores: 24
+Engine: Jaglavak 0.1.0
+Hash: 32, Threads: 1, time/pos: 10.000s
+Number of positions in Suite\nolot.epd: 1
+Max score = 1 x 10 = 10
+Test duration: 00h:00m:00s
+Expected time to finish: 00h:00m:00s
+
+  STS ID   STS1   STS2   STS3   STS4   STS5   STS6   STS7   STS8   STS9  STS10  STS11  STS12  STS13  STS14  STS15    ALL
+  NumPos      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+ BestCnt      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+   Score      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+
+:: STS ID and Titles ::
+STS 01: Undermining
+STS 02: Open Files and Diagonals
+STS 03: Knight Outposts
+STS 04: Square Vacancy
+STS 05: Bishop vs Knight
+STS 06: Re-Capturing
+STS 07: Offer of Simplification
+STS 08: Advancement of f/g/h Pawns
+STS 09: Advancement of a/b/c Pawns
+STS 10: Simplification
+STS 11: Activity of the King
+STS 12: Center Control
+STS 13: Pawn Play in the Center
+STS 14: Queens and Rooks to the 7th rank
+STS 15: Avoid Pointless Exchange
+
+:: Top 5 STS with high result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+:: Top 5 STS with low result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+Intel(R) Xeon(R) CPU           X5660  @ 2.80GHz
+Physical Cores: 12, Logical Cores: 24
+Engine: Jaglavak 0.1.0
+Hash: 32, Threads: 1, time/pos: 600.000s
+Number of positions in Suite\ccc-1.epd: 11
+Max score = 11 x 10 = 110
+Test duration: 00h:00m:00s
+Expected time to finish: 00h:00m:00s
+
+  STS ID   STS1   STS2   STS3   STS4   STS5   STS6   STS7   STS8   STS9  STS10  STS11  STS12  STS13  STS14  STS15    ALL
+  NumPos      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+ BestCnt      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+   Score      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
+
+:: STS ID and Titles ::
+STS 01: Undermining
+STS 02: Open Files and Diagonals
+STS 03: Knight Outposts
+STS 04: Square Vacancy
+STS 05: Bishop vs Knight
+STS 06: Re-Capturing
+STS 07: Offer of Simplification
+STS 08: Advancement of f/g/h Pawns
+STS 09: Advancement of a/b/c Pawns
+STS 10: Simplification
+STS 11: Activity of the King
+STS 12: Center Control
+STS 13: Pawn Play in the Center
+STS 14: Queens and Rooks to the 7th rank
+STS 15: Avoid Pointless Exchange
+
+:: Top 5 STS with high result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
+:: Top 5 STS with low result ::
+1. STS 01,  0.0%, "Undermining"
+2. STS 02,  0.0%, "Open Files and Diagonals"
+3. STS 03,  0.0%, "Knight Outposts"
+4. STS 04,  0.0%, "Square Vacancy"
+5. STS 05,  0.0%, "Bishop vs Knight"
+
