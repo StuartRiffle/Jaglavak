@@ -1,0 +1,19 @@
+; Tony Hedlund's positional test
+; See Tony Hedlund's site for some testresults and comments.
+; http://home.interact.se/~w100107/fentest.htm
+1r2r1k1/1pqbbppp/p2p1n2/4p3/P3PP2/2N1BB2/1PP2QPP/R4R1K b - - bm Rbc8 exf4 Bc6 Rec8 b6 b5 Be6 h6; c0 "Karpov-Kasparov, Moscow 1985"; c1 "10 9 7 6 6 5 4 3"; id "T01";
+r1bk1bnr/ppp2ppp/8/4n3/2P5/P3B3/1P3PPP/RN2KBNR w KQ - bm Nf3 Nd2 Nc3 Be2 Bf4 f4 h3; c0 "Nicolic-Piket, Monaco 1996"; c1 "10 9 7 6 4 3 3"; id "T02";
+8/7p/3k2p1/6P1/4KP2/8/7P/8 w - - bm h4 Kf3 Ke3 Kd4 Kd3 h3; c0 "Najdorf-Kotov, Stockholm 1948"; c1 "10 8 6 6 6 5"; id "T03";
+r1b1r1k1/1p1n1pbp/2p1n1p1/q1P1p3/4P3/1PN1BNPP/2Q2PB1/1R1R2K1 w - - bm Rb2 Na4 b4 Nd2 Qb2 Bf1 Rd2 Ne2 Kh2 Ra1; c0 "Larsen-Perez, Gijon 1956"; c1 "10 8 7 6 5 5 4 3 3 1"; id "T04";
+1rN1r1k1/1pq2pp1/2p1nn1p/p2p1B2/3P4/4P2P/PPQ1NPP1/2R2RK1 b - - bm Rexc8 Rbxc8 Qxc8; c0 "Kotov-Steiner, Moscow 1955"; c1 "10 7 7"; id "T05";
+3r1rk1/p1q2pbp/1np1p1p1/1p2P3/5P2/2N2Q1P/PPP3P1/3RRBK1 b - - bm Rxd1 f5 Na4 Nd5 a6 f6 g5; c0 "Wedberg-Schlussler, Sweeden 1995"; c1 "10 9 7 5 5 4 3"; id "T06";
+r2r2k1/p3ppbp/1p4p1/3p4/3P4/2P1P2P/P3BPP1/2R2RK1 w - - bm f4 Ba6 c4 a4 Rfd1; c0 "Reshevsky-Smyslov, Moscow 1991"; c1 "10 8 7 5 4"; id "T07";
+2rq3r/pb1pbkpp/1p2pp2/n1P5/2P5/QP2BNPB/P3PP1P/3R1RK1 w - - bm b4 Nd4 Rd2 Qc1; c0 "Flohr-Keres, Moscow 1950"; c1 "10 8 5 5"; id "T08";
+1r1q1rk1/pp1bbppp/2n1p1n1/4P3/2BpN3/3P1N2/PP2QPPP/R1B1R1K1 b - - bm b5 Ngxe5 Ncxe5 Qc7 Na5 a6 h6 f6; c0 "Kopec-Wells, Manchester 1981"; c1 "10 9 9 8 7 6 5 3"; id "T09";
+3r2k1/2p2ppp/1p1br3/pPn5/3PP3/P7/1B1N2PP/R3R1K1 w - - bm Re2 d5 Nc4 e5 dxc5; c0 "Portisch-Petrosian, Lone Pine 1978"; c1 "10 8 7 6 5"; id "T10";
+r4rk1/p2qn1bp/1pnp2p1/2p2p2/4PP1N/2PPB3/PP2QN1P/R4RK1 b - - bm d5 Bh6 Rae8 fxe4; c0 "Hedlin-Holm, Hallstahammer 1995"; c1 "10 8 7 5"; id "T11";
+r3r1k1/1b1n1p2/1q1p1n1p/2p1p2P/p1P3p1/P1QNPPB1/1P2B1P1/2KR3R w - - bm e4 Rh4 Nf2 Qd2 Qc2 Bh4 Kb1; c0 "Lautier-Karpov, Las Palmas 1994"; c1 "10 8 7 6 5 4 3"; id "T12";
+1rb1nrk1/2q1bppp/p1n1p3/2p1P3/2Pp1PP1/3P1NN1/P5BP/R1BQ1RK1 w - - bm Nd2 Qe1 Qe2 Ne4 f5 Nh5 g5 h4 Bd2 Bh3 Re1; c0 "Seirawan-Biyiasas, NWC 1979"; c1 "10 9 8 7 6 6 6 5 4 3 1"; id "T13";
+r3r1k1/ppqbbpp1/2pp1nnp/3Pp3/2P1P3/5N1P/PPBN1PP1/R1BQR1K1 w - - bm Nb1 Rb1 Nf1 dxc6 Nb3 b3 a3 b4; c0 "Kasparov-Georgadze, Minsk 1979"; c1 "10 9 8 5 5 4 3 2"; id "T14";
+5r1k/1q2rnpp/p4p2/1pp5/6Q1/1P3P2/PBP3PP/3RR1K1 w - - bm Re6 Kf2 h4 f4 Rxe7; c0 "Schussler-Rantanen, Stockholm 1977"; c1 "10 9 6 5 4"; id "T15";
+2r2k2/5p2/2Bp1b1r/2qPp1pp/PpN1P3/1P2Q3/5PPP/4R1K1 w - - bm Rc1 Nb6 Qxc5 a5 Qf3 h4 Nxe5; c0 "Capablanca-Yates, 1919"; c1 "10 8 7 6 5 4 2"; id "T16";
