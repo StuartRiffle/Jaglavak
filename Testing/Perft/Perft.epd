@@ -173,7 +173,7 @@ k7/8/3b4/3Pp3/5K2/8/8/8 w - e6 0 1; D1 1; D2 7
 k7/8/3b4/3Pp3/8/6K1/8/8 w - e6 0 1; D1 1; D2 7
 
 
-# This is a bug I found during play testing. The black king has been put in check by
+# This is a bug I found in Pigeon during play testing. The black king has been put in check by
 # a pawn doing a doublemove. Make sure the en passant capture (e4f3) is detected.
 
 8/5R1p/1p2p3/p5kP/1p1bpP2/6PK/3r4/8 b - f3 0 38; D1 1; D2 3

@@ -1,0 +1,57 @@
+digraph G {
+ratio=0.8;
+mode=major
+nodesep=0.3;
+overlap=false;
+arrowsize=10;
+
+  node [
+    penwidth=5
+    shape=oval 
+    fontsize=50 fontname="Helvetica" 
+    style=filled 
+    fillcolor=white
+];
+
+  position [shape=none label="" fontsize=80]
+
+
+
+ Nxg7 [fillcolor=darkgrey fontcolor=white]
+    d4 [fillcolor=red fontcolor=white penwidth=0  label=<<B>d4</B>>]
+    h6 [fillcolor=darkgrey fontcolor=white]
+    Qf4 [fillcolor=darkgrey fontcolor=white]
+
+Kd8; Qd1; Bb7; Qe1 [color=red fontcolor=red penwidth=10 label=<<B>Qe1</B>>]    
+f6 [fillcolor=darkgrey fontcolor=white]
+Kf6 [fillcolor=darkgrey fontcolor=white]
+Be7 [fillcolor=darkgrey fontcolor=white]
+Kxd1 [fillcolor=darkgrey fontcolor=white]
+Kxe1 [fillcolor=darkgrey fontcolor=white]
+Kd3 [fillcolor=red fontcolor=white penwidth=0  label=<<B>Kd3</B>>]
+Bxc5 [fillcolor=darkgrey fontcolor=white]
+a3 [fillcolor=darkgrey fontcolor=white]
+Qg5 [fillcolor=darkgrey fontcolor=white]
+Nc5 [fontcolor=red color=red penwidth=10 label=<<B>Nc5</B>>]
+
+playouts [shape=box penwidth=0 fontsize=80 label=""]
+
+    
+    
+    position -> {Nxg7 h6 Qf4} [arrowsize=4 penwidth=5];
+    position -> d4 [arrowsize=4 penwidth=8 color=red];
+    Nxg7 -> Kd8[arrowsize=4 penwidth=5];
+    Kd8 -> { f6, Kf6, Be7 }[arrowsize=4 penwidth=5];
+    d4 -> { Qe1 }[arrowsize=4 penwidth=8 color=red];
+    d4 -> { Bb7 Qd1 }[arrowsize=4 penwidth=5];
+    h6 -> { Qb7 Qxe5 }[arrowsize=4 penwidth=5];
+    Qf4 -> { Bc5 Qxf1 }[arrowsize=4 penwidth=5];
+    Qd1 -> { Kxd1 }[arrowsize=4 penwidth=5];
+    Qe1 -> { Kxe1 }[arrowsize=4 penwidth=5];
+    Qe1 -> { Kd3 }[arrowsize=4 penwidth=8 color=red];
+    Kd3 -> { Nc5 }[arrowsize=4 penwidth=8 color=red];
+    Kd3 -> { Qf2 Be3 Kf8 }[arrowsize=4 penwidth=5];
+    Kxd1 -> { g6 Bf2 Ke7 }[arrowsize=4 penwidth=5];
+    Bc5 -> { Qg5 Bxc5 a3 }[arrowsize=4 penwidth=5];
+    #Nc5 -> playouts [arrowsize=4 penwidth=8 color=red];
+}
