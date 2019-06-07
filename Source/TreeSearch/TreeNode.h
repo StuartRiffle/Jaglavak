@@ -5,10 +5,10 @@ struct TreeNode;
 
 struct BranchInfo
 {
-    TreeNode*   _Node;
-    MoveSpec    _Move;
-    ScoreCard   _Scores;
-    double      _Prior;
+    TreeNode*   _Node; // 8
+    double      _Prior; // 8
+    ScoreCard   _Scores; // 24
+    MoveSpec    _Move; // 4
 
 #if DEBUG    
     int         _DebugLossCounter;
@@ -24,14 +24,14 @@ struct TreeLink
     TreeNode*           _Next;
 };
 
-struct TreeNode : public TreeLink
+struct TreeNode : public TreeLink // 16
 {
-    BranchInfo*         _Info;
-    int                 _Color;
-    vector<BranchInfo>  _Branch;
-    bool                _GameOver;
-    ScoreCard           _GameResult;
-    Position            _Pos;
+    BranchInfo*         _Info; // 8
+    int                 _Color; // 4             X in pos
+    vector<BranchInfo>  _Branch; // 16 (?)
+    bool                _GameOver; // 4          X in pos
+    ScoreCard           _GameResult; // 12 
+    Position            _Pos; // looots
 
     TreeNode() : _Info( NULL ) { Clear(); }
     ~TreeNode() { Clear(); }

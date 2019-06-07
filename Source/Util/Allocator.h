@@ -1,23 +1,24 @@
-// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuaraddr_t Riffle
 #pragma once
 
-template< typename T = uintptr_t >
+typedef uintptr_t addr_t;
+
 class HeapAllocator
 {
-    typedef map< T, T > AddrToSizeMap;
+    typedef map< addr_t, size_t > AddrToSizeMap;
 
     AddrToSizeMap   _Free;
     AddrToSizeMap   _Used;
     mutex           _Mutex;
-    T               _Range;
-    T               _Align;
-    T               _TotalAllocated;
-    T               _HighestAllocated;
+    size_t          _Range;
+    size_t          _Align;
+    size_t          _TotalAllocated;
+    size_t          _HighestAllocated;
 
 public:
-    const T INVALID = T( ~0 );
+    const addr_t INVALID = addr_t( ~0 );
 
-    void Init( T range, T base = 0, T alignment = 128 )
+    void Init( size_t range, addr_t base = 0, size_t alignment = 128 )
     {
         assert( (alignment & (alignment - 1)) == 0 );
         assert( (base      & (alignment - 1)) == 0 );
@@ -33,7 +34,7 @@ public:
         _Free[base] = range;
     }
 
-    T Alloc( T size )
+    addr_t Alloc( size_t size )
     {
         unique_lock< mutex > lock( _Mutex );
 
@@ -42,14 +43,14 @@ public:
         auto iter = _Free.begin();
         while( iter != _Free.end() )
         {
-            T freeAddr = iter->first;
-            T freeSize = iter->second;
+            addr_t freeAddr = iter->first;
+            size_t freeSize = iter->second;
 
             auto next = iter;
             if( ++next != _Free.end() )
             {
-                T nextAddr = next->first;
-                T nextSize = next->second;
+                addr_t nextAddr = next->first;
+                size_t nextSize = next->second;
 
                 if( nextAddr == (freeAddr + freeSize) )
                 {
@@ -61,7 +62,7 @@ public:
 
             if( size <= freeSize )
             {
-                T addr = freeAddr;
+                addr_t addr = freeAddr;
 
                 assert( _Used.find( addr ) == _Used.end() );
                 _Used[addr] = size;
@@ -80,11 +81,11 @@ public:
             iter = next;
         }
 
-        assert( !"Out of CUDA heap" );
+        assert( !"Heap overflow" );
         return INVALID;
     }
 
-    void Free( T addr )
+    void Free( addr_t addr )
     {
         unique_lock< mutex > lock( _Mutex );
 
@@ -92,52 +93,12 @@ public:
         assert( iter != _Used.end() );
         assert( _Free.find( addr ) == _Free.end() );
 
-        T size = iter->second;
+        size_t size = iter->second;
         assert( _TotalAllocated >= size );
         _TotalAllocated -= size;
 
         _Free[addr] = size;
         _Used.erase( iter );
-    }
-
-    void DebugValidate()
-    {
-#if DEBUG
-        auto iterUsed = _Used.begin();
-        auto iterFree = _Free.begin();
-
-        size_t offset = 0;
-
-        for( ;; )
-        {
-            if( iterFree != _Free.end() )
-            {
-                if(iterFree->first == offset)
-                {
-                    offset += iterFree->second;
-                    ++iterFree;
-                    continue;
-                }
-            }
-
-            if( iterUsed != _Used.end() )
-            {
-                if(iterUsed->first == offset)
-                {
-                    offset += iterUsed->second;
-                    ++iterUsed;
-                    continue;
-                }
-            }
-
-            if( iterFree == _Free.end() && iterUsed == _Used.end() )
-                break;
-
-            assert( 0 );
-        }
-
-        assert( offset == _Range );
-#endif
     }
 };
 

@@ -1,9 +1,35 @@
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 {
-    "EnableMulticore":      0,
-    "EnableSimd":           0,
-    "EnableCuda":           1,
-    "MaxTreeNodes":         10000000,
-    "MaxPendingBatches":    100,
+    "EnableMulticore": 1,
+    // Controls whether or not the CPU path will attempt to use all cores. 
+    // This is for debugging, so that you only have to step through a 
+    // single thread. Otherwise, it should stay enabled.
+
+    "EnableSimd": 1,
+    // Controls whether or not SIMD extensions are used. If this value is
+    // nonzero, Jaglavak will use whatever SIMD instructions are available.
+    // This accelerates detecting moves, and also playing them (decoding the
+    // move maps to choose a move is still all scalar). Only useful for 
+    // debugging.
+
+    "EnableCuda": 1,
+    // Enables or disables GPU support for nVidia compute devices. It's CUDA-
+    // only so far, but OpenCL is on the roadmap.
+
+    "MaxTreeNodes": 10000000,
+    // MCTS works by building big trees of nodes, to help it explore possible
+    // futures. Bigger trees are always more helpful. They hold more hard won 
+    // information about the current position, and have a better sense of what's
+    // coming next. You should make this value as big as you can.
+
+    "MaxPendingBatches": 100,
+    // Jaglavak is an asynchronous MCTS, which means there is a delay
+    // between the time we _expand_ the tree (and queue some new playouts),
+    // and the time those playouts are actually _done_, and we get results 
+    // that we can use. Until we get those scores, the
+
+
+
     "CudaQueueDepth":       100,
     "NumSimdWorkers":        0,
     "NumInitialPlayouts":   0,

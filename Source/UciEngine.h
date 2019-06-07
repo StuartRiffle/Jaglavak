@@ -19,9 +19,9 @@ struct TreeSearch;
 
 class UciEngine
 {
-    unique_ptr< TreeSearch >   _Searcher;
-    GlobalOptions   _Options;
-    bool            _DebugMode;
+    unique_ptr< TreeSearch > _Searcher;
+    GlobalOptions _Options;
+    bool _DebugMode;
 
 public:
     UciEngine();

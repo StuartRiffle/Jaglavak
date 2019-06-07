@@ -23,6 +23,11 @@ public:
     void Terminate()
     {
         _ShuttingDown = true;
+        NotifyAllWaiters();
+    }
+
+    void NotifyAllWaiters()
+    {
         _Var.notify_all();
     }
 

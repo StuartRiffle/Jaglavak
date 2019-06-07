@@ -1,6 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#include "helper_cuda.h"
+
 #define CUDA_REQUIRE( _CALL ) \
 { \
     cudaError_t status = (_CALL); \
@@ -54,7 +56,7 @@ class CudaAllocator
     void*   _DeviceBuffer;
     size_t  _HeapSize;
 
-    HeapAllocator< uintptr_t > _Heap;
+    HeapAllocator _Heap;
 
 public:
 

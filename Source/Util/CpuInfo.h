@@ -22,16 +22,34 @@ struct CpuInfo
 
     static int DetectSimdLevel()
     {
-        bool avx512 = CheckCpuFlag( 7, 1, 16 ) && CheckCpuFlag( 7, 1, 17 );   
-        if( avx512 )
+    #if TOOLCHAIN_GCC
+        bool popcnt = __builtin_cpu_supports( "popcnt" );
+    #elif TOOLCHAIN_MSVC    
+        bool popcnt = CheckCpuFlag( 1, 2, 23 );
+    #endif
+
+        bool avx512 = 
+            CheckCpuFlag( 7, 1, 16 ) && // avx512f
+            CheckCpuFlag( 7, 1, 17 ) && // avx512dq
+            CheckCpuFlag( 7, 1, 30 );   // avx512bw
+
+        if(avx512)
+        {
+            assert( popcnt );
             return( 8 );
+        }
 
         bool avx2 = CheckCpuFlag( 7, 1, 5 );   
+
         if( avx2 )
+        {
+            assert( popcnt );
             return( 4 );
+        }
 
         bool sse4 = CheckCpuFlag( 1, 2, 19 );
-        if( sse4 )
+
+        if( sse4 && popcnt )
             return( 2 );
 
         return( 1 );
@@ -59,13 +77,18 @@ struct CpuInfo
         };
 
         Cpuid( 0x80000000, info );
-        if( info[0] >= 0x80000004 )
+        if( info[0] >= 0x8000'0004 )
         {
             Cpuid( 0x80000002, info );
             Cpuid( 0x80000003, info + 4 );
             Cpuid( 0x80000004, info + 8 );
 
-            result = string( desc, desc + sizeof( desc ) );
+            size_t len = 0;
+            for( int i = 0; i < 47; i++ )
+                if( (desc[i] != ' ') || (desc[i + 1] != ' ') )
+                    desc[len++] = desc[i];
+
+            result = string( desc, desc + len );
         }
 
         return result;
@@ -76,7 +99,7 @@ struct CpuInfo
     #if TOOLCHAIN_GCC
         timespec ts;
         clock_gettime( CLOCK_REALTIME, &ts );
-        return( (ts.tv_sec * 1000000000) + ts.tv_nsec );    
+        return( (ts.tv_sec * 1'000'000'000) + ts.tv_nsec );    
     #elif TOOLCHAIN_MSVC
         LARGE_INTEGER tick; 
         QueryPerformanceCounter( &tick ); 
@@ -87,7 +110,7 @@ struct CpuInfo
     static INLINE u64 GetClockFrequency()
     {
     #if TOOLCHAIN_GCC
-        return( 1000000000 );
+        return( 1'000'000'000 );
     #elif TOOLCHAIN_MSVC
         static LARGE_INTEGER freq = { 0 };
         if( !freq.QuadPart )

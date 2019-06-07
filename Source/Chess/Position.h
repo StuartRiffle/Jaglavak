@@ -417,7 +417,7 @@ struct ALIGN_SIMD PositionT
         _WhiteToMove    = prev._WhiteToMove;
         _HalfmoveClock  = prev._HalfmoveClock;
         _FullmoveNum    = prev._FullmoveNum;
-        _GameResult         = prev._GameResult;
+        _GameResult     = prev._GameResult;
     }
 
 

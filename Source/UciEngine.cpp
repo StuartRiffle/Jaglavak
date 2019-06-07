@@ -28,24 +28,26 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 
     static UciOptionInfo sOptions[] = 
     {
-        OPTION_INDEX( EnableMulticore ),        CHECKBOX,   1,          
-        OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
-        OPTION_INDEX( NumSimdWorkers ),         0,          2,          
+        OPTION_INDEX( EnableMulticore ),        CHECKBOX,   0,          
+        OPTION_INDEX( EnableSimd ),             CHECKBOX,   0,          
+        OPTION_INDEX( NumSimdWorkers ),         0,          1,          
 
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
-        OPTION_INDEX( CpuAffinityMask ),        CHECKBOX,   0,          
-        OPTION_INDEX( GpuAffinityMask ),        CHECKBOX,   1,          
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   0,          
+        OPTION_INDEX( CudaHeapMegs ),           0,          64,        
+        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          8,        
+        OPTION_INDEX( GpuAffinityMask ),        0,          1,          
+
         OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
         OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
+        OPTION_INDEX( NumAsyncPlayouts ),       0,          10,         
+
         OPTION_INDEX( MaxPlayoutMoves ),        0,          200,          
-        OPTION_INDEX( NumAsyncPlayouts ),       0,          2,         
         OPTION_INDEX( MaxPendingBatches ),      0,          128,        
         OPTION_INDEX( BatchSize ),              0,          128,       
+
         OPTION_INDEX( MaxTreeNodes ),           0,          10000000,    
-        OPTION_INDEX( CudaHeapMegs ),           0,          64,        
-        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          16,        
         OPTION_INDEX( TimeSafetyBuffer ),       0,          100,          
-        OPTION_INDEX( SearchSleepTime ),        0,          1,          
+        OPTION_INDEX( SearchSleepTime ),        0,          100,          
         OPTION_INDEX( UciUpdateDelay ),         0,          500,          
         -1
     };
@@ -75,6 +77,9 @@ void UciEngine::SetOptionByName( const char* name, int value )
 
 bool UciEngine::ProcessCommand( const char* cmd )
 {
+    if( _DebugMode )
+        printf(">>> %s\n", cmd);
+
     Tokenizer t( cmd );
 
     if( t.Consume( "uci" ) )
@@ -82,16 +87,18 @@ bool UciEngine::ProcessCommand( const char* cmd )
         cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
         cout << "id author Stuart Riffle" << endl << endl;
 
+        /*
         const UciOptionInfo* option = this->GetOptionInfo();
         while( option->_Index >= 0 )
         {
             if( option->_IsCheckbox )
-                printf( "option type check name   %-20s default  %d\n", option->_Name, option->_Value );
+                cout << "option type check name " << option->_Name << " default " << option->_Value << endl;
             else
                 printf( "option type spin  name   %-20s default  %d\n", option->_Name, option->_Value );
 
             option++;
         }
+        */
 
         cout << "uciok" << endl;
     }
@@ -100,7 +107,6 @@ bool UciEngine::ProcessCommand( const char* cmd )
         if( t.Consume( "name" ) )
         {
             const char* optionName = t.ConsumeNext();
-
             if( t.Consume( "value" ) )
                 this->SetOptionByName( optionName, t.ConsumeInt() );
         }
@@ -130,7 +136,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
 
         if( t.Consume( "fen" ) )
             if( !t.ConsumePosition( pos ) )
-                printf( "info string ERROR: unable to parse FEN\n" );
+                cout << "info string ERROR: unable to parse FEN" << endl;
 
         if( t.Consume( "moves" ) )
         {
@@ -138,7 +144,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
             {
                 MoveSpec move;
                 if( !StringToMoveSpec( movetext, move ) )
-                    printf( "info string ERROR: unable to parse move" );
+                    cout << "info string ERROR: unable to parse move " << movetext << endl;
 
                 moveList.Append( move );
             }
@@ -174,14 +180,14 @@ bool UciEngine::ProcessCommand( const char* cmd )
             }
             else if( t.Consume( "ponder" ) )
             {
-                printf( "info string WARNING: pondering is not supported\n" );
+                cout << "info string WARNING: pondering is not supported" << endl;
             }
             else
                 break;
         }
 
         if( conf._MateSearchDepth )
-            printf( "info string WARNING: mate search is not supported\n" );
+            cout << "info string WARNING: mate search is not supported" << endl;
 
         _Searcher->SetUciSearchConfig( conf );
         _Searcher->StartSearching();
@@ -192,13 +198,13 @@ bool UciEngine::ProcessCommand( const char* cmd )
     }
     else if( t.Consume( "quit" ) )
     {
-        return true;
+        return false;
     }
     else
     {
         printf( "info string ERROR\n" );
     }
 
-    return false;
+    return true;
 }
 

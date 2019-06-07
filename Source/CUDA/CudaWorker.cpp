@@ -42,7 +42,7 @@ void CudaWorker::Initialize( int deviceIndex  )
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
         CUDA_REQUIRE(( cudaStreamCreateWithFlags( _StreamId + i, cudaStreamNonBlocking ) ));
 
-    _Heap.Init( _Options->_CudaHeapMegs * 1024 * 1024 );
+    _Heap.Init( (u64) _Options->_CudaHeapMegs * 1024 * 1024 );
     _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 }
 
@@ -52,7 +52,9 @@ void CudaWorker::Shutdown()
         cudaStreamDestroy( _StreamId[i] );
 
     _ShuttingDown = true;
-    _Var.notify_all();        
+    _WorkQueue->NotifyAllWaiters();
+    _DoneQueue->NotifyAllWaiters();
+                     
     _LaunchThread->join();
 }
 
@@ -60,7 +62,7 @@ cudaEvent_t CudaWorker::AllocEvent()
 {
     cudaEvent_t result = NULL;
 
-    if(_EventCache.empty())
+    if( _EventCache.empty() )
     {
         auto status = cudaEventCreate( &result );
         assert( status == cudaSuccess );
@@ -120,9 +122,9 @@ void CudaWorker::LaunchThread()
         launch->_StopTimer  = this->AllocEvent(); 
         launch->_ReadyEvent = this->AllocEvent();
 
-        int strea_Index = _StreamIndex++;
+        int streamIndex = _StreamIndex++;
         _StreamIndex %= CUDA_NUM_STREAMS;
-        cudaStream_t stream = _StreamId[strea_Index];
+        cudaStream_t stream = _StreamId[streamIndex];
 
         int totalWidth = total * _Options->_NumAsyncPlayouts;
         int blockSize  = _Prop.warpSize;
@@ -131,7 +133,6 @@ void CudaWorker::LaunchThread()
         launch->_Params.CopyUpToDeviceAsync( stream );
         launch->_Inputs.CopyUpToDeviceAsync( stream );
         launch->_Outputs.ClearOnDeviceAsync( stream );
-
         CUDA_REQUIRE(( cudaEventRecord( launch->_StartTimer, stream ) ));
 
         PlayGamesCudaAsync( 
@@ -147,7 +148,7 @@ void CudaWorker::LaunchThread()
         launch->_Outputs.CopyDownToHostAsync( stream );
         CUDA_REQUIRE(( cudaEventRecord( launch->_ReadyEvent, stream ) ));
 
-        _InFlightByStream[strea_Index].push_back( launch );
+        _InFlightByStream[streamIndex].push_back( launch );
     }
 }
 

@@ -60,7 +60,7 @@
     <ClCompile Include="..\Source\UciEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Docker\Dockerfile" />
+    <None Include="..\README.md" />
     <None Include="..\Source\DefaultSettings.json" />
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +106,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Source\SIMD;$(SolutionDir)..\Source\CUDA;$(SolutionDir)..\Source\Util;$(SolutionDir)..\Source\TreeSearch;$(SolutionDir)..\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Source\SIMD;$(SolutionDir)..\Source\CUDA;$(SolutionDir)..\Source\Util;$(SolutionDir)..\Source\TreeSearch;$(SolutionDir)..\Source;$(SolutionDir)..\External\CudaCommon;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -122,6 +123,11 @@
       <GPUDebugInfo>true</GPUDebugInfo>
       <Optimization>InheritFromHost</Optimization>
     </CudaCompile>
+    <PostBuildEvent>
+      <Command>copy /y $(TargetDir)$(TargetName).exe $(TargetDir)$(TargetName)Test.exe
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -130,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;WIN64;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Source\SIMD;$(SolutionDir)..\Source\CUDA;$(SolutionDir)..\Source\Util;$(SolutionDir)..\Source\TreeSearch;$(SolutionDir)..\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Source\SIMD;$(SolutionDir)..\Source\CUDA;$(SolutionDir)..\Source\Util;$(SolutionDir)..\Source\TreeSearch;$(SolutionDir)..\Source;$(SolutionDir)..\External\CudaCommon;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
@@ -146,6 +152,11 @@
       <AdditionalOptions>--disable-warnings %(AdditionalOptions)</AdditionalOptions>
       <Warning>W0</Warning>
     </CudaCompile>
+    <PostBuildEvent>
+      <Command>copy /y $(TargetDir)$(TargetName).exe $(TargetDir)$(TargetName)Test.exe
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -55,11 +55,12 @@ struct TreeSearch
 
     vector< uint8_t >       _NodePoolBuf;
     TreeNode*               _NodePool;
-    size_t                  _NodePoolEntries;                                       
+    size_t                  _NodePoolEntries;
 
     TreeLink                _MruListHead;
     TreeNode*               _SearchRoot;
     BranchInfo              _RootInfo;
+    MoveList                _GameHistory;
 
     BatchQueue              _WorkQueue;
     BatchQueue              _DoneQueue;
@@ -101,14 +102,14 @@ struct TreeSearch
     void AdjustForWarmup();
     void SearchThread();
 
-    int GetRando_UnexploredBranch( TreeNode* node );
+    int GetRandomUnexploredBranch( TreeNode* node );
     MoveSpec SendUciStatus();
     void ExtractBestLine( TreeNode* node, MoveList* dest );
-
+    int EstimatePawnAdvantageForMove( const MoveSpec& spec );
 
 public:
 
-    TreeSearch( GlobalOptions* options, u64 rando_Seed = 1 );
+    TreeSearch( GlobalOptions* options, u64 randomSeed = 1 );
     ~TreeSearch();
 
     void Init();

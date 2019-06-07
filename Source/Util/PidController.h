@@ -10,7 +10,7 @@ struct PidConfig
 class PidController
 {
 
-    float  _Variable;
+    float  _Value;
     float  _Target;
     float  _AddError;
     float  _PrevError;
@@ -29,17 +29,14 @@ class PidController
         _AddError += error * dt;
         _PrevError = error;
 
-        _Variable =
+        _Value =
             _Config._ProportionalGain * error +
             _Config._IntegralGain     * _AddError +
             _Config._DerivativeGain   * slope +
             _Config._Bias;
 
-        return _Variable;
+        return _Value;
     }
 
-    void SetParameters( float kp, float ki, float kd )
-    {
-    }
 };
 

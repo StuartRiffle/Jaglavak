@@ -1,6 +1,25 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+/*
+struct PackedMoveSpec
+{
+    union
+    {
+        struct
+        {
+            uint16_t _Src   : 6;
+            uint16_t _Dest  : 6;
+            uint16_t _Promo : 2;
+        }
+
+        uint16_t _Word;
+    };
+
+    INLINE PDECL operator(uint16_t)() const { return _Word; }
+};
+ */
+
 /// The parameters for one move of the game
 //       
 template< typename T >
@@ -42,6 +61,7 @@ struct MoveSpecT
 
         Swizzle< T >( unpacked, this );
     }
+
 };
 
 

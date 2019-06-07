@@ -9,7 +9,7 @@
 #include "SIMD/SimdWorker.h"
 #include "CUDA/CudaWorker.h"
 
-TreeSearch::TreeSearch( GlobalOptions* options, u64 rando_Seed ) : 
+TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
     _Options( options )
 {
     _SearchRoot = NULL;
@@ -17,7 +17,7 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 rando_Seed ) :
     _SearchingNow = false;
     _NumPending = 0;
 
-    _Random.SetSeed( rando_Seed );
+    _Random.SetSeed( randomSeed );
 
     _NodePoolEntries = _Options->_MaxTreeNodes;
     _NodePoolBuf.resize( _NodePoolEntries * sizeof( TreeNode ) + SIMD_ALIGNMENT );
@@ -53,6 +53,8 @@ TreeSearch::~TreeSearch()
 
 void TreeSearch::Init()
 {
+    cout << "CPU: " << CpuInfo::GetCpuName() << " (" << CpuInfo::DetectCpuCores() << " cores, " << CpuInfo::DetectSimdLevel() << "x SIMD)" << endl;
+
     for( int i = 0; i < _Options->_NumSimdWorkers; i++ )
     {
         auto worker = new SimdWorker( _Options, &_WorkQueue, &_DoneQueue );
@@ -70,27 +72,29 @@ void TreeSearch::Init()
             shared_ptr< CudaWorker > worker( new CudaWorker( _Options, &_WorkQueue, &_DoneQueue ) );
             worker->Initialize( i );
 
+            auto prop = worker->GetDeviceProperties();
+            int coresPerSm = _ConvertSMVer2Cores( prop.major, prop.minor );
+            int totalCores = coresPerSm * prop.multiProcessorCount;
+            cout << "GPU: " << prop.name << " (" << totalCores << " cores)" << endl;
+
             _AsyncWorkers.push_back( worker );
         }
     }
 
     _SearchThread  = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
+    _SearchThreadIsIdle.Wait();
 }
 
 void TreeSearch::Reset()
 {
     this->StopSearching();
 
-    Position startPos;
-    startPos.Reset();
-
-    this->SetPosition( startPos );
-
     _Metrics.Clear();
     _SearchStartMetrics.Clear();
     _StatsStartMetrics.Clear();
 
     _DeepestLevelSearched = 0;
+    _GameHistory.Clear();
 }
 
 void TreeSearch::SetUciSearchConfig( const UciSearchConfig& config )
@@ -152,6 +156,8 @@ TreeNode* TreeSearch::AllocNode()
 
 void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList )
 {
+    this->Reset();
+
     // TODO: recognize position and don't terf the whole tree
 
     Position pos = startPos;
@@ -205,17 +211,17 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     return uct;
 }
 
-int TreeSearch::GetRando_UnexploredBranch( TreeNode* node )
+int TreeSearch::GetRandomUnexploredBranch( TreeNode* node )
 {
-    int nu_Branches = (int) node->_Branch.size();
-    int idx = (int) _Random.GetRange( nu_Branches );
+    int numBranches = (int) node->_Branch.size();
+    int idx = (int) _Random.GetRange( numBranches );
 
-    for( int i = 0; i < nu_Branches; i++ )
+    for( int i = 0; i < numBranches; i++ )
     {
         if( !node->_Branch[idx]._Node )
             return idx;
 
-        idx = (idx + 1) % nu_Branches;
+        idx = (idx + 1) % numBranches;
     }
 
     return( -1 );
@@ -223,19 +229,19 @@ int TreeSearch::GetRando_UnexploredBranch( TreeNode* node )
 
 int TreeSearch::SelectNextBranch( TreeNode* node )
 {
-    int nu_Branches = (int) node->_Branch.size();
-    assert( nu_Branches > 0 );
+    int numBranches = (int) node->_Branch.size();
+    assert( numBranches > 0 );
 
-    int rando_Branch = GetRando_UnexploredBranch( node );
-    if( rando_Branch >= 0 )
-        return rando_Branch;
+    int randomBranch = GetRandomUnexploredBranch( node );
+    if( randomBranch >= 0 )
+        return randomBranch;
 
     // This node is fully expanded, so choose the move with highest UCT
 
     double highestUct = DBL_MIN;
     int highestIdx = 0;
 
-    for( int i = 0; i < nu_Branches; i++ )
+    for( int i = 0; i < numBranches; i++ )
     {
         double uct = CalculateUct( node, i );
         if( uct > highestUct )
@@ -457,16 +463,6 @@ void TreeSearch::SearchThread()
         _SearchParams._AsyncPlayouts   = _Options->_NumAsyncPlayouts;
         _SearchParams._InitialPlayouts = _Options->_NumInitialPlayouts;
 
-
-
-
-
-
-        _SearchParams._BatchSize       = _Options->_BatchSize;
-        _SearchParams._MaxPending      = _Options->_MaxPendingBatches;
-        _SearchParams._AsyncPlayouts   = _Options->_NumAsyncPlayouts;
-        _SearchParams._InitialPlayouts = _Options->_NumInitialPlayouts;
-
         _SearchTimer.Reset();
         while( _SearchingNow )
         {
@@ -519,9 +515,9 @@ void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
 
     u64 bestPlays = 0;
     int bestPlaysIdx = -1;
-    int nu_Branches = (int) node->_Branch.size();
+    int numBranches = (int) node->_Branch.size();
 
-    for( int i = 0; i < nu_Branches; i++ )
+    for( int i = 0; i < numBranches; i++ )
     {
         if( !node->_Branch[i]._Node )
             return;
@@ -580,14 +576,19 @@ MoveSpec TreeSearch::SendUciStatus()
     MoveList bestLine;
     ExtractBestLine( _SearchRoot, &bestLine );
 
-    cout << "info" <<
-        " nps " <<   nodesPerSec <<
-        " bps " <<   batchesPerSec <<
-        " gps " <<   gamesPerSec <<
-        " depth " << _DeepestLevelSearched <<
-        " nodes " << _Metrics._NumNodesCreated <<
-        " time " <<  _SearchTimer.GetElapsedMs() <<
-        " pv " <<    SerializeMoveList( bestLine ) <<
+    int evaluation = 0;
+    if( bestLine._Count > 0 )
+        evaluation = EstimatePawnAdvantageForMove( bestLine._Move[0] );
+
+    cout << "info"  <<
+        " nps "     << nodesPerSec <<
+        " cp "      << evaluation <<
+        " depth "   << _DeepestLevelSearched <<
+        " nodes "   << _Metrics._NumNodesCreated <<
+        " time "    << _SearchTimer.GetElapsedMs() <<
+        " pv "      << SerializeMoveList( bestLine ) <<
+        " bps "     << batchesPerSec <<
+        " gps "     << gamesPerSec <<
         endl;
 
     _StatsStartMetrics = _Metrics;

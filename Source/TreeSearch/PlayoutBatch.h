@@ -4,14 +4,14 @@
 struct PlayoutBatch
 {
     // Inputs
-    vector< Position > _Position;
-    PlayoutParams _Params;
+    vector< Position >  _Position;
+    PlayoutParams       _Params;
 
     // Outputs
     vector< ScoreCard > _GameResults;
 
-    // This gets carried along so we know where the results should go
-    vector< MoveList > _PathFromRoot;
+    // These gets carried along so we know where the results should go
+    vector< MoveList >  _PathFromRoot;
 
     int GetCount() const
     {

@@ -1,39 +1,234 @@
 # Jaglavak
-Jaglavak is a chess engine that uses Monte Carlo Tree Search.
 
-## Building Jaglavak
+- This is a chess engine based on [Monte Carlo Tree Search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) (MCTS).
+- It's an **asynchronous** implementation that allows for high throughput.
+- It runs on GPU using all attached **CUDA** devices.
+- CPU playouts run in **SIMD**, up to 8-wide.
 
-### Windows
+## ELI5
 
-
-
-### Linux
-
-Starting from a clean install of Ubuntu 18.04 LTS (ubuntu:latest)
-
-1) Install the packages needed for building
-```sudo apt update
-sudo apt install -y build-essential git cmake nvidia-cuda-dev
-```
-2) Clone the latest version of Jaglavak
-```git clone https://github.com/StuartRiffle/Jaglavak
-```
-3) Build it in the normal CMake way
-```cd Jaglavak && mkdir Build && cd Build && cmake .. && make
-```
-4) Run to test
-```./Jaglavak
-```
-powershell @"%Syste_Root%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-
-choco install /y git cmake visualstudio2019buildtools cuda
+ is an algorithm for searching huge trees. Jaglavak uses MCTS to choose the best move.
 
 
 
 
+## Technical Status
 
-sudo apt update
-sudo apt install -y build-essential git cmake nvidia-cuda-dev
-git clone https://github.com/StuartRiffle/Jaglavak
-cd Jaglavak && mkdir Build && cd Build && cmake .. && make
-./Jaglavak
+- CPU workers
+OpenMP, moving to thread pool to adjust priority
+
+- GPU workers
+One per CUDA device. 
+
+/*
+Platform support
+UCI protocol
+Multicore vs multisite
+### endgame tablebases
+### opening book
+### Three-fold repetition
+Tuning
+MCTS
+Brute force approach
+License
+
+C++11 source
+Bitboards
+Interruptible multithread Perft test
+64 bit architectures
+Ponder?
+No Evaluation function
+Tuning method
+Testing method
+
+
+
+[ ] Cross-platform clean
+[ ] 
+
+
+### Testing
+[ ] Set up CI
+[X] Scripted positional "best move" testing
+[ ] CI for ELO estimation
+[ ] PERFT
+
+
+### Chess
+[X] Track fifty-move rule
+[ ] Detect threefold repetition
+[ ] Chess 960 (FRC)
+ 
+### Optimization
+[X] Run on all cores
+[X] Huge page support
+[ ] Small-block allocator
+[X] Batch playouts to run on CPU
+[X] Batch _batches_ of playouts to run on GPU
+
+[X] SIMD
+    [X] x2 (SSE4.1)
+    [X] x4 (AVX2)
+    [X] x8 (AVX-512)
+
+[X] GPU
+    [X] CUDA
+    [ ] OpenCL
+
+
+[X] MCTS
+[X] Multiple playouts per leaf
+[X] Asynchronous playouts
+[X] Memory limiting, node recycling
+[ ] Prior probabilities for moves
+[ ] 
+
+[ ] 
+[ ] Multi-threaded tree search
+[ ] Rate-manage the queues to minimize latency (and prevent CUDA TDR)
+[ ] Use NN inference (?) to generate priors for UCT
+[ ] Local clustering, all nodes working on the same tree
+[ ] Remote fooo, combining trees from different sites
+
+### Parallel execution
+
+### Meta
+[X] UCI support
+[ ] Pondering
+[ ] Time management
+
+
+
+[ ] 
+
+
+*/
+### POPCNT
+
+[POPCNT](https://www.chessprogramming.org/Population_Count) is a CPU instruction for calculating how many bits in a number are 1, as opposed to 0.
+In bitboard engines, every 1 bit represents a piece, so you can use POPCNT to quickly count the pieces of different types, what their potential targets are, how many squares are under player control, etc. 
+It gives enough of a speedup for some chess engines that they make a special build for computers with POPCNT support.
+
+Jaglavak doesn't use POPCNT much, so it doesn't benefit from a special build. POPCNT is used on the SIMD code paths, but the scalar code does not check.
+
+### SIMD
+
+The code in Jaglavak to detect valid moves (given a chess position), and the code to update the board when these moves are made, is branch-free.
+That means that it doesn't need to make any decisions, so it just goes through the same motions every time, no matter what input feed it. 
+Branch-free style code is ideal for a GPU, because all the threads can just follow the plan and do the same thing, together. So there is no divergence and the GPU can run on all cylinders. 
+
+It's good for SIMD too, 
+
+
+
+
+
+## Getting Started
+
+Jaglavak is a console application, written in C++ with SIMD intrinsics.
+
+Basically, there is a chess part and an MCTS part. 
+
+
+## Linux setup
+
+The Linux build uses [CMake 3.8+](https://cmake.org/download/). A few packages are required. To install them (on Ubuntu): 
+                                      
+    sudo apt update
+    sudo apt install -y build-essential git cmake nvidia-cuda-dev
+                                
+(The same commands will work if you're using [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl)).
+
+## Windows setup
+
+Building Jaglavak natively on Windows requires:
+
+- [Visual Studio 2019](https://visualstudio.microsoft.com/downloads)
+- [CUDA Toolkit 10.1](https://developer.nvidia.com/cuda-downloads)
+
+Open `Project\Jaglavak.sln`, build, and run.
+
+The CMake method below also works on Windows.
+
+## Building the code
+
+Clone the latest version of Jaglavak:
+
+    git clone https://github.com/StuartRiffle/Jaglavak
+
+Build it the CMake way:
+
+    cd Jaglavak/Build
+    cmake -DCMAKE_BUILD_TYPE=Release ..
+    make
+
+If everything went well, you will find the executable there in the Build folder. Type "Jaglavak" to run it.
+
+
+## CPU support
+
+Jaglavak was designed for parallel operation. The core code is branch-free, which allows multiple games of chess to be played at once using SIMD registers.
+
+| Instruction set | SIMD | Speedup |
+| --- | --- | --- |
+| x64 | 1 | - |
+| SSE4.1 | 2 | 1.8x |
+| AVX2 | 4 | 4.2x |
+| AVX-512 | 8 | 6.3x |
+
+# GPU support
+
+Jaglavak supports multiple CUDA devices, and will load balance between them. 
+The same codebase is used for both CPU and GPU, and the branch-free style of the code maps well to CUDA hardware. 
+
+_However_, the engine does pretty much everything using 64-bit integers, which are many times slower on GPU. 
+Current generation devices only support 32-bit words, so 64-bit operations have to be emulated using multiple instructions. This wastes a lot of cycles.
+
+
+
+
+# Code 
+
+Chess 
+origin
+
+SIMD
+branch-free
+GPU
+
+MCTS
+MRU structure
+
+
+Players
+
+
+# Tradeoffs
+
+
+Jaglavak takes a brute-force approach. It does not understand chess, beyond identifying legal moves. 
+
+The rollout policy is completely random. Moves are made until one side wins, or the game becomes a known draw.
+
+Goal: the inner loop should fit in L1 instruction cache
+
+
+
+
+The 
+- Focus on scalability, speed, and smartness (in that order)
+
+- performance 
+
+
+ # Status
+
+ 
+
+
+
+
+## Description
+
+sdfasdf
+

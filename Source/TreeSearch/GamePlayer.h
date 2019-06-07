@@ -86,8 +86,8 @@ protected:
     {
         if( pos._GameResult == RESULT_UNKNOWN )
         {
-            MoveSpec rando_Move = SelectRando_Move( pos, moveMap );
-            return rando_Move;
+            MoveSpec randomMove = SelectRandomMove( pos, moveMap );
+            return randomMove;
         }
 
         MoveSpec nullMove( 0, 0, 0 );
@@ -105,7 +105,7 @@ protected:
         return true;
     }
 
-    PDECL MoveSpec SelectRando_Move( const Position& pos, const MoveMap& moveMap )
+    PDECL MoveSpec SelectRandomMove( const Position& pos, const MoveMap& moveMap )
     {
         u64 rseed = _Random.s;
 

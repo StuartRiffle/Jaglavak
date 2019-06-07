@@ -34,3 +34,9 @@ Project/*.nvact
 
 .vscode/
 
+**/STS_Rating.txt
+
+# Some engines write log files, etc when running
+Testing/Engines/
+!*.exe
+!engines.json

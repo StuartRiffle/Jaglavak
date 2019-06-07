@@ -17,7 +17,7 @@
 #endif
 
 #define SIMD_WIDEST    (8)
-#define SIMD_ALIGNMENT (SIMD_WIDEST * 8)
+#define SIMD_ALIGNMENT (SIMD_WIDEST * sizeof( uint64_t ))
 
 #if defined( __CUDA_ARCH__ )
 
@@ -180,6 +180,27 @@ INLINE PDECL u64 PlatCountBits64( u64 n )
     n = (n + (n >> 4)) & mask0F;
     n = (n * mask01) >> 56;
     return( n );
+#endif
+}
+
+INLINE PDECL void PlatSetCoreAffinity( u64 mask, bool entireProcess = false )
+{
+    // TODO: support more than 64 cores
+#if TOOLCHAIN_GCC
+    const cpu_set_t cs;
+    CPU_ZERO( &cs );
+    for( int i = 0; i < 64; i++ )
+        if( mask & (1ULL << i) )
+            CPU_SET( i, &cs );
+    if( entireProcess )
+        sched_setaffinity( gettid(), sizeof( cs ), &cs );
+    else
+        pthread_setaffinity_np( pthread_self(), sizeof( cs ), &cs );
+#elif TOOLCHAIN_MSVC
+    if( entireProcess )
+        SetProcessAffinityMask( GetCurrentProcess(), mask );
+    else
+        SetThreadAffinityMask( GetCurrentThread(), mask );
 #endif
 }
 
