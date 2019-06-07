@@ -1,0 +1,164 @@
+[
+    {
+        "bm": "Qh5+",
+        "desc": "BWTC.31",
+        "fen": "2qrr1n1/3b1kp1/2pBpn1p/1p2PP2/p2P4/1BP5/P3Q1PP/4RRK1 w - -",
+        "id": "matetest-1"
+    },
+    {
+        "bm": "Nf3+",
+        "desc": "BWTC.406",
+        "fen": "r3k3/ppp2N2/3p1n2/2b1p3/2BnP1b1/2NP2p1/PPPQ1PPr/R4RK1 b q -",
+        "id": "matetest-2"
+    },
+    {
+        "bm": "Nfg5",
+        "desc": "BWTC.439",
+        "fen": "1nbq1r1k/3rbp1p/p1p1pp1Q/1p6/P1pPN3/5NP1/1P2PPBP/R4RK1 w - -",
+        "id": "matetest-3"
+    },
+    {
+        "bm": "Qxh6+",
+        "desc": "BWTC.522",
+        "fen": "5r2/2p3pk/1r1p3b/p1q1p3/6R1/P2P1p2/BPPQ1P1P/2K3R1 w - -",
+        "id": "matetest-4"
+    },
+    {
+        "bm": "Rxg7+",
+        "desc": "BWTC.544",
+        "fen": "5rk1/4R1p1/pqpp3p/2bp1b1Q/5P2/2P4P/P2B2PK/4R3 w - -",
+        "id": "matetest-5"
+    },
+    {
+        "bm": "Rxg7",
+        "desc": "BWTC.548",
+        "fen": "r3nr1k/ppqbNpp1/7p/2p1p3/2B4Q/P4P2/1PP4P/2KR2R1 w - -",
+        "id": "matetest-6"
+    },
+    {
+        "bm": "Rxh2",
+        "desc": "BWTC.632",
+        "fen": "2r3k1/pp3p1p/7r/3pq3/8/1RPQPpP1/P6P/3R2K1 b - -",
+        "id": "matetest-7"
+    },
+    {
+        "bm": "Qh5+",
+        "desc": "BWTC.702",
+        "fen": "r1br4/3n1Q2/p3p2p/1p1k4/4N2b/P3q3/1P4PP/1BR2R1K w - -",
+        "id": "matetest-8"
+    },
+    {
+        "bm": "Qxh2+",
+        "desc": "BWTC.772",
+        "fen": "r4rk1/p1p4p/1p1pp3/2P2p1q/2PPn1p1/1Q1BPbP1/PBR2P1P/4R1K1 b - -",
+        "id": "matetest-9"
+    },
+    {
+        "bm": "Qxa7+",
+        "desc": "BWTC.840",
+        "fen": "kn1r1b1r/p1p1n3/Qp1p1p1p/P3p3/4P1pq/2PPB3/1P1N1PPP/R3NR1K w - -",
+        "id": "matetest-10"
+    },
+    {
+        "bm": "Rf8+",
+        "desc": "BWTC.911",
+        "fen": "r5kr/p3PR1p/1p4pq/4p3/8/3B4/P4QPP/6K1 w - -",
+        "id": "matetest-11"
+    },
+    {
+        "bm": "Bxb4",
+        "desc": "BWTC.933",
+        "fen": "8/2QNpKpr/1p4P1/nrBk1Nb1/1pR3p1/1n1Ppq2/8/7B w - -",
+        "id": "matetest-12"
+    },
+    {
+        "bm": "Ra2",
+        "desc": "BWTC.936",
+        "fen": "krN5/1n6/2Q5/qN6/PpK5/1P6/8/R7 w - -",
+        "id": "matetest-13"
+    },
+    {
+        "bm": "Rg4",
+        "desc": "BWTC.938",
+        "fen": "5r2/6pb/1p3r2/2pQ3B/R6p/3pPp1P/2PNk1n1/2KN1R2 w - -",
+        "id": "matetest-14"
+    },
+    {
+        "bm": "Rb5",
+        "desc": "BWTC.944",
+        "fen": "1B2K3/p2p1ppQ/N3k3/P1R1p2N/3p1b2/3P2p1/6P1/8 w - -",
+        "id": "matetest-15"
+    },
+    {
+        "bm": "Qb7",
+        "desc": "BWTC.950",
+        "fen": "8/p2Q4/N1Pp3r/K1PkBB2/R1N5/3n4/3R1p2/3r4 w - -",
+        "id": "matetest-16"
+    },
+    {
+        "bm": "Qa8",
+        "desc": "BWTC.952",
+        "fen": "3Q3B/5p2/nRN5/1np5/2k1p3/2b1R3/2B5/3K4 w - -",
+        "id": "matetest-17"
+    },
+    {
+        "bm": "Ne4",
+        "desc": "BWTC.953",
+        "fen": "8/4nQp1/6P1/N1Kpk2p/3p3P/2Npb1P1/3P4/4R3 w - -",
+        "id": "matetest-18"
+    },
+    {
+        "bm": "Qd1",
+        "desc": "BWTC.954",
+        "fen": "7K/8/8/5k1P/2P1R1NP/4Pn2/2Qn4/8 w - -",
+        "id": "matetest-19"
+    },
+    {
+        "bm": "gxf7",
+        "desc": "BWTC.958",
+        "fen": "KN1R1B2/5pP1/p1p2pP1/r2Pk3/qnR4n/b6Q/2b2N1P/2r5 w - -",
+        "id": "matetest-20"
+    },
+    {
+        "bm": "Re5",
+        "desc": "BWTC.960",
+        "fen": "4Rb1B/6q1/R7/n4pN1/2Bk4/N2p1K2/3Q4/3n4 w - -",
+        "id": "matetest-21"
+    },
+    {
+        "bm": "Rh7",
+        "desc": "BWTC.964",
+        "fen": "n2b4/1p2R3/8/4Q3/k7/5RK1/3B4/8 w - -",
+        "id": "matetest-22"
+    },
+    {
+        "bm": "Nd4",
+        "desc": "BWTC.966",
+        "fen": "3B4/K1pR1p1p/n5br/Q1p1k1Pp/R3N3/1B2P1nr/1pN1PP1b/1q6 w - -",
+        "id": "matetest-23"
+    },
+    {
+        "bm": "Qf2",
+        "desc": "BWTC.974",
+        "fen": "3N4/4rP2/2n5/2P1k2n/1pP4Q/1P2Nb1p/3B4/1BK1R1Rq w - -",
+        "id": "matetest-24"
+    },
+    {
+        "bm": "Kxd2",
+        "desc": "BWTC.980",
+        "fen": "3N4/1p3p2/8/pR1B1Rp1/P2k2P1/1r1p1r2/1P1p1P2/Q2K2B1 w - -",
+        "id": "matetest-25"
+    },
+    {
+        "bm": "Qh3",
+        "desc": "BWTC.983",
+        "fen": "1K6/7B/1p6/R2np2r/p1k2pQ1/1N3N2/8/1R2B1b1 w - -",
+        "id": "matetest-26"
+    },
+    {
+        "bm": "Nf7",
+        "desc": "BWTC.1000",
+        "fen": "1K2krb1/1P1RP2p/7P/1n2N3/B3Q3/8/8/8 w - -",
+        "id": "matetest-27"
+    }
+]
