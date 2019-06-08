@@ -1,0 +1,14 @@
+6/7/19, SBD at 10s per move, 50% correct before it crashed
+ 
+# python RunSuite.py ..\Project\x64\Release\JaglavakTest.exe Suite\mate-in-3.epd.json
+mate-in-3-1: a1g1 (bm h1h7)
+mate-in-3-2: f3f2 (bm f3f2)
+mate-in-3-3: c2h7 (bm c2h7)
+mate-in-3-4: b1c1 (bm e6g5)
+mate-in-3-5: d1d7 (bm f3h5)
+mate-in-3-6: f8f1 (bm f8f1)
+mate-in-3-7: e7c6 (bm e7g6)
+mate-in-3-8: e4g4 (bm e4g4)
+mate-in-3-9: g5f6 (bm e3h3)
+mate-in-3-10: g5h6 (bm g5h6)
+

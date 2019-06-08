@@ -10,7 +10,6 @@ class HeapAllocator
     AddrToSizeMap   _Free;
     AddrToSizeMap   _Used;
     mutex           _Mutex;
-    size_t          _Range;
     size_t          _Align;
     size_t          _TotalAllocated;
     size_t          _HighestAllocated;
@@ -18,20 +17,19 @@ class HeapAllocator
 public:
     const addr_t INVALID = addr_t( ~0 );
 
-    void Init( size_t range, addr_t base = 0, size_t alignment = 128 )
+    void Init( size_t size, addr_t base = 0, size_t alignment = 128 )
     {
         assert( (alignment & (alignment - 1)) == 0 );
         assert( (base      & (alignment - 1)) == 0 );
         assert( (range     & (alignment - 1)) == 0 );
 
-        _Range = range;
         _Align = alignment;
         _TotalAllocated = 0;
         _HighestAllocated = 0;
 
         _Used.clear();
         _Free.clear();
-        _Free[base] = range;
+        _Free[base] = size;
     }
 
     addr_t Alloc( size_t size )
@@ -39,6 +37,7 @@ public:
         unique_lock< mutex > lock( _Mutex );
 
         size = (size + _Align - 1) & ~(_Align - 1);
+        assert( size > 0 );
 
         auto iter = _Free.begin();
         while( iter != _Free.end() )
@@ -54,6 +53,8 @@ public:
 
                 if( nextAddr == (freeAddr + freeSize) )
                 {
+                    // Combine consecutive free blocks
+
                     iter->second += nextSize;
                     _Free.erase( next );
                     continue;
@@ -65,7 +66,8 @@ public:
                 addr_t addr = freeAddr;
 
                 assert( _Used.find( addr ) == _Used.end() );
-                _Used[addr] = size;
+                if( size > 0 )
+                    _Used[addr] = size;
 
                 _Free.erase( iter );
                 if( size < freeSize )

@@ -28,21 +28,21 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 
     static UciOptionInfo sOptions[] = 
     {
-        OPTION_INDEX( EnableMulticore ),        CHECKBOX,   0,          
-        OPTION_INDEX( EnableSimd ),             CHECKBOX,   0,          
-        OPTION_INDEX( NumSimdWorkers ),         0,          1,          
+        OPTION_INDEX( EnableMulticore ),        CHECKBOX,   1,          
+        OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
+        OPTION_INDEX( NumSimdWorkers ),         0,          2,          
 
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   0,          
+        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
         OPTION_INDEX( CudaHeapMegs ),           0,          64,        
         OPTION_INDEX( CudaBatchesPerLaunch ),   0,          8,        
         OPTION_INDEX( GpuAffinityMask ),        0,          1,          
 
         OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
         OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
-        OPTION_INDEX( NumAsyncPlayouts ),       0,          10,         
+        OPTION_INDEX( NumAsyncPlayouts ),       0,          1,         
 
         OPTION_INDEX( MaxPlayoutMoves ),        0,          200,          
-        OPTION_INDEX( MaxPendingBatches ),      0,          128,        
+        OPTION_INDEX( MaxPendingBatches ),      0,          32,        
         OPTION_INDEX( BatchSize ),              0,          128,       
 
         OPTION_INDEX( MaxTreeNodes ),           0,          10000000,    
@@ -198,7 +198,8 @@ bool UciEngine::ProcessCommand( const char* cmd )
     }
     else if( t.Consume( "quit" ) )
     {
-        return false;
+        exit( 0 );
+        //return false;
     }
     else
     {

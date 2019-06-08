@@ -48,14 +48,14 @@ void CudaWorker::Initialize( int deviceIndex  )
 
 void CudaWorker::Shutdown()
 {
-    for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
-        cudaStreamDestroy( _StreamId[i] );
-
     _ShuttingDown = true;
     _WorkQueue->NotifyAllWaiters();
     _DoneQueue->NotifyAllWaiters();
                      
     _LaunchThread->join();
+
+    for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
+        cudaStreamDestroy( _StreamId[i] );
 }
 
 cudaEvent_t CudaWorker::AllocEvent()
@@ -89,6 +89,8 @@ void CudaWorker::LaunchThread()
     {
         vector< BatchRef > newBatches = _WorkQueue->PopMulti( _Options->_CudaBatchesPerLaunch );
         if( _ShuttingDown )
+            break;
+        if( newBatches.empty() )
             break;
 
         LaunchInfoRef launch( new LaunchInfo() );

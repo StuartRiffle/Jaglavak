@@ -254,6 +254,52 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
     return highestIdx;
 }
 
+ScoreCard TreeSearch::CreateNewNode( MoveList& pathFromRoot, TreeNode* node, int branchIdx, BatchRef batch )
+{
+    TreeNode* newNode = AllocNode();
+    assert( newNode != node );
+
+    BranchInfo* chosenBranch = &node->_Branch[chosenBranchIdx];
+
+    MoveToFront( node );
+
+    MoveMap newMap;
+    Position newPos = node->_Pos;
+    newPos.Step( chosenBranch->_Move, &newMap );
+
+    newNode->InitPosition( newPos, newMap, chosenBranch ); 
+    this->CalculatePriors( newNode, pathFromRoot );
+
+    chosenBranch->_Node = newNode;
+
+    if( newNode->_GameOver )
+    {
+        newNode->_Info->_Scores.Add( newNode->_GameResult );
+        return( newNode->_GameResult );
+    }
+
+    ScoreCard scores;
+
+    if( _SearchParams._InitialPlayouts > 0 )
+    {
+        PlayoutParams playoutParams = batch->_Params;
+        playoutParams._NumGamesEach = _SearchParams._InitialPlayouts;
+
+        GamePlayer< u64 > player( &playoutParams, (int) _Random.GetNext() );
+        player.PlayGames( &newPos, &scores, 1 );            
+    }
+
+    if( _SearchParams._AsyncPlayouts > 0 )
+    {
+        batch->Append( newPos, pathFromRoot );
+        scores._Plays += batch->_Params._NumGamesEach;
+    }
+
+    newNode->_Info->_Scores.Add( scores );
+    return scores;
+}
+
+
 ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch )
 {
     MoveToFront( node );
@@ -274,53 +320,11 @@ ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, Batc
 #endif
 
     if( !chosenBranch->_Node )
-    {
-        // This is a leaf, so create a new node 
-
-        TreeNode* newNode = AllocNode();
-        assert( newNode != node );
-
-        MoveToFront( node );
-
-        MoveMap newMap;
-        Position newPos = node->_Pos;
-        newPos.Step( chosenBranch->_Move, &newMap );
-
-        newNode->InitPosition( newPos, newMap, chosenBranch ); 
-        this->CalculatePriors( newNode, pathFromRoot );
-
-        chosenBranch->_Node = newNode;
-
-        if( newNode->_GameOver )
-        {
-            newNode->_Info->_Scores.Add( newNode->_GameResult );
-            return( newNode->_GameResult );
-        }
-
-        ScoreCard scores;
-
-        if( _SearchParams._InitialPlayouts > 0 )
-        {
-            PlayoutParams playoutParams = batch->_Params;
-            playoutParams._NumGamesEach = _SearchParams._InitialPlayouts;
-
-            GamePlayer< u64 > player( &playoutParams, (int) _Random.GetNext() );
-            player.PlayGames( &newPos, &scores, 1 );            
-        }
-
-        if( _SearchParams._AsyncPlayouts > 0 )
-        {
-            batch->Append( newPos, pathFromRoot );
-            scores._Plays += batch->_Params._NumGamesEach;
-        }
-
-        newNode->_Info->_Scores.Add( scores );
-        return scores;
-    }
+        return this->CreateNewNode( pathFromRoot, node, chosenBranchIdx, batch );
 
     ScoreCard branchScores = ExpandAtLeaf( pathFromRoot, chosenBranch->_Node, batch );
 
-    // Addulate the scores on our way back down the tree
+    // Accumulate the scores on our way back down the tree
 
     chosenBranch->_Scores.Add( branchScores );
 
@@ -345,19 +349,19 @@ bool TreeSearch::IsTimeToMove()
     float   timeLimit       = _UciConfig._TimeLimit * MS_TO_SEC;
     float   timeLeft        = timeLeftAtStart - timeElapsed;
 
-    if( timeLimit > 0 )
+    if( timeLimit )
         if( timeElapsed > timeLimit )
             return true;
 
-    if( (requiredMoves > 0) && (timeLeftAtStart > 0) )
+    if( requiredMoves && timeLeftAtStart )
         if( timeElapsed >= (timeLeftAtStart / requiredMoves) )
             return true;
 
-    if( _UciConfig._NodesLimit > 0 )
+    if( _UciConfig._NodesLimit )
         if( _Metrics._NumNodesCreated >= _UciConfig._NodesLimit )
             return true;
 
-    if( _UciConfig._DepthLimit > 0 )
+    if( _UciConfig._DepthLimit )
         if( _DeepestLevelSearched > _UciConfig._DepthLimit )
             return true;
 
@@ -399,6 +403,7 @@ void TreeSearch::DeliverScores( TreeNode* node, MoveList& pathFromRoot, const Sc
 void TreeSearch::ProcessScoreBatch( BatchRef& batch )
 {
 #if DEBUG_VALIDATE_BATCH_RESULTS
+    // Extremely expensive: every batch is recalculated to verify
     for( int i = 0; i < batch->GetCount(); i++ )
     {
         ScoreCard checkScores;
@@ -493,7 +498,6 @@ void TreeSearch::SearchThread()
             {
                 _WorkQueue.Push( batch );
                 _NumPending++;
-
                 _Metrics._NumBatchesMade++;
             }
         }
