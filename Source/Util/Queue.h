@@ -38,7 +38,7 @@ public:
         _Queue.insert( _Queue.end(), objs, objs + count );
 
         lock.unlock();
-        _Var.notify_all();
+        this->NotifyAllWaiters();
     }
 
     void Push( const vector< T >& elems )

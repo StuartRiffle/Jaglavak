@@ -28,27 +28,28 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 
     static UciOptionInfo sOptions[] = 
     {
-        OPTION_INDEX( EnableMulticore ),        CHECKBOX,   1,          
-        OPTION_INDEX( EnableSimd ),             CHECKBOX,   1,          
-        OPTION_INDEX( NumSimdWorkers ),         0,          2,          
+        OPTION_INDEX( EnableMulticore ),        1,          
+        OPTION_INDEX( EnableSimd ),             1,          
+        OPTION_INDEX( NumSimdWorkers ),         2,          
 
-        OPTION_INDEX( EnableCuda ),             CHECKBOX,   1,          
-        OPTION_INDEX( CudaHeapMegs ),           0,          64,        
-        OPTION_INDEX( CudaBatchesPerLaunch ),   0,          8,        
-        OPTION_INDEX( GpuAffinityMask ),        0,          1,          
+        OPTION_INDEX( EnableCuda ),             1,          
+        OPTION_INDEX( CudaHeapMegs ),           64,        
+        OPTION_INDEX( CudaBatchesPerLaunch ),   8,        
+        OPTION_INDEX( GpuAffinityMask ),        1,          
 
-        OPTION_INDEX( DrawsWorthHalf ),         CHECKBOX,   1,          
-        OPTION_INDEX( NumInitialPlayouts ),     0,          0,          
-        OPTION_INDEX( NumAsyncPlayouts ),       0,          1,         
+        OPTION_INDEX( DrawsWorthHalf ),         1,          
+        OPTION_INDEX( NumInitialPlayouts ),     8,          
+        OPTION_INDEX( NumAsyncPlayouts ),       0,         
+        OPTION_INDEX( MaxBranchExpansion ),     0,
 
-        OPTION_INDEX( MaxPlayoutMoves ),        0,          200,          
-        OPTION_INDEX( MaxPendingBatches ),      0,          32,        
-        OPTION_INDEX( BatchSize ),              0,          128,       
+        OPTION_INDEX( MaxPlayoutMoves ),        200,          
+        OPTION_INDEX( MaxPendingBatches ),      32,        
+        OPTION_INDEX( BatchSize ),              1024,       
 
-        OPTION_INDEX( MaxTreeNodes ),           0,          10000000,    
-        OPTION_INDEX( TimeSafetyBuffer ),       0,          100,          
-        OPTION_INDEX( SearchSleepTime ),        0,          100,          
-        OPTION_INDEX( UciUpdateDelay ),         0,          500,          
+        OPTION_INDEX( MaxTreeNodes ),           10000000,    
+        OPTION_INDEX( TimeSafetyBuffer ),       100,          
+        OPTION_INDEX( SearchSleepTime ),        100,          
+        OPTION_INDEX( UciUpdateDelay ),         500,          
         -1
     };
 
@@ -100,6 +101,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
         }
         */
 
+        _Searcher->Reset();
         cout << "uciok" << endl;
     }
     else if( t.Consume( "setoption" ) )

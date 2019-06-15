@@ -17,6 +17,8 @@ union GlobalOptions
         int     _NumInitialPlayouts;
         int     _NumAsyncPlayouts;
         int     _MaxPlayoutMoves;
+        int     _MaxBranchExpansion;
+
         int     _BatchSize;
         int     _MaxPendingBatches;
         int     _MaxTreeNodes;

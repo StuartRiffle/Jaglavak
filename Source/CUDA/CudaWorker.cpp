@@ -30,6 +30,34 @@ int CudaWorker::GetDeviceCount()
     return( count );
 }
 
+// static
+int CudaWorker::GetCoresPerSM( int major, int minor )
+{
+    switch( (major << 4) + minor )
+    {
+    case 0x30:
+    case 0x32:
+    case 0x35:
+    case 0x37: 
+        return 192;
+
+    case 0x50:
+    case 0x52:
+    case 0x53:
+    case 0x61:
+    case 0x62: 
+        return 128;
+
+    case 0x60:
+    case 0x70:
+    case 0x72:
+    case 0x75: 
+        return  64;
+    }
+
+    return 64; // ?? FIXME
+}
+
 void CudaWorker::Initialize( int deviceIndex  )
 {
     _DeviceIndex = deviceIndex;
@@ -120,10 +148,6 @@ void CudaWorker::LaunchThread()
             offset += count;
         }
 
-        launch->_StartTimer = this->AllocEvent();
-        launch->_StopTimer  = this->AllocEvent(); 
-        launch->_ReadyEvent = this->AllocEvent();
-
         int streamIndex = _StreamIndex++;
         _StreamIndex %= CUDA_NUM_STREAMS;
         cudaStream_t stream = _StreamId[streamIndex];
@@ -132,11 +156,15 @@ void CudaWorker::LaunchThread()
         int blockSize  = _Prop.warpSize;
         int blockCount = (totalWidth + blockSize - 1) / blockSize;
 
+        launch->_StartTimer = this->AllocEvent();
+        launch->_StopTimer  = this->AllocEvent(); 
+        launch->_ReadyEvent = this->AllocEvent();
+
         launch->_Params.CopyUpToDeviceAsync( stream );
         launch->_Inputs.CopyUpToDeviceAsync( stream );
         launch->_Outputs.ClearOnDeviceAsync( stream );
-        CUDA_REQUIRE(( cudaEventRecord( launch->_StartTimer, stream ) ));
 
+        CUDA_REQUIRE(( cudaEventRecord( launch->_StartTimer, stream ) ));
         PlayGamesCudaAsync( 
             launch->_Params._Device, 
             launch->_Inputs._Device, 
@@ -145,11 +173,12 @@ void CudaWorker::LaunchThread()
             blockCount, 
             blockSize, 
             stream );
-
         CUDA_REQUIRE(( cudaEventRecord( launch->_StopTimer, stream ) ));
+
         launch->_Outputs.CopyDownToHostAsync( stream );
         CUDA_REQUIRE(( cudaEventRecord( launch->_ReadyEvent, stream ) ));
 
+        launch->_TickSubmitted = CpuInfo::GetClockTick();
         _InFlightByStream[streamIndex].push_back( launch );
     }
 }
@@ -172,6 +201,7 @@ void CudaWorker::Update()
                 break;
 
             inFlight.pop_front();
+            launch->_TickReturned = CpuInfo::GetClockTick();
 
             int offset = 0;
             for( auto& batch : launch->_Batches )

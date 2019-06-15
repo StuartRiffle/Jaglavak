@@ -7,14 +7,14 @@
     <Filter Include="CUDA">
       <UniqueIdentifier>{0ec58702-a008-4e18-adad-835b0576a7e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SIMD">
-      <UniqueIdentifier>{99c19bad-987c-4fcc-bfff-87b193118208}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TreeSearch">
       <UniqueIdentifier>{786503bf-7523-4803-85d3-da80227a7673}</UniqueIdentifier>
     </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{adbe6f83-e3b1-4ca7-a0e9-78375f38ed31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPU">
+      <UniqueIdentifier>{99c19bad-987c-4fcc-bfff-87b193118208}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,19 +100,19 @@
       <Filter>TreeSearch</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\SIMD\AVX2.h">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\SIMD\AVX512.h">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\SIMD\SimdPlayer.h">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\SIMD\SimdWorker.h">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\SIMD\SSE4.h">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,16 +128,28 @@
       <Filter>TreeSearch</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\SIMD\AVX2.cpp">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\SIMD\AVX512.cpp">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\SIMD\SSE4.cpp">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\SIMD\X64.cpp">
-      <Filter>SIMD</Filter>
+      <Filter>CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\BranchSelection.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\SearchThread.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\TimeControl.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\UciStatus.cpp">
+      <Filter>TreeSearch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

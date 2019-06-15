@@ -2,6 +2,7 @@
 #pragma once
 
 typedef uintptr_t addr_t;
+#define INVALID_ADDR (addr_t( ~0 ))
 
 class HeapAllocator
 {
@@ -21,7 +22,7 @@ public:
     {
         assert( (alignment & (alignment - 1)) == 0 );
         assert( (base      & (alignment - 1)) == 0 );
-        assert( (range     & (alignment - 1)) == 0 );
+        assert( (size      & (alignment - 1)) == 0 );
 
         _Align = alignment;
         _TotalAllocated = 0;
@@ -84,7 +85,7 @@ public:
         }
 
         assert( !"Heap overflow" );
-        return INVALID;
+        return INVALID_ADDR;
     }
 
     void Free( addr_t addr )

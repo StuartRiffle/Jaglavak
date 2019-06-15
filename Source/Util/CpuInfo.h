@@ -76,12 +76,12 @@ struct CpuInfo
             char desc[48];
         };
 
-        Cpuid( 0x80000000, info );
+        Cpuid( 0x8000'0000, info );
         if( info[0] >= 0x8000'0004 )
         {
-            Cpuid( 0x80000002, info );
-            Cpuid( 0x80000003, info + 4 );
-            Cpuid( 0x80000004, info + 8 );
+            Cpuid( 0x8000'0002, info );
+            Cpuid( 0x8000'0003, info + 4 );
+            Cpuid( 0x8000'0004, info + 8 );
 
             size_t len = 0;
             for( int i = 0; i < 47; i++ )
@@ -99,7 +99,7 @@ struct CpuInfo
     #if TOOLCHAIN_GCC
         timespec ts;
         clock_gettime( CLOCK_REALTIME, &ts );
-        return( (ts.tv_sec * 1'000'000'000) + ts.tv_nsec );    
+        return( (ts.tv_sec * GetClockFrequency()) + ts.tv_nsec );    
     #elif TOOLCHAIN_MSVC
         LARGE_INTEGER tick; 
         QueryPerformanceCounter( &tick ); 

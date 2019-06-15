@@ -10,7 +10,7 @@ struct RandomGen
 
     PDECL u64 GetNext()
     {
-        // Thomas Wang's 64-bit mix function
+        // This is Thomas Wang's 64-bit mix function
 
         s = ~s + (s << 21);
         s =  s ^ (s >> 24);

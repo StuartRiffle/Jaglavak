@@ -54,9 +54,16 @@
     <ClCompile Include="..\Source\SIMD\AVX2.cpp" />
     <ClCompile Include="..\Source\SIMD\AVX512.cpp" />
     <ClCompile Include="..\Source\SIMD\SSE4.cpp" />
-    <ClCompile Include="..\Source\SIMD\X64.cpp" />
+    <ClCompile Include="..\Source\SIMD\X64.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</PreprocessToFile>
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PreprocessToFile>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\BranchSelection.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\SearchThread.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\TimeControl.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TreeNode.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\UciStatus.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
   </ItemGroup>
   <ItemGroup>

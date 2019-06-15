@@ -15,15 +15,15 @@ struct PlayoutBatch
 
     int GetCount() const
     {
+        assert( _Position.size() == _PathFromRoot.size() );
         return (int) _Position.size();
     }
 
     void Append( const Position& pos, const MoveList& pathFromRoot )
     {
+        assert( _Position.size() == _PathFromRoot.size() );
         _Position.push_back( pos );
         _PathFromRoot.push_back( pathFromRoot );
-
-        assert( _Position.size() == _PathFromRoot.size() );
     }
 };
 

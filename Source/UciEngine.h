@@ -10,7 +10,6 @@ struct UciOptionInfo
 {
     int         _Index;
     const char* _Name;
-    int         _IsCheckbox;
     int         _Value;
 };
 

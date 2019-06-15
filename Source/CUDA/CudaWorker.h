@@ -10,6 +10,9 @@ struct LaunchInfo
     CudaBuffer< Position >      _Inputs;
     CudaBuffer< ScoreCard >     _Outputs;
 
+    u64 _TickSubmitted;
+    u64 _TickReturned;
+
     cudaEvent_t _StartTimer;
     cudaEvent_t _StopTimer; 
     cudaEvent_t _ReadyEvent; 
@@ -48,14 +51,16 @@ public:
     ~CudaWorker();
 
     static int GetDeviceCount();
+    static int GetCoresPerSM( int major, int minor );
+
     const cudaDeviceProp& GetDeviceProperties() { return _Prop; }
     void Initialize( int deviceIndex );
     void Shutdown();
 
+private:
     cudaEvent_t AllocEvent();
     void FreeEvent( cudaEvent_t event );
 
-private:
     void LaunchThread();
     virtual void Update() override;
 };

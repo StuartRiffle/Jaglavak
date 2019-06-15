@@ -67,7 +67,7 @@ struct TreeSearch
     int                     _NumPending;
 
     unique_ptr< thread >    _SearchThread;
-    Semaphore               _SearchThreadGo;
+    Semaphore               _SearchThreadWakeUp;
     Semaphore               _SearchThreadIsIdle;
     volatile bool           _SearchingNow;
     volatile bool           _ShuttingDown;
@@ -88,10 +88,12 @@ struct TreeSearch
     double CalculateUct( TreeNode* node, int childIndex );
     void CalculatePriors( TreeNode* node, MoveList& pathFromRoot );
     int SelectNextBranch( TreeNode* node );
+    ScoreCard PlayBranchGames( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );
+    void CreateNewNode( MoveList& pathFromRoot, TreeNode* node, int branchIdx );
     ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );
 
     void DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& score, int depth = 0 );
-    void ProcessScoreBatch( BatchRef& batch )    ;
+    void ProcessScoreBatch( BatchRef& batch );
 
     BatchRef CreateNewBatch();
     void DumpStats( TreeNode* node );
@@ -109,7 +111,7 @@ struct TreeSearch
 
 public:
 
-    TreeSearch( GlobalOptions* options, u64 randomSeed = 1 );
+    TreeSearch( GlobalOptions* options, u64 randomSeed = 0 );
     ~TreeSearch();
 
     void Init();

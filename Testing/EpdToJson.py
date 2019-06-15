@@ -48,9 +48,6 @@ with open(epdfile + ".epd") as epd:
                         if val.startswith( '"' ) and val.endswith( '"' ):
                             val = val[1:-1]
 
-                        if key == "c9":
-                            key = "desc"
-
                         this_test[key] = val
 
             if not 'id' in this_test:
