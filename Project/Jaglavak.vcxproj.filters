@@ -151,6 +151,7 @@
     <ClCompile Include="..\Source\TreeSearch\UciStatus.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\OpenCL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
