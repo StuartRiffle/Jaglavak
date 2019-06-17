@@ -1,9 +1,11 @@
 # Jaglavak
 
 - Jaglavak is a chess engine based on [Monte Carlo Tree Search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) (MCTS).
-- This is an **asynchronous** implementation of MCTS that allows for high throughput. Jaglavak is a brute-force firehose, for better or worse.
+- This is an **asynchronous** implementation of MCTS that allows for high throughput. 
 - GPU f sdf daf 
 - CPU playouts use **SIMD** hardware (up to 8-wide with AVX-512), and run on all cores.
+
+- Jaglavak is not sensitive or smart. It is a brute-force firehose of chess games. 
 - 
 
 ## ELI5

@@ -119,6 +119,8 @@ void TreeSearch::SearchThread()
                 if( _UciUpdateTimer.GetElapsedMs() >= _Options->_UciUpdateDelay )
                     SendUciStatus();
 
+            //_SearchFibers.Run();
+
             if( _NumPending >= _SearchParams._MaxPending )
             {
                 PlatSleep( _Options->_SearchSleepTime );

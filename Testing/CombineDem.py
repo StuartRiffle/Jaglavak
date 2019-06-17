@@ -4,8 +4,7 @@ import json
 import chess
 import chess.engine
 
-engineName = sys.argv[1]
-jsonfile = sys.argv[2]
+jsonfile = 'Suite'
 
 all_epd = []
 movetime = 30
@@ -20,7 +19,6 @@ numcorrect = 0
 
 for pos in tests:
     board = chess.Board( pos['fen'] )
-
     bm = pos['bm']
     try:
         bmove = chess.Move.from_uci( bm )

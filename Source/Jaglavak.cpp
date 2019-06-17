@@ -5,6 +5,7 @@
 #include "Common.h"
 #include "UciEngine.h"
 #include "Version.h"
+#include "boost/fiber/all.hpp"
 
 int main( int argc, char** argv )
 {
@@ -14,6 +15,8 @@ int main( int argc, char** argv )
         VERSION_PATCH << endl;
 
     unique_ptr< UciEngine > engine( new UciEngine() );
+    engine->ProcessCommand( "position startpos" );
+    engine->ProcessCommand( "go" );
 
     string cmd;
     while( getline( std::cin, cmd ) ) 
