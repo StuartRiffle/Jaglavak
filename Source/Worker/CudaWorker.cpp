@@ -5,14 +5,14 @@
 #include "Common.h"
 
 #include "CudaSupport.h"
+#include "CudaPlayer.h"
 #include "CudaWorker.h"
 
 
-CudaWorker::CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue )
+CudaWorker::CudaWorker( const GlobalOptions* options, BatchQueue* batchQueue )
 {
     _Options = options;
-    _WorkQueue = workQueue;
-    _DoneQueue = doneQueue;
+    _BatchQueue = workQueue;
     _ShuttingDown = false;
 }
 
@@ -26,60 +26,43 @@ int CudaWorker::GetDeviceCount()
 {
     int count = 0;
     auto res = cudaGetDeviceCount( &count );
-
     return( count );
 }
 
-// static
-int CudaWorker::GetCoresPerSM( int major, int minor )
-{
-    switch( (major << 4) + minor )
-    {
-    case 0x30:
-    case 0x32:
-    case 0x35:
-    case 0x37: 
-        return 192;
 
-    case 0x50:
-    case 0x52:
-    case 0x53:
-    case 0x61:
-    case 0x62: 
-        return 128;
 
-    case 0x60:
-    case 0x70:
-    case 0x72:
-    case 0x75: 
-        return  64;
-    }
-
-    return 64; // ?? FIXME
-}
-
-void CudaWorker::Initialize( int deviceIndex  )
+bool CudaWorker::Initialize( int deviceIndex  )
 {
     _DeviceIndex = deviceIndex;
     _StreamIndex = 0;
 
+    cudaError_t status = cudaGetDeviceProperties( &_Prop, _DeviceIndex );
+    if( status != cudaSuccess )
+        return false;
+
     CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
-    CUDA_REQUIRE(( cudaGetDeviceProperties( &_Prop, _DeviceIndex ) ));
     CUDA_REQUIRE(( cudaDeviceSetCacheConfig( cudaFuncCachePreferL1 ) ));
 
-    for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
-        CUDA_REQUIRE(( cudaStreamCreateWithFlags( _StreamId + i, cudaStreamNonBlocking ) ));
+    int totalCores = GetCudaCoresPerSM( _Prop.major, _Prop.minor );
+    int mb = _Prop.totalGlobalMem / (1024 * 1024);
+    int mhz = _Prop.clockRate / 1000;
+
+    cout << "CUDA " << _DeviceIndex << ": " << _Prop.name << endl;
+    cout << "  Compute  " << _Prop.major << "." << _Prop.minor << endl;
+    cout << "  Clock    " << mhz << " MHz" << endl;
+    cout << "  Memory   " << mb << " MB"
+    cout << "  Cores    " << totalCores << endl << endl;
 
     _Heap.Init( (u64) _Options->_CudaHeapMegs * 1024 * 1024 );
     _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
+
+    return true;
 }
 
 void CudaWorker::Shutdown()
 {
     _ShuttingDown = true;
-    _WorkQueue->NotifyAllWaiters();
-    _DoneQueue->NotifyAllWaiters();
-                     
+    _Queue->NotifyAllWaiters();
     _LaunchThread->join();
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
@@ -112,6 +95,8 @@ void CudaWorker::FreeEvent( cudaEvent_t event )
 void CudaWorker::LaunchThread()
 {
     CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
+    for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
+        CUDA_REQUIRE(( cudaStreamCreateWithFlags( _StreamId + i, cudaStreamNonBlocking ) ));
 
     for( ;; )
     {
@@ -187,7 +172,7 @@ void CudaWorker::Update()
 {
     unique_lock< mutex > lock( _Mutex );
 
-    // This is called from the main thread to gather completed batches
+    // This is called from the main thread to handle completed batches
 
     vector< BatchRef > completed;
 
@@ -211,7 +196,7 @@ void CudaWorker::Update()
                 batch->_GameResults.assign( results, results + batch->GetCount() );
                 offset += batch->GetCount();
 
-                completed.push_back( batch );
+                batch->_Done = true;
             }
 
             _Heap.Free( launch->_Params );
@@ -223,6 +208,4 @@ void CudaWorker::Update()
             this->FreeEvent( launch->_ReadyEvent );
         }
     }
-
-    _DoneQueue->Push( completed );
 }

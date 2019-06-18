@@ -28,8 +28,7 @@ class CudaWorker : public AsyncWorker
     };
 
     const GlobalOptions*    _Options;
-    BatchQueue*             _WorkQueue;
-    BatchQueue*             _DoneQueue;
+    BatchQueue*             _Queue;
 
     int                     _DeviceIndex;      
     cudaDeviceProp          _Prop;
@@ -47,14 +46,13 @@ class CudaWorker : public AsyncWorker
     vector< cudaEvent_t >   _EventCache;
 
 public:    
-    CudaWorker( const GlobalOptions* options, BatchQueue* workQueue, BatchQueue* doneQueue );
+    CudaWorker( const GlobalOptions* options, BatchQueue* queue );
     ~CudaWorker();
 
     static int GetDeviceCount();
-    static int GetCoresPerSM( int major, int minor );
 
     const cudaDeviceProp& GetDeviceProperties() { return _Prop; }
-    void Initialize( int deviceIndex );
+    bool Initialize( int deviceIndex );
     void Shutdown();
 
 private:

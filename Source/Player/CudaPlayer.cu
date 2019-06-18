@@ -16,7 +16,6 @@ __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos,
     player.PlayGames( pos + idx, dest + idx, 1 );
 }
 
-#if !ON_CUDA_DEVICE
 void PlayGamesCudaAsync( 
     const PlayoutParams* params, 
     const Position* pos, 
@@ -28,4 +27,3 @@ void PlayGamesCudaAsync(
 {
     PlayGamesCuda<<< blockCount, blockSize, 0, stream >>>( params, pos, dest, count );
 }
-#endif

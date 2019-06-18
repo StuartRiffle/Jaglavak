@@ -115,14 +115,29 @@ public:
     }
 };
 
+static inline int GetCudaCoresPerSM( int major, int minor )
+{
+    switch( (major << 4) + minor )
+    {
+    case 0x30:
+    case 0x32:
+    case 0x35:
+    case 0x37: 
+        return 192;
 
+    case 0x50:
+    case 0x52:
+    case 0x53:
+    case 0x61:
+    case 0x62: 
+        return 128;
 
-extern void PlayGamesCudaAsync( 
-    const PlayoutParams* params, 
-    const Position* pos, 
-    ScoreCard* dest, 
-    int count,
-    int blockCount, 
-    int blockSize, 
-    cudaStream_t stream );
+    case 0x60:
+    case 0x70:
+    case 0x72:
+    case 0x75: 
+        return  64;
+    }
 
+    return 64; // ?? FIXME
+}

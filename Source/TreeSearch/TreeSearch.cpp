@@ -23,20 +23,16 @@ TreeSearch::TreeSearch( GlobalOptions* options ) :
 
     _Random.SetSeed( seed );
 
-    CreateNodePool();
+    _Tree->CreateNodePool();
 
     this->Reset();
 }
 
 void TreeSearch::Init()
 {
-    cout << "CPU: " << CpuInfo::GetCpuName() << " (" << CpuInfo::DetectCpuCores() << " cores, " << CpuInfo::DetectSimdLevel() << "x SIMD)" << endl;
-
-    for( int i = 0; i < _Options->_NumSimdWorkers; i++ )
-    {
-        auto worker = new SimdWorker( _Options, &_WorkQueue, &_DoneQueue );
-        _AsyncWorkers.push_back( shared_ptr< AsyncWorker >( worker ) );
-    }
+    shared_ptr< AsyncWorker > cpuWorker( new CpuWorker( _Options, &_BatchQueue ) );
+    if( cpuWorker->Initialize() )
+        _Workers.push_back( cpuWorker ) );
 
     if( _Options->_EnableCuda )
     {
@@ -46,19 +42,11 @@ void TreeSearch::Init()
                 if( ((1 << i) & _Options->_GpuAffinityMask) == 0 )
                     continue;
 
-            shared_ptr< CudaWorker > worker( new CudaWorker( _Options, &_WorkQueue, &_DoneQueue ) );
-            worker->Initialize( i );
-
-            auto prop = worker->GetDeviceProperties();
-            int totalCores = CudaWorker::GetCoresPerSM( prop.major, prop.minor );
-            cout << "GPU: " << prop.name << " (" << totalCores << " cores)" << endl;
-
-            _AsyncWorkers.push_back( worker );
+            shared_ptr< AsyncWorker > cudaWorker( new CudaWorker( _Options, &_BatchQueue ) );
+            if( cudaWorker->Initialize( i ) )
+                _Workers.push_back( cudaWorker );
         }
     }
-
-    
-    //_SearchThreadIsIdle.Wait();
 }
 
 void TreeSearch::Reset()
@@ -115,7 +103,7 @@ void Search::SearchThread()
         if( IsTimeToMove() )
             break;
 
-        for( auto& worker : _AsyncWorkers )
+        for( auto& worker : _Workers )
             worker->Update();
 
         fibers.Update();

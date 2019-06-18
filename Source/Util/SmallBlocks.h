@@ -4,32 +4,28 @@
 
 struct LargePage
 {
-    addr_t _Addr;
+    void* _Ptr;
     size_t _Size;
-    size_t _Used;
 
-    HugePage() : _Addr( 0 ), _Size( 0 ), _Used( 0 )
+    LargePageAlloc( size_t size ) : _Size( size )
     {
 #if TOOLCHAIN_GCC
-        _Size = (size_t) sysconf( _SC_PAGESIZE );
-        _Addr = (addr_t) mmap( NULL, _Size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0 );
+        _Ptr = mmap( NULL, _Size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0 );
 #elif TOOLCHAIN_MSVC
-        _Size = GetLargePageMinimum();
-        _Addr = (addr_t) VirtualAlloc( NULL, _Size, MEM_RESERVE | MEM_COMMIT | MEM_LARGE_PAGES, PAGE_READWRITE );
+        _Ptr = VirtualAlloc( NULL, _Size, MEM_RESERVE | MEM_COMMIT | MEM_LARGE_PAGES, PAGE_READWRITE );
 #else
-        _Size = DEFAULT_SIZE;
-        _Addr = (addr_t) memalign( _Size, _Size );
+        _Ptr = memalign( _Size, _Size );
 #endif
     }
 
     ~HugePage()
     {
 #if TOOLCHAIN_GCC
-        munmap( (void*) _Addr, _Size );
+        munmap( _Ptr, _Size );
 #elif TOOLCHAIN_MSVC
-        VirtualFree( (void*) _Addr );
+        VirtualFree( _Ptr );
 #else
-        free( (void*) _Addr );
+        free( _Ptr );
 #endif
     }
 };

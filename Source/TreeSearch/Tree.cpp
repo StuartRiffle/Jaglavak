@@ -45,12 +45,10 @@ void Tree::CreateNode( TreeNode* node, int branchIdx )
     assert( newNode != node );
 
     BranchInfo* chosenBranch = &node->_Branch[branchIdx];
-
-    MoveToFront( node );
+    assert( chosenBranch->_Node == NULL );
 
     MoveMap newMap;
     Position newPos = node->_Pos;
-
     newPos.Step( chosenBranch->_Move, &newMap );
 
     ClearNode( newNode );

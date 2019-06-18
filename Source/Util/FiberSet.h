@@ -2,11 +2,9 @@
 
 #include "boost/fiber/all.hpp"
 
-typedef boost::fibers::fiber Fiber;
-
 class FiberSet
 {
-    list< Fiber > _Fibers;
+    list< boost::fibers::fiber > _Fibers;
 
 public:
 
@@ -37,7 +35,7 @@ private:
             auto next = iter;
             ++next;
 
-            Fiber& fiber = *iter;
+            boost::fibers::fiber& fiber = *iter;
             if( fiber.joinable() )
             {
                 fiber.join();

@@ -94,6 +94,15 @@ struct CpuInfo
         return result;
     }
 
+    static size_t GetLargePageSize()
+    {
+#if TOOLCHAIN_GCC
+        return (size_t) sysconf( _SC_PAGESIZE );
+#elif TOOLCHAIN_MSVC
+        return (size_t) GetLargePageMinimum();
+#endif
+    }
+
     static INLINE u64 GetClockTick()
     { 
     #if TOOLCHAIN_GCC
