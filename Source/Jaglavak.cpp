@@ -5,7 +5,6 @@
 #include "Common.h"
 #include "UciEngine.h"
 #include "Version.h"
-#include "boost/fiber/all.hpp"
 
 int main( int argc, char** argv )
 {

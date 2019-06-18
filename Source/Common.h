@@ -43,6 +43,7 @@ using std::endl;
 #include "PlayoutParams.h"
 #include "PlayoutBatch.h"
 #include "AsyncWorker.h"
+#include "Fibers.h"
 #include "TreeNode.h"
 #include "TreeSearch.h"
 
