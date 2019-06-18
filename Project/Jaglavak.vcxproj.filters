@@ -93,9 +93,6 @@
     <ClInclude Include="..\Source\TreeSearch\ScoreCard.h">
       <Filter>TreeSearch</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\TreeNode.h">
-      <Filter>TreeSearch</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\TreeSearch\TreeSearch.h">
       <Filter>TreeSearch</Filter>
     </ClInclude>
@@ -114,15 +111,21 @@
     <ClInclude Include="..\Source\SIMD\SSE4.h">
       <Filter>CPU</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Util\FiberSet.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\Tree.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\SearchThread.h">
+      <Filter>TreeSearch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
     <ClCompile Include="..\Source\CUDA\CudaWorker.cpp">
       <Filter>CUDA</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\TreeSearch\TreeNode.cpp">
-      <Filter>TreeSearch</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp">
       <Filter>TreeSearch</Filter>
@@ -152,6 +155,12 @@
       <Filter>TreeSearch</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\OpenCL.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\Expansion.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\Tree.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />

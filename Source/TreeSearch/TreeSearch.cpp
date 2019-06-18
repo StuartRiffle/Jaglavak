@@ -9,7 +9,7 @@
 #include "SIMD/SimdWorker.h"
 #include "CUDA/CudaWorker.h"
 
-TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) : 
+TreeSearch::TreeSearch( GlobalOptions* options ) : 
     _Options( options )
 {
     _SearchRoot = NULL;
@@ -17,23 +17,13 @@ TreeSearch::TreeSearch( GlobalOptions* options, u64 randomSeed ) :
     _SearchingNow = false;
     _NumPending = 0;
 
-    _Random.SetSeed( randomSeed );
+    u64 seed = CpuInfo::GetClockTick();
+    if( _Options->FixedRandomSeed )
+        seed = _Options->FixedRandomSeed;
 
-    _NodePoolEntries = _Options->_MaxTreeNodes;
-    _NodePoolBuf.resize( _NodePoolEntries * sizeof( TreeNode ) + SIMD_ALIGNMENT );
-    _NodePool = (TreeNode*) (((uintptr_t) _NodePoolBuf.data() + SIMD_ALIGNMENT - 1) & ~(SIMD_ALIGNMENT - 1));
+    _Random.SetSeed( seed );
 
-    for( int i = 0; i < _NodePoolEntries; i++ )
-    {
-        _NodePool[i]._Prev = &_NodePool[i - 1];
-        _NodePool[i]._Next = &_NodePool[i + 1];
-    }
-
-    _NodePool[0]._Prev = (TreeNode*) &_MruListHead;
-    _MruListHead._Next = &_NodePool[0];
-
-    _NodePool[_NodePoolEntries - 1]._Next = (TreeNode*) &_MruListHead;
-    _MruListHead._Prev = &_NodePool[_NodePoolEntries - 1];
+    CreateNodePool();
 
     this->Reset();
 }
@@ -67,8 +57,8 @@ void TreeSearch::Init()
         }
     }
 
-    _SearchThread  = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
-    _SearchThreadIsIdle.Wait();
+    
+    //_SearchThreadIsIdle.Wait();
 }
 
 void TreeSearch::Reset()
@@ -92,199 +82,58 @@ TreeSearch::~TreeSearch()
     _ShuttingDown = true;
     this->StopSearching();
 
-    _DoneQueue.Terminate();
-    _WorkQueue.Terminate();
+    _BatchQueue.Terminate();
     _AsyncWorkers.clear();
-
-    _SearchThreadWakeUp.Post();
-    _SearchThread->join();
-}
-                                         
-void TreeSearch::MoveToFront( TreeNode* node )
-{
-    TreeNode* oldFront = _MruListHead._Next;
-
-    assert( node->_Next->_Prev == node );
-    assert( node->_Prev->_Next == node );
-    assert( oldFront->_Prev == (TreeNode*) &_MruListHead );
-
-    node->_Next->_Prev = node->_Prev;
-    node->_Prev->_Next = node->_Next;
-
-    node->_Next = _MruListHead._Next;
-    node->_Next->_Prev = node;
-
-    node->_Prev = (TreeNode*) &_MruListHead;
-    node->_Prev->_Next = node;
-
-    assert( _MruListHead._Next == node );
 }
 
-TreeNode* TreeSearch::AllocNode()
-{
-    TreeNode* node = _MruListHead._Prev;
-
-    node->Clear();
-    MoveToFront( node );
-
-    _Metrics._NumNodesCreated++;
-    return node;
-}
-
-void TreeSearch::CreateNewNode( MoveList& pathFromRoot, TreeNode* node, int branchIdx )
-{
-    TreeNode* newNode = AllocNode();
-    assert( newNode != node );
-
-    BranchInfo* chosenBranch = &node->_Branch[branchIdx];
-
-    MoveToFront( node );
-
-    MoveMap newMap;
-    Position newPos = node->_Pos;
-    newPos.Step( chosenBranch->_Move, &newMap );
-
-    newNode->InitPosition( newPos, newMap, chosenBranch ); 
-    this->CalculatePriors( newNode, pathFromRoot );
-
-    chosenBranch->_Node = newNode;
-}
-
-
-
-void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList )
+void TreeSearch::StartSearching()
 {
     this->StopSearching();
 
-    // TODO: recognize position and don't terf the whole tree
-
-    Position pos = startPos;
-
-    if( moveList )
-        for( int i = 0; i < moveList->_Count; i++ )
-            pos.Step( moveList->_Move[i] );
-
-    MoveMap moveMap;
-    pos.CalcMoveMap( &moveMap );
-
-    if( _SearchRoot )
-        _SearchRoot->_Info = NULL;
-
-    _SearchRoot = AllocNode();
-    _SearchRoot->InitPosition( pos, moveMap );
-
-    _SearchRoot->_Info = &_RootInfo;
-    _RootInfo._Node = _SearchRoot;
+    _SearchTimer.Reset();
+    _SearchThread  = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
 }
-
-
-
-
-
-ScoreCard TreeSearch::ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch )
+                                         
+void TreeSearch::StopSearching()
 {
-    MoveToFront( node );
-
-    if( node->_GameOver )
-        return( node->_GameResult );
-
-    int numUnexpanded = 0;
-    for( int i = 0; i < (int) node->_Branch.size(); i++ )
-        if( node->_Branch[i]._Node == NULL )
-            numUnexpanded++;
-
-    if( numUnexpanded > 0 )
+    if( _SearchThread )
     {
-        ScoreCard totalScore;
+        _SearchExit = true;
+        _SearchThread->join();
 
-        int numToExpand = numUnexpanded;
-        if( _Options->_MaxBranchExpansion )
-            if( numToExpand > _Options->_MaxBranchExpansion )
-                numToExpand = _Options->_MaxBranchExpansion;
-
-        Position ALIGN_SIMD pos[MAX_POSSIBLE_MOVES];
-
-        for( int i = 0; i < numToExpand; i++ )
-        {
-            int expansionBranchIdx = SelectNextBranch( node );
-            BranchInfo* expansionBranch = &node->_Branch[expansionBranchIdx];
-
-            assert( expansionBranch->_Node == NULL );
-
-            MoveList pathToBranch = pathFromRoot;
-            pathToBranch.Append( expansionBranch->_Move );
-
-            this->CreateNewNode( pathToBranch, node, expansionBranchIdx );
-
-            _DeepestLevelSearched = Max( _DeepestLevelSearched, pathFromRoot._Count );
-
-            if( _SearchParams._InitialPlayouts )
-                pos[i] = expansionBranch->_Node->_Pos;
-
-            if( _SearchParams._AsyncPlayouts )
-            {
-                batch->Append( expansionBranch->_Node->_Pos, pathToBranch );
-
-                // IMPORTANT
-                // FIXME: explain why
-                totalScore._Plays += _SearchParams._AsyncPlayouts;
-            }
-        }
-
-        if( _SearchParams._InitialPlayouts )
-        {
-            PlayoutParams playoutParams = batch->_Params;
-            playoutParams._NumGamesEach = _SearchParams._InitialPlayouts;
-
-            ScoreCard scores[MAX_POSSIBLE_MOVES];
-            PlayGamesSimd( _Options, &playoutParams, pos, scores, numToExpand );
-
-            for( int i = 0; i < numToExpand; i++ )
-                totalScore.Add( scores[i] );
-        }
-
-        return totalScore;
+        _SearchExit = false;
+        _SearchThread = NULL;
     }
-
-    int chosenBranchIdx = SelectNextBranch( node );
-    BranchInfo* chosenBranch = &node->_Branch[chosenBranchIdx];
- 
-    ScoreCard branchScores = ExpandAtLeaf( pathFromRoot, chosenBranch->_Node, batch );
-    chosenBranch->_Scores.Add( branchScores );
-
-    MoveToFront( node );
-
-    return branchScores;
 }
 
-
-
-
-
-
-BatchRef TreeSearch::CreateNewBatch()
+void Search::SearchThread()
 {
-    BatchRef batch( new PlayoutBatch() );
+    FiberSet fibers;
 
-    batch->_Params._RandomSeed      = _Random.GetNext();
-    batch->_Params._NumGamesEach    = _Options->_NumAsyncPlayouts;
-    batch->_Params._MaxMovesPerGame = _Options->_MaxPlayoutMoves;
-    batch->_Params._EnableMulticore = _Options->_EnableMulticore;
-
-    for( ;; )
+    while( !_SearchExit )
     {
-        MoveList pathFromRoot;
-        ScoreCard rootScores = this->ExpandAtLeaf( pathFromRoot, _SearchRoot, batch );
-        _SearchRoot->_Info->_Scores.Add( rootScores );
-
-        if( _SearchParams._AsyncPlayouts == 0 )
+        if( IsTimeToMove() )
             break;
 
-        if( batch->GetCount() >= _SearchParams._BatchSize )
-            break;
-    }
+        for( auto& worker : _AsyncWorkers )
+            worker->Update();
 
-    return batch;
+        fibers.Update();
+
+        if( fibers.GetNumRunning() < _Options->MaxSearchFibers )
+            fibers.Spawn( [&]() { this->SearchFiber(); } );            
+    } 
 }
+
+void Search::SearchFiber()
+{
+    ScoreCard rootScores = this->ExpandAtLeaf( _SearchRoot );
+    _SearchRoot->_Info->_Scores.Add( rootScores );
+}
+
+
+
+
+
 
 

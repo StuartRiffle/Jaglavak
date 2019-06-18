@@ -18,14 +18,6 @@ struct UciSearchConfig
     void Clear()        { memset( this, 0, sizeof( *this ) ); }
 };
 
-struct TreeSearchParameters
-{
-    int         _BatchSize;
-    int         _MaxPending;
-    int         _InitialPlayouts;
-    int         _AsyncPlayouts;
-};
-
 struct TreeSearchMetrics
 {
     u64         _NumBatchesMade;
@@ -46,31 +38,20 @@ struct TreeSearchMetrics
     }
 };
 
-struct TreeSearch
+
+class TreeSearch
 {
     GlobalOptions*          _Options;
-    UciSearchConfig         _UciConfig;
-    TreeSearchParameters    _SearchParams;
     RandomGen               _Random;
+    unique_ptr< Tree >      _Tree;
 
-    vector< uint8_t >       _NodePoolBuf;
-    TreeNode*               _NodePool;
-    size_t                  _NodePoolEntries;
-
-    TreeLink                _MruListHead;
-    TreeNode*               _SearchRoot;
-    BranchInfo              _RootInfo;
     MoveList                _GameHistory;
 
-    BatchQueue              _WorkQueue;
-    BatchQueue              _DoneQueue;
-    int                     _NumPending;
+    BatchQueue              _BatchQueue;
+    BatchRef                _Batch;
 
     unique_ptr< thread >    _SearchThread;
-    Semaphore               _SearchThreadWakeUp;
-    Semaphore               _SearchThreadIsIdle;
-    volatile bool           _SearchingNow;
-    volatile bool           _ShuttingDown;
+    volatile bool           _SearchExit;
 
     Timer                   _SearchTimer;
     Timer                   _UciUpdateTimer;
@@ -111,7 +92,7 @@ struct TreeSearch
 
 public:
 
-    TreeSearch( GlobalOptions* options, u64 randomSeed = 0 );
+    TreeSearch( GlobalOptions* options, u64 randomSeed = 1 );
     ~TreeSearch();
 
     void Init();

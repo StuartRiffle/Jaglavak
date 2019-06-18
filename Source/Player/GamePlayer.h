@@ -107,106 +107,10 @@ protected:
 
     PDECL MoveSpec SelectRandomMove( const Position& pos, const MoveMap& moveMap )
     {
-        u64 rseed = _Random.s;
-
         MoveList moveList;
-        MoveMap sparseMap;
-        u64* buf = (u64*) &sparseMap;
-
-        // All the fields in the MoveMap (up to _CheckMask) represent (potential) moves as bits
-
-        const int count = (int) offsetof( MoveMap, _CheckMask ) / sizeof( u64 );
-        sparseMap = moveMap;
-
-        // Choose a lucky random bit (move) to keep
-
-        u64 total = 0;
-        for( int i = 0; i < count; i++ )
-            total += PlatCountBits64( buf[i] );
-
-        assert( total > 0 );
-        u64 bitsToSkip = _Random.GetRange( total );
-
-        // Find out which word it's in
-
-        int word = 0;
-        while( word < count )
-        {
-            u64 bits = PlatCountBits64( buf[word] );
-            if( bits > bitsToSkip )
-                break;
-
-            bitsToSkip -= bits;
-            buf[word++] = 0;
-        }
-
-        // Identify the bit and clear the rest
-
-        u64 wordVal = buf[word];
-        u64 destIdx = LowestBitIndex( wordVal );
-        while( bitsToSkip-- )
-        {
-            wordVal = ClearLowestBit( wordVal );
-            destIdx = LowestBitIndex( wordVal );
-        }
-
-        bool isSlidingMove = word < offsetof( MoveMap, _KnightMovesNNW );
-        if( isSlidingMove )
-        {
-            assert( buf[word] & SquareBit( destIdx ) );
-            int dir = word;
-
-            static int shiftForDir[] =
-            {
-                SHIFT_N,
-                SHIFT_NW,
-                SHIFT_W,
-                SHIFT_SW,
-                SHIFT_S,
-                SHIFT_SE,
-                SHIFT_E,
-                SHIFT_NE
-            };
-
-            u64 mask = SquareBit( destIdx );
-            for( int i = 0; i < 7; i++ )
-            {
-                mask |= SignedShift( mask,  shiftForDir[dir] );
-                mask |= SignedShift( mask, -shiftForDir[dir] );
-            }
-
-            assert( buf[dir] & mask );
-            buf[dir] &= mask;
-        }
-
-
-        word++;
-        while( word < count )
-            buf[word++] = 0;
-
-        moveList.UnpackMoveMap( pos, sparseMap );
-
-        static u64 sCounts[MAX_POSSIBLE_MOVES] = { 0 };
-        //sCounts[moveList._Count]++;
-
-        for( int i = 0; i < moveList._Count; i++ )
-        { 
-            if( moveList._Move[i]._Dest == destIdx )
-            {
-                sCounts[moveList._Count]++;
-                return moveList._Move[i];
-            }
-        }
-
-        // The bit we chose is not a valid destination (maybe the move
-        // would leave the king in check). So 
-
-        if( moveList._Count == 0 )
-            moveList.UnpackMoveMap( pos, moveMap );
-
-        sCounts[moveList._Count]++;
-
+        moveList.UnpackMoveMap( pos, moveMap );
         assert( moveList._Count > 0 );
+
         u64 idx = _Random.GetRange( moveList._Count );
         return moveList._Move[idx];
     }

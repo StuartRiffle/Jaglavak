@@ -33,12 +33,14 @@
     <ClInclude Include="..\Source\TreeSearch\PlayoutBatch.h" />
     <ClInclude Include="..\Source\TreeSearch\PlayoutParams.h" />
     <ClInclude Include="..\Source\TreeSearch\ScoreCard.h" />
-    <ClInclude Include="..\Source\TreeSearch\TreeNode.h" />
+    <ClInclude Include="..\Source\TreeSearch\SearchThread.h" />
+    <ClInclude Include="..\Source\TreeSearch\Tree.h" />
     <ClInclude Include="..\Source\TreeSearch\TreeSearch.h" />
     <ClInclude Include="..\Source\UciEngine.h" />
     <ClInclude Include="..\Source\Util\Allocator.h" />
     <ClInclude Include="..\Source\Util\CpuInfo.h" />
     <ClInclude Include="..\Source\Util\FEN.h" />
+    <ClInclude Include="..\Source\Util\FiberSet.h" />
     <ClInclude Include="..\Source\Util\Perft.h" />
     <ClInclude Include="..\Source\Util\PidController.h" />
     <ClInclude Include="..\Source\Util\Queue.h" />
@@ -60,9 +62,10 @@
       <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PreprocessToFile>
     </ClCompile>
     <ClCompile Include="..\Source\TreeSearch\BranchSelection.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\Expansion.cpp" />
     <ClCompile Include="..\Source\TreeSearch\SearchThread.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TimeControl.cpp" />
-    <ClCompile Include="..\Source\TreeSearch\TreeNode.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\Tree.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp" />
     <ClCompile Include="..\Source\TreeSearch\UciStatus.cpp" />
     <ClCompile Include="..\Source\UciEngine.cpp" />
