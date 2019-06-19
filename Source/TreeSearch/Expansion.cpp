@@ -47,7 +47,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
             _Batch->_Position.push_back( expansionBranch[i]->_Node->Pos );
         }
 
-        BatchRef ourBatch = _Batch;
+        BatchRef ourBatch = _Batch; // This might change
 
         if( (_Batch->_Position.size() >= _Options->_BatchSize) || _Options->FlushEveryBatch )
             this->FlushBatch();

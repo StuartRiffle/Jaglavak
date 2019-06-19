@@ -1,38 +1,11 @@
 // WIP
 #pragma once
 
-
-struct LargePage
-{
-    void* _Ptr;
-    size_t _Size;
-
-    LargePageAlloc( size_t size ) : _Size( size )
-    {
-#if TOOLCHAIN_GCC
-        _Ptr = mmap( NULL, _Size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0 );
-#elif TOOLCHAIN_MSVC
-        _Ptr = VirtualAlloc( NULL, _Size, MEM_RESERVE | MEM_COMMIT | MEM_LARGE_PAGES, PAGE_READWRITE );
-#else
-        _Ptr = memalign( _Size, _Size );
-#endif
-    }
-
-    ~HugePage()
-    {
-#if TOOLCHAIN_GCC
-        munmap( _Ptr, _Size );
-#elif TOOLCHAIN_MSVC
-        VirtualFree( _Ptr );
-#else
-        free( _Ptr );
-#endif
-    }
-};
-
 class SmallBlockAllocator
 {
-    list< HugePage >  _Pages;
+    list< HugeBuffer >  _Pages;
+    size_t _PageSize;
+    
     vector< addr_t* > _FreeBlocks;
 
     SmallBlockAllocator()
