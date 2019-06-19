@@ -7,10 +7,10 @@
 #include "CpuInfo.h"
 #include "FEN.h"
 #include "Tokenizer.h"
-#include "UciEngine.h"
+#include "UciInterface.h"
 #include "Version.h"
 
-UciEngine::UciEngine() : _DebugMode( false ) 
+UciInterface::UciInterfamce() : _DebugMode( false ) 
 {
     this->SetDefaultOptions();
 
@@ -22,7 +22,7 @@ UciEngine::UciEngine() : _DebugMode( false )
     _Searcher->Init();
 }
 
-const UciOptionInfo* UciEngine::GetOptionInfo()
+const UciOptionInfo* UciInterface::GetOptionInfo()
 {
     #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _##_FIELD ) / sizeof( int )), #_FIELD
 
@@ -58,13 +58,13 @@ const UciOptionInfo* UciEngine::GetOptionInfo()
 }
 
 
-void UciEngine::SetDefaultOptions()
+void UciInterface::SetDefaultOptions()
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->_Index >= 0; info++ )
         _Options._Option[info->_Index] = info->_Value;
 }
 
-void UciEngine::SetOptionByName( const char* name, int value )
+void UciInterface::SetOptionByName( const char* name, int value )
 {
     for( const UciOptionInfo* info = GetOptionInfo(); info->_Index >= 0; info++ )
     {
@@ -76,7 +76,7 @@ void UciEngine::SetOptionByName( const char* name, int value )
     }
 }
 
-bool UciEngine::ProcessCommand( const char* cmd )
+bool UciInterface::ProcessCommand( const char* cmd )
 {
     if( _DebugMode )
         printf(">>> %s\n", cmd);
@@ -88,7 +88,6 @@ bool UciEngine::ProcessCommand( const char* cmd )
         cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
         cout << "id author Stuart Riffle" << endl << endl;
 
-        /*
         const UciOptionInfo* option = this->GetOptionInfo();
         while( option->_Index >= 0 )
         {
@@ -99,8 +98,7 @@ bool UciEngine::ProcessCommand( const char* cmd )
 
             option++;
         }
-        */
-
+        
         _Searcher->Reset();
         cout << "uciok" << endl;
     }

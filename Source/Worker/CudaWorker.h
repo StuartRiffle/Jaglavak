@@ -49,7 +49,12 @@ public:
     CudaWorker( const GlobalOptions* options, BatchQueue* queue );
     ~CudaWorker();
 
-    static int GetDeviceCount();
+    static int CudaWorker::GetDeviceCount()
+    {
+        int count = 0;
+        auto res = cudaGetDeviceCount( &count );
+        return( count );
+    }
 
     const cudaDeviceProp& GetDeviceProperties() { return _Prop; }
     bool Initialize( int deviceIndex );

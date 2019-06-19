@@ -47,4 +47,4 @@ private:
     }
 };
 
-#define YIELD_FIBER() boost::this_fiber::yield()
+#define FIBER_YIELD() boost::this_fiber::yield()
