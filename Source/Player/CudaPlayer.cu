@@ -13,7 +13,10 @@ __global__ void PlayGamesCuda( const PlayoutParams* params, const Position* pos,
     int salt = x;
     GamePlayer< u64 > player( params + idx, salt );
 
+    ScoreCard scores;
     player.PlayGames( pos + idx, dest + idx, 1 );
+
+    dest[idx]._P
 }
 
 void PlayGamesCudaAsync( 

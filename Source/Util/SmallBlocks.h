@@ -32,7 +32,9 @@ struct HugePageAlloc
 
 class SmallBlockAllocator
 {
-    list< HugePage >  _Pages;
+    list< HugeBuffer >  _Pages;
+    size_t _PageSize;
+    
     vector< addr_t* > _FreeBlocks;
 
     SmallBlockAllocator()

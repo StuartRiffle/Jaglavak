@@ -1,4 +1,5 @@
-
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
+#pragma once
 
 static void PlayGamesCpu( const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {

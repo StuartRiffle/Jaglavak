@@ -13,7 +13,7 @@ int main( int argc, char** argv )
         VERSION_MINOR << "." << 
         VERSION_PATCH << endl;
 
-    unique_ptr< UciEngine > engine( new UciEngine() );
+    unique_ptr< UciInterface > engine( new UciInterface() );
     engine->ProcessCommand( "position startpos" );
     engine->ProcessCommand( "go" );
 

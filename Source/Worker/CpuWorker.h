@@ -8,11 +8,12 @@ class CpuWorker : public AsyncWorker
     const GlobalOptions*    _Options;
     BatchQueue*             _BatchQueue;
     volatile bool           _TimeToExit;
+    
     list< unique_ptr< thread > > _WorkThreads;
 
 public:
 
-    SimdWorker( const GlobalOptions* options, BatchQueue* batchQueue )
+    CpuWorker( const GlobalOptions* options, BatchQueue* batchQueue )
     {
         _Options = options;
         _BatchQueue = batchQueue;
@@ -23,7 +24,6 @@ public:
     {
         cout << "CPU: " << CpuInfo::GetCpuName() << endl;
         cout << "  Cores    " << CpuInfo::DetectCpuCores() << endl;
-        cout << "  Sockets  " << "2" << endl; // FIXME
         cout << "  SIMD     " << CpuInfo::DetectSimdLevel() << "x (" << simdName << ")" << endl << endl;
 
         for( int i = 0; i < _Options->_CpuWorkThreads; i++ )
@@ -35,7 +35,7 @@ public:
     ~SimdWorker()
     {
         _TimeToExit = true;
-        _Queue->NotifyAll();
+        _Queue->NotifyAllWaiters();
 
         for( auto& thread : _WorkThreads )
             thread->join();
@@ -51,7 +51,7 @@ private:
                 break;
 
             int count = (int) batch->_Position.size();
-            batch->_GameResults.resize( count + SIMD_MAX );
+            batch->_GameResults.resize( count + SIMD_MAX - 1 );
 
             PlayGamesSimd( 
                 _Options, 

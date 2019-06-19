@@ -21,23 +21,13 @@ CudaWorker::~CudaWorker()
     this->Shutdown();
 }
 
-// static
-int CudaWorker::GetDeviceCount()
-{
-    int count = 0;
-    auto res = cudaGetDeviceCount( &count );
-    return( count );
-}
-
-
-
 bool CudaWorker::Initialize( int deviceIndex  )
 {
     _DeviceIndex = deviceIndex;
     _StreamIndex = 0;
 
     cudaError_t status = cudaGetDeviceProperties( &_Prop, _DeviceIndex );
-    if( status != cudaSuccess )
+K    if( status != cudaSuccess )
         return false;
 
     CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
@@ -170,11 +160,9 @@ void CudaWorker::LaunchThread()
 
 void CudaWorker::Update() 
 {
+    // This is called from the main thread to process completed batches
+    
     unique_lock< mutex > lock( _Mutex );
-
-    // This is called from the main thread to handle completed batches
-
-    vector< BatchRef > completed;
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
     {
