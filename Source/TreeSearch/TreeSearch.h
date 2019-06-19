@@ -41,66 +41,69 @@ struct TreeSearchMetrics
 
 class TreeSearch
 {
-    GlobalOptions*          _Options;
-    RandomGen               _Random;
-    unique_ptr< Tree >      _Tree;
-
-    MoveList                _GameHistory;
-
+    GlobalOptions*          _Options = NULL;
+    RandomGen               _RandomGen;
     BatchQueue              _BatchQueue;
     BatchRef                _Batch;
 
-    unique_ptr< thread >    _SearchThread;
-    volatile bool           _SearchExit;
+    Position                _Position;
+    MoveList                _GameHistory;
 
+    UciSearchConfig         _UciConfig = {};
+    unique_ptr< SearchTree > _SearchTree;
+    unique_ptr< thread >    _SearchThread;
+    volatile bool           _SearchExit = false;
     Timer                   _SearchTimer;
+
     Timer                   _UciUpdateTimer;
-    int                     _DeepestLevelSearched;
+    int                     _DeepestLevelSearched = 0;
     TreeSearchMetrics       _Metrics;
     TreeSearchMetrics       _SearchStartMetrics;
     TreeSearchMetrics       _StatsStartMetrics;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
-    vector< AsyncWorkerRef > _AsyncWorkers;
+    vector< AsyncWorkerRef > _Workers;
 
-    TreeNode* AllocNode();
-    void MoveToFront( TreeNode* node );
+    void SearchThread();
+    void SearchFiber();
+    void FlushBatch();
+
+    // BranchSelection.cpp
 
     double CalculateUct( TreeNode* node, int childIndex );
-    void CalculatePriors( TreeNode* node, MoveList& pathFromRoot );
+    int GetRandomUnexploredBranch( TreeNode* node );
     int SelectNextBranch( TreeNode* node );
-    ScoreCard PlayBranchGames( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );
-    void CreateNewNode( MoveList& pathFromRoot, TreeNode* node, int branchIdx );
-    ScoreCard ExpandAtLeaf( MoveList& pathFromRoot, TreeNode* node, BatchRef batch );
 
-    void DeliverScores( TreeNode* node, MoveList& pathFromRoot, const ScoreCard& score, int depth = 0 );
-    void ProcessScoreBatch( BatchRef& batch );
+    // PriorEstimation.cpp
 
-    BatchRef CreateNewBatch();
-    void DumpStats( TreeNode* node );
+    void EstimatePriors( TreeNode* node );
+
+    // Expansion.cpp
+
+    ScoreCard ExpandAtLeaf( TreeNode* node );
+
+    // TimeControl.cpp
 
     bool IsTimeToMove();
-    void ProcessIncomingScores();
-    void UpdateAsyncWorkers();
-    void AdjustForWarmup();
-    void SearchThread();
 
-    int GetRandomUnexploredBranch( TreeNode* node );
-    MoveSpec SendUciStatus();
+    // UciStatus.cpp
+
     void ExtractBestLine( TreeNode* node, MoveList* dest );
     int EstimatePawnAdvantageForMove( const MoveSpec& spec );
+    MoveSpec SendUciStatus();
 
 public:
 
-    TreeSearch( GlobalOptions* options, u64 randomSeed = 1 );
+    TreeSearch( GlobalOptions* options );
     ~TreeSearch();
 
     void Init();
     void Reset();
     void SetPosition( const Position& pos, const MoveList* moveList = NULL );
-    void SetUciSearchConfig( const UciSearchConfig& config );
     void StartSearching();
     void StopSearching();
+
+    void SetUciSearchConfig( const UciSearchConfig& config ) { _UciConfig = config; }
 };
 
 

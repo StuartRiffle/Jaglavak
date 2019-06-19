@@ -12,8 +12,6 @@ struct HugeBuffer
         _Ptr = mmap( NULL, _Size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0 );
 #elif TOOLCHAIN_MSVC
         _Ptr = VirtualAlloc( NULL, _Size, MEM_RESERVE | MEM_COMMIT | MEM_LARGE_PAGES, PAGE_READWRITE );
-#else
-        _Ptr = malloc( _Size );
 #endif
     }
 
@@ -22,9 +20,8 @@ struct HugeBuffer
 #if TOOLCHAIN_GCC
         munmap( _Ptr, _Size );
 #elif TOOLCHAIN_MSVC
-        VirtualFree( _Ptr );
-#else
-        free( _Ptr );
+        VirtualFree( _Ptr, 0, MEM_RELEASE );
 #endif
     }
 };
+

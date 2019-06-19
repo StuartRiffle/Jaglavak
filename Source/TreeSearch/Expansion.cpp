@@ -1,10 +1,15 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
+#include "Platform.h"
+#include "Chess.h"
+#include "Common.h"
+#include "TreeSearch.h"
+
 ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
 {
-    TreeNode::RefScope( node );
+    TreeNode::RefScope protect( node );
 
-    MoveToFront( node );
+    _SearchTree->Touch( node );
 
     if( node->_GameOver )
         return( node->_GameResult );
@@ -18,16 +23,16 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
     {
         ScoreCard totalScore;
 
-        int count = numUnexpanded;
-        if( _Options->_MaxBranchExpansion )
-            count = CLAMP( count, _Options->_MaxBranchExpansion );
+        int count = unexpanded;
+        if( _Options->_BranchesToExpand )
+            count = MAX( count, _Options->_BranchesToExpand );
 
         if( !_Batch )
         {
-            _Batch = new PlayoutBatch();
+            _Batch = BatchRef( new PlayoutBatch() );
 
-            _Batch->_Params._RandomSeed      = _Random.GetNext();
-            _Batch->_Params._NumGamesEach    = _Options->_NumAsyncPlayouts;
+            _Batch->_Params._RandomSeed      = _RandomGen.GetNext();
+            _Batch->_Params._NumGamesEach    = _Options->_NumPlayouts;
             _Batch->_Params._MaxMovesPerGame = _Options->_MaxPlayoutMoves;
             _Batch->_Params._EnableMulticore = _Options->_EnableMulticore;
         }
@@ -39,28 +44,34 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
         {
             int expansionBranchIdx = SelectNextBranch( node );
             expansionBranch[i] = &node->_Branch[expansionBranchIdx];
+
             assert( expansionBranch[i]->_Node == NULL );
+            TreeNode* newNode = _SearchTree->CreateBranch( node, expansionBranchIdx );
+            assert( expansionBranch[i]->_Node == newNode );
 
-            this->CreateNewNode( node, expansionBranchIdx );
-
-            assert( expansionBranch[i]->_Node != NULL );
-            _Batch->_Position.push_back( expansionBranch[i]->_Node->Pos );
+            _Batch->_Position.push_back( newNode->_Pos );
         }
 
-        BatchRef ourBatch = _Batch; // This might change
+        BatchRef ourBatch = _Batch;
 
-        if( (_Batch->_Position.size() >= _Options->_BatchSize) || _Options->FlushEveryBatch )
+        if( (_Batch->_Position.size() >= _Options->_BatchSize) || _Options->_FlushEveryBatch )
             this->FlushBatch();
 
         while( !ourBatch->_Done )
-            YIELD_FIBER();
+        {
+            ourBatch->_YieldCounter++;
 
-        assert( batch->_GameResults.size() >= (offset + count) );
+            // -----------------------------------------------------------------------------------
+            FIBER_YIELD();
+            // -----------------------------------------------------------------------------------
+        }
+
+        assert( ourBatch->_GameResults.size() >= (offset + count) );
 
         for( int i = 0; i < count; i++ )
         {
-            ScoreCard& results = batch->_GameResults[offset + i];
-            assert( results._Plays == _Batch->_Params._NumGamesEach );
+            ScoreCard& results = ourBatch->_GameResults[offset + i];
+            assert( results._Plays == ourBatch->_Params._NumGamesEach );
 
             expansionBranch[i]->_Scores.Add( results );
             totalScore.Add( results );
@@ -77,7 +88,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
     ScoreCard branchScores = ExpandAtLeaf( chosenBranch->_Node );
     chosenBranch->_Scores.Add( branchScores );
 
-    MoveToFront( node );
+    _SearchTree->Touch( node );
 
     return branchScores;
 }

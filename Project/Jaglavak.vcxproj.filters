@@ -4,17 +4,17 @@
     <Filter Include="Chess">
       <UniqueIdentifier>{7a0668f8-ee1e-4359-9a56-6bed5451038d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CUDA">
-      <UniqueIdentifier>{0ec58702-a008-4e18-adad-835b0576a7e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TreeSearch">
       <UniqueIdentifier>{786503bf-7523-4803-85d3-da80227a7673}</UniqueIdentifier>
     </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{adbe6f83-e3b1-4ca7-a0e9-78375f38ed31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CPU">
-      <UniqueIdentifier>{99c19bad-987c-4fcc-bfff-87b193118208}</UniqueIdentifier>
+    <Filter Include="Player">
+      <UniqueIdentifier>{c09a1a41-5292-4373-a1e6-c97cc8791ceb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Worker">
+      <UniqueIdentifier>{ae754951-e23d-446d-a781-b1d0f3faca5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,14 +40,7 @@
     <ClInclude Include="..\Source\Common.h" />
     <ClInclude Include="..\Source\GlobalOptions.h" />
     <ClInclude Include="..\Source\Platform.h" />
-    <ClInclude Include="..\Source\UciEngine.h" />
     <ClInclude Include="..\Source\Version.h" />
-    <ClInclude Include="..\Source\CUDA\CudaSupport.h">
-      <Filter>CUDA</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\CUDA\CudaWorker.h">
-      <Filter>CUDA</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Util\Allocator.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -69,83 +62,74 @@
     <ClInclude Include="..\Source\Util\Random.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Util\ThreadSync.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Util\Timer.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Util\Tokenizer.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\AsyncWorker.h">
-      <Filter>TreeSearch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\GamePlayer.h">
-      <Filter>TreeSearch</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\TreeSearch\PlayoutBatch.h">
-      <Filter>TreeSearch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\PlayoutParams.h">
-      <Filter>TreeSearch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\ScoreCard.h">
       <Filter>TreeSearch</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\TreeSearch\TreeSearch.h">
       <Filter>TreeSearch</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\SIMD\AVX2.h">
-      <Filter>CPU</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\SIMD\AVX512.h">
-      <Filter>CPU</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\SIMD\SimdPlayer.h">
-      <Filter>CPU</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\SIMD\SimdWorker.h">
-      <Filter>CPU</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\SIMD\SSE4.h">
-      <Filter>CPU</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Util\FiberSet.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\Tree.h">
+    <ClInclude Include="..\Source\Util\HugeBuffer.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\SmallBlocks.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\AVX2.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\AVX512.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\CpuPlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\CudaPlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\GamePlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\PlayoutParams.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\ScoreCard.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player\SSE4.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Worker\AsyncWorker.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Worker\CpuWorker.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Worker\CudaSupport.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Worker\CudaWorker.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TreeSearch\SearchTree.h">
       <Filter>TreeSearch</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\TreeSearch\SearchThread.h">
-      <Filter>TreeSearch</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Source\UciInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
-    <ClCompile Include="..\Source\UciEngine.cpp" />
-    <ClCompile Include="..\Source\CUDA\CudaWorker.cpp">
-      <Filter>CUDA</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\SIMD\AVX2.cpp">
-      <Filter>CPU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\SIMD\AVX512.cpp">
-      <Filter>CPU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\SIMD\SSE4.cpp">
-      <Filter>CPU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\SIMD\X64.cpp">
-      <Filter>CPU</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\TreeSearch\BranchSelection.cpp">
-      <Filter>TreeSearch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\TreeSearch\SearchThread.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\TreeSearch\TimeControl.cpp">
@@ -158,17 +142,34 @@
     <ClCompile Include="..\Source\TreeSearch\Expansion.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\TreeSearch\Tree.cpp">
+    <ClCompile Include="..\Source\Player\AVX2.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player\AVX512.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player\SSE4.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player\X64.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Worker\CudaWorker.cpp">
+      <Filter>Worker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TreeSearch\SearchTree.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\UciInterface.cpp" />
+    <ClCompile Include="..\Source\GlobalOptions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\DefaultSettings.json" />
     <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="..\Source\CUDA\CudaPlayer.cu">
-      <Filter>CUDA</Filter>
+    <CudaCompile Include="..\Source\Player\CudaPlayer.cu">
+      <Filter>Player</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>

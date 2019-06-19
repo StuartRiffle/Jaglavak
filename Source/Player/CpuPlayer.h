@@ -3,7 +3,7 @@
 
 static void PlayGamesCpu( const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
-    int simdLevel = options->_DetectedSimdLevel;
+    int simdLevel = CpuInfo::GetSimdLevel();
 
     if( !options->_EnableSimd )
         simdLevel = 1;
@@ -12,6 +12,8 @@ static void PlayGamesCpu( const GlobalOptions* options, const PlayoutParams* par
         simdLevel = options->_ForceSimdLevel;
 
     int simdCount = (count + simdLevel - 1) / simdLevel;
+
+    assert( simdCount * simdLevel == count );
 
     extern void PlayGamesAVX512( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
     extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );

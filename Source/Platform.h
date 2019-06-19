@@ -8,16 +8,15 @@
 #include <omp.h>
 #include <cuda_runtime_api.h>
 
-#ifndef NDEBUG
-#define DEBUG (1)
+#ifdef NDEBUG
+    #define RELEASE (1)
+#else
+    #define DEBUG (1)
 #endif
 
 #ifndef ENABLE_POPCNT
 #define ENABLE_POPCNT (0)
 #endif
-
-#define SIMD_WIDEST    (8)
-#define SIMD_ALIGNMENT (SIMD_WIDEST * sizeof( uint64_t ))
 
 #if defined( __CUDA_ARCH__ )
 
@@ -100,6 +99,13 @@ typedef uint16_t u16;
 typedef uint8_t  u8;
 
 #define DEBUG_LOG   printf
+
+#define SIMD_WIDEST    (8)
+#define SIMD_ALIGNMENT (SIMD_WIDEST * sizeof( uint64_t ))
+
+#define MIN( _A, _B ) (((_A) < (_B))? (_A) : (_B))
+#define MAX( _A, _B ) (((_A) > (_B))? (_A) : (_B))
+#define NUM_ELEMENTS( _ARR ) (sizeof( _ARR ) / sizeof( _ARR[0] ))
 
 
 INLINE PDECL u64 PlatByteSwap64( const u64& val )             
@@ -203,6 +209,8 @@ INLINE PDECL void PlatSetCoreAffinity( u64 mask, bool entireProcess = false )
         SetThreadAffinityMask( GetCurrentThread(), mask );
 #endif
 }
+
+
 
 
 #define DEBUG_VALIDATE_BATCH_RESULTS (0)

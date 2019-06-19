@@ -5,10 +5,6 @@
 #include "Common.h"
 #include "TreeSearch.h"
 
-void TreeSearch::CalculatePriors( TreeNode* node, MoveList& pathFromRoot )
-{
-    // TODO
-}
 
 double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
 {
@@ -32,6 +28,7 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     double uct = 
         childWinRatio + 
         sqrt( log( (double) nodePlays ) * 2 * invChildPlays ) * _Options->_ExplorationFactor +
+        childInfo._VirtualLoss +
         childInfo._Prior;
 
     return uct;
@@ -40,7 +37,7 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
 int TreeSearch::GetRandomUnexploredBranch( TreeNode* node )
 {
     int numBranches = (int) node->_Branch.size();
-    int idx = (int) _Random.GetRange( numBranches );
+    int idx = (int) _RandomGen.GetRange( numBranches );
 
     for( int i = 0; i < numBranches; i++ )
     {

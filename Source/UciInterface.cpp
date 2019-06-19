@@ -10,71 +10,13 @@
 #include "UciInterface.h"
 #include "Version.h"
 
-UciInterface::UciInterfamce() : _DebugMode( false ) 
+UciInterface::UciInterface( const GlobalOptions* options ) : _Options( options ), _DebugMode( false ) 
 {
-    this->SetDefaultOptions();
-
-    _Options._DetectedSimdLevel = CpuInfo::DetectSimdLevel();
-    _Options._ForceSimdLevel    = 0;
-    _Options._ExplorationFactor = 1.41f;
-
-    _Searcher = unique_ptr<  TreeSearch >( new TreeSearch( &_Options ) );
-    _Searcher->Init();
-}
-
-const UciOptionInfo* UciInterface::GetOptionInfo()
-{
-    #define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _##_FIELD ) / sizeof( int )), #_FIELD
-
-    static UciOptionInfo sOptions[] = 
-    {
-        OPTION_INDEX( EnableMulticore ),        0,          
-        OPTION_INDEX( EnableSimd ),             0,          
-        OPTION_INDEX( NumSimdWorkers ),         1,          
-
-        OPTION_INDEX( EnableCuda ),             0,          
-        OPTION_INDEX( CudaHeapMegs ),           64,        
-        OPTION_INDEX( CudaBatchesPerLaunch ),   8,        
-        OPTION_INDEX( GpuAffinityMask ),        1,          
-
-        OPTION_INDEX( DrawsWorthHalf ),         1,          
-        OPTION_INDEX( NumInitialPlayouts ),     8,          
-        OPTION_INDEX( NumAsyncPlayouts ),       0,         
-        OPTION_INDEX( MaxBranchExpansion ),     0,
-
-        OPTION_INDEX( MaxPlayoutMoves ),        200,          
-        OPTION_INDEX( MaxPendingBatches ),      32,        
-        OPTION_INDEX( BatchSize ),              1024,       
-
-        OPTION_INDEX( MaxTreeNodes ),           1000,    
-        OPTION_INDEX( TimeSafetyBuffer ),       100,          
-        OPTION_INDEX( SearchSleepTime ),        100,          
-        OPTION_INDEX( UciUpdateDelay ),         500,          
-        -1
-    };
-
-    #undef OPTION_INDEX
-    return sOptions;
+    _TreeSearch = unique_ptr< TreeSearch >( new TreeSearch( &_Options ) );
+    _TreeSearch->Init();
 }
 
 
-void UciInterface::SetDefaultOptions()
-{
-    for( const UciOptionInfo* info = GetOptionInfo(); info->_Index >= 0; info++ )
-        _Options._Option[info->_Index] = info->_Value;
-}
-
-void UciInterface::SetOptionByName( const char* name, int value )
-{
-    for( const UciOptionInfo* info = GetOptionInfo(); info->_Index >= 0; info++ )
-    {
-        if( !stricmp( name, info->_Name ) )
-        {
-            _Options._Option[info->_Index] = value;
-            break;
-        }
-    }
-}
 
 bool UciInterface::ProcessCommand( const char* cmd )
 {
@@ -91,15 +33,11 @@ bool UciInterface::ProcessCommand( const char* cmd )
         const UciOptionInfo* option = this->GetOptionInfo();
         while( option->_Index >= 0 )
         {
-            if( option->_IsCheckbox )
-                cout << "option type check name " << option->_Name << " default " << option->_Value << endl;
-            else
-                printf( "option type spin  name   %-20s default  %d\n", option->_Name, option->_Value );
-
+            cout << "option type spin name " << option->_Name << " default " option->_Value << endl;
             option++;
         }
         
-        _Searcher->Reset();
+        _TreeSearch->Reset();
         cout << "uciok" << endl;
     }
     else if( t.Consume( "setoption" ) )
@@ -124,7 +62,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
     }
     else if( t.Consume( "ucinewgame" ) )
     {
-        _Searcher->Reset();
+        _TreeSearch->Reset();
     }
     else if( t.Consume( "position" ) )
     {
@@ -150,7 +88,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
             }
         }
 
-        _Searcher->SetPosition( pos, &moveList );
+        _TreeSearch->SetPosition( pos, &moveList );
     }
     else if( t.Consume( "go" ) )
     {
@@ -189,12 +127,12 @@ bool UciInterface::ProcessCommand( const char* cmd )
         if( conf._MateSearchDepth )
             cout << "info string WARNING: mate search is not supported" << endl;
 
-        _Searcher->SetUciSearchConfig( conf );
-        _Searcher->StartSearching();
+        _TreeSearch->SetUciSearchConfig( conf );
+        _TreeSearch->StartSearching();
     }
     else if( t.Consume( "stop" ) )
     {
-        _Searcher->StopSearching();
+        _TreeSearch->StopSearching();
     }
     else if( t.Consume( "quit" ) )
     {

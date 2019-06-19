@@ -20,39 +20,44 @@ struct CpuInfo
         return( (info[idxWord] & (1 << idxBit)) != 0 );
     }
 
-    static int DetectSimdLevel()
+    static int GetSimdLevel()
     {
     #if TOOLCHAIN_GCC
-        bool popcnt = __builtin_cpu_supports( "popcnt" );
+        static bool popcnt = __builtin_cpu_supports( "popcnt" );
     #elif TOOLCHAIN_MSVC    
-        bool popcnt = CheckCpuFlag( 1, 2, 23 );
+        static bool popcnt = CheckCpuFlag( 1, 2, 23 );
     #endif
 
-        bool avx512 = 
+        static bool sse4 = CheckCpuFlag( 1, 2, 19 );
+        static bool avx2 = CheckCpuFlag( 7, 1, 5 );   
+        static bool avx512 = 
             CheckCpuFlag( 7, 1, 16 ) && // avx512f
             CheckCpuFlag( 7, 1, 17 ) && // avx512dq
             CheckCpuFlag( 7, 1, 30 );   // avx512bw
 
-        if(avx512)
-        {
-            assert( popcnt );
+        if( avx512 )
             return( 8 );
-        }
-
-        bool avx2 = CheckCpuFlag( 7, 1, 5 );   
 
         if( avx2 )
-        {
-            assert( popcnt );
             return( 4 );
-        }
-
-        bool sse4 = CheckCpuFlag( 1, 2, 19 );
 
         if( sse4 && popcnt )
             return( 2 );
 
         return( 1 );
+    }
+
+    static string GetSimdDesc( int simdLevel )
+    {
+        switch( simdLevel )
+        {
+        case 1: return "x64";
+        case 2: return "SSE4.1";
+        case 4: return "AVX2";
+        case 8: return "AVX-512";
+        }
+
+        return "";
     }
 
     static int DetectCpuCores()

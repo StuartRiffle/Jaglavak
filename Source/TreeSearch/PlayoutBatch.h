@@ -4,6 +4,7 @@
 struct PlayoutBatch
 {
     bool _Done = false;
+    u64 _YieldCounter = 0;
 
     // Inputs
     PlayoutParams       _Params;
@@ -11,6 +12,8 @@ struct PlayoutBatch
 
     // Outputs
     vector< ScoreCard > _GameResults;
+
+
 };
 
 typedef shared_ptr< PlayoutBatch >  BatchRef;

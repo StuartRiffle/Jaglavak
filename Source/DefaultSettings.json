@@ -1,42 +1,27 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 {
-    "EnableMulticore": 1,
-    // Controls whether or not the CPU path will attempt to use all cores. 
-    // This is for debugging, so that you only have to step through a 
-    // single thread. Otherwise, it should stay enabled.
-
-    "EnableSimd": 1,
-    // Controls whether or not SIMD extensions are used. If this value is
-    // nonzero, Jaglavak will use whatever SIMD instructions are available.
-    // This accelerates detecting moves, and also playing them (decoding the
-    // move maps to choose a move is still all scalar). Only useful for 
-    // debugging.
-
-    "EnableCuda": 1,
-    // Enables or disables GPU support for nVidia compute devices. It's CUDA-
-    // only so far, but OpenCL is on the roadmap.
-
-    "MaxTreeNodes": 10000000,
-    // MCTS works by building big trees of nodes, to help it explore possible
-    // futures. Bigger trees are always more helpful. They hold more hard won 
-    // information about the current position, and have a better sense of what's
-    // coming next. You should make this value as big as you can.
-
-    "MaxPendingBatches": 100,
-    // Jaglavak is an asynchronous MCTS, which means there is a delay
-    // between the time we _expand_ the tree (and queue some new playouts),
-    // and the time those playouts are actually _done_, and we get results 
-    // that we can use. Until we get those scores, the
-
-
-
-    "CudaQueueDepth":       100,
-    "NumSimdWorkers":        0,
-    "NumInitialPlayouts":   0,
-    "NumAsyncPlayouts":     10,
-    "MaxPlayoutMoves":      200,
-    "DrawsWorthHalf":       1,
-    "MaxBatchSize":         4096
+    "EnableMulticore":         { "value": 1,    "desc": "Use all available CPU cores" },   
+    "EnableSimd":              { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
+    "ForceSimdLevel":          { "value": 0,    "desc": "Override detected SIMD level (1, 2, 4, 8)" },
+    "CpuWorkThreads":          { "value": 2,    "desc": "" },
+    "CpuSearchFibers":         { "value": 64,   "desc": "" },       
+    "CpuAffinityMask":         { "value": 0,    "desc": "" },      
+    "CpuBatchSize":            { "value": 128,  "desc": "" },      
+    "EnableCuda":              { "value": 0,    "desc": "" },      
+    "CudaHeapMegs":            { "value": 64,   "desc": "" },     
+    "CudaAffinityMask":        { "value": 1,    "desc": "" },      
+    "CudaBatchSize":           { "value": 8192, "desc": "" },       
+    "MaxTreeNodes":            { "value": 1000, "desc": "" },   
+    "ExplorationFactor":       { "value": 141,  "desc": "" },
+    "BranchesToExpandAtLeaf":  { "value": 0,    "desc": "A value of zero means to expand them all." },
+    "NumPlayoutsAtLeaf":       { "value": 8,    "desc": "" },  
+    "MaxPlayoutMoves":         { "value": 200,  "desc": "" },        
+    "DrawsWorthHalf":          { "value": 1,    "desc": "" },      
+    "FixedRandomSeed":         { "value": 0,    "desc": "" },      
+    "FlushEveryBatch":         { "value": 1,    "desc": "" },      
+    "TimeSafetyBuffer":        { "value": 100,  "desc": "" },        
+    "UciUpdateDelay":          { "value": 500,  "desc": "" }
 }
+
 
 

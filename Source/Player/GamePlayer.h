@@ -10,14 +10,14 @@ class GamePlayer
     enum { LANES = SimdWidth< SIMD >::LANES };
 
     const PlayoutParams* _Params;
-    RandomGen _Random;
+    RandomGen _RandomGen;
 
 public:
 
     PDECL GamePlayer( const PlayoutParams* params, u64 salt = 0 )
     {
         _Params = params;
-        _Random.SetSeed( params->_RandomSeed + salt );
+        _RandomGen.SetSeed( params->_RandomSeed + salt );
     }
 
     PDECL void PlayGames( const Position* pos, ScoreCard* dest, int simdCount )
@@ -111,7 +111,7 @@ protected:
         moveList.UnpackMoveMap( pos, moveMap );
         assert( moveList._Count > 0 );
 
-        u64 idx = _Random.GetRange( moveList._Count );
+        u64 idx = _RandomGen.GetRange( moveList._Count );
         return moveList._Move[idx];
     }
 };

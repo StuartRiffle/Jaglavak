@@ -3,13 +3,14 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "Common.h"
-#include "FEN.h"
 
-void Tree::CreateNodePool()
+void SearchTree::Init()
 {
     _NodePoolEntries = _Options->_MaxTreeNodes;
-    _NodePoolBuf.resize( _NodePoolEntries * sizeof( TreeNode ) + SIMD_ALIGNMENT );
-    _NodePool = (TreeNode*) (((uintptr_t) _NodePoolBuf.data() + SIMD_ALIGNMENT - 1) & ~(SIMD_ALIGNMENT - 1));
+
+    size_t totalSize = _NodePoolEntries * sizeof( TreeNode );
+    _NodePoolBuf = unique_ptr< HugeBuffer >( new HugeBuffer( totalSize ) );
+    _NodePool = (TreeNode*) _NodePoolBuf->_Ptr;
 
     for( int i = 0; i < _NodePoolEntries; i++ )
     {
@@ -24,8 +25,10 @@ void Tree::CreateNodePool()
     _MruListHead._Prev = &_NodePool[_NodePoolEntries - 1];
 }
 
-void Tree::MoveToFront( TreeNode* node )
+void SearchTree::Touch( TreeNode* node )
 {
+    // Move this node to the front of the MRU list
+
     assert( node->_Next->_Prev == node );
     assert( node->_Prev->_Next == node );
 
@@ -39,7 +42,7 @@ void Tree::MoveToFront( TreeNode* node )
     node->_Prev->_Next = node;
 }
 
-void Tree::CreateNode( TreeNode* node, int branchIdx )
+TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
 {
     TreeNode* newNode = AllocNode();
     assert( newNode != node );
@@ -53,23 +56,24 @@ void Tree::CreateNode( TreeNode* node, int branchIdx )
 
     ClearNode( newNode );
     InitNode( newNode, newPos, newMap, chosenBranch ); 
-    CalculatePriors( newNode );
+//    EstimatePriors( newNode );
 
     chosenBranch->_Node = newNode;
+    return newNode;
 }
 
-TreeNode* Tree::AllocNode()
+TreeNode* SearchTree::AllocNode()
 {
     TreeNode* node = _MruListHead._Prev;
 
     ClearNode( node );
-    MoveToFront( node );
+    Touch( node );
 
-    _Metrics._NumNodesCreated++;
+    //_Metrics._NumNodesCreated++;
     return node;
 }
 
-void Tree::InitNode( TreeNode* node, const Position& pos, const MoveMap& moveMap, BranchInfo* info )
+void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& moveMap, BranchInfo* info )
 {
     node->_Pos = pos;
     node->_Info = info;
@@ -101,19 +105,25 @@ void Tree::InitNode( TreeNode* node, const Position& pos, const MoveMap& moveMap
     }
 }
 
-void Tree::ClearNode( TreeNode* node )
+void SearchTree::ClearNode( TreeNode* node )
 {
-    // This should never happen in practice, because nodes that are currently
-    // being used will be near the front of the MRU list, and the tree is huge.
+    // Make sure we don't delete any nodes that are still being used by a fiber.
+    // This will probably never actually happen, because the tree is huge.
 
     assert( node->_RefCount == 0 );
     while( node->_RefCount > 0 )
-        YIELD_FIBER();
+    {
+        // -----------------------------------------------------------------------------------
+        FIBER_YIELD();
+        // -----------------------------------------------------------------------------------
+    }
 
     // We should only ever see leaf nodes here, because of the MRU ordering.
 
     for( auto& info : node->_Branch )
+    {
         assert( info._Node == NULL );
+    }
 
     // Detach from parent branch
 
@@ -125,11 +135,33 @@ void Tree::ClearNode( TreeNode* node )
 
     // Reset for the next user
 
-    _Info = NULL;
-    _Branch.clear();
-    _GameResult.Clear();
-    _GameOver = false;
-    _RefCount = 0;
+    node->_Info = NULL;
+    node->_Branch.clear();
+    node->_GameResult.Clear();
+    node->_GameOver = false;
+    node->_RefCount = 0;
 }
 
+void SearchTree::SetPosition( const Position& startPos, const MoveList* moveList )
+{
+    // TODO: recognize position and don't terf the whole tree
+
+    Position pos = startPos;
+
+    if( moveList )
+        for( int i = 0; i < moveList->_Count; i++ )
+            pos.Step( moveList->_Move[i] );
+
+    MoveMap moveMap;
+    pos.CalcMoveMap( &moveMap );
+
+    if( _SearchRoot )
+        _SearchRoot->_Info = NULL;
+
+    _SearchRoot = AllocNode();
+    _SearchRoot->_Info = &_RootInfo;
+    _RootInfo._Node = _SearchRoot;
+
+    InitNode( _SearchRoot, pos, moveMap, _SearchRoot->_Info );
+}
 

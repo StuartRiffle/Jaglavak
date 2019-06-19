@@ -38,11 +38,13 @@ void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
 
 int TreeSearch::EstimatePawnAdvantageForMove( const MoveSpec& spec )
 {
-    int bestIdx = _SearchRoot->FindMoveIndex( spec );
+    TreeNode* root = _SearchTree->GetRootNode();
+
+    int bestIdx = root->FindMoveIndex( spec );
     assert( bestIdx >= 0 );
 
-    int color = _RootInfo._Node->_Color;
-    BranchInfo& info = _SearchRoot->_Branch[bestIdx];
+    int color = root->_Info->_Node->_Color;
+    BranchInfo& info = root->_Branch[bestIdx];
 
     float winRatio = 0;
     if( info._Scores._Plays > 0 )
@@ -51,7 +53,7 @@ int TreeSearch::EstimatePawnAdvantageForMove( const MoveSpec& spec )
     float pawnAdvantage = log10f( winRatio / (1 - winRatio) ) * 4;
     int centipawns = (int) (pawnAdvantage * 100);
 
-    if( !_RootInfo._Node->_Pos._WhiteToMove )
+    if( !root->_Info->_Node->_Pos._WhiteToMove )
         centipawns *= -1;
 
     return centipawns;
@@ -71,7 +73,7 @@ MoveSpec TreeSearch::SendUciStatus()
     u64 gamesPerSec = (u64) (gamesDone / dt);
 
     MoveList bestLine;
-    ExtractBestLine( _SearchRoot, &bestLine );
+    ExtractBestLine( _SearchTree->GetRootNode(), &bestLine );
 
     int evaluation = 0;
     if( bestLine._Count > 0 )

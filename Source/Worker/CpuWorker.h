@@ -5,9 +5,9 @@
 
 class CpuWorker : public AsyncWorker
 {
-    const GlobalOptions*    _Options;
-    BatchQueue*             _BatchQueue;
-    volatile bool           _TimeToExit;
+    const GlobalOptions*    _Options    = NULL;
+    BatchQueue*             _BatchQueue = NULL;
+    volatile bool           _TimeToExit = false;
     
     list< unique_ptr< thread > > _WorkThreads;
 
@@ -17,28 +17,34 @@ public:
     {
         _Options = options;
         _BatchQueue = batchQueue;
-        _TimeToExit = false;
+    }
+
+    ~CpuWorker()
+    {
+        _TimeToExit = true;
+        _BatchQueue->NotifyAllWaiters();
+
+        for( auto& thread : _WorkThreads )
+            thread->join();
     }
 
     virtual bool Initialize()
     {
-        cout << "CPU: " << CpuInfo::GetCpuName() << endl;
-        cout << "  Cores    " << CpuInfo::DetectCpuCores() << endl;
-        cout << "  SIMD     " << CpuInfo::DetectSimdLevel() << "x (" << simdName << ")" << endl << endl;
+        string cpuName   = CpuInfo::GetCpuName();
+        int    cores     = CpuInfo::DetectCpuCores();
+        int    simdLevel = CpuInfo::DetectSimdLevel();
+        string simdDesc  = CpuInfo::GetSimdDesc( simdLevel );
 
+        cout << 
+            "CPU: " << cpuName << endl <<
+            "  Cores    " << cores << endl <<
+            "  SIMD     " << simdLevel << "x (" << simdDesc << ")" << endl << endl;
+
+        _TimeToExit = false;
         for( int i = 0; i < _Options->_CpuWorkThreads; i++ )
-            _WorkThreads.emplace_back( new thread( [this] { this->WorkThread(); } );
+            _WorkThreads.emplace_back( new thread( [this]() { WorkThread(); } ) );
 
         return (_WorkThreads.size() > 0);
-    }
-
-    ~SimdWorker()
-    {
-        _TimeToExit = true;
-        _Queue->NotifyAllWaiters();
-
-        for( auto& thread : _WorkThreads )
-            thread->join();
     }
 
 private:
@@ -47,13 +53,13 @@ private:
         while( !_TimeToExit )
         {
             BatchRef batch;
-            if( !_Queue->Pop( batch ) )
+            if( !_BatchQueue->Pop( batch ) )
                 break;
 
             int count = (int) batch->_Position.size();
-            batch->_GameResults.resize( count + SIMD_MAX - 1 );
+            batch->_GameResults.resize( count + SIMD_WIDEST );
 
-            PlayGamesSimd( 
+            PlayGamesCpu( 
                 _Options, 
                 &batch->_Params, 
                 batch->_Position.data(), 

@@ -3,10 +3,11 @@
 #include "Platform.h"
 #include "Chess.h"
 #include "Common.h"
+#include "TreeSearch.h"
 
 bool TreeSearch::IsTimeToMove()
 {
-    bool    whiteToMove     = _SearchRoot->_Pos._WhiteToMove; 
+    bool    whiteToMove     = _SearchTree->GetRootNode()->_Pos._WhiteToMove; 
     int     requiredMoves   = _UciConfig._TimeControlMoves;
     int     timeBuffer      = _Options->_TimeSafetyBuffer;
     int     timeElapsed     = _SearchTimer.GetElapsedMs() + timeBuffer;

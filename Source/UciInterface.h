@@ -6,24 +6,18 @@ enum
     CHECKBOX = 1,
 };
 
-struct UciOptionInfo
+
+
+class TreeSearch;
+
+class UciInterface
 {
-    int         _Index;
-    const char* _Name;
-    int         _Value;
-};
-
-
-struct TreeSearch;
-
-class UciEngine
-{
-    unique_ptr< TreeSearch > _Searcher;
+    unique_ptr< TreeSearch > _TreeSearch;
     GlobalOptions _Options;
     bool _DebugMode;
 
 public:
-    UciEngine();
+    UciInterface();
 
     const UciOptionInfo* GetOptionInfo();
     void SetDefaultOptions();

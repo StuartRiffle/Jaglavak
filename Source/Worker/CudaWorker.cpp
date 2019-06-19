@@ -27,7 +27,7 @@ bool CudaWorker::Initialize( int deviceIndex  )
     _StreamIndex = 0;
 
     cudaError_t status = cudaGetDeviceProperties( &_Prop, _DeviceIndex );
-K    if( status != cudaSuccess )
+    if( status != cudaSuccess )
         return false;
 
     CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));

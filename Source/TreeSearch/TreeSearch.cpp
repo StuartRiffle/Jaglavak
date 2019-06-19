@@ -6,33 +6,26 @@
 #include "FEN.h"
 #include "GamePlayer.h"
 
-#include "SIMD/SimdWorker.h"
-#include "CUDA/CudaWorker.h"
+#include "Worker/CpuWorker.h"
+#include "Worker/CudaWorker.h"
 
 TreeSearch::TreeSearch( GlobalOptions* options ) : 
     _Options( options )
 {
-    _SearchRoot = NULL;
-    _ShuttingDown = false;
-    _SearchingNow = false;
-    _NumPending = 0;
-
     u64 seed = CpuInfo::GetClockTick();
-    if( _Options->FixedRandomSeed )
-        seed = _Options->FixedRandomSeed;
+    if( _Options->_FixedRandomSeed )
+        seed = _Options->_FixedRandomSeed;
+    _RandomGen.SetSeed( seed );
 
-    _Random.SetSeed( seed );
-
-    _Tree->CreateNodePool();
-
+    _SearchTree->Init();
     this->Reset();
 }
 
 void TreeSearch::Init()
 {
-    shared_ptr< AsyncWorker > cpuWorker( new CpuWorker( _Options, &_BatchQueue ) );
+    shared_ptr< CpuWorker > cpuWorker( new CpuWorker( _Options, &_BatchQueue ) );
     if( cpuWorker->Initialize() )
-        _Workers.push_back( cpuWorker ) );
+        _Workers.push_back( cpuWorker );
 
     if( _Options->_EnableCuda )
     {
@@ -42,11 +35,18 @@ void TreeSearch::Init()
                 if( ((1 << i) & _Options->_GpuAffinityMask) == 0 )
                     continue;
 
-            shared_ptr< AsyncWorker > cudaWorker( new CudaWorker( _Options, &_BatchQueue ) );
+            shared_ptr< CudaWorker > cudaWorker( new CudaWorker( _Options, &_BatchQueue ) );
             if( cudaWorker->Initialize( i ) )
                 _Workers.push_back( cudaWorker );
         }
     }
+}
+
+void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList )
+{
+    this->StopSearching();
+
+    _SearchTree->SetPosition( startPos, moveList );
 }
 
 void TreeSearch::Reset()
@@ -67,11 +67,10 @@ void TreeSearch::Reset()
 
 TreeSearch::~TreeSearch()
 {
-    _ShuttingDown = true;
     this->StopSearching();
 
     _BatchQueue.Terminate();
-    _AsyncWorkers.clear();
+    _Workers.clear();
 }
 
 void TreeSearch::StartSearching()
@@ -79,7 +78,7 @@ void TreeSearch::StartSearching()
     this->StopSearching();
 
     _SearchTimer.Reset();
-    _SearchThread  = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
+    _SearchThread = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
 }
                                          
 void TreeSearch::StopSearching()
@@ -94,7 +93,7 @@ void TreeSearch::StopSearching()
     }
 }
 
-void Search::SearchThread()
+void TreeSearch::SearchThread()
 {
     FiberSet fibers;
 
@@ -108,17 +107,18 @@ void Search::SearchThread()
 
         fibers.Update();
 
-        if( fibers.GetNumRunning() < _Options->MaxSearchFibers )
+        if( fibers.GetCount() < _Options->_MaxSearchFibers )
             fibers.Spawn( [&]() { this->SearchFiber(); } );            
     } 
 }
 
-void Search::SearchFiber()
+void TreeSearch::SearchFiber()
 {
-    ScoreCard rootScores = this->ExpandAtLeaf( _SearchRoot );
-    _SearchRoot->_Info->_Scores.Add( rootScores );
-}
+    TreeNode* root = _SearchTree->GetRootNode();
 
+    ScoreCard rootScores = this->ExpandAtLeaf( root );
+    root->_Info->_Scores.Add( rootScores );
+}
 
 
 
