@@ -32,17 +32,17 @@ struct CudaBuffer
 
     void CopyUpToDeviceAsync( cudaStream_t stream = NULL ) const
     {
-        cudaMemcpyAsync( _Device, _Host, _BufferSize, cudaMemcpyHostToDevice, stream );
+        CUDA_REQUIRE(( cudaMemcpyAsync( _Device, _Host, _BufferSize, cudaMemcpyHostToDevice, stream ) ));
     }
 
     void CopyDownToHostAsync( cudaStream_t stream = NULL ) const
     {
-        cudaMemcpyAsync( _Host, _Device, _BufferSize, cudaMemcpyDeviceToHost, stream );
+        CUDA_REQUIRE(( cudaMemcpyAsync( _Host, _Device, _BufferSize, cudaMemcpyDeviceToHost, stream ) ));;
     }
 
     void ClearOnDeviceAsync( cudaStream_t stream = NULL ) const
     {
-        cudaMemsetAsync( _Device, 0, _BufferSize, stream );
+        CUDA_REQUIRE(( cudaMemsetAsync( _Device, 0, _BufferSize, stream ) ));
     }   
 };
 

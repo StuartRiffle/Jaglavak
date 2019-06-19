@@ -1,13 +1,13 @@
-// WIP
+// JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
 
-struct LargePage
+struct HugePageAlloc
 {
     void* _Ptr;
     size_t _Size;
 
-    LargePageAlloc( size_t size ) : _Size( size )
+    HugePageAlloc( size_t size ) : _Size( size )
     {
 #if TOOLCHAIN_GCC
         _Ptr = mmap( NULL, _Size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0 );
@@ -18,7 +18,7 @@ struct LargePage
 #endif
     }
 
-    ~HugePage()
+    ~HugePageAlloc()
     {
 #if TOOLCHAIN_GCC
         munmap( _Ptr, _Size );
