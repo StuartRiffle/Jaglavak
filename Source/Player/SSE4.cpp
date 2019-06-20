@@ -3,7 +3,7 @@
 #define ENABLE_POPCNT (1)
 
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "ScoreCard.h"
 #include "GamePlayer.h"
 #include "SSE4.h"

@@ -1,7 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "ScoreCard.h"
 #include "GamePlayer.h"
 

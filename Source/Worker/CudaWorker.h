@@ -27,7 +27,7 @@ class CudaWorker : public AsyncWorker
         CUDA_NUM_STREAMS = 16
     };
 
-    const GlobalOptions*    _Options;
+    const GlobalSettings*   _Settings;
     BatchQueue*             _Queue;
 
     int                     _DeviceIndex;      
@@ -46,7 +46,7 @@ class CudaWorker : public AsyncWorker
     vector< cudaEvent_t >   _EventCache;
 
 public:    
-    CudaWorker( const GlobalOptions* options, BatchQueue* queue );
+    CudaWorker( const GlobalSettings* settings, BatchQueue* queue );
     ~CudaWorker();
 
     static int CudaWorker::GetDeviceCount()

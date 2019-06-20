@@ -41,7 +41,7 @@ struct TreeSearchMetrics
 
 class TreeSearch
 {
-    GlobalOptions*          _Options = NULL;
+    GlobalSettings*         _Settings = NULL;
     RandomGen               _RandomGen;
     BatchQueue              _BatchQueue;
     BatchRef                _Batch;
@@ -94,7 +94,7 @@ class TreeSearch
 
 public:
 
-    TreeSearch( GlobalOptions* options );
+    TreeSearch( GlobalSettings* settings );
     ~TreeSearch();
 
     void Init();

@@ -1,12 +1,13 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "Common.h"
+#include "SearchTree.h"
 
 void SearchTree::Init()
 {
-    _NodePoolEntries = _Options->_MaxTreeNodes;
+    _NodePoolEntries = _Settings["MaxTreeNodes"];
 
     size_t totalSize = _NodePoolEntries * sizeof( TreeNode );
     _NodePoolBuf = unique_ptr< HugeBuffer >( new HugeBuffer( totalSize ) );

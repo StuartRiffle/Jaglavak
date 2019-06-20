@@ -1,7 +1,9 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
+#define ENABLE_POPCNT (0)
+
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "ScoreCard.h"
 #include "GamePlayer.h"
 

@@ -16,6 +16,12 @@
     <Filter Include="Worker">
       <UniqueIdentifier>{ae754951-e23d-446d-a781-b1d0f3faca5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{88c0d078-804a-4d52-9c0f-466a48faa4ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{b5f98622-7d96-4bb6-8c21-76bf5f0d5f66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Chess\BitBoard.h">
@@ -38,7 +44,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Chess.h" />
     <ClInclude Include="..\Source\Common.h" />
-    <ClInclude Include="..\Source\GlobalOptions.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Version.h" />
     <ClInclude Include="..\Source\Util\Allocator.h">
@@ -123,6 +128,13 @@
       <Filter>TreeSearch</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\UciInterface.h" />
+    <ClInclude Include="..\Source\Generated\DefaultSettings.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GlobalSettings.h" />
+    <ClInclude Include="..\Source\Settings\GlobalSettings.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
@@ -138,7 +150,6 @@
     <ClCompile Include="..\Source\TreeSearch\UciStatus.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\OpenCL.cpp" />
     <ClCompile Include="..\Source\TreeSearch\Expansion.cpp">
       <Filter>TreeSearch</Filter>
     </ClCompile>
@@ -161,11 +172,22 @@
       <Filter>TreeSearch</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\UciInterface.cpp" />
-    <ClCompile Include="..\Source\GlobalOptions.cpp" />
+    <ClCompile Include="..\Source\GlobalSettings.cpp" />
+    <ClCompile Include="..\Source\Settings\GlobalSettings.cpp">
+      <Filter>Settings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\DefaultSettings.json" />
     <None Include="..\README.md" />
+    <None Include="..\Source\Generated\EmbedFile.bat">
+      <Filter>Generated</Filter>
+    </None>
+    <None Include="..\Source\Generated\GenerateHeaders.bat">
+      <Filter>Generated</Filter>
+    </None>
+    <None Include="..\Source\Settings\DefaultSettings.json">
+      <Filter>Settings</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="..\Source\Player\CudaPlayer.cu">

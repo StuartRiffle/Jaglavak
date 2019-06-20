@@ -1,14 +1,15 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
-#include "GlobalOptions.h"
+#include "Chess/Core.h"
+#include "GlobalSettings.h"
+#include "Generated/DefaultSettings.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 namespace pt = boost::property_tree;
 
-#define OPTION_INDEX( _FIELD ) (offsetof( GlobalOptions, _##_FIELD ) / sizeof( int )), #_FIELD
+#define OPTION_INDEX( _FIELD ) (offsetof( GlobalSettings, _##_FIELD ) / sizeof( int )), #_FIELD
 
 static OptionInfo[] sOptionIndex =
 {
@@ -36,32 +37,14 @@ static OptionInfo[] sOptionIndex =
     OPTION_INDEX( UciUpdateDelay ),         
 };
 
-void GlobalOptions::LoadJsonValues( string json )
+void GlobalSettings::Initialize( vector< string >& configFiles )
 {
-    pt::ptree tree;
-    std::stringstream ss;
+    // Start with the embedded defaults
 
-    ss << json;
-    pt::read_json( ss, tree );
+    this->LoadJsonValues( Embedded::DefaultSettings );
 
-    for( auto& option : tree )
-    {
-        string name = option.first;
-
-        property_tree& info = option.second;
-        int value = info.get< int >( "value" );
-
-        this->SetOptionByName( name.c_str(), value );
-    }
-}
-
-void GlobalOptions::Initialize( vector< string >& configFiles )
-{
-    // Initialize with the embedded defaults
-
-    this->LoadJsonValues( Embedded::DefaultSettings_json );
-
-    // Apply the config files in order, each overriding the last
+    // Apply the config files in order, each potentially overridden
+    // by the ones that follow
 
     for( string& filename : filesToLoad )
     {
@@ -84,7 +67,26 @@ void GlobalOptions::Initialize( vector< string >& configFiles )
     }
 }
 
-bool GlobalOptions::SetOptionByName( const char* name, int value )
+void GlobalSettings::LoadJsonValues( string json )
+{
+    pt::ptree tree;
+    std::stringstream ss;
+
+    ss << json;
+    pt::read_json( ss, tree );
+
+    for( auto& option : tree )
+    {
+        string name = option.first;
+
+        property_tree& info = option.second;
+        int value = info.get< int >( "value" );
+
+        this->SetValueByName( name.c_str(), value );
+    }
+}
+
+bool GlobalSettings::SetValueByName( const char* name, int value )
 {
     for( int i = 0; i < NUM_ELEMENTS( sOptionIndex ); i++ )
     {
@@ -98,5 +100,15 @@ bool GlobalOptions::SetOptionByName( const char* name, int value )
     }
 
     return false;
+}
+
+
+void GlobalSettings::PrintListForUci()
+{
+    for( int i = 0; i < NUM_ELEMENTS( sOptionIndex ); i++ )
+    {
+        OptionInfo& info = sOptionIndex[i];
+        cout << "option type spin name " << info._Name << " default " info._Value << endl;
+    }
 }
 

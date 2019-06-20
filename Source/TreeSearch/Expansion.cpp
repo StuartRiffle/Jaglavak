@@ -1,7 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "Common.h"
 #include "TreeSearch.h"
 
@@ -19,22 +19,25 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
         if( info._Node == NULL )
             unexpanded++;
 
+    // TODO: put this elsewhere
+    _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
+    _PlayoutParams._NumGamesEach    = _Settings->_NumPlayouts;
+    _PlayoutParams._MaxMovesPerGame = _Settings->_MaxPlayoutMoves;
+    _PlayoutParams._EnableMulticore = _Settings->_EnableMulticore;
+
+
     if( unexpanded > 0 )
     {
         ScoreCard totalScore;
 
-        int count = unexpanded;
-        if( _Options->_BranchesToExpand )
-            count = MAX( count, _Options->_BranchesToExpand );
+        int count = _Settings["BranchesToExpand"];
+        if( count == 0 )
+            count = unexpanded;
 
         if( !_Batch )
         {
             _Batch = BatchRef( new PlayoutBatch() );
-
-            _Batch->_Params._RandomSeed      = _RandomGen.GetNext();
-            _Batch->_Params._NumGamesEach    = _Options->_NumPlayouts;
-            _Batch->_Params._MaxMovesPerGame = _Options->_MaxPlayoutMoves;
-            _Batch->_Params._EnableMulticore = _Options->_EnableMulticore;
+            _Batch->_Params = _PlayoutParams;
         }
 
         BranchInfo* expansionBranch[MAX_POSSIBLE_MOVES];
@@ -54,7 +57,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
 
         BatchRef ourBatch = _Batch;
 
-        if( (_Batch->_Position.size() >= _Options->_BatchSize) || _Options->_FlushEveryBatch )
+        if( (_Batch->_Position.size() >= _Settings->_BatchSize) || _Settings->_FlushEveryBatch )
             this->FlushBatch();
 
         while( !ourBatch->_Done )

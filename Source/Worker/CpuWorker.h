@@ -5,7 +5,7 @@
 
 class CpuWorker : public AsyncWorker
 {
-    const GlobalOptions*    _Options    = NULL;
+    const GlobalSettings*   _Settings   = NULL;
     BatchQueue*             _BatchQueue = NULL;
     volatile bool           _TimeToExit = false;
     
@@ -13,9 +13,9 @@ class CpuWorker : public AsyncWorker
 
 public:
 
-    CpuWorker( const GlobalOptions* options, BatchQueue* batchQueue )
+    CpuWorker( const GlobalSettings* settings, BatchQueue* batchQueue )
     {
-        _Options = options;
+        _Settings = settings;
         _BatchQueue = batchQueue;
     }
 
@@ -40,14 +40,14 @@ public:
             "  Cores    " << cores << endl <<
             "  SIMD     " << simdLevel << "x (" << simdDesc << ")" << endl << endl;
 
-        _TimeToExit = false;
-        for( int i = 0; i < _Options->_CpuWorkThreads; i++ )
+        for( int i = 0; i < _Settings["CpuWorkThreads"]; i++ )
             _WorkThreads.emplace_back( new thread( [this]() { WorkThread(); } ) );
 
         return (_WorkThreads.size() > 0);
     }
 
 private:
+
     void WorkThread()
     {
         while( !_TimeToExit )
@@ -57,10 +57,10 @@ private:
                 break;
 
             int count = (int) batch->_Position.size();
-            batch->_GameResults.resize( count + SIMD_WIDEST );
+            batch->_GameResults.resize( count + SIMD_WIDEST ); // FIXME
 
             PlayGamesCpu( 
-                _Options, 
+                _Settings, 
                 &batch->_Params, 
                 batch->_Position.data(), 
                 batch->_GameResults.data(),

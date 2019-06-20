@@ -1,8 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
-#include "Common.h"
+#include "Chess/Core.h"
 #include "TreeSearch.h"
 
 
@@ -12,11 +11,11 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
     BranchInfo& childInfo   = node->_Branch[childIndex];
     const ScoreCard& scores = childInfo._Scores;
 
-    u64 nodePlays  = Max< u64 >( nodeInfo->_Scores._Plays, 1 ); 
-    u64 childPlays = Max< u64 >( scores._Plays, 1 );
+    u64 nodePlays  = MAX( nodeInfo->_Scores._Plays, 1 ); 
+    u64 childPlays = MAX( scores._Plays, 1 );
     u64 childWins  = scores._Wins[node->_Color];
 
-    if( _Options->_DrawsWorthHalf )
+    if( _Settings->_DrawsWorthHalf )
     {
         u64 draws = scores._Plays - (scores._Wins[WHITE] + scores._Wins[BLACK]);
         childWins += draws / 2;
@@ -27,7 +26,7 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
 
     double uct = 
         childWinRatio + 
-        sqrt( log( (double) nodePlays ) * 2 * invChildPlays ) * _Options->_ExplorationFactor +
+        sqrt( log( (double) nodePlays ) * 2 * invChildPlays ) * _ExplorationFactor +
         childInfo._VirtualLoss +
         childInfo._Prior;
 

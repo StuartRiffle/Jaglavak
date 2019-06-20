@@ -1,8 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
-#include "Common.h"
 #include "Version.h"
 #include "UciInterface.h"
 
@@ -20,7 +18,6 @@ int main( int argc, char** argv )
     options.add_options()
         ("config,C",    "load JSON configuration file")
         ("uci,U",       "run UCI command after startup")
-        ("benchmark",   "measure hardware performance")
         ("help",        "show this help message");
 
     po::variables_map variables;
@@ -30,11 +27,12 @@ int main( int argc, char** argv )
     vector< string > configFiles = variables["config"].as< vector< string > >();
     configFiles.insert( configFiles.begin(), "Settings.json" );
 
-    GlobalOptions options;
-    options.Initialize( configFiles );
+    GlobalSettings settings;
+    settings.Initialize( configFiles );
 
-    unique_ptr< UciInterface > engine( new UciInterface( &options ) );
-    for( auto& cmd : variables["uci"] )
+    unique_ptr< UciInterface > engine( new UciInterface( &settings ) );
+
+    for( auto& cmd : variables["uci"].as< vector< string > >() )
         engine->ProcessCommand( cmd.c_str() );
 
     string cmd;

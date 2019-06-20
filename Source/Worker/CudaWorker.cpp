@@ -1,7 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "Common.h"
 
 #include "CudaSupport.h"
@@ -9,10 +9,10 @@
 #include "CudaWorker.h"
 
 
-CudaWorker::CudaWorker( const GlobalOptions* options, BatchQueue* batchQueue )
+CudaWorker::CudaWorker( const GlobalSettings* settings, BatchQueue* batchQueue )
 {
-    _Options = options;
-    _BatchQueue = workQueue;
+    _Settings = settings;
+    _BatchQueue = batchQueue;
     _ShuttingDown = false;
 }
 
@@ -43,7 +43,7 @@ bool CudaWorker::Initialize( int deviceIndex  )
     cout << "  Memory   " << mb << " MB"
     cout << "  Cores    " << totalCores << endl << endl;
 
-    _Heap.Init( (u64) _Options->_CudaHeapMegs * 1024 * 1024 );
+    _Heap.Init( (u64) _Settings["CudaHeapMegs"] * 1024 * 1024 );
     _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 
     return true;
@@ -57,6 +57,9 @@ void CudaWorker::Shutdown()
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
         cudaStreamDestroy( _StreamId[i] );
+
+    for( auto& event : _EventCache )
+        cudaEventDestroy( event );
 }
 
 cudaEvent_t CudaWorker::AllocEvent()
@@ -90,7 +93,12 @@ void CudaWorker::LaunchThread()
 
     for( ;; )
     {
-        vector< BatchRef > newBatches = _WorkQueue->PopMulti( _Options->_CudaBatchesPerLaunch );
+        int batchesToGrab = MAX( 1, _Settings["CudaBatchSize"] / _Settings["BatchSize"] );
+
+        // The actual batches can be different sizes, but close enough. Pop
+        // them all at once to minimize queue traffic.
+
+        vector< BatchRef > newBatches = _WorkQueue->PopMulti( batchesToGrab );
         if( _ShuttingDown )
             break;
         if( newBatches.empty() )
@@ -127,7 +135,7 @@ void CudaWorker::LaunchThread()
         _StreamIndex %= CUDA_NUM_STREAMS;
         cudaStream_t stream = _StreamId[streamIndex];
 
-        int totalWidth = total * _Options->_NumAsyncPlayouts;
+        int totalWidth = total * _Settings["NumPlayouts"];
         int blockSize  = _Prop.warpSize;
         int blockCount = (totalWidth + blockSize - 1) / blockSize;
 

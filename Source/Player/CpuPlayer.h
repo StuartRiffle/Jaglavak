@@ -1,14 +1,14 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-static void PlayGamesCpu( const GlobalOptions* options, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
+static void PlayGamesCpu( const GlobalSettings* settings, const PlayoutParams* params, const Position* pos, ScoreCard* dest, int count )
 {
     int simdLevel = CpuInfo::GetSimdLevel();
 
-    if( !options->_EnableSimd )
+    if( !settings->_EnableSimd )
         simdLevel = 1;
 
-    if( options->_ForceSimdLevel )
+    if( settings->_ForceSimdLevel )
         simdLevel = options->_ForceSimdLevel;
 
     int simdCount = (count + simdLevel - 1) / simdLevel;

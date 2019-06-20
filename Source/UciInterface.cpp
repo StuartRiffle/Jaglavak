@@ -1,21 +1,19 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
-#include "Common.h"
-
-#include "CpuInfo.h"
-#include "FEN.h"
-#include "Tokenizer.h"
-#include "UciInterface.h"
 #include "Version.h"
+#include "Settings/GlobalSettings.h"
+#include "UciInterface.h"
 
-UciInterface::UciInterface( const GlobalOptions* options ) : _Options( options ), _DebugMode( false ) 
+#include "Chess/Core.h"
+#include "Util/FEN.h"
+#include "Util/Tokenizer.h"
+
+UciInterface::UciInterface( GlobalSettings* settings ) : _Settings( settings ), _DebugMode( false ) 
 {
-    _TreeSearch = unique_ptr< TreeSearch >( new TreeSearch( &_Options ) );
+    _TreeSearch = unique_ptr< TreeSearch >( new TreeSearch( &_Settings ) );
     _TreeSearch->Init();
 }
-
 
 
 bool UciInterface::ProcessCommand( const char* cmd )
@@ -30,12 +28,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
         cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
         cout << "id author Stuart Riffle" << endl << endl;
 
-        const UciOptionInfo* option = this->GetOptionInfo();
-        while( option->_Index >= 0 )
-        {
-            cout << "option type spin name " << option->_Name << " default " option->_Value << endl;
-            option++;
-        }
+        _Settings.PrintListForUci();
         
         _TreeSearch->Reset();
         cout << "uciok" << endl;

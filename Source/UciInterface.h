@@ -1,26 +1,17 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-enum
-{
-    CHECKBOX = 1,
-};
-
-
-
-class TreeSearch;
+#include "TreeSearch/TreeSearch.h"
 
 class UciInterface
 {
     unique_ptr< TreeSearch > _TreeSearch;
-    GlobalOptions _Options;
+    GlobalSettings* _Settings;
     bool _DebugMode;
 
 public:
-    UciInterface();
+    UciInterface( GlobalSettings* settings );
 
-    const UciOptionInfo* GetOptionInfo();
-    void SetDefaultOptions();
     void SetOptionByName( const char* name, int value );
     bool ProcessCommand( const char* cmd );
 };

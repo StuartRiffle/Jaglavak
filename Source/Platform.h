@@ -2,16 +2,48 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <time.h>
+#include <math.h>
+#include <float.h>
 #include <assert.h>
+
+#include <algorithm>
 #include <atomic>
+#include <string>
+#include <vector>
+#include <list>
+#include <map>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <thread>
+#include <atomic>
+#include <condition_variable>
+#include <iostream>
+
+using std::atomic;
+using std::string;    
+using std::vector;
+using std::list;
+using std::map;
+using std::mutex;
+using std::condition_variable;
+using std::thread;
+using std::shared_ptr;
+using std::unique_ptr;
+using std::unique_lock;
+using std::cout;
+using std::endl;
+
+#include "Settings/GlobalSettings.h"
 
 #include <omp.h>
 #include <cuda_runtime_api.h>
 
-#ifdef NDEBUG
-    #define RELEASE (1)
-#else
-    #define DEBUG (1)
+#ifndef NDEBUG
+#define DEBUG (1)
 #endif
 
 #ifndef ENABLE_POPCNT
@@ -48,7 +80,6 @@
 
     #define TOOLCHAIN_GCC       (1)
     #define ALIGN( _N )         __attribute__(( aligned( _N ) ))
-    #define ALIGN_SIMD          ALIGN( SIMD_ALIGNMENT )
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
     #define INLINE              inline __attribute__(( always_inline ))
@@ -71,6 +102,7 @@
     #pragma warning( disable: 4293 )    // Shift count negative or too big (due to unused branch in templated function)
     #pragma warning( disable: 4752 )    // Found Intel(R) Advanced Vector Extensions; consider using /arch:AVX
     #pragma warning( disable: 4554 )    // Check operator precedence for possible error; use parentheses to clarify precedence (false warning caused by nvcc compile)
+    #pragma warning( disable: 4200 )    // Nonstandard extension used: zero-sized array in struct/union
     #pragma inline_recursion( on )
     #pragma inline_depth( 255 )
     
@@ -92,7 +124,6 @@
     #error
 #endif
 
-
 typedef uint64_t u64;
 typedef uint32_t u32;
 typedef uint16_t u16;
@@ -100,8 +131,9 @@ typedef uint8_t  u8;
 
 #define DEBUG_LOG   printf
 
-#define SIMD_WIDEST    (8)
-#define SIMD_ALIGNMENT (SIMD_WIDEST * sizeof( uint64_t ))
+#define SIMD_WIDEST     (8)
+#define SIMD_ALIGNMENT  (SIMD_WIDEST * sizeof( uint64_t ))
+#define ALIGN_SIMD      ALIGN( SIMD_ALIGNMENT )
 
 #define MIN( _A, _B ) (((_A) < (_B))? (_A) : (_B))
 #define MAX( _A, _B ) (((_A) > (_B))? (_A) : (_B))

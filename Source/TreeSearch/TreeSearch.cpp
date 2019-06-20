@@ -1,20 +1,23 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Platform.h"
-#include "Chess.h"
+#include "Chess/Core.h"
 #include "Common.h"
 #include "FEN.h"
-#include "GamePlayer.h"
+#include "TreeSearch.h"
 
+#include "Player/GamePlayer.h"
 #include "Worker/CpuWorker.h"
 #include "Worker/CudaWorker.h"
+#include "Util/FiberSet.h"
 
-TreeSearch::TreeSearch( GlobalOptions* options ) : 
-    _Options( options )
+TreeSearch::TreeSearch( GlobalSettings* settings ) : 
+    _Settings( settings )
 {
-    u64 seed = CpuInfo::GetClockTick();
-    if( _Options->_FixedRandomSeed )
-        seed = _Options->_FixedRandomSeed;
+    u64 seed = _Settings["FixedRandomSeed"];
+    if( seed == 0 )
+        seed = CpuInfo::GetClockTick();
+
     _RandomGen.SetSeed( seed );
 
     _SearchTree->Init();
@@ -23,19 +26,20 @@ TreeSearch::TreeSearch( GlobalOptions* options ) :
 
 void TreeSearch::Init()
 {
-    shared_ptr< CpuWorker > cpuWorker( new CpuWorker( _Options, &_BatchQueue ) );
+    shared_ptr< CpuWorker > cpuWorker( new CpuWorker( _Settings, &_BatchQueue ) );
     if( cpuWorker->Initialize() )
         _Workers.push_back( cpuWorker );
 
-    if( _Options->_EnableCuda )
+    if( _Settings["EnableCuda"] )
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            if( _Options->_GpuAffinityMask )
-                if( ((1 << i) & _Options->_GpuAffinityMask) == 0 )
+            int mask = _Settings["GpuAffinityMask"];
+            if( mask != 0 )
+                if( ((1 << i) & mask) == 0 )
                     continue;
 
-            shared_ptr< CudaWorker > cudaWorker( new CudaWorker( _Options, &_BatchQueue ) );
+            shared_ptr< CudaWorker > cudaWorker( new CudaWorker( _Settings, &_BatchQueue ) );
             if( cudaWorker->Initialize( i ) )
                 _Workers.push_back( cudaWorker );
         }
@@ -107,7 +111,7 @@ void TreeSearch::SearchThread()
 
         fibers.Update();
 
-        if( fibers.GetCount() < _Options->_MaxSearchFibers )
+        if( fibers.GetCount() < _Settings["MaxSearchFibers"] )
             fibers.Spawn( [&]() { this->SearchFiber(); } );            
     } 
 }

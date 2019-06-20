@@ -2,13 +2,9 @@
 
 #include "boost/fiber/all.hpp"
 
-#define FIBER_YIELD() boost::this_fiber::yield()
-
 class FiberSet
 {
-    typedef boost::fibers::fiber Fiber;
-
-    list< Fiber > _Fibers;
+    list< boost::fibers::fiber > _Fibers;
 
 public:
 
@@ -18,28 +14,37 @@ public:
         _Fibers.emplace_back( [=]() { func(); } );
     }
 
-    int GetCount()
+    void Update()
+    {
+        boost::this_fiber::yield();
+        this->DiscardCompletedFibers();
+    }
+
+    int GetSize()
     {
         return (int) _Fibers.size();
     }
 
-    void Update()
-    {
-        // -----------------------------------------------------------------------------------
-        FIBER_YIELD();
-        // -----------------------------------------------------------------------------------
-
-        JoinCompletedFibers();
-    }
-
 private:
 
-    void JoinCompletedFibers()
+    void DiscardCompletedFibers()
     {
-        auto joinable = std::remove_if( _Fibers.begin(), _Fibers.end(),
-            []( Fiber& f ) -> bool { return f.joinable()? (f.join(), true) : false; } );
+        auto iter = _Fibers.begin();
+        while( iter != _Fibers.end() )
+        {
+            auto next = iter;
+            ++next;
 
-        _Fibers.erase( joinable, _Fibers.end() );
+            boost::fibers::fiber& fiber = *iter;
+            if( fiber.joinable() )
+            {
+                fiber.join();
+                _Fibers.erase( iter );
+            }
+
+            iter = next;
+        }
     }
 };
 
+#define YIELD_FIBER() boost::this_fiber::yield()

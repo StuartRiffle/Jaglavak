@@ -19,7 +19,8 @@
     <ClInclude Include="..\Source\Chess\Operations.h" />
     <ClInclude Include="..\Source\Chess\Position.h" />
     <ClInclude Include="..\Source\Common.h" />
-    <ClInclude Include="..\Source\GlobalOptions.h" />
+    <ClInclude Include="..\Source\Generated\DefaultSettings.h" />
+    <ClInclude Include="..\Source\GlobalSettings.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Player\AVX2.h" />
     <ClInclude Include="..\Source\Player\AVX512.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\Source\Player\PlayoutParams.h" />
     <ClInclude Include="..\Source\Player\ScoreCard.h" />
     <ClInclude Include="..\Source\Player\SSE4.h" />
+    <ClInclude Include="..\Source\Settings\GlobalSettings.h" />
     <ClInclude Include="..\Source\TreeSearch\PlayoutBatch.h" />
     <ClInclude Include="..\Source\TreeSearch\SearchTree.h" />
     <ClInclude Include="..\Source\TreeSearch\TreeSearch.h" />
@@ -52,13 +54,13 @@
     <ClInclude Include="..\Source\Worker\CudaWorker.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\GlobalOptions.cpp" />
+    <ClCompile Include="..\Source\GlobalSettings.cpp" />
     <ClCompile Include="..\Source\Jaglavak.cpp" />
-    <ClCompile Include="..\Source\OpenCL.cpp" />
     <ClCompile Include="..\Source\Player\AVX2.cpp" />
     <ClCompile Include="..\Source\Player\AVX512.cpp" />
     <ClCompile Include="..\Source\Player\SSE4.cpp" />
     <ClCompile Include="..\Source\Player\X64.cpp" />
+    <ClCompile Include="..\Source\Settings\GlobalSettings.cpp" />
     <ClCompile Include="..\Source\TreeSearch\BranchSelection.cpp" />
     <ClCompile Include="..\Source\TreeSearch\Expansion.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TimeControl.cpp" />
@@ -70,7 +72,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
-    <None Include="..\Source\DefaultSettings.json" />
+    <None Include="..\Source\Generated\EmbedFile.bat">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\Source\Generated\GenerateHeaders.bat">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\Source\Settings\DefaultSettings.json" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="..\Source\Player\CudaPlayer.cu" />

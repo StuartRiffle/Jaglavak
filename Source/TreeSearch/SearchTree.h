@@ -65,7 +65,7 @@ struct TreeNode : public TreeLink
 
 class SearchTree
 {
-    GlobalOptions*  _Options;
+    GlobalSettings*  _Settings;
 
     TreeNode*       _NodePool = NULL;
     size_t          _NodePoolEntries = 0;
@@ -80,7 +80,7 @@ class SearchTree
     void ClearNode( TreeNode* node );
 
 public:
-    SearchTree( GlobalOptions* options ) : _Options( options ) {}
+    SearchTree( GlobalSettings* settings ) : _Settings( settings ) {}
 
     void Init();
     void SetPosition( const Position& startPos, const MoveList* moveList );
