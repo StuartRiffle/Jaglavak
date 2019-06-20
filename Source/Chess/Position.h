@@ -87,15 +87,14 @@ struct ALIGN_SIMD PositionT
     {
         SIMD moveSrc    = SelectWithMask( _BoardFlipped,  FlipSquareIndex( move._Src ), move._Src );
         SIMD srcBit     = SquareBit( moveSrc );
+        SIMD moveDest   = SelectWithMask( _BoardFlipped,  FlipSquareIndex( move._Dest ), move._Dest );
+        SIMD destBit    = SquareBit( moveDest );
+
         SIMD isPawnMove = SelectIfNotZero( srcBit & _WhitePawns, MaskAllSet< SIMD >() );
-        SIMD isCapture  = 
-            CmpEqual( move._Type, (SIMD) CAPTURE_LOSING ) |
-            CmpEqual( move._Type, (SIMD) CAPTURE_EQUAL ) |
-            CmpEqual( move._Type, (SIMD) CAPTURE_WINNING ) |
-            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_KNIGHT ) |
-            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_BISHOP ) |
-            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_ROOK ) |
-            CmpEqual( move._Type, (SIMD) CAPTURE_PROMOTE_QUEEN );
+        SIMD blackPieces= _BlackPawns | _BlackKnights | _BlackBishops | _BlackRooks | _BlackQueens;
+        SIMD isCapture  = SelectIfNotZero( destBit & blackPieces, MaskAllSet< SIMD >() );
+
+        // FIXME: isCapture not accounting for en passant?
 
         this->ApplyMove( move._Src, move._Dest, move._Type );
         this->FlipInPlace();
@@ -162,10 +161,10 @@ struct ALIGN_SIMD PositionT
         SIMD    srcQueen            = srcBit & whiteQueens;
         SIMD    srcKing             = srcBit & whiteKing;
 
-        SIMD    promotedKnight      = destBit & (CmpEqual( moveType, (SIMD) PROMOTE_KNIGHT ) | CmpEqual( moveType, (SIMD) CAPTURE_PROMOTE_KNIGHT ));
-        SIMD    promotedBishop      = destBit & (CmpEqual( moveType, (SIMD) PROMOTE_BISHOP ) | CmpEqual( moveType, (SIMD) CAPTURE_PROMOTE_BISHOP ));
-        SIMD    promotedRook        = destBit & (CmpEqual( moveType, (SIMD) PROMOTE_ROOK   ) | CmpEqual( moveType, (SIMD) CAPTURE_PROMOTE_ROOK   ));
-        SIMD    promotedQueen       = destBit & (CmpEqual( moveType, (SIMD) PROMOTE_QUEEN  ) | CmpEqual( moveType, (SIMD) CAPTURE_PROMOTE_QUEEN  ));
+        SIMD    promotedKnight      = destBit & CmpEqual( moveType, (SIMD) PROMOTE_KNIGHT );
+        SIMD    promotedBishop      = destBit & CmpEqual( moveType, (SIMD) PROMOTE_BISHOP );
+        SIMD    promotedRook        = destBit & CmpEqual( moveType, (SIMD) PROMOTE_ROOK   );
+        SIMD    promotedQueen       = destBit & CmpEqual( moveType, (SIMD) PROMOTE_QUEEN  );
 
         SIMD    formerPawn          = SelectIfNotZero( promotedKnight | promotedBishop | promotedRook | promotedQueen, srcPawn );
         SIMD    destPawn            = SelectIfNotZero( MaskOut( srcPawn, formerPawn ), destBit );

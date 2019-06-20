@@ -81,14 +81,14 @@ const PDECL u64     SQUARE_G8               = 1ULL << G8;
 const PDECL u64     SQUARE_H1               = 1ULL << H1;
 const PDECL u64     SQUARE_H8               = 1ULL << H8;
 
-const PDECL u64     FILE_A                  = 0x80808080`80808080ULL;
-const PDECL u64     FILE_B                  = 0x40404040`40404040ULL;
-const PDECL u64     FILE_C                  = 0x20202020`20202020ULL;
-const PDECL u64     FILE_D                  = 0x10101010`10101010ULL;
-const PDECL u64     FILE_E                  = 0x08080808`08080808ULL;
-const PDECL u64     FILE_F                  = 0x04040404`04040404ULL;
-const PDECL u64     FILE_G                  = 0x02020202`02020202ULL;
-const PDECL u64     FILE_H                  = 0x01010101`01010101ULL;
+const PDECL u64     FILE_A                  = 0x8080808080808080ULL;
+const PDECL u64     FILE_B                  = 0x4040404040404040ULL;
+const PDECL u64     FILE_C                  = 0x2020202020202020ULL;
+const PDECL u64     FILE_D                  = 0x1010101010101010ULL;
+const PDECL u64     FILE_E                  = 0x0808080808080808ULL;
+const PDECL u64     FILE_F                  = 0x0404040404040404ULL;
+const PDECL u64     FILE_G                  = 0x0202020202020202ULL;
+const PDECL u64     FILE_H                  = 0x0101010101010101ULL;
 
 const PDECL u64     RANK_1                  = 0x00000000000000FFULL;
 const PDECL u64     RANK_2                  = 0x000000000000FF00ULL;
@@ -99,9 +99,9 @@ const PDECL u64     RANK_6                  = 0x0000FF0000000000ULL;
 const PDECL u64     RANK_7                  = 0x00FF000000000000ULL;
 const PDECL u64     RANK_8                  = 0xFF00000000000000ULL;
 
-const PDECL u64     LIGHT_SQUARES           = 0x55AA55AA`55AA55AAULL;
-const PDECL u64     DARK_SQUARES            = 0xAA55AA55`AA55AA55ULL;
-const PDECL u64     ALL_SQUARES             = 0xFFFFFFFF`FFFFFFFFULL;
+const PDECL u64     LIGHT_SQUARES           = 0x55AA55AA55AA55AAULL;
+const PDECL u64     DARK_SQUARES            = 0xAA55AA55AA55AA55ULL;
+const PDECL u64     ALL_SQUARES             = 0xFFFFFFFFFFFFFFFFULL;
 
 const PDECL u64     CASTLE_ROOKS            = SQUARE_A1 | SQUARE_H1 | SQUARE_A8 | SQUARE_H8;
 const PDECL u64     EP_SQUARES              = RANK_3 | RANK_6;

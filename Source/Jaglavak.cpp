@@ -1,7 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Version.h"
+#include "Jaglavak.h"
 #include "UciInterface.h"
 
 #include "boost/program_options.hpp"

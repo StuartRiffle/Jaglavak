@@ -1,13 +1,12 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess/Core.h"
-#include "Common.h"
+#include "Jaglavak.h"
 #include "SearchTree.h"
+#include "Util/FEN.h"
 
 void SearchTree::Init()
 {
-    _NodePoolEntries = _Settings["MaxTreeNodes"];
+    _NodePoolEntries = _Settings->Get( "MaxTreeNodes" );
 
     size_t totalSize = _NodePoolEntries * sizeof( TreeNode );
     _NodePoolBuf = unique_ptr< HugeBuffer >( new HugeBuffer( totalSize ) );
@@ -109,12 +108,12 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
 void SearchTree::ClearNode( TreeNode* node )
 {
     // Make sure we don't delete any nodes that are still being used by a fiber.
-    // This will probably never actually happen, because the tree is huge.
+    // This should never actually happen, because the tree is huge.
 
     while( node->_RefCount > 0 )
     {
         // -----------------------------------------------------------------------------------
-        FIBER_YIELD();
+        YIELD_FIBER();
         // -----------------------------------------------------------------------------------
     }
 
@@ -130,7 +129,7 @@ void SearchTree::ClearNode( TreeNode* node )
 
     if( node->_Info )
     {
-        assert( node->_Info->_Node == this );
+        assert( node->_Info->_Node == node );
         node->_Info->_Node = NULL;
     }
 

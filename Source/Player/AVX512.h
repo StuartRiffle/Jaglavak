@@ -6,9 +6,9 @@ struct simd8_avx512
     __m512i vec;
 
     INLINE simd8_avx512() {}
-    INLINE simd8_avx512( u64 s )                                    : vec( _mm512_set1_epi64( s ) ) {}
-    INLINE simd8_avx512( const __m512i& v )                         : vec( v ) {}
-    INLINE simd8_avx512( const simd8_avx512& v )                    : vec( v.vec ) {}
+    INLINE simd8_avx512( u64 s )                 : vec( _mm512_set1_epi64( s ) ) {}
+    INLINE simd8_avx512( const __m512i& v )      : vec( v ) {}
+    INLINE simd8_avx512( const simd8_avx512& v ) : vec( v.vec ) {}
 
     INLINE explicit      operator   __m512i()                 const { return( vec ); }
     INLINE simd8_avx512  operator~  ()                        const { return( _mm512_xor_si512(  vec, _mm512_set1_epi8( ~0 ) ) ); }
@@ -19,17 +19,17 @@ struct simd8_avx512
     INLINE simd8_avx512  operator^  ( u64 s )                 const { return( _mm512_xor_si512(  vec, _mm512_set1_epi64( s ) ) ); }
     INLINE simd8_avx512  operator<< ( int c )                 const { return( _mm512_slli_epi64( vec, c ) ); }
     INLINE simd8_avx512  operator>> ( int c )                 const { return( _mm512_srli_epi64( vec, c ) ); }
-    INLINE simd8_avx512  operator<< ( const simd8_avx512& v ) const { return( _mm512_sllv_epi64( vec, v.vec ) ); }
-    INLINE simd8_avx512  operator>> ( const simd8_avx512& v ) const { return( _mm512_srlv_epi64( vec, v.vec ) ); }
-    INLINE simd8_avx512  operator-  ( const simd8_avx512& v ) const { return( _mm512_sub_epi64(  vec, v.vec ) ); }
-    INLINE simd8_avx512  operator+  ( const simd8_avx512& v ) const { return( _mm512_add_epi64(  vec, v.vec ) ); }
-    INLINE simd8_avx512  operator&  ( const simd8_avx512& v ) const { return( _mm512_and_si512(  vec, v.vec ) ); }
-    INLINE simd8_avx512  operator|  ( const simd8_avx512& v ) const { return( _mm512_or_si512(   vec, v.vec ) ); }
-    INLINE simd8_avx512  operator^  ( const simd8_avx512& v ) const { return( _mm512_xor_si512(  vec, v.vec ) ); }
-    INLINE simd8_avx512& operator+= ( const simd8_avx512& v )       { return( vec = _mm512_add_epi64( vec, v.vec ), *this ); }
-    INLINE simd8_avx512& operator&= ( const simd8_avx512& v )       { return( vec = _mm512_and_si512( vec, v.vec ), *this ); }
-    INLINE simd8_avx512& operator|= ( const simd8_avx512& v )       { return( vec = _mm512_or_si512(  vec, v.vec ), *this ); }
-    INLINE simd8_avx512& operator^= ( const simd8_avx512& v )       { return( vec = _mm512_xor_si512( vec, v.vec ), *this ); }
+    INLINE simd8_avx512  operator<< ( simd8_avx512 v ) const { return( _mm512_sllv_epi64( vec, v.vec ) ); }
+    INLINE simd8_avx512  operator>> ( simd8_avx512 v ) const { return( _mm512_srlv_epi64( vec, v.vec ) ); }
+    INLINE simd8_avx512  operator-  ( simd8_avx512 v ) const { return( _mm512_sub_epi64(  vec, v.vec ) ); }
+    INLINE simd8_avx512  operator+  ( simd8_avx512 v ) const { return( _mm512_add_epi64(  vec, v.vec ) ); }
+    INLINE simd8_avx512  operator&  ( simd8_avx512 v ) const { return( _mm512_and_si512(  vec, v.vec ) ); }
+    INLINE simd8_avx512  operator|  ( simd8_avx512 v ) const { return( _mm512_or_si512(   vec, v.vec ) ); }
+    INLINE simd8_avx512  operator^  ( simd8_avx512 v ) const { return( _mm512_xor_si512(  vec, v.vec ) ); }
+    INLINE simd8_avx512& operator+= ( simd8_avx512 v )       { return( vec = _mm512_add_epi64( vec, v.vec ), *this ); }
+    INLINE simd8_avx512& operator&= ( simd8_avx512 v )       { return( vec = _mm512_and_si512( vec, v.vec ), *this ); }
+    INLINE simd8_avx512& operator|= ( simd8_avx512 v )       { return( vec = _mm512_or_si512(  vec, v.vec ), *this ); }
+    INLINE simd8_avx512& operator^= ( simd8_avx512 v )       { return( vec = _mm512_xor_si512( vec, v.vec ), *this ); }
 };       
 
 template<>
@@ -56,7 +56,7 @@ INLINE __m512i _mm512_select( const __m512i& a, const __m512i& b, const __m512i&
 }
 
 template<>
-INLINE simd8_avx512 ByteSwap< simd8_avx512 >( const simd8_avx512& val ) 
+INLINE simd8_avx512 ByteSwap< simd8_avx512 >( simd8_avx512 val ) 
 { 
     // FIXME: GCC is currently missing _mm512_set_epi8
 
@@ -88,48 +88,48 @@ INLINE simd8_avx512 MaskAllSet< simd8_avx512 >()
 } 
 
 template<>
-INLINE simd8_avx512 MaskOut< simd8_avx512 >( const simd8_avx512& val, const simd8_avx512& bitsToClear ) 
+INLINE simd8_avx512 MaskOut< simd8_avx512 >( simd8_avx512 val, simd8_avx512 bitsToClear ) 
 {
     return( _mm512_andnot_si512( bitsToClear.vec, val.vec ) );
 }
 
 template<>
-INLINE simd8_avx512 CmpEqual< simd8_avx512 >( const simd8_avx512& a, const simd8_avx512& b ) 
+INLINE simd8_avx512 CmpEqual< simd8_avx512 >( simd8_avx512 a, simd8_avx512 b ) 
 {
     __mmask8 mask = _mm512_cmpeq_epi64_mask( a.vec, b.vec );
     return( _mm512_mask_blend_epi64( mask, _mm512_setzero_si512(), _mm512_set1_epi8( ~0 ) ) );
 }
 
 template<>
-INLINE simd8_avx512 SelectIfZero< simd8_avx512 >( const simd8_avx512& val, const simd8_avx512& a ) 
+INLINE simd8_avx512 SelectIfZero< simd8_avx512 >( simd8_avx512 val, simd8_avx512 a ) 
 {
     __mmask8 mask = _mm512_cmpeq_epi64_mask( val.vec, _mm512_setzero_si512() ); 
     return( _mm512_mask_blend_epi64( mask, _mm512_setzero_si512(), a.vec ) );
 }
 
 template<>
-INLINE simd8_avx512 SelectIfZero< simd8_avx512 >( const simd8_avx512& val, const simd8_avx512& a, const simd8_avx512& b ) 
+INLINE simd8_avx512 SelectIfZero< simd8_avx512 >( simd8_avx512 val, simd8_avx512 a, simd8_avx512 b ) 
 { 
     __mmask8 mask = _mm512_cmpeq_epi64_mask( val.vec, _mm512_setzero_si512() ); 
     return( _mm512_mask_blend_epi64( mask, b.vec, a.vec ) );
 }
 
 template<> 
-INLINE simd8_avx512 SelectIfNotZero< simd8_avx512 >( const simd8_avx512& val, const simd8_avx512& a ) 
+INLINE simd8_avx512 SelectIfNotZero< simd8_avx512 >( simd8_avx512 val, simd8_avx512 a ) 
 {
     __mmask8 mask = _mm512_cmpneq_epi64_mask( val.vec, _mm512_setzero_si512() ); 
     return( _mm512_mask_blend_epi64( mask, _mm512_setzero_si512(), a.vec ) );
 }
 
 template<>
-INLINE simd8_avx512 SelectIfNotZero< simd8_avx512 >( const simd8_avx512& val, const simd8_avx512& a, const simd8_avx512& b ) 
+INLINE simd8_avx512 SelectIfNotZero< simd8_avx512 >( simd8_avx512 val, simd8_avx512 a, simd8_avx512 b ) 
 {
     __mmask8 mask = _mm512_cmpneq_epi64_mask( val.vec, _mm512_setzero_si512() ); 
     return( _mm512_mask_blend_epi64( mask, b.vec, a.vec ) );
 }
 
 template<>
-INLINE simd8_avx512 SelectWithMask< simd8_avx512 >( const simd8_avx512& mask, const simd8_avx512& a, const simd8_avx512& b ) 
+INLINE simd8_avx512 SelectWithMask< simd8_avx512 >( simd8_avx512 mask, simd8_avx512 a, simd8_avx512 b ) 
 { 
     return( _mm512_select( b.vec, a.vec, mask.vec ) );
 }

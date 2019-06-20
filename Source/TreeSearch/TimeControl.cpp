@@ -1,15 +1,13 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess/Core.h"
-#include "Common.h"
+#include "Jaglavak.h"
 #include "TreeSearch.h"
 
 bool TreeSearch::IsTimeToMove()
 {
-    bool    whiteToMove     = _SearchRoot->_Pos._WhiteToMove; 
+    bool    whiteToMove     = _SearchTree->GetRootNode()->_Pos._WhiteToMove; 
     int     requiredMoves   = _UciConfig._TimeControlMoves;
-    int     timeBuffer      = _Settings["TimeSafetyBuffer"];
+    int     timeBuffer      = _Settings->Get( "TimeSafetyBuffer" );
     int     timeElapsed     = _SearchTimer.GetElapsedMs() + timeBuffer;
     int     timeInc         = whiteToMove? _UciConfig._WhiteTimeInc  : _UciConfig._BlackTimeInc;
     int     timeLeftAtStart = whiteToMove? _UciConfig._WhiteTimeLeft : _UciConfig._BlackTimeLeft;

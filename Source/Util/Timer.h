@@ -1,6 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#include "CpuInfo.h"
+
 struct Timer
 {
     u64 _StartTime;

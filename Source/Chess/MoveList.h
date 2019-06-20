@@ -11,8 +11,8 @@ struct MoveSpecT
     T   _Type;
 
     INLINE PDECL MoveSpecT() {}
-    INLINE PDECL MoveSpecT( T src, T dest, T type = MOVE ) : _Src(  src ), _Dest( dest ), _Type( type ) {}
-    INLINE PDECL void Set(  T src, T dest, T type = MOVE ) { _Src = src;  _Dest = dest;  _Type = type; }
+    INLINE PDECL MoveSpecT( T src, T dest, T type = 0 ) : _Src(  src ), _Dest( dest ), _Type( type ) {}
+    INLINE PDECL void Set(  T src, T dest, T type = 0 ) { _Src = src;  _Dest = dest;   _Type = type; }
 
     template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : _Src( rhs._Src ), _Dest( rhs._Dest ), _Type( rhs._Type ) {}
 
@@ -61,16 +61,6 @@ struct MoveList
             _Move[i] = rhs._Move[i];
     }
 
-    PDECL int LookupMove( const MoveSpec& spec )
-    {
-        for( int idx = 0; idx < _Count; idx++ )
-            if( (_Move[idx]._Src == spec._Src) && (_Move[idx]._Dest == spec._Dest) )
-                if( _Move[idx].GetPromoteChar() == spec.GetPromoteChar() )
-                    return idx;
-
-        return -1;
-    }
-
     PDECL MoveSpec Remove( int idx )
     {
         MoveSpec result = _Move[idx];
@@ -84,37 +74,37 @@ struct MoveList
 
         u64 whitePieces = pos._WhitePawns | pos._WhiteKnights | pos._WhiteBishops | pos._WhiteRooks | pos._WhiteQueens | pos._WhiteKing;
 
-        if( mmap._PawnMovesN )      this->StorePawnMoves( pos, mmap._PawnMovesN,     SHIFT_N );
-        if( mmap._PawnDoublesN )    this->StorePawnMoves( pos, mmap._PawnDoublesN,   SHIFT_N * 2 );
-        if( mmap._PawnAttacksNE )   this->StorePawnMoves( pos, mmap._PawnAttacksNE,  SHIFT_NE );
-        if( mmap._PawnAttacksNW )   this->StorePawnMoves( pos, mmap._PawnAttacksNW,  SHIFT_NW );
-        if( mmap._CastlingMoves )   this->StoreKingMoves( pos, mmap._CastlingMoves,  pos._WhiteKing );
-        if( mmap._KingMoves )       this->StoreKingMoves( pos, mmap._KingMoves,      pos._WhiteKing );
+        if( mmap._PawnMovesN )      this->StorePawnMoves( mmap._PawnMovesN,     SHIFT_N );
+        if( mmap._PawnDoublesN )    this->StorePawnMoves( mmap._PawnDoublesN,   SHIFT_N * 2 );
+        if( mmap._PawnAttacksNE )   this->StorePawnMoves( mmap._PawnAttacksNE,  SHIFT_NE );
+        if( mmap._PawnAttacksNW )   this->StorePawnMoves( mmap._PawnAttacksNW,  SHIFT_NW );
+        if( mmap._CastlingMoves )   this->StoreKingMoves( mmap._CastlingMoves,  pos._WhiteKing );
+        if( mmap._KingMoves )       this->StoreKingMoves( mmap._KingMoves,      pos._WhiteKing );
 
-        if( mmap._SlidingMovesNW )  this->StoreSlidingMoves< SHIFT_NW >( pos, mmap._SlidingMovesNW, whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesNE )  this->StoreSlidingMoves< SHIFT_NE >( pos, mmap._SlidingMovesNE, whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesSW )  this->StoreSlidingMoves< SHIFT_SW >( pos, mmap._SlidingMovesSW, whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesSE )  this->StoreSlidingMoves< SHIFT_SE >( pos, mmap._SlidingMovesSE, whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesN  )  this->StoreSlidingMoves< SHIFT_N  >( pos, mmap._SlidingMovesN,  whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesW  )  this->StoreSlidingMoves< SHIFT_W  >( pos, mmap._SlidingMovesW,  whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesE  )  this->StoreSlidingMoves< SHIFT_E  >( pos, mmap._SlidingMovesE,  whitePieces, mmap._CheckMask );
-        if( mmap._SlidingMovesS  )  this->StoreSlidingMoves< SHIFT_S  >( pos, mmap._SlidingMovesS,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesNW )  this->StoreSlidingMoves< SHIFT_NW >( mmap._SlidingMovesNW, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesNE )  this->StoreSlidingMoves< SHIFT_NE >( mmap._SlidingMovesNE, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesSW )  this->StoreSlidingMoves< SHIFT_SW >( mmap._SlidingMovesSW, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesSE )  this->StoreSlidingMoves< SHIFT_SE >( mmap._SlidingMovesSE, whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesN  )  this->StoreSlidingMoves< SHIFT_N  >( mmap._SlidingMovesN,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesW  )  this->StoreSlidingMoves< SHIFT_W  >( mmap._SlidingMovesW,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesE  )  this->StoreSlidingMoves< SHIFT_E  >( mmap._SlidingMovesE,  whitePieces, mmap._CheckMask );
+        if( mmap._SlidingMovesS  )  this->StoreSlidingMoves< SHIFT_S  >( mmap._SlidingMovesS,  whitePieces, mmap._CheckMask );
 
-        if( mmap._KnightMovesNNW )  this->StoreStepMoves( pos, mmap._KnightMovesNNW, SHIFT_N + SHIFT_NW );
-        if( mmap._KnightMovesNNE )  this->StoreStepMoves( pos, mmap._KnightMovesNNE, SHIFT_N + SHIFT_NE );
-        if( mmap._KnightMovesWNW )  this->StoreStepMoves( pos, mmap._KnightMovesWNW, SHIFT_W + SHIFT_NW );
-        if( mmap._KnightMovesENE )  this->StoreStepMoves( pos, mmap._KnightMovesENE, SHIFT_E + SHIFT_NE );
-        if( mmap._KnightMovesWSW )  this->StoreStepMoves( pos, mmap._KnightMovesWSW, SHIFT_W + SHIFT_SW );
-        if( mmap._KnightMovesESE )  this->StoreStepMoves( pos, mmap._KnightMovesESE, SHIFT_E + SHIFT_SE );
-        if( mmap._KnightMovesSSW )  this->StoreStepMoves( pos, mmap._KnightMovesSSW, SHIFT_S + SHIFT_SW );
-        if( mmap._KnightMovesSSE )  this->StoreStepMoves( pos, mmap._KnightMovesSSE, SHIFT_S + SHIFT_SE );
+        if( mmap._KnightMovesNNW )  this->StoreStepMoves( mmap._KnightMovesNNW, SHIFT_N + SHIFT_NW );
+        if( mmap._KnightMovesNNE )  this->StoreStepMoves( mmap._KnightMovesNNE, SHIFT_N + SHIFT_NE );
+        if( mmap._KnightMovesWNW )  this->StoreStepMoves( mmap._KnightMovesWNW, SHIFT_W + SHIFT_NW );
+        if( mmap._KnightMovesENE )  this->StoreStepMoves( mmap._KnightMovesENE, SHIFT_E + SHIFT_NE );
+        if( mmap._KnightMovesWSW )  this->StoreStepMoves( mmap._KnightMovesWSW, SHIFT_W + SHIFT_SW );
+        if( mmap._KnightMovesESE )  this->StoreStepMoves( mmap._KnightMovesESE, SHIFT_E + SHIFT_SE );
+        if( mmap._KnightMovesSSW )  this->StoreStepMoves( mmap._KnightMovesSSW, SHIFT_S + SHIFT_SW );
+        if( mmap._KnightMovesSSE )  this->StoreStepMoves( mmap._KnightMovesSSE, SHIFT_S + SHIFT_SE );
 
         if( pos._BoardFlipped )
             this->FlipAll();
     }
 
 private:
-            INLINE PDECL void StoreMove( int srcIdx, int destIdx, int promotion = 0 ) 
+    INLINE PDECL void StoreMove( int srcIdx, int destIdx, int promotion = 0 ) 
     {
         _Move[_Count++].Set( srcIdx, destIdx, promotion );
     }

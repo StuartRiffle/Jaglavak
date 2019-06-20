@@ -1,8 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess/Core.h"
-#include "Common.h"
+#include "Jaglavak.h"
+#include "TreeSearch.h"
 #include "Util/FEN.h"
 
 void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )

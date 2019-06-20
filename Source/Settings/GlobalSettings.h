@@ -3,13 +3,28 @@
 
 class GlobalSettings
 {
-    unordered_map< string, int > _Value;
+    map< string, int > _Value;
 
 public:
-    int& operator[]( const string& key ) { return _Value[str]; }
+    int Get( const string& key ) const
+    { 
+        int value = 0;
+
+        auto iter = _Value.find( key );
+        if( iter != _Value.end() )
+            value = iter->second;
+
+        return value;
+    }
+
+    void Set( const string& key, int val ) 
+    { 
+        _Value[key] = val; 
+    }
 
     void Initialize( const vector< string >& configFiles );
-    void LoadJsonValues( string json );
+    void LoadJsonValues( const string& json );
+    void PrintListForUci() const;
 };
 
 

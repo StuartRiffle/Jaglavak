@@ -1,13 +1,10 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess/Core.h"
-#include "Common.h"
+#include "Jaglavak.h"
 
 #include "CudaSupport.h"
 #include "CudaPlayer.h"
 #include "CudaWorker.h"
-
 
 CudaWorker::CudaWorker( const GlobalSettings* settings, BatchQueue* batchQueue )
 {
@@ -30,20 +27,20 @@ bool CudaWorker::Initialize( int deviceIndex  )
     if( status != cudaSuccess )
         return false;
 
-    CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
-    CUDA_REQUIRE(( cudaDeviceSetCacheConfig( cudaFuncCachePreferL1 ) ));
+    cudaSetDevice( _DeviceIndex );
+    cudaDeviceSetCacheConfig( cudaFuncCachePreferL1 );
 
     int totalCores = GetCudaCoresPerSM( _Prop.major, _Prop.minor );
-    int mb = _Prop.totalGlobalMem / (1024 * 1024);
-    int mhz = _Prop.clockRate / 1000;
+    int mb = (int) _Prop.totalGlobalMem / (1024 * 1024);
+    int mhz = (int) _Prop.clockRate / 1000;
 
     cout << "CUDA " << _DeviceIndex << ": " << _Prop.name << endl;
     cout << "  Compute  " << _Prop.major << "." << _Prop.minor << endl;
     cout << "  Clock    " << mhz << " MHz" << endl;
-    cout << "  Memory   " << mb << " MB"
+    cout << "  Memory   " << mb << " MB" << endl;
     cout << "  Cores    " << totalCores << endl << endl;
 
-    _Heap.Init( (u64) _Settings["CudaHeapMegs"] * 1024 * 1024 );
+    _Heap.Init( (u64) _Settings->Get( "CudaHeapMegs" ) * 1024 * 1024 );
     _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 
     return true;
@@ -52,7 +49,7 @@ bool CudaWorker::Initialize( int deviceIndex  )
 void CudaWorker::Shutdown()
 {
     _ShuttingDown = true;
-    _Queue->NotifyAllWaiters();
+    _BatchQueue->NotifyAllWaiters();
     _LaunchThread->join();
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
@@ -93,12 +90,12 @@ void CudaWorker::LaunchThread()
 
     for( ;; )
     {
-        int batchesToGrab = MAX( 1, _Settings["CudaBatchSize"] / _Settings["BatchSize"] );
+        int batchesToGrab = MAX( 1, _Settings->Get( "CudaBatchSize" ) / _Settings->Get( "BatchSize" ) );
 
         // The actual batches can be different sizes, but close enough. Pop
         // them all at once to minimize queue traffic.
 
-        vector< BatchRef > newBatches = _WorkQueue->PopMulti( batchesToGrab );
+        vector< BatchRef > newBatches = _BatchQueue->PopMulti( batchesToGrab );
         if( _ShuttingDown )
             break;
         if( newBatches.empty() )
@@ -135,7 +132,7 @@ void CudaWorker::LaunchThread()
         _StreamIndex %= CUDA_NUM_STREAMS;
         cudaStream_t stream = _StreamId[streamIndex];
 
-        int totalWidth = total * _Settings["NumPlayouts"];
+        int totalWidth = total * _Settings->Get( "NumPlayouts" );
         int blockSize  = _Prop.warpSize;
         int blockCount = (totalWidth + blockSize - 1) / blockSize;
 

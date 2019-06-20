@@ -1,20 +1,18 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess/Core.h"
-#include "Common.h"
-#include "FEN.h"
+#include "Jaglavak.h"
 #include "TreeSearch.h"
 
 #include "Player/GamePlayer.h"
 #include "Worker/CpuWorker.h"
 #include "Worker/CudaWorker.h"
+#include "Util/FEN.h"
 #include "Util/FiberSet.h"
 
 TreeSearch::TreeSearch( GlobalSettings* settings ) : 
     _Settings( settings )
 {
-    u64 seed = _Settings["FixedRandomSeed"];
+    u64 seed = _Settings->Get( "FixedRandomSeed" );
     if( seed == 0 )
         seed = CpuInfo::GetClockTick();
 
@@ -30,11 +28,11 @@ void TreeSearch::Init()
     if( cpuWorker->Initialize() )
         _Workers.push_back( cpuWorker );
 
-    if( _Settings["EnableCuda"] )
+    if( _Settings->Get( "EnableCuda" ) )
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            int mask = _Settings["GpuAffinityMask"];
+            int mask = _Settings->Get( "GpuAffinityMask" );
             if( mask != 0 )
                 if( ((1 << i) & mask) == 0 )
                     continue;
@@ -63,6 +61,14 @@ void TreeSearch::Reset()
 
     _DeepestLevelSearched = 0;
     _GameHistory.Clear();
+
+    _DrawsWorthHalf    = _Settings->Get( "DrawsWorthHalf" );
+    _ExplorationFactor = _Settings->Get( "ExplorationFactor" ) / 100.0f;
+
+    _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
+    _PlayoutParams._NumGamesEach    = _Settings->Get( "NumPlayouts" );
+    _PlayoutParams._MaxMovesPerGame = _Settings->Get( "MaxPlayoutMoves" );
+    _PlayoutParams._EnableMulticore = _Settings->Get( "EnableMulticore" );
 
     Position startPos;
     startPos.Reset();
@@ -111,7 +117,7 @@ void TreeSearch::SearchThread()
 
         fibers.Update();
 
-        if( fibers.GetCount() < _Settings["MaxSearchFibers"] )
+        if( fibers.GetCount() < _Settings->Get( "MaxSearchFibers" ) )
             fibers.Spawn( [&]() { this->SearchFiber(); } );            
     } 
 }

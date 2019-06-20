@@ -193,7 +193,7 @@ static const char* StringToMoveSpec( const char* str, MoveSpec& spec )
 
     spec._Src  = (src_rank0  * 8) + src_file0;
     spec._Dest = (dest_rank0 * 8) + dest_file0;
-    spec._Type = MOVE;
+    spec._Type = 0;
 
     switch( tolower( *str ) )
     {

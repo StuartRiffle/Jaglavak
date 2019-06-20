@@ -18,7 +18,7 @@
     <ClInclude Include="..\Source\Chess\MoveMap.h" />
     <ClInclude Include="..\Source\Chess\Operations.h" />
     <ClInclude Include="..\Source\Chess\Position.h" />
-    <ClInclude Include="..\Source\Common.h" />
+    <ClInclude Include="..\Source\Jaglavak.h" />
     <ClInclude Include="..\Source\Generated\DefaultSettings.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Player\AVX2.h" />

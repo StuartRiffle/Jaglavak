@@ -1,6 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
+#include "SearchTree.h"
+
 struct UciSearchConfig
 {
     int         _WhiteTimeLeft;   
@@ -38,7 +40,6 @@ struct TreeSearchMetrics
     }
 };
 
-
 class TreeSearch
 {
     GlobalSettings*         _Settings = NULL;
@@ -48,6 +49,7 @@ class TreeSearch
 
     Position                _Position;
     MoveList                _GameHistory;
+    PlayoutParams           _PlayoutParams;
 
     UciSearchConfig         _UciConfig = {};
     unique_ptr< SearchTree > _SearchTree;
@@ -60,6 +62,9 @@ class TreeSearch
     TreeSearchMetrics       _Metrics;
     TreeSearchMetrics       _SearchStartMetrics;
     TreeSearchMetrics       _StatsStartMetrics;
+
+    bool                    _DrawsWorthHalf;
+    float                   _ExplorationFactor;
 
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > _Workers;

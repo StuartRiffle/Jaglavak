@@ -13,7 +13,7 @@ struct PlayoutBatch
     // Outputs
     vector< ScoreCard > _GameResults;
 
-
+    int GetCount() const { return (int) _Position.size(); }
 };
 
 typedef shared_ptr< PlayoutBatch >  BatchRef;

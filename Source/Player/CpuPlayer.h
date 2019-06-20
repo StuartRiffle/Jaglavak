@@ -5,11 +5,12 @@ static void PlayGamesCpu( const GlobalSettings* settings, const PlayoutParams* p
 {
     int simdLevel = CpuInfo::GetSimdLevel();
 
-    if( !settings->_EnableSimd )
+    if( !settings->Get( "EnableSimd" ) )
         simdLevel = 1;
 
-    if( settings->_ForceSimdLevel )
-        simdLevel = options->_ForceSimdLevel;
+    int forceLevel = settings->Get( "ForceSimdLevel" );
+    if( forceLevel )
+        simdLevel = forceLevel;
 
     int simdCount = (count + simdLevel - 1) / simdLevel;
 

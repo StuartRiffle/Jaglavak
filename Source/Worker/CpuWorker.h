@@ -32,7 +32,7 @@ public:
     {
         string cpuName   = CpuInfo::GetCpuName();
         int    cores     = CpuInfo::DetectCpuCores();
-        int    simdLevel = CpuInfo::DetectSimdLevel();
+        int    simdLevel = CpuInfo::GetSimdLevel();
         string simdDesc  = CpuInfo::GetSimdDesc( simdLevel );
 
         cout << 
@@ -40,7 +40,7 @@ public:
             "  Cores    " << cores << endl <<
             "  SIMD     " << simdLevel << "x (" << simdDesc << ")" << endl << endl;
 
-        for( int i = 0; i < _Settings["CpuWorkThreads"]; i++ )
+        for( int i = 0; i < _Settings->Get( "CpuWorkThreads" ); i++ )
             _WorkThreads.emplace_back( new thread( [this]() { WorkThread(); } ) );
 
         return (_WorkThreads.size() > 0);

@@ -1,8 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Chess/Core.h"
-#include "Common.h"
+#include "Jaglavak.h"
 #include "TreeSearch.h"
 
 ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
@@ -19,18 +17,11 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
         if( info._Node == NULL )
             unexpanded++;
 
-    // TODO: put this elsewhere
-    _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
-    _PlayoutParams._NumGamesEach    = _Settings->_NumPlayouts;
-    _PlayoutParams._MaxMovesPerGame = _Settings->_MaxPlayoutMoves;
-    _PlayoutParams._EnableMulticore = _Settings->_EnableMulticore;
-
-
     if( unexpanded > 0 )
     {
         ScoreCard totalScore;
 
-        int count = _Settings["BranchesToExpand"];
+        int count = _Settings->Get( "BranchesToExpand" );
         if( count == 0 )
             count = unexpanded;
 
@@ -57,7 +48,9 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
 
         BatchRef ourBatch = _Batch;
 
-        if( (_Batch->_Position.size() >= _Settings->_BatchSize) || _Settings->_FlushEveryBatch )
+
+
+        if( (_Batch->_Position.size() >= _Settings->Get( "BatchSize" )) || _Settings->Get( "FlushEveryBatch" ) )
             this->FlushBatch();
 
         while( !ourBatch->_Done )
@@ -65,7 +58,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
             ourBatch->_YieldCounter++;
 
             // -----------------------------------------------------------------------------------
-            FIBER_YIELD();
+            YIELD_FIBER();
             // -----------------------------------------------------------------------------------
         }
 

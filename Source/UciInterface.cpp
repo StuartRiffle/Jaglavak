@@ -1,17 +1,14 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
-#include "Platform.h"
-#include "Version.h"
-#include "Settings/GlobalSettings.h"
+#include "Jaglavak.h"
 #include "UciInterface.h"
 
-#include "Chess/Core.h"
 #include "Util/FEN.h"
 #include "Util/Tokenizer.h"
 
 UciInterface::UciInterface( GlobalSettings* settings ) : _Settings( settings ), _DebugMode( false ) 
 {
-    _TreeSearch = unique_ptr< TreeSearch >( new TreeSearch( &_Settings ) );
+    _TreeSearch = unique_ptr< TreeSearch >( new TreeSearch( _Settings ) );
     _TreeSearch->Init();
 }
 
@@ -28,7 +25,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
         cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
         cout << "id author Stuart Riffle" << endl << endl;
 
-        _Settings.PrintListForUci();
+        _Settings->PrintListForUci();
         
         _TreeSearch->Reset();
         cout << "uciok" << endl;
@@ -39,7 +36,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
         {
             const char* optionName = t.ConsumeNext();
             if( t.Consume( "value" ) )
-                this->SetOptionByName( optionName, t.ConsumeInt() );
+                _Settings->Set( optionName, t.ConsumeInt() );
         }
     }
     else if( t.Consume( "debug" ) )

@@ -43,7 +43,6 @@
       <Filter>Chess</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Chess.h" />
-    <ClInclude Include="..\Source\Common.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Version.h" />
     <ClInclude Include="..\Source\Util\Allocator.h">
@@ -134,6 +133,7 @@
     <ClInclude Include="..\Source\Settings\GlobalSettings.h">
       <Filter>Settings</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Jaglavak.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />

@@ -79,49 +79,49 @@ INLINE simd4_avx2 MaskAllSet< simd4_avx2 >()
 } 
 
 template<> 
-INLINE simd4_avx2 ByteSwap< simd4_avx2 >( const simd4_avx2& val ) 
+INLINE simd4_avx2 ByteSwap< simd4_avx2 >( simd4_avx2 val ) 
 {
     return( _mm256_bswap_epi64_avx2( val.vec ) );
 }
 
 template<>
-INLINE simd4_avx2 MaskOut< simd4_avx2 >( const simd4_avx2& val, const simd4_avx2& bitsToClear ) 
+INLINE simd4_avx2 MaskOut< simd4_avx2 >( simd4_avx2 val, simd4_avx2 bitsToClear ) 
 { 
     return( _mm256_andnot_si256( bitsToClear.vec, val.vec ) );
 }
 
 template<>
-INLINE simd4_avx2 CmpEqual< simd4_avx2 >( const simd4_avx2& a, const simd4_avx2& b ) 
+INLINE simd4_avx2 CmpEqual< simd4_avx2 >( simd4_avx2 a, simd4_avx2 b ) 
 {
     return( _mm256_cmpeq_epi64( a.vec, b.vec ) );
 }
 
 template<>
-INLINE simd4_avx2 SelectIfZero< simd4_avx2 >( const simd4_avx2& val, const simd4_avx2& a ) 
+INLINE simd4_avx2 SelectIfZero< simd4_avx2 >( simd4_avx2 val, simd4_avx2 a ) 
 { 
     return( _mm256_and_si256( a.vec, _mm256_cmpeq_epi64( val.vec, _mm256_setzero_si256() ) ) );
 }
 
 template<>
-INLINE simd4_avx2 SelectIfZero< simd4_avx2 >( const simd4_avx2& val, const simd4_avx2& a, const simd4_avx2& b ) 
+INLINE simd4_avx2 SelectIfZero< simd4_avx2 >( simd4_avx2 val, simd4_avx2 a, simd4_avx2 b ) 
 {
     return( _mm256_select( b.vec, a.vec, _mm256_cmpeq_epi64( val.vec, _mm256_setzero_si256() ) ) );
 }
 
 template<>
-INLINE simd4_avx2 SelectIfNotZero< simd4_avx2 >( const simd4_avx2& val, const simd4_avx2& a ) 
+INLINE simd4_avx2 SelectIfNotZero< simd4_avx2 >( simd4_avx2 val, simd4_avx2 a ) 
 { 
     return( _mm256_andnot_si256( _mm256_cmpeq_epi64( val.vec, _mm256_setzero_si256() ), a.vec ) );
 }
 
 template<> 
-INLINE simd4_avx2 SelectIfNotZero< simd4_avx2 >( const simd4_avx2& val, const simd4_avx2& a, const simd4_avx2& b ) 
+INLINE simd4_avx2 SelectIfNotZero< simd4_avx2 >( simd4_avx2 val, simd4_avx2 a, simd4_avx2 b ) 
 {
     return( _mm256_select( a.vec, b.vec, _mm256_cmpeq_epi64( val.vec, _mm256_setzero_si256() ) ) );
 }
 
 template<> 
-INLINE simd4_avx2 SelectWithMask< simd4_avx2 >( const simd4_avx2& mask, const simd4_avx2& a, const simd4_avx2& b ) 
+INLINE simd4_avx2 SelectWithMask< simd4_avx2 >( simd4_avx2 mask, simd4_avx2 a, simd4_avx2 b ) 
 {
     return( _mm256_select( b.vec, a.vec, mask.vec ) );
 }

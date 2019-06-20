@@ -2,43 +2,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <time.h>
-#include <math.h>
-#include <float.h>
 #include <assert.h>
-
-#include <algorithm>
-#include <atomic>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-#include <functional>
-#include <memory>
-#include <mutex>
-#include <thread>
-#include <atomic>
-#include <condition_variable>
-#include <iostream>
-#include <unordered_map>
-
-using std::atomic;
-using std::string;    
-using std::vector;
-using std::list;
-using std::map;
-using std::mutex;
-using std::condition_variable;
-using std::thread;
-using std::shared_ptr;
-using std::unique_ptr;
-using std::unique_lock;
-using std::cout;
-using std::endl;
-using std::unordered_map;
-
 #include <omp.h>
 #include <cuda_runtime_api.h>
 
@@ -114,6 +78,7 @@ using std::unordered_map;
     #define PRId64              "I64d"
     #define PDECL         
 
+    #include <atomic>
     typedef std::atomic< uint64_t > atomic64_t;
     
     extern "C" void * __cdecl memset(void *, int, size_t);
@@ -122,6 +87,7 @@ using std::unordered_map;
 #else
     #error
 #endif
+
 
 typedef uint64_t u64;
 typedef uint32_t u32;

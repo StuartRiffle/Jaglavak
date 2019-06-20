@@ -1,14 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-template< typename T >
-INLINE PDECL T SignedShift( T bits, int shift )
-{
-    if( shift > 0 )
-        return( bits << (shift) );
-    else 
-        return( bits >> ((-shift)) );
-}
+#define ANY (ALL_SQUARES)
 
 template< int SHIFT, typename T >
 INLINE PDECL T Shift( T bits )
@@ -37,14 +30,19 @@ INLINE PDECL T Propagate( T bits, T allow )
 template< typename T >
 INLINE PDECL T StepKnights( T val, T allow = ANY )
 {
-    T a = Shift< SHIFT_W >( val & ~FILE_A ) | Shift< SHIFT_E >( val & ~FILE_H );                                  //  . C . C .
-    T b = Shift< SHIFT_W * 2 >( val & ~(FILE_A | FILE_B) ) | Shift< SHIFT_E * 2 >( val & ~(FILE_G | FILE_H) );    //  D . . . D
-    T c = Shift< SHIFT_N * 2 >( a ) | Shift< SHIFT_S * 2 >( a );                                                  //  b a(N)a b
-    T d = Shift< SHIFT_N >( b ) | Shift< SHIFT_S >( b );                                                          //  D . . . D
-    return( (c | d) & allow );                                                                                    //  . C . C .
-}
+    //  . C . C .
+    //  D . . . D
+    //  b a(N)a b
+    //  D . . . D
+    //  . C . C .
 
-#define ANY (ALL_SQUARES)
+    T a = Shift< SHIFT_W >( val & ~FILE_A ) | Shift< SHIFT_E >( val & ~FILE_H );                                  
+    T b = Shift< SHIFT_W * 2 >( val & ~(FILE_A | FILE_B) ) | Shift< SHIFT_E * 2 >( val & ~(FILE_G | FILE_H) );    
+    T c = Shift< SHIFT_N * 2 >( a ) | Shift< SHIFT_S * 2 >( a );                                                  
+    T d = Shift< SHIFT_N >( b ) | Shift< SHIFT_S >( b );                                                          
+
+    return( (c | d) & allow );                                                                                    
+}
 
 template< typename T > INLINE PDECL T   StepN(         T val, T allow = ANY )   { return( Shift< SHIFT_N  >( val ) & allow ); }
 template< typename T > INLINE PDECL T   StepNW(        T val, T allow = ANY )   { return( Shift< SHIFT_NW >( val ) & allow & ~FILE_H ); }

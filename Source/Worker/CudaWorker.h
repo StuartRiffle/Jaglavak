@@ -28,7 +28,7 @@ class CudaWorker : public AsyncWorker
     };
 
     const GlobalSettings*   _Settings;
-    BatchQueue*             _Queue;
+    BatchQueue*             _BatchQueue;
 
     int                     _DeviceIndex;      
     cudaDeviceProp          _Prop;
