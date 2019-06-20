@@ -20,7 +20,6 @@
     <ClInclude Include="..\Source\Chess\Position.h" />
     <ClInclude Include="..\Source\Common.h" />
     <ClInclude Include="..\Source\Generated\DefaultSettings.h" />
-    <ClInclude Include="..\Source\GlobalSettings.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Player\AVX2.h" />
     <ClInclude Include="..\Source\Player\AVX512.h" />
@@ -54,7 +53,6 @@
     <ClInclude Include="..\Source\Worker\CudaWorker.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\GlobalSettings.cpp" />
     <ClCompile Include="..\Source\Jaglavak.cpp" />
     <ClCompile Include="..\Source\Player\AVX2.cpp" />
     <ClCompile Include="..\Source\Player\AVX512.cpp" />

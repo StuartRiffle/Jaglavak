@@ -131,7 +131,6 @@
     <ClInclude Include="..\Source\Generated\DefaultSettings.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\GlobalSettings.h" />
     <ClInclude Include="..\Source\Settings\GlobalSettings.h">
       <Filter>Settings</Filter>
     </ClInclude>
@@ -172,7 +171,6 @@
       <Filter>TreeSearch</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\UciInterface.cpp" />
-    <ClCompile Include="..\Source\GlobalSettings.cpp" />
     <ClCompile Include="..\Source\Settings\GlobalSettings.cpp">
       <Filter>Settings</Filter>
     </ClCompile>
