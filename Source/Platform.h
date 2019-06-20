@@ -22,6 +22,7 @@
 #include <atomic>
 #include <condition_variable>
 #include <iostream>
+#include <unordered_map>
 
 using std::atomic;
 using std::string;    
@@ -36,9 +37,10 @@ using std::unique_ptr;
 using std::unique_lock;
 using std::cout;
 using std::endl;
+using std::unordered_map;
 
-#include <omp.h> // FIXME
-#include <cuda_runtime_api.h> // WTF
+#include <omp.h>
+#include <cuda_runtime_api.h>
 
 #ifndef NDEBUG
 #define DEBUG (1)

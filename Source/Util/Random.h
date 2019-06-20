@@ -20,7 +20,7 @@ struct RandomGen
 {
     u64 s;
 
-    PDECL RandomGen( u64 seed = 1 ) : { SetSeed( seed ) }
+    PDECL RandomGen( u64 seed = 1 ) : { SetSeed( seed ); }
     PDECL void SetSeed( u64 seed ) { assert( seed != 0 ); s = seed; }
 
     PDECL u64 GetNext()
@@ -39,5 +39,3 @@ struct RandomGen
         return ((GetNext() >> 32) * 1.0f) / (1ULL << 32);
     }
 };
-
-
