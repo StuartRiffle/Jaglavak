@@ -37,7 +37,7 @@ static OptionInfo[] sOptionIndex =
     OPTION_INDEX( UciUpdateDelay ),         
 };
 
-void GlobalSettings::Initialize( vector< string >& configFiles )
+void GlobalSettings::Initialize( const vector< string >& configFiles )
 {
     // Start with the embedded defaults
 
@@ -85,23 +85,6 @@ void GlobalSettings::LoadJsonValues( string json )
         this->SetValueByName( name.c_str(), value );
     }
 }
-
-bool GlobalSettings::SetValueByName( const char* name, int value )
-{
-    for( int i = 0; i < NUM_ELEMENTS( sOptionIndex ); i++ )
-    {
-        OptionInfo& info = sOptionIndex[i];
-
-        if( !stricmp( name, info._Name ) )
-        {
-            _OptionByIndex[info._Index] = value;
-            return true;
-        }
-    }
-
-    return false;
-}
-
 
 void GlobalSettings::PrintListForUci()
 {

@@ -3,20 +3,21 @@
 
 class GlobalSettings
 {
-    unordered_map< hash_t, int > _Values;
+    unordered_map< string, int > _Value;
 
 public:
-    int operator[]( const char* key ) const
+    int operator[]( const string& key ) const
     {
-        hash_t hash = HashString( key );
-        return _Values[hash];
+        return _Value[str];
     }
 
-    void Set( const char* key, int val )
+    void Set( const string& key, int val )
     {
-        hash_t hash = HashString( key );
-        _Values[hash] = val;
+        _Value[key] = val;
     }
+
+    void Initialize( const vector< string >& configFiles );
+    void LoadJsonValues( string json );
 };
 
 
