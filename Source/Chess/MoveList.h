@@ -1,25 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-/*
-struct PackedMoveSpec
-{
-    union
-    {
-        struct
-        {
-            uint16_t _Src   : 6;
-            uint16_t _Dest  : 6;
-            uint16_t _Promo : 2;
-        }
-
-        uint16_t _Word;
-    };
-
-    INLINE PDECL operator(uint16_t)() const { return _Word; }
-};
- */
-
 /// The parameters for one move of the game
 //       
 template< typename T >
@@ -28,17 +9,15 @@ struct MoveSpecT
     T   _Src;
     T   _Dest;
     T   _Type;
-    T   _Flags;
 
     INLINE PDECL MoveSpecT() {}
-    INLINE PDECL MoveSpecT( T src, T dest, T type = MOVE ) : _Src(  src ), _Dest( dest ), _Type( type ), _Flags( 0 ) {}
-    INLINE PDECL void Set(  const T& _src, const T& _dest, const T& _type = MOVE ) { _Src = _src;   _Dest = _dest;   _Type = _type;   _Flags = 0; }
+    INLINE PDECL MoveSpecT( T src, T dest, T type = MOVE ) : _Src(  src ), _Dest( dest ), _Type( type ) {}
+    INLINE PDECL void Set(  T src, T dest, T type = MOVE ) { _Src = src;  _Dest = dest;  _Type = type; }
 
     template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : _Src( rhs._Src ), _Dest( rhs._Dest ), _Type( rhs._Type ) {}
 
     INLINE PDECL int  IsCapture() const       { return( ((_Type >= CAPTURE_LOSING) && (_Type <= CAPTURE_WINNING)) || ((_Type >= CAPTURE_PROMOTE_KNIGHT) && (_Type <= CAPTURE_PROMOTE_QUEEN)) ); }
     INLINE PDECL int  IsPromotion() const     { return( (_Type >= PROMOTE_KNIGHT) && (_Type <= CAPTURE_PROMOTE_QUEEN) ); }
-    INLINE PDECL int  IsSpecial() const       { return( _Flags != 0 ); }
     INLINE PDECL void Flip()                  { _Src = FlipSquareIndex( _Src ); _Dest = FlipSquareIndex( _Dest ); }
     INLINE PDECL char GetPromoteChar() const  { return( "\0\0\0\0nbrqnbrq\0\0"[_Type] ); }
 
@@ -56,12 +35,10 @@ struct MoveSpecT
             unpacked[i]._Src   = moves[i]._Src;
             unpacked[i]._Dest  = moves[i]._Dest;
             unpacked[i]._Type  = moves[i]._Type;
-            unpacked[i]._Flags = moves[i]._Flags;
         }
 
         Swizzle< T >( unpacked, this );
     }
-
 };
 
 
@@ -72,10 +49,17 @@ struct MoveList
     int         _Count;
     MoveSpec    _Move[MAX_POSSIBLE_MOVES];
 
-    INLINE PDECL      MoveList()                      { this->Clear(); }
-    INLINE PDECL void Clear()                         { _Count = 0; }
-    INLINE PDECL void FlipAll()                       { for( int i = 0; i < _Count; i++ ) _Move[i].Flip(); }
+    INLINE PDECL MoveList()     { this->Clear(); }
+    INLINE PDECL void Clear()   { _Count = 0; }
+    INLINE PDECL void FlipAll() { for( int i = 0; i < _Count; i++ ) _Move[i].Flip(); }
     INLINE PDECL void Append( const MoveSpec& spec )  { _Move[_Count++] = spec; }
+
+    INLINE PDECL MoveList( const MoveList& rhs )
+    {
+        _Count = rhs._Count;
+        for( int i = 0; i < _Count; i++ )
+            _Move[i] = rhs._Move[i];
+    }
 
     PDECL int LookupMove( const MoveSpec& spec )
     {
@@ -94,36 +78,18 @@ struct MoveList
         return result;
     }
 
-    PDECL void DiscardMovesBelow( int type )
-    {
-        int prevCount = _Count;
-
-        for( _Count = 0; _Count < prevCount; _Count++ )
-            if( _Move[_Count]._Type < type )
-                break;
-
-        for( int idx = _Count + 1; idx < prevCount; idx++ )
-            if( _Move[idx]._Type >= type )
-                _Move[_Count++] = _Move[idx];
-    }
-
-    PDECL void DiscardQuietMoves()
-    {
-        this->DiscardMovesBelow( CAPTURE_EQUAL );
-    }
-
     PDECL void UnpackMoveMap( const Position& pos, const MoveMap& mmap )
     {
         this->Clear();
 
         u64 whitePieces = pos._WhitePawns | pos._WhiteKnights | pos._WhiteBishops | pos._WhiteRooks | pos._WhiteQueens | pos._WhiteKing;
 
-        if( mmap._PawnMovesN )      this->StorePawnMoves( pos, mmap._PawnMovesN,     SHIFT_N            );
-        if( mmap._PawnDoublesN )    this->StorePawnMoves( pos, mmap._PawnDoublesN,   SHIFT_N * 2        );
-        if( mmap._PawnAttacksNE )   this->StorePawnMoves( pos, mmap._PawnAttacksNE,  SHIFT_NE           );
-        if( mmap._PawnAttacksNW )   this->StorePawnMoves( pos, mmap._PawnAttacksNW,  SHIFT_NW           );
-        if( mmap._CastlingMoves )   this->StoreKingMoves( pos, mmap._CastlingMoves,  pos._WhiteKing     );
-        if( mmap._KingMoves )       this->StoreKingMoves( pos, mmap._KingMoves,      pos._WhiteKing     );
+        if( mmap._PawnMovesN )      this->StorePawnMoves( pos, mmap._PawnMovesN,     SHIFT_N );
+        if( mmap._PawnDoublesN )    this->StorePawnMoves( pos, mmap._PawnDoublesN,   SHIFT_N * 2 );
+        if( mmap._PawnAttacksNE )   this->StorePawnMoves( pos, mmap._PawnAttacksNE,  SHIFT_NE );
+        if( mmap._PawnAttacksNW )   this->StorePawnMoves( pos, mmap._PawnAttacksNW,  SHIFT_NW );
+        if( mmap._CastlingMoves )   this->StoreKingMoves( pos, mmap._CastlingMoves,  pos._WhiteKing );
+        if( mmap._KingMoves )       this->StoreKingMoves( pos, mmap._KingMoves,      pos._WhiteKing );
 
         if( mmap._SlidingMovesNW )  this->StoreSlidingMoves< SHIFT_NW >( pos, mmap._SlidingMovesNW, whitePieces, mmap._CheckMask );
         if( mmap._SlidingMovesNE )  this->StoreSlidingMoves< SHIFT_NE >( pos, mmap._SlidingMovesNE, whitePieces, mmap._CheckMask );
@@ -147,55 +113,36 @@ struct MoveList
             this->FlipAll();
     }
 
-    PDECL int FindMoves( const Position& pos )
-    {
-        MoveMap mmap;
-
-        this->Clear();
-        pos.CalcMoveMap( &mmap );
-        this->UnpackMoveMap( pos, mmap );
-
-        return( this->_Count );
-    }
-
 private:
-    INLINE PDECL void ClassifyAndStoreMove( const Position& pos, int srcIdx, int destIdx, int promote = 0 ) 
+            INLINE PDECL void StoreMove( int srcIdx, int destIdx, int promotion = 0 ) 
     {
-        u64 src         = SquareBit( (u64) srcIdx );
-        u64 dest        = SquareBit( (u64) destIdx );
-        int src_val     = (src  & pos._WhitePawns)? 1 : ((src  & (pos._WhiteKnights | pos._WhiteBishops))? 3 : ((src  & pos._WhiteRooks)? 5 : ((src  & pos._WhiteQueens)? 9 : 20)));
-        int dest_val    = (dest & pos._BlackPawns)? 1 : ((dest & (pos._BlackKnights | pos._BlackBishops))? 3 : ((dest & pos._BlackRooks)? 5 : ((dest & pos._BlackQueens)? 9 :  0)));
-        int relative    = SignOrZero( dest_val - src_val );
-        int capture     = dest_val? (relative + 2) : 0;
-        int type        = promote? (promote + (capture? 4 : 0)) : capture;
-
-        _Move[_Count++].Set( srcIdx, destIdx, type );
+        _Move[_Count++].Set( srcIdx, destIdx, promotion );
     }
 
-    PDECL void StorePromotions( const Position& pos, u64 dest, int ofs ) 
+    INLINE PDECL void StorePromotions( u64 dest, int ofs ) 
     {
         while( dest )
         {
             int idx = (int) ConsumeLowestBitIndex( dest );
 
-            this->ClassifyAndStoreMove( pos, idx - ofs, idx, PROMOTE_QUEEN  );
-            this->ClassifyAndStoreMove( pos, idx - ofs, idx, PROMOTE_ROOK   );
-            this->ClassifyAndStoreMove( pos, idx - ofs, idx, PROMOTE_BISHOP );
-            this->ClassifyAndStoreMove( pos, idx - ofs, idx, PROMOTE_KNIGHT );
+            this->StoreMove( idx - ofs, idx, PROMOTE_QUEEN );
+            this->StoreMove( idx - ofs, idx, PROMOTE_ROOK );
+            this->StoreMove( idx - ofs, idx, PROMOTE_BISHOP );
+            this->StoreMove( idx - ofs, idx, PROMOTE_KNIGHT );
         }
     }
 
-    INLINE PDECL void StoreStepMoves( const Position& pos, u64 dest, int ofs ) 
+    INLINE PDECL void StoreStepMoves( u64 dest, int ofs ) 
     {
         while( dest )
         {
             int idx = (int) ConsumeLowestBitIndex( dest );
-            this->ClassifyAndStoreMove( pos, idx - ofs, idx );
+            this->StoreMove( idx - ofs, idx );
         }
     }
 
     template< int SHIFT >
-    INLINE PDECL void StoreSlidingMoves( const Position& pos, u64 dest, u64 pieces, u64 checkMask ) 
+    INLINE PDECL void StoreSlidingMoves( u64 dest, u64 pieces, u64 checkMask ) 
     {
         u64 src = Shift< -SHIFT >( dest ) & pieces;
         u64 cur = Shift<  SHIFT >( src );
@@ -203,26 +150,26 @@ private:
 
         while( cur )
         {
-            this->StoreStepMoves( pos, cur & checkMask, ofs );
+            this->StoreStepMoves( cur & checkMask, ofs );
             cur = Shift< SHIFT >( cur ) & dest;
             ofs += SHIFT;
         }
     }
 
-    PDECL void StorePawnMoves( const Position& pos, u64 dest, int ofs ) 
+    PDECL void StorePawnMoves( u64 dest, int ofs ) 
     {
-        this->StoreStepMoves(  pos, dest & ~RANK_8, ofs );
-        this->StorePromotions( pos, dest &  RANK_8, ofs );
+        this->StoreStepMoves(  dest & ~RANK_8, ofs );
+        this->StorePromotions( dest &  RANK_8, ofs );
     }
 
-    PDECL void StoreKingMoves( const Position& pos, u64 dest, u64 king ) 
+    PDECL void StoreKingMoves( u64 dest, u64 king ) 
     {
         int kingIdx = (int) LowestBitIndex( king );
 
         do
         {
             int idx = (int) ConsumeLowestBitIndex( dest );
-            this->ClassifyAndStoreMove( pos, kingIdx, idx );
+            this->StoreMove( kingIdx, idx );
         }
         while( dest );
     }

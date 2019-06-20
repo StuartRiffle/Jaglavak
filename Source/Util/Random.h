@@ -41,19 +41,3 @@ struct RandomGen
 };
 
 
-
-typedef uint64_t hash_t;
-
-static extern hash_t StringHash( const char* str )
-{
-    // FNV-1a hash with normal parameters
-
-    hash_t hash = 14695981039346656037ULL;
-    while( *str )
-        hash = (hash * 1099511628211) ^ *str++;
-
-    // A final mix for peace of mind
-
-    hash = Mix64( hash );
-    return hash;
-}

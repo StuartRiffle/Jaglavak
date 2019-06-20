@@ -1,6 +1,5 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 // GENERATED from ..\DefaultSettings.json as a build step - DO NOT EDIT THIS
-
 namespace Embedded { const char* DefaultSettings = R"EMBEDDED_TEXT_FILE(
 {
     "EnableMulticore":         { "value": 1,    "desc": "Use all available CPU cores" },   

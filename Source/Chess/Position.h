@@ -25,7 +25,7 @@ struct ALIGN_SIMD PositionT
     SIMD        _WhiteToMove;       /// 1 if it's white to play, 0 if black
     SIMD        _HalfmoveClock;     /// Number of halfmoves since the last capture or pawn move
     SIMD        _FullmoveNum;       /// Starts at 1, increments after black moves
-    SIMD        _GameResult;            /// Set when the game is over
+    SIMD        _GameResult;        /// Set to RESULT_* when the game is over
 
     /// Reset the fields to the start-of-game position.
     
@@ -50,7 +50,7 @@ struct ALIGN_SIMD PositionT
         _WhiteToMove        = 1;
         _HalfmoveClock      = 0;
         _FullmoveNum        = 1;
-        _GameResult             = RESULT_UNKNOWN;
+        _GameResult         = RESULT_UNKNOWN;
     }
 
     /// Duplicate member values across SIMD lanes

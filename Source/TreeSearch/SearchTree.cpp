@@ -111,7 +111,6 @@ void SearchTree::ClearNode( TreeNode* node )
     // Make sure we don't delete any nodes that are still being used by a fiber.
     // This will probably never actually happen, because the tree is huge.
 
-    assert( node->_RefCount == 0 );
     while( node->_RefCount > 0 )
     {
         // -----------------------------------------------------------------------------------
@@ -119,14 +118,15 @@ void SearchTree::ClearNode( TreeNode* node )
         // -----------------------------------------------------------------------------------
     }
 
-    // We should only ever see leaf nodes here, because of the MRU ordering.
+    // We should only ever see leaf nodes at the end of the MRU list.
+    // Anything else indicates a bug.
 
     for( auto& info : node->_Branch )
     {
         assert( info._Node == NULL );
     }
 
-    // Detach from parent branch
+    // Detach from the parent branch
 
     if( node->_Info )
     {

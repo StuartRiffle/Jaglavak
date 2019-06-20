@@ -37,10 +37,8 @@ using std::unique_lock;
 using std::cout;
 using std::endl;
 
-#include "Settings/GlobalSettings.h"
-
-#include <omp.h>
-#include <cuda_runtime_api.h>
+#include <omp.h> // FIXME
+#include <cuda_runtime_api.h> // WTF
 
 #ifndef NDEBUG
 #define DEBUG (1)
@@ -56,7 +54,6 @@ using std::endl;
 
     #define ON_CUDA_DEVICE      (1)
     #define ALIGN( _N )         __align__( _N )
-    #define ALIGN_SIMD          __align__( SIMD_ALIGNMENT )
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
     #define PDECL               __device__
