@@ -18,6 +18,7 @@ TreeSearch::TreeSearch( GlobalSettings* settings ) :
 
     _RandomGen.SetSeed( seed );
 
+    _SearchTree = unique_ptr< SearchTree >( new SearchTree( settings ) );
     _SearchTree->Init();
     this->Reset();
 }

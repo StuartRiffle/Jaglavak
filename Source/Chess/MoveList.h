@@ -39,6 +39,20 @@ struct MoveSpecT
 
         Swizzle< T >( unpacked, this );
     }
+
+    INLINE PDECL int GetAsInt() const
+    {
+        int result = 0;
+        assert( sizeof( *this ) <= sizeof( int ) );
+        *((MoveSpecT*) &result) = *this;
+        return result;
+    }
+
+    INLINE PDECL void SetFromInt( int val )
+    {
+        assert( sizeof( *this ) <= sizeof( int ) );
+        *this = *((MoveSpecT*) &val);
+    }
 };
 
 

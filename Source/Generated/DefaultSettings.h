@@ -1,11 +1,13 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-// GENERATED from ..\DefaultSettings.json as a build step - DO NOT EDIT THIS
-namespace Embedded { const char* DefaultSettings = R"EMBEDDED_FILE(
+// GENERATED CODE - DO NOT EDIT THIS
+
+namespace EmbeddedFile { 
+const char* DefaultSettings = R"EMBEDDED_FILE(
 {
     "EnableMulticore":         { "value": 1,    "desc": "Use all available CPU cores" },   
     "EnableSimd":              { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
     "ForceSimdLevel":          { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
-    "CpuWorkThreads":          { "value": 2,    "desc": "" },
+    "CpuDispatchThreads":      { "value": 2,    "desc": "" },
     "CpuSearchFibers":         { "value": 64,   "desc": "" },       
     "CpuAffinityMask":         { "value": 0,    "desc": "" },      
     "CpuBatchSize":            { "value": 128,  "desc": "" },      
@@ -24,4 +26,5 @@ namespace Embedded { const char* DefaultSettings = R"EMBEDDED_FILE(
     "TimeSafetyBuffer":        { "value": 100,  "desc": "" },        
     "UciUpdateDelay":          { "value": 500,  "desc": "" }
 }
-)EMBEDDED_FILE"; };
+)EMBEDDED_FILE"; 
+};

@@ -11,7 +11,7 @@ void GlobalSettings::Initialize( const vector< string >& configFiles )
 {
     // Start with the embedded defaults
 
-    this->LoadJsonValues( Embedded::DefaultSettings );
+    this->LoadJsonValues( EmbeddedFile::DefaultSettings );
 
     // Apply the config files in order, each potentially overridden
     // by the ones that follow

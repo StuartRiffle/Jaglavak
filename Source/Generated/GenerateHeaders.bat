@@ -1,3 +1,3 @@
 @echo off
-EmbedFile ..\DefaultSettings.json > DefaultSettings.h
+EmbedFile ..\Settings\DefaultSettings.json > DefaultSettings.h
 

@@ -6,10 +6,12 @@
 #include "Util/FEN.h"
 #include "Util/Tokenizer.h"
 
-UciInterface::UciInterface( GlobalSettings* settings ) : _Settings( settings ), _DebugMode( false ) 
+UciInterface::UciInterface( GlobalSettings* settings ) : 
+    _Settings( settings ), 
+    _TreeSearch( settings ),
+    _DebugMode( false ) 
 {
-    _TreeSearch = unique_ptr< TreeSearch >( new TreeSearch( _Settings ) );
-    _TreeSearch->Init();
+    _TreeSearch.Init();
 }
 
 
@@ -27,7 +29,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
 
         _Settings->PrintListForUci();
         
-        _TreeSearch->Reset();
+        _TreeSearch.Reset();
         cout << "uciok" << endl;
     }
     else if( t.Consume( "setoption" ) )
@@ -52,7 +54,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
     }
     else if( t.Consume( "ucinewgame" ) )
     {
-        _TreeSearch->Reset();
+        _TreeSearch.Reset();
     }
     else if( t.Consume( "position" ) )
     {
@@ -78,7 +80,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
             }
         }
 
-        _TreeSearch->SetPosition( pos, &moveList );
+        _TreeSearch.SetPosition( pos, &moveList );
     }
     else if( t.Consume( "go" ) )
     {
@@ -117,12 +119,12 @@ bool UciInterface::ProcessCommand( const char* cmd )
         if( conf._MateSearchDepth )
             cout << "info string WARNING: mate search is not supported" << endl;
 
-        _TreeSearch->SetUciSearchConfig( conf );
-        _TreeSearch->StartSearching();
+        _TreeSearch.SetUciSearchConfig( conf );
+        _TreeSearch.StartSearching();
     }
     else if( t.Consume( "stop" ) )
     {
-        _TreeSearch->StopSearching();
+        _TreeSearch.StopSearching();
     }
     else if( t.Consume( "quit" ) )
     {
