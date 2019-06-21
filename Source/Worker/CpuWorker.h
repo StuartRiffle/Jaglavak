@@ -57,7 +57,7 @@ private:
                 break;
 
             int count = (int) batch->_Position.size();
-            batch->_GameResults.resize( count + SIMD_WIDEST ); // FIXME
+            batch->_GameResults.resize( count + SIMD_WIDEST );
 
             PlayGamesCpu( 
                 _Settings, 

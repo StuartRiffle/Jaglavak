@@ -6,11 +6,11 @@
 bool TreeSearch::IsTimeToMove()
 {
     bool    whiteToMove     = _SearchTree->GetRootNode()->_Pos._WhiteToMove; 
+    int     timeInc         = whiteToMove? _UciConfig._WhiteTimeInc  : _UciConfig._BlackTimeInc;
+    int     timeLeftAtStart = whiteToMove? _UciConfig._WhiteTimeLeft : _UciConfig._BlackTimeLeft;
     int     requiredMoves   = _UciConfig._TimeControlMoves;
     int     timeBuffer      = _Settings->Get( "UCI.TimeSafetyMargin" );
     int     timeElapsed     = _SearchTimer.GetElapsedMs() + timeBuffer;
-    int     timeInc         = whiteToMove? _UciConfig._WhiteTimeInc  : _UciConfig._BlackTimeInc;
-    int     timeLeftAtStart = whiteToMove? _UciConfig._WhiteTimeLeft : _UciConfig._BlackTimeLeft;
     int     timeLimit       = _UciConfig._TimeLimit;
     int     timeLeft        = timeLeftAtStart - timeElapsed;
 

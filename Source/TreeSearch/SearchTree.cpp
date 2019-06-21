@@ -140,16 +140,8 @@ void SearchTree::ClearNode( TreeNode* node )
     node->_RefCount = 0;
 }
 
-void SearchTree::SetPosition( const Position& startPos, const MoveList* moveList )
+void SearchTree::SetPosition( const Position& pos )
 {
-    // TODO: recognize position and don't terf the whole tree
-
-    Position pos = startPos;
-
-    if( moveList )
-        for( int i = 0; i < moveList->_Count; i++ )
-            pos.Step( moveList->_Move[i] );
-
     MoveMap moveMap;
     pos.CalcMoveMap( &moveMap );
 

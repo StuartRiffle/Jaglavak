@@ -1,11 +1,21 @@
 Comparing files C:\USERS\STUART\APPDATA\LOCAL\TEMP\DefaultSettings.h and DEFAULTSETTINGS.H
 ***** C:\USERS\STUART\APPDATA\LOCAL\TEMP\DefaultSettings.h
-    "Search.ForceRandomSeed":   { "value": 0,    "desc": "" },      
-    "Search.BatchSize":          { "value": 128,  "desc": "" },      
-    "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
+    "CPU.SearchFibers":         { "value": 64,   "desc": "" },       
+    "CPU.SIMD.Enabled":         { "value": 0,    "desc": "Detect and use SIMD instructions on CPU" },
+    "CPU.SIMD.ForceLevel":      { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
 ***** DEFAULTSETTINGS.H
-    "Search.ForceRandomSeed":   { "value": 0,    "desc": "" },      
-    "Search.BatchSize":         { "value": 128,  "desc": "" },      
-    "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
+    "CPU.SearchFibers":         { "value": 64,   "desc": "" },       
+    "CPU.SIMD.Enabled":         { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
+    "CPU.SIMD.ForceLevel":      { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
+*****
+
+***** C:\USERS\STUART\APPDATA\LOCAL\TEMP\DefaultSettings.h
+    "Search.NumPlayoutMoves":   { "value": 200,  "desc": "" },        
+    "Search.NumPlayouts":       { "value": 8,    "desc": "" },  
+    "Search.ExplorationFactor": { "value": 141,  "desc": "" },
+***** DEFAULTSETTINGS.H
+    "Search.NumPlayoutMoves":   { "value": 200,  "desc": "" },        
+    "Search.PlayoutsAtLeaf":    { "value": 8,    "desc": "" },  
+    "Search.ExplorationFactor": { "value": 141,  "desc": "" },
 *****
 

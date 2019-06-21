@@ -4,7 +4,7 @@
     "CPU.AffinityMask":         { "value": 0,    "desc": "" },      
     "CPU.DispatchThreads":      { "value": 1,    "desc": "" },
     "CPU.SearchFibers":         { "value": 64,   "desc": "" },       
-    "CPU.SIMD.Enabled":         { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
+    "CPU.SIMD.Enabled":         { "value": 0,    "desc": "Detect and use SIMD instructions on CPU" },
     "CPU.SIMD.ForceLevel":      { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
 
     "CUDA.Enabled":             { "value": 0,    "desc": "Run playouts on CUDA devices" },      
@@ -14,7 +14,7 @@
 
     "Search.DrawsWorthHalf":    { "value": 1,    "desc": "" },      
     "Search.NumPlayoutMoves":   { "value": 200,  "desc": "" },        
-    "Search.PlayoutsAtLeaf":    { "value": 8,    "desc": "" },  
+    "Search.NumPlayouts":       { "value": 8,    "desc": "" },  
     "Search.ExplorationFactor": { "value": 141,  "desc": "" },
     "Search.BranchesToExpand":  { "value": 0,    "desc": "A value of zero means to expand them all." },
     "Search.NumTreeNodes":      { "value": 1000, "desc": "" },   

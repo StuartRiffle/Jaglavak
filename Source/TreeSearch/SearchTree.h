@@ -85,7 +85,7 @@ public:
     SearchTree( GlobalSettings* settings ) : _Settings( settings ) {}
 
     void Init();
-    void SetPosition( const Position& startPos, const MoveList* moveList );
+    void SetPosition( const Position& pos );
     TreeNode* CreateBranch( TreeNode* node, int branchIdx );
     void Touch( TreeNode* node );
 

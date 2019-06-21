@@ -55,6 +55,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
     else if( t.Consume( "ucinewgame" ) )
     {
         _TreeSearch.Reset();
+
     }
     else if( t.Consume( "position" ) )
     {

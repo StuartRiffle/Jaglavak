@@ -14,8 +14,6 @@ static void PlayGamesCpu( const GlobalSettings* settings, const PlayoutParams* p
 
     int simdCount = (count + simdLevel - 1) / simdLevel;
 
-    assert( simdCount * simdLevel == count );
-
     extern void PlayGamesAVX512( const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
     extern void PlayGamesAVX2(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );
     extern void PlayGamesSSE4(   const PlayoutParams* params, const Position* pos, ScoreCard* dest, int simdCount );

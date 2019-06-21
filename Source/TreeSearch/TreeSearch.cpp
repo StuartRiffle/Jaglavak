@@ -20,7 +20,12 @@ TreeSearch::TreeSearch( GlobalSettings* settings ) :
 
     _SearchTree = unique_ptr< SearchTree >( new SearchTree( settings ) );
     _SearchTree->Init();
+
     this->Reset();
+
+    Position startPos;
+    startPos.Reset();
+    this->SetPosition( startPos );
 }
 
 void TreeSearch::Init()
@@ -47,9 +52,16 @@ void TreeSearch::Init()
 
 void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList )
 {
-    this->StopSearching();
+    assert( _SearchThread == NULL );
 
-    _SearchTree->SetPosition( startPos, moveList );
+    // TODO: recognize position and don't terf the whole tree
+
+    Position pos = startPos;
+    if( moveList )
+        for( int i = 0; i < moveList->_Count; i++ )
+            pos.Step( moveList->_Move[i] );
+
+    _SearchTree->SetPosition( pos );
 }
 
 void TreeSearch::Reset()

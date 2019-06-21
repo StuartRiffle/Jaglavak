@@ -38,6 +38,8 @@ int main( int argc, char** argv )
             engine.ProcessCommand( cmd.c_str() );
 
     engine.ProcessCommand( "uci" );
+    engine.ProcessCommand( "go" );
+
 
     string cmd;
     while( getline( std::cin, cmd ) ) 
