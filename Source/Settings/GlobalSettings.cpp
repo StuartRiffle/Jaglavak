@@ -13,10 +13,14 @@ void GlobalSettings::Initialize( const vector< string >& configFiles )
 
     this->LoadJsonValues( EmbeddedFile::DefaultSettings );
 
-    // Apply the config files in order, each potentially overridden
-    // by the ones that follow
+    // Overlay the normal settings file
 
-    for( const string& filename : configFiles )
+    vector< string > filesToLoad = configFiles;
+    filesToLoad.insert( filesToLoad.begin(), "Settings.json" );
+
+    // Then any config files specified on the command line
+
+    for( const string& filename : filesToLoad )
     {
         FILE* f = fopen( filename.c_str(), "r" );
         if( !f )
@@ -40,10 +44,12 @@ void GlobalSettings::Initialize( const vector< string >& configFiles )
 void GlobalSettings::LoadJsonValues( const string& json )
 {
     pt::ptree tree;
-    std::stringstream ss;
 
-    ss << json;
-    pt::read_json( ss, tree );
+    try 
+    { 
+        pt::read_json( std::stringstream( json ), tree ); 
+
+    } catch( ... ) {}
 
     for( auto& option : tree )
     {

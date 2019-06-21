@@ -26,7 +26,7 @@ public:
 
         int totalIters = simdCount * _Params->_NumGamesEach;
 
-        #pragma omp parallel for schedule(dynamic) if (_Params->_EnableMulticore)
+        #pragma omp parallel for schedule(dynamic) if (_Params->_Multicore)
         for( int i = 0; i < totalIters; i++ )
         {
             PositionT< SIMD > simdPos;

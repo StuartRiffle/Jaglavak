@@ -146,6 +146,9 @@
 
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cd $(ProjectDir)..\Source\Generated &amp;&amp; GenerateHeaders</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -176,6 +179,9 @@
 
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>cd $(ProjectDir)..\Source\Generated &amp;&amp; GenerateHeaders</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

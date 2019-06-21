@@ -4,27 +4,30 @@
 namespace EmbeddedFile { 
 const char* DefaultSettings = R"EMBEDDED_FILE(
 {
-    "EnableMulticore":         { "value": 1,    "desc": "Use all available CPU cores" },   
-    "EnableSimd":              { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
-    "ForceSimdLevel":          { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
-    "CpuDispatchThreads":      { "value": 2,    "desc": "" },
-    "CpuSearchFibers":         { "value": 64,   "desc": "" },       
-    "CpuAffinityMask":         { "value": 0,    "desc": "" },      
-    "CpuBatchSize":            { "value": 128,  "desc": "" },      
-    "EnableCuda":              { "value": 0,    "desc": "" },      
-    "CudaHeapMegs":            { "value": 64,   "desc": "" },     
-    "CudaAffinityMask":        { "value": 1,    "desc": "" },      
-    "CudaBatchSize":           { "value": 8192, "desc": "" },       
-    "MaxTreeNodes":            { "value": 1000, "desc": "" },   
-    "ExplorationFactor":       { "value": 141,  "desc": "" },
-    "BranchesToExpandAtLeaf":  { "value": 0,    "desc": "A value of zero means to expand them all." },
-    "NumPlayoutsAtLeaf":       { "value": 8,    "desc": "" },  
-    "MaxPlayoutMoves":         { "value": 200,  "desc": "" },        
-    "DrawsWorthHalf":          { "value": 1,    "desc": "" },      
-    "FixedRandomSeed":         { "value": 0,    "desc": "" },      
-    "FlushEveryBatch":         { "value": 1,    "desc": "" },      
-    "TimeSafetyBuffer":        { "value": 100,  "desc": "" },        
-    "UciUpdateDelay":          { "value": 500,  "desc": "" }
+    "CPU.Enabled":              { "value": 1,    "desc": "Run playouts on the CPU" },   
+    "CPU.Multicore":            { "value": 0,    "desc": "Use all available CPU cores" },   
+    "CPU.AffinityMask":         { "value": 0,    "desc": "" },      
+    "CPU.DispatchThreads":      { "value": 1,    "desc": "" },
+    "CPU.SearchFibers":         { "value": 64,   "desc": "" },       
+    "CPU.SIMD.Enabled":         { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
+    "CPU.SIMD.ForceLevel":      { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
+
+    "CUDA.Enabled":             { "value": 0,    "desc": "Run playouts on CUDA devices" },      
+    "CUDA.HeapMegs":            { "value": 64,   "desc": "CUDA heap size" },     
+    "CUDA.AffinityMask":        { "value": 1,    "desc": "" },      
+    "CUDA.BatchSize":           { "value": 8192, "desc": "" },       
+
+    "Search.DrawsWorthHalf":    { "value": 1,    "desc": "" },      
+    "Search.NumPlayoutMoves":   { "value": 200,  "desc": "" },        
+    "Search.PlayoutsAtLeaf":    { "value": 8,    "desc": "" },  
+    "Search.ExplorationFactor": { "value": 141,  "desc": "" },
+    "Search.BranchesToExpand":  { "value": 0,    "desc": "A value of zero means to expand them all." },
+    "Search.NumTreeNodes":      { "value": 1000, "desc": "" },   
+    "Search.ForceRandomSeed":   { "value": 0,    "desc": "" },      
+    "Search.BatchSize":          { "value": 128,  "desc": "" },      
+    "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
+
+    "UCI.TimeSafetyMargin":     { "value": 100,  "desc": "" },        
+    "UCI.UpdateTime":           { "value": 500,  "desc": "" }
 }
-)EMBEDDED_FILE"; 
-};
+)EMBEDDED_FILE"; };

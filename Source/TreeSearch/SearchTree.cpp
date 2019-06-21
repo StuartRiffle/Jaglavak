@@ -6,7 +6,7 @@
 
 void SearchTree::Init()
 {
-    _NodePoolEntries = _Settings->Get( "MaxTreeNodes" );
+    _NodePoolEntries = _Settings->Get( "Search.NumTreeNodes" );
 
     size_t totalSize = _NodePoolEntries * sizeof( TreeNode );
     _NodePoolBuf = unique_ptr< HugeBuffer >( new HugeBuffer( totalSize ) );
@@ -79,13 +79,8 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
     node->_Info = info;
     node->_Color = pos._WhiteToMove? WHITE : BLACK;
 
-    MoveList moveList;
-    moveList.UnpackMoveMap( pos, moveMap );
-
     if (pos._GameResult != RESULT_UNKNOWN )
     {
-        assert( moveList._Count == 0 );
-
         node->_GameResult._Wins[WHITE] = (pos._GameResult == RESULT_WHITE_WIN);
         node->_GameResult._Wins[BLACK] = (pos._GameResult == RESULT_BLACK_WIN);
         node->_GameResult._Plays = 1;
@@ -93,6 +88,9 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
     }
     else
     {
+        MoveList moveList;
+        moveList.UnpackMoveMap( pos, moveMap );
+
         node->_Branch.resize( moveList._Count );
 
         for( int i = 0; i < moveList._Count; i++ )

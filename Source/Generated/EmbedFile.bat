@@ -5,5 +5,4 @@ echo.
 echo namespace EmbeddedFile { 
 echo const char* %~n1 = R"EMBEDDED_FILE(
 type %1
-echo )EMBEDDED_FILE"; 
-echo };
+echo )EMBEDDED_FILE"; };

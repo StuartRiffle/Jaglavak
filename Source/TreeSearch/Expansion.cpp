@@ -21,7 +21,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
     {
         ScoreCard totalScore;
 
-        int count = _Settings->Get( "BranchesToExpand" );
+        int count = _Settings->Get( "Search.BranchesToExpand" );
         if( count == 0 )
             count = unexpanded;
 
@@ -50,7 +50,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
 
 
 
-        if( (_Batch->_Position.size() >= _Settings->Get( "BatchSize" )) || _Settings->Get( "FlushEveryBatch" ) )
+        if( (_Batch->_Position.size() >= _Settings->Get( "Search.BatchSize" )) || _Settings->Get( "Search.FlushEveryBatch" ) )
             this->FlushBatch();
 
         while( !ourBatch->_Done )

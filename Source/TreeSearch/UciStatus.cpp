@@ -91,7 +91,6 @@ MoveSpec TreeSearch::SendUciStatus()
 
     _StatsStartMetrics = _Metrics;
 
-    _UciUpdateTimer.Reset();
     return bestLine._Move[0];
 }
 

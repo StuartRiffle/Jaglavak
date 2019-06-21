@@ -116,7 +116,6 @@ class TreeSearch
     BatchQueue              _BatchQueue;
     BatchRef                _Batch;
 
-    Position                _Position;
     MoveList                _GameHistory;
     PlayoutParams           _PlayoutParams;
 

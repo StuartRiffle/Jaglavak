@@ -1,0 +1,11 @@
+Comparing files C:\USERS\STUART\APPDATA\LOCAL\TEMP\DefaultSettings.h and DEFAULTSETTINGS.H
+***** C:\USERS\STUART\APPDATA\LOCAL\TEMP\DefaultSettings.h
+    "Search.ForceRandomSeed":   { "value": 0,    "desc": "" },      
+    "Search.BatchSize":          { "value": 128,  "desc": "" },      
+    "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
+***** DEFAULTSETTINGS.H
+    "Search.ForceRandomSeed":   { "value": 0,    "desc": "" },      
+    "Search.BatchSize":         { "value": 128,  "desc": "" },      
+    "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
+*****
+

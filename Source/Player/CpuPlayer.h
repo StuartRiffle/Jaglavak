@@ -5,10 +5,10 @@ static void PlayGamesCpu( const GlobalSettings* settings, const PlayoutParams* p
 {
     int simdLevel = CpuInfo::GetSimdLevel();
 
-    if( !settings->Get( "EnableSimd" ) )
+    if( !settings->Get( "CPU.SIMD.Enabled" ) )
         simdLevel = 1;
 
-    int forceLevel = settings->Get( "ForceSimdLevel" );
+    int forceLevel = settings->Get( "CPU.SIMD.ForceLevel" );
     if( forceLevel )
         simdLevel = forceLevel;
 

@@ -12,6 +12,7 @@ struct HugeBuffer
         // FIXME: handle huge page failure etc
         _Ptr = mmap( NULL, _Size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0 );
 #elif TOOLCHAIN_MSVC
+
         DWORD flags = MEM_RESERVE | MEM_COMMIT;
         size_t pageSize = GetLargePageMinimum();
 
@@ -25,11 +26,15 @@ struct HugeBuffer
 
         _Ptr = VirtualAlloc( NULL, size, flags, PAGE_READWRITE );
         return;
+
 #endif
     }
 
     ~HugeBuffer()
     {
+        if( !_Ptr )
+            return;
+
 #if TOOLCHAIN_GCC
         munmap( _Ptr, _Size );
 #elif TOOLCHAIN_MSVC

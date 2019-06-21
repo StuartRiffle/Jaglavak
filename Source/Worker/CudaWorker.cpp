@@ -40,7 +40,7 @@ bool CudaWorker::Initialize( int deviceIndex  )
     cout << "  Memory   " << mb << " MB" << endl;
     cout << "  Cores    " << totalCores << endl << endl;
 
-    _Heap.Init( (u64) _Settings->Get( "CudaHeapMegs" ) * 1024 * 1024 );
+    _Heap.Init( (u64) _Settings->Get( "CUDA.HeapMegs" ) * 1024 * 1024 );
     _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 
     return true;
@@ -90,7 +90,7 @@ void CudaWorker::LaunchThread()
 
     for( ;; )
     {
-        int batchesToGrab = MAX( 1, _Settings->Get( "CudaBatchSize" ) / _Settings->Get( "BatchSize" ) );
+        int batchesToGrab = MAX( 1, _Settings->Get( "CUDA.BatchSize" ) / _Settings->Get( "Search.BatchSize" ) );
 
         // The actual batches can be different sizes, but close enough. Pop
         // them all at once to minimize queue traffic.
@@ -132,7 +132,7 @@ void CudaWorker::LaunchThread()
         _StreamIndex %= CUDA_NUM_STREAMS;
         cudaStream_t stream = _StreamId[streamIndex];
 
-        int totalWidth = total * _Settings->Get( "NumPlayouts" );
+        int totalWidth = total * _Settings->Get( "Search.NumPlayouts" );
         int blockSize  = _Prop.warpSize;
         int blockCount = (totalWidth + blockSize - 1) / blockSize;
 

@@ -28,8 +28,6 @@ int main( int argc, char** argv )
     if( variables.count( "config" ) )
         configFiles = variables["config"].as< vector< string > >();
 
-    configFiles.insert( configFiles.begin(), "Settings.json" );
-
     GlobalSettings settings;
     settings.Initialize( configFiles );
 

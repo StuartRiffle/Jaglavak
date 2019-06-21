@@ -40,7 +40,7 @@ public:
             "  Cores    " << cores << endl <<
             "  SIMD     " << simdLevel << "x (" << simdDesc << ")" << endl << endl;
 
-        for( int i = 0; i < _Settings->Get( "CpuDispatchThreads" ); i++ )
+        for( int i = 0; i < _Settings->Get( "CPU.DispatchThreads" ); i++ )
             _WorkThreads.emplace_back( new thread( [this]() { WorkThread(); } ) );
 
         return (_WorkThreads.size() > 0);

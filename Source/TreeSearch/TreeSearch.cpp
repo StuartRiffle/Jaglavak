@@ -12,7 +12,7 @@
 TreeSearch::TreeSearch( GlobalSettings* settings ) : 
     _Settings( settings )
 {
-    u64 seed = _Settings->Get( "FixedRandomSeed" );
+    u64 seed = _Settings->Get( "Search.ForceRandomSeed" );
     if( seed == 0 )
         seed = CpuInfo::GetClockTick();
 
@@ -29,11 +29,11 @@ void TreeSearch::Init()
     if( cpuWorker->Initialize() )
         _Workers.push_back( cpuWorker );
 
-    if( _Settings->Get( "EnableCuda" ) )
+    if( _Settings->Get( "CUDA.Enabled" ) )
     {
         for( int i = 0; i < CudaWorker::GetDeviceCount(); i++ )
         {
-            int mask = _Settings->Get( "GpuAffinityMask" );
+            int mask = _Settings->Get( "CUDA.AffinityMask" );
             if( mask != 0 )
                 if( ((1 << i) & mask) == 0 )
                     continue;
@@ -59,21 +59,18 @@ void TreeSearch::Reset()
     _Metrics.Clear();
     _SearchStartMetrics.Clear();
     _StatsStartMetrics.Clear();
-
-    _DeepestLevelSearched = 0;
     _GameHistory.Clear();
 
-    _DrawsWorthHalf    = _Settings->Get( "DrawsWorthHalf" );
-    _ExplorationFactor = _Settings->Get( "ExplorationFactor" ) / 100.0f;
+    _DeepestLevelSearched = 0;
+
+    _DrawsWorthHalf    = _Settings->Get( "Search.DrawsWorthHalf" );
+    _ExplorationFactor = _Settings->Get( "Search.ExplorationFactor" ) / 100.0f;
 
     _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
-    _PlayoutParams._NumGamesEach    = _Settings->Get( "NumPlayouts" );
-    _PlayoutParams._MaxMovesPerGame = _Settings->Get( "MaxPlayoutMoves" );
-    _PlayoutParams._EnableMulticore = _Settings->Get( "EnableMulticore" );
+    _PlayoutParams._NumGamesEach    = _Settings->Get( "Search.NumPlayouts" );
+    _PlayoutParams._MaxMovesPerGame = _Settings->Get( "Search.NumPlayoutMoves" );
+    _PlayoutParams._Multicore       = _Settings->Get( "CPU.Multicore" );
 
-    Position startPos;
-    startPos.Reset();
-    this->SetPosition( startPos );
 }
 
 TreeSearch::~TreeSearch()
@@ -86,9 +83,9 @@ TreeSearch::~TreeSearch()
 
 void TreeSearch::StartSearching()
 {
-    this->StopSearching();
+    this->Reset();
+    assert( _SearchThread == NULL );
 
-    _SearchTimer.Reset();
     _SearchThread = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
 }
                                          
@@ -108,6 +105,7 @@ void TreeSearch::SearchThread()
 {
     FiberSet fibers;
 
+    _SearchTimer.Reset();
     while( !_SearchExit )
     {
         if( IsTimeToMove() )
@@ -116,9 +114,15 @@ void TreeSearch::SearchThread()
         for( auto& worker : _Workers )
             worker->Update();
 
+        if( _UciUpdateTimer.GetElapsedMs() >= _Settings->Get( "UCI.UpdateTime" ) )
+        {
+            _UciUpdateTimer.Reset();
+            SendUciStatus();
+        }
+
         fibers.Update();
 
-        if( fibers.GetCount() < _Settings->Get( "MaxSearchFibers" ) )
+        if( fibers.GetCount() < _Settings->Get( "CPU.SearchFibers" ) )
             fibers.Spawn( [&]() { this->SearchFiber(); } );            
     } 
 }
