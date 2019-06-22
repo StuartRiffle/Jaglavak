@@ -2,6 +2,7 @@
 
 #include "Jaglavak.h"
 #include "UciInterface.h"
+#include "TreeSearch/IGameState.h"
 
 #include "boost/program_options.hpp"
 namespace po = boost::program_options;

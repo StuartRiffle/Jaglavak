@@ -53,7 +53,8 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
     assert( numBranches > 0 );
 
     int randomBranch = GetRandomUnexploredBranch( node );
-    return randomBranch;
+    if( randomBranch >= 0 )
+        return randomBranch;    
 
     // This node is fully expanded, so choose the move with highest UCT
 

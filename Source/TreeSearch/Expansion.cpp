@@ -3,7 +3,7 @@
 #include "Jaglavak.h"
 #include "TreeSearch.h"
 
-ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
+ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
 {
     TreeNode::RefScope protect( node );
 
@@ -11,6 +11,8 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
 
     if( node->_GameOver )
         return( node->_GameResult );
+
+    _DeepestLevelSearched = MAX( depth, _DeepestLevelSearched );
 
     int unexpanded = 0;
     for( auto& info : node->_Branch )
@@ -77,11 +79,13 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node )
     }
 
     int chosenBranchIdx = SelectNextBranch( node );
+       if ( chosenBranchIdx< 0 )
+           chosenBranchIdx = SelectNextBranch(node);
     assert( chosenBranchIdx >= 0 );
 
     BranchInfo* chosenBranch = &node->_Branch[chosenBranchIdx];
 
-    ScoreCard branchScores = ExpandAtLeaf( chosenBranch->_Node );
+    ScoreCard branchScores = ExpandAtLeaf( chosenBranch->_Node, depth + 1 );
     chosenBranch->_Scores.Add( branchScores );
 
     _SearchTree->Touch( node );

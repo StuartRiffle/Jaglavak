@@ -149,7 +149,7 @@ class TreeSearch
 
     // Expansion.cpp
 
-    ScoreCard ExpandAtLeaf( TreeNode* node );
+    ScoreCard ExpandAtLeaf( TreeNode* node, int depth = 1 );
 
     // TimeControl.cpp
 
