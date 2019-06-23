@@ -75,6 +75,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             totalScore.Add( results );
         }
 
+        _SearchTree->Touch( node );
         return totalScore;
     }
 
