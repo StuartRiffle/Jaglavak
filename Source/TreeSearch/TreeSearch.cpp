@@ -132,10 +132,20 @@ void TreeSearch::SearchThread()
             SendUciStatus();
         }
 
-        fibers.Update();
+        int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
+        if( fiberLimit > 1 )
+        {
+            fibers.Update();
 
-        if( fibers.GetCount() < _Settings->Get( "CPU.SearchFibers" ) )
-            fibers.Spawn( [&]() { this->SearchFiber(); } );            
+            if( fibers.GetCount() < fiberLimit )
+                fibers.Spawn( [&]() { this->SearchFiber(); } );            
+        }
+        else
+        {
+            // Call synchronously (for debugging)
+
+            this->SearchFiber();
+        }
     } 
 }
 
