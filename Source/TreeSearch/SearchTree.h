@@ -26,15 +26,16 @@ struct TreeLink
 };
 
 struct TreeNode : public TreeLink
-{
-    int                 _RefCount = 0;
+{    int                 _RefCount = 0;
     BranchInfo*         _Info = NULL;
     int                 _Color = 0;
     vector<BranchInfo>  _Branch;
     bool                _GameOver = false; 
     ScoreCard           _GameResult;
     Position            _Pos; 
-
+    u64                 _InitSerial;
+    u64                 _TouchSerial;
+ 
     TreeNode() : _RefCount( 0 ), _Info( NULL ), _GameOver( false ) { }
     ~TreeNode() {}
 
@@ -90,7 +91,9 @@ public:
     void Touch( TreeNode* node );
 
     TreeNode* GetRootNode() { return _SearchRoot; }
-};
+
+    void VerifyTopology() const;
+};              
 
 
 

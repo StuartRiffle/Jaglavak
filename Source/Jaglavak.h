@@ -16,6 +16,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <set>
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -30,6 +31,7 @@ using std::string;
 using std::vector;
 using std::list;
 using std::map;
+using std::set;
 using std::mutex;
 using std::condition_variable;
 using std::thread;
