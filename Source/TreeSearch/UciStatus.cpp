@@ -16,7 +16,7 @@ void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
     for( int i = 0; i < numBranches; i++ )
     {
         if( !node->_Branch[i]._Node )
-            return;
+            continue;
 
         u64 branchPlays = (u64) node->_Branch[i]._Scores._Plays;
         if( branchPlays > bestPlays )
