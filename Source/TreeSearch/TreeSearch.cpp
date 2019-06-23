@@ -147,6 +147,11 @@ void TreeSearch::SearchThread()
             this->SearchFiber();
         }
     } 
+
+    SendUciBestMove();
+
+    while( fibers.GetCount() > 0 )
+        fibers.Update();
 }
 
 void TreeSearch::SearchFiber()

@@ -34,6 +34,7 @@ enum
 
 enum 
 {
+    PROMOTE_NONE,
     PROMOTE_KNIGHT,
     PROMOTE_BISHOP,
     PROMOTE_ROOK,

@@ -95,3 +95,16 @@ MoveSpec TreeSearch::SendUciStatus()
 }
 
 
+void TreeSearch::SendUciBestMove()
+{
+    MoveList bestLine;
+    ExtractBestLine( _SearchTree->GetRootNode(), &bestLine );
+
+    if( bestLine._Count > 0 )
+    {
+        printf( "bestmove %s", SerializeMoveSpec( bestLine._Move[0] ).c_str() );
+        if( bestLine._Count > 1 )
+            printf( " ponder %s", SerializeMoveSpec( bestLine._Move[1] ).c_str() );
+    }
+    printf( "\n" );
+}

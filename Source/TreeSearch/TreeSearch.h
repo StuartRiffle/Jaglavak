@@ -160,6 +160,7 @@ class TreeSearch
     void ExtractBestLine( TreeNode* node, MoveList* dest );
     int EstimatePawnAdvantageForMove( const MoveSpec& spec );
     MoveSpec SendUciStatus();
+    void SendUciBestMove();
 
 public:
 
@@ -169,6 +170,7 @@ public:
     void Init();
     void Reset();
     void SetPosition( const Position& pos, const MoveList* moveList = NULL );
+    Position GetPosition() const;
     void StartSearching();
     void StopSearching();
 

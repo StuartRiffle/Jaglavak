@@ -7,6 +7,7 @@ class UciInterface
 {
     TreeSearch _TreeSearch;
     GlobalSettings* _Settings;
+    Position _Pos;
     bool _DebugMode;
 
 public:

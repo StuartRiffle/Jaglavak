@@ -117,6 +117,15 @@ struct MoveList
             this->FlipAll();
     }
 
+    u64 FindMoves( const Position& pos )
+    {
+        MoveMap mmap;
+        pos.CalcMoveMap( &mmap );
+
+        this->UnpackMoveMap( pos, mmap );
+        return( _Count );
+    }
+
 private:
     INLINE PDECL void StoreMove( int srcIdx, int destIdx, int promotion = 0 ) 
     {

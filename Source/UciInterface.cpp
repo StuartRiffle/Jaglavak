@@ -5,6 +5,7 @@
 
 #include "Util/FEN.h"
 #include "Util/Tokenizer.h"
+#include "Util/Perft.h"
 
 UciInterface::UciInterface( GlobalSettings* settings ) : 
     _Settings( settings ), 
@@ -25,7 +26,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
     if( t.Consume( "uci" ) )
     {       
         cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
-        cout << "id author Stuart Riffle" << endl << endl;
+        cout << "id author Stuart Riffle" << endl;
 
         _Settings->PrintListForUci();
         
@@ -64,6 +65,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
 
         pos.Reset();
         t.Consume( "startpos" );
+        _Pos = pos;
 
         if( t.Consume( "fen" ) )
             if( !t.ConsumePosition( pos ) )
@@ -78,6 +80,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
                     cout << "info string ERROR: unable to parse move " << movetext << endl;
 
                 moveList.Append( move );
+                _Pos.Step( move );
             }
         }
 
@@ -132,9 +135,22 @@ bool UciInterface::ProcessCommand( const char* cmd )
         exit( 0 );
         //return false;
     }
+    else if( t.Consume( "perft" ) )
+    {
+        int depth = t.ConsumeInt();
+        u64 total = Perft::CalcPerft( _Pos, depth );
+
+        cout << "info string depth " << depth << " nodes " << total << endl;
+    }
+    else if( t.Consume( "divide" ) )
+    {
+        int depth = t.ConsumeInt();
+        Perft::DividePerft( _Pos, depth );
+    }
     else
     {
-        printf( "info string ERROR\n" );
+        if( *cmd != 0 )
+            printf( "info string ERROR\n" );
     }
 
     return true;
