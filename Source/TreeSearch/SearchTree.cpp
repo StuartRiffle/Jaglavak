@@ -151,7 +151,42 @@ void SearchTree::SetPosition( const Position& pos )
     _SearchRoot = AllocNode();
     _SearchRoot->_Info = &_RootInfo;
     _RootInfo._Node = _SearchRoot;
+    this->VerifyTopology();
 
     InitNode( _SearchRoot, pos, moveMap, _SearchRoot->_Info );
 }
 
+
+
+void  SearchTree::VerifyTopology() const
+{
+    set< TreeNode* > deletedNodes;
+    u64 highestTouch = 0;
+
+    TreeNode* node = (TreeNode*) _MruListHead._Prev;
+    while(node != _MruListHead._Next)
+    {
+        assert( node->_TouchSerial >= highestTouch );
+        highestTouch = node->_TouchSerial;
+
+        if( node->_Info )
+        {
+            assert( node->_Info->_Node == node );
+        }
+
+        if( node != _SearchRoot )
+        {
+            for( auto& info : node->_Branch )
+            {
+                if( info._Node != NULL )
+                {
+                    assert( deletedNodes.find( info._Node ) != deletedNodes.end() );
+                }
+            }
+        }
+
+        deletedNodes.insert( node );
+        node = (TreeNode*) node->_Prev;
+    }         
+    printf( "." );
+}
