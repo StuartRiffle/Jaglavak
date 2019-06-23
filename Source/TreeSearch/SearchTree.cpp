@@ -14,6 +14,7 @@ void SearchTree::Init()
 
     for( int i = 0; i < _NodePoolEntries; i++ )
     {
+        new( _NodePool + i ) TreeNode();
         _NodePool[i]._Prev = &_NodePool[i - 1];
         _NodePool[i]._Next = &_NodePool[i + 1];
     }
