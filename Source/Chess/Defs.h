@@ -3,12 +3,6 @@
 
 enum
 {
-    WHITE,
-    BLACK
-};
-
-enum
-{
     H1, G1, F1, E1, D1, C1, B1, A1,
     H2, G2, F2, E2, D2, C2, B2, A2,
     H3, G3, F3, E3, D3, C3, B3, A3,
@@ -21,6 +15,12 @@ enum
 
 enum
 {
+    WHITE,
+    BLACK
+};
+
+enum
+{
     PAWN,
     KNIGHT,
     BISHOP,
@@ -28,13 +28,13 @@ enum
     QUEEN,
     KING,
 
-    PIECE_TYPES,
-    NO_PROMOTION = PAWN
+    NUM_PIECE_TYPES,
 };
 
 enum 
 {
     PROMOTE_NONE,
+
     PROMOTE_KNIGHT,
     PROMOTE_BISHOP,
     PROMOTE_ROOK,
@@ -44,6 +44,7 @@ enum
 enum
 {
     RESULT_UNKNOWN,
+
     RESULT_WHITE_WIN,
     RESULT_BLACK_WIN,
     RESULT_DRAW
