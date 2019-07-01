@@ -109,12 +109,9 @@ void SearchTree::ClearNode( TreeNode* node )
     // Make sure we don't delete any nodes that are still being used by a fiber.
     // This should never actually happen, because the tree is huge.
 
-    while( node->_RefCount > 0 )
-    {
-        // -----------------------------------------------------------------------------------
-        YIELD_FIBER();
-        // -----------------------------------------------------------------------------------
-    }
+    // -----------------------------------------------------------------------------------
+    FIBER_YIELD_UNTIL( node->_RefCount > 0 );
+    // -----------------------------------------------------------------------------------
 
     // We should only ever see leaf nodes at the end of the MRU list.
     // Anything else indicates a bug.

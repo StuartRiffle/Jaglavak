@@ -22,6 +22,9 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{b5f98622-7d96-4bb6-8c21-76bf5f0d5f66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnitTest">
+      <UniqueIdentifier>{2ea683a4-4eae-4adb-8685-aa8f19e4d317}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Chess\BitBoard.h">
@@ -52,9 +55,6 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Util\FEN.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Util\Perft.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Util\PidController.h">
@@ -127,13 +127,25 @@
       <Filter>TreeSearch</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\UciInterface.h" />
-    <ClInclude Include="..\Source\Generated\DefaultSettings.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Settings\GlobalSettings.h">
       <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Jaglavak.h" />
+    <ClInclude Include="..\Source\Generated\Perft.epd.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Generated\DefaultSettings.json.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\String.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\UnitTest\Perft.h">
+      <Filter>UnitTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
@@ -174,6 +186,18 @@
     <ClCompile Include="..\Source\Settings\GlobalSettings.cpp">
       <Filter>Settings</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\UnitTest\RunUnitTests.cpp">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\UnitTest\TestPerft.cpp">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\UnitTest\TestOperations.cpp">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\UnitTest\TestSIMD.cpp">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -185,6 +209,9 @@
     </None>
     <None Include="..\Source\Settings\DefaultSettings.json">
       <Filter>Settings</Filter>
+    </None>
+    <None Include="..\Source\Generated\AddWrapper.bat">
+      <Filter>Generated</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,7 @@ struct MoveSpecT
     {
         int result = 0;
         assert( sizeof( *this ) <= sizeof( int ) );
+        
         *((MoveSpecT*) &result) = *this;
         return result;
     }
@@ -52,6 +53,11 @@ struct MoveSpecT
     {
         assert( sizeof( *this ) <= sizeof( int ) );
         *this = *((MoveSpecT*) &val);
+    }
+
+    INLINE PDECL bool operator<( const MoveSpecT& other ) const
+    {
+        return( memcmp( this, &other, sizeof( *this ) ) == 0 );
     }
 };
 

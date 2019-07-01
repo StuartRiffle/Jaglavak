@@ -5,7 +5,7 @@
 
 #include "Util/FEN.h"
 #include "Util/Tokenizer.h"
-#include "Util/Perft.h"
+#include "UnitTest/Perft.h"
 
 UciInterface::UciInterface( GlobalSettings* settings ) : 
     _Settings( settings ), 
@@ -69,7 +69,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
 
         if( t.Consume( "fen" ) )
             if( !t.ConsumePosition( pos ) )
-                cout << "info string ERROR: unable to parse FEN" << endl;
+                cout << "info string ERROR: invalid FEN" << endl;
 
         if( t.Consume( "moves" ) )
         {
@@ -77,7 +77,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
             {
                 MoveSpec move;
                 if( !StringToMoveSpec( movetext, move ) )
-                    cout << "info string ERROR: unable to parse move " << movetext << endl;
+                    cout << "info string ERROR: invalid move " << movetext << endl;
 
                 moveList.Append( move );
                 _Pos.Step( move );
@@ -138,19 +138,23 @@ bool UciInterface::ProcessCommand( const char* cmd )
     else if( t.Consume( "perft" ) )
     {
         int depth = t.ConsumeInt();
-        u64 total = Perft::CalcPerft( _Pos, depth );
+        u64 total = CalcPerft( _Pos, depth );
 
         cout << "info string depth " << depth << " nodes " << total << endl;
     }
     else if( t.Consume( "divide" ) )
     {
         int depth = t.ConsumeInt();
-        Perft::DividePerft( _Pos, depth );
-    }
-    else
-    {
-        if( *cmd != 0 )
-            printf( "info string ERROR\n" );
+        map< MoveSpec, u64 > perftForAllMoves = DividePerft( _Pos, depth );
+
+        u64 total = 0;
+        for( auto& iter : perftForAllMoves )
+        {
+            string moveText = SerializeMoveSpec( iter.first );
+            cout << "info string divide " << depth << " " << moveText << "  " << iter.second << endl;
+        }
+
+        cout << "info string divide " << depth << " total " << total << endl;
     }
 
     return true;

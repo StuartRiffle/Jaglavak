@@ -2,7 +2,8 @@
 
 #include "boost/fiber/all.hpp"
 
-#define YIELD_FIBER() boost::this_fiber::yield()
+#define FIBER_YIELD() boost::this_fiber::yield()
+#define FIBER_YIELD_UNTIL( COND ) while( !(COND) ) boost::this_fiber::yield()
 
 class FiberSet
 {
@@ -26,7 +27,7 @@ public:
     void Update()
     {
         // -----------------------------------------------------------------------------------
-        YIELD_FIBER();
+        FIBER_YIELD();
         // -----------------------------------------------------------------------------------
 
         JoinCompletedFibers();
@@ -37,7 +38,10 @@ private:
     void JoinCompletedFibers()
     {
         auto joinable = std::remove_if( _Fibers.begin(), _Fibers.end(),
-            []( Fiber& f ) -> bool { return f.joinable()? (f.join(), true) : false; } );
+            []( Fiber& f ) -> bool 
+            { 
+                return f.joinable()? (f.join(), true) : false; 
+            } );
 
         _Fibers.erase( joinable, _Fibers.end() );
     }

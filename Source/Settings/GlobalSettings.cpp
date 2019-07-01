@@ -1,7 +1,7 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
 #include "Jaglavak.h"
-#include "Generated/DefaultSettings.h"
+#include "Generated/DefaultSettings.json.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -11,7 +11,7 @@ void GlobalSettings::Initialize( const vector< string >& configFiles )
 {
     // Start with the embedded defaults
 
-    this->LoadJsonValues( EmbeddedFile::DefaultSettings );
+    this->LoadJsonValues( Embedded_DefaultSettings );
 
     // Overlay the normal settings file
 

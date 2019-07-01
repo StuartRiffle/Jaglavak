@@ -1,8 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 // GENERATED CODE - DO NOT EDIT THIS
 
-namespace EmbeddedFile { 
-const char* DefaultSettings = R"EMBEDDED_FILE(
+const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
+.
 {
     "CPU.Enabled":              { "value": 1,    "desc": "Run playouts on the CPU" },   
     "CPU.Multicore":            { "value": 0,    "desc": "Use all available CPU cores" },   
@@ -30,4 +30,5 @@ const char* DefaultSettings = R"EMBEDDED_FILE(
     "UCI.TimeSafetyMargin":     { "value": 100,  "desc": "" },        
     "UCI.UpdateTime":           { "value": 500,  "desc": "" }
 }
-)EMBEDDED_FILE"; };
+.
+)EMBEDDED_FILE";

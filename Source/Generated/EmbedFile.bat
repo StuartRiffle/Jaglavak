@@ -1,8 +1,20 @@
 @echo off
-echo // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
-echo // GENERATED CODE - DO NOT EDIT THIS
-echo.
-echo namespace EmbeddedFile { 
-echo const char* %~n1 = R"EMBEDDED_FILE(
-type %1
-echo )EMBEDDED_FILE"; };
+SETLOCAL
+SET SRCNAME=%~nx1
+SET TEMPNAME=%TEMP%\Embedded%~N1
+SET OUTNAME=%SRCNAME%.h
+
+call AddWrapper %1 > %TEMPNAME%
+if NOT EXIST %OUTNAME% goto EMBED 
+
+fc %TEMPNAME% %OUTNAME% > NUL
+if %ERRORLEVEL% EQU 0 goto CLEANUP
+
+:EMBED
+echo Embedding %SRCNAME%
+copy /y %TEMPNAME% %OUTNAME% >NUL
+
+:CLEANUP
+del %TEMPNAME%
+
+
