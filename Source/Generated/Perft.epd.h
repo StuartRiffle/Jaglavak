@@ -2,7 +2,6 @@
 // GENERATED CODE - DO NOT EDIT THIS
 
 const char* Embedded_Perft = R"EMBEDDED_FILE(
-.
 # This is the starting position up to level 6, which is good for a quick sanity check.
 
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1; D1 1; D2 20; D3 400; D4 8902; D5 197281; D6 4865609; D7 119060324
@@ -188,5 +187,4 @@ k7/8/3b4/3Pp3/8/6K1/8/8 w - e6 0 1; D1 1; D2 7
 
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1; D1 8; D2 84998978956
 
-.
 )EMBEDDED_FILE";
