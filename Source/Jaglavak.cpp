@@ -16,8 +16,9 @@ int main( int argc, char** argv )
 
     po::options_description options( "Allowed options" );
     options.add_options()
-        ("config,C",    po::value< vector< string > >(), "load JSON configuration file")
-        ("uci,U",       po::value< vector< string > >(), "run UCI command after startup")
+        ("config,c",    po::value< vector< string > >(), "load JSON configuration file")
+        ("test,t",      "run integrated unit tests")
+        ("uci,u",       po::value< vector< string > >(), "run UCI command after startup")
         ("version,v",   "print the program version and exit")
         ("help,h",      "show this message");
 
@@ -31,6 +32,14 @@ int main( int argc, char** argv )
 
     GlobalSettings settings;
     settings.Initialize( configFiles );
+
+    if( variables.count( "test" ) )
+    {
+        extern int RunUnitTests();
+        int testResult = RunUnitTests();
+
+        return testResult;
+    }
 
     UciInterface engine( &settings );
 
