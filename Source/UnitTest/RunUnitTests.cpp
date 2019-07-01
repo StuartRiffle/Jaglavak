@@ -5,10 +5,11 @@
 #define CATCH_CONFIG_RUNNER  
 #include "catch.hpp"
 
-int RunUnitTests()
+int RunUnitTests( const char* argv0 )
 {
     const char* argv[]
     {
+        argv0,
         "--abort",
         "--use-colour", "yes",
     };

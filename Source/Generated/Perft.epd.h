@@ -187,5 +187,6 @@ k7/8/3b4/3Pp3/8/6K1/8/8 w - e6 0 1; D1 1; D2 7
 # The final test checks the starting position to level 8, which takes a little while.
 
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1; D1 8; D2 84998978956
+
 .
 )EMBEDDED_FILE";

@@ -45,7 +45,7 @@
     <ClInclude Include="..\Source\Util\Queue.h" />
     <ClInclude Include="..\Source\Util\Random.h" />
     <ClInclude Include="..\Source\Util\SmallBlocks.h" />
-    <ClInclude Include="..\Source\Util\String.h" />
+    <ClInclude Include="..\Source\Util\StringUtil.h" />
     <ClInclude Include="..\Source\Util\Timer.h" />
     <ClInclude Include="..\Source\Util\Tokenizer.h" />
     <ClInclude Include="..\Source\Version.h" />

@@ -140,11 +140,11 @@
     <ClInclude Include="Header.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Util\String.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\UnitTest\Perft.h">
       <Filter>UnitTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\StringUtil.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

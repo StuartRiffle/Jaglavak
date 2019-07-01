@@ -1,5 +1,6 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 
+#if 0
 #include "Jaglavak.h"
 #include "Player/SSE4.h"
 #include "Player/AVX2.h"
@@ -57,3 +58,4 @@ TEST_CASE( "SIMD game state update" )
 
 }
 
+#endif

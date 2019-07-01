@@ -6,14 +6,14 @@
 
 
 #include "catch.hpp"
+#include "Generated/Perft.epd.h"
 
 SCENARIO( "Embedded Perft tests" )
 {
-    #include "Generated/Perft.epd.h"
 
     GIVEN( "the embedded EPD file of Perft results" )
     {
-            extern const char* Embedded_Perft;
+        extern const char* Embedded_Perft;
         const char* file = Embedded_Perft;
 
         std::map< Position, map< int, u64 > > targetsByPosition;

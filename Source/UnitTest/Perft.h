@@ -20,23 +20,7 @@ static void GatherPerftParallelPositions( const Position& pos, int depth, vector
     }
 }
 
-static u64 CalcPerftParallel( const Position& pos, int depth )
-{
-    vector< Position > positions( 16384 );
-    GatherPerftParallelPositions( pos, depth, &positions );
-
-    u64 total = 0;
-
-    #pragma omp parallel for reduction(+: total) schedule(dynamic)
-    for( int i = 0; i < (int) positions.size(); i++ )
-    {
-        u64 CalcPerftInternal( const Position & pos, int depth );
-        u64 subtotal = CalcPerftInternal( positions[i], MAX_PARALLEL_DEPTH );
-        total = total + subtotal;
-    }
-
-    return( total );
-}
+static u64 CalcPerftParallel( const Position& pos, int depth );
 
 static u64 CalcPerftInternal( const Position& pos, int depth )
 {
@@ -68,6 +52,23 @@ static u64 CalcPerftInternal( const Position& pos, int depth )
     }
 
     return( total );
+}
+
+static u64 CalcPerftParallel( const Position& pos, int depth )
+{
+    vector< Position > positions( 16384 );
+    GatherPerftParallelPositions( pos, depth, &positions );
+
+    u64 total = 0;
+
+#pragma omp parallel for reduction(+: total) schedule(dynamic)
+    for( int i = 0; i < ( int) positions.size(); i++ )
+    {
+        u64 subtotal = CalcPerftInternal( positions[i], MAX_PARALLEL_DEPTH );
+        total = total + subtotal;
+    }
+
+    return(total);
 }
 
 static u64 CalcPerft( const Position& pos, int depth )

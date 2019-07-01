@@ -6,7 +6,7 @@
 
 #include <vector>
 using std::vector;
-vector< vector< string > > SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims )
+static vector< vector< string > > SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims )
 {
     vector< vector< string > > result;
 
