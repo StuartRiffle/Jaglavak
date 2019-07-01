@@ -81,7 +81,8 @@ struct ALIGN_SIMD PositionT
     }
 
 
-    /// Update the game state by applying a (presumably valid) move
+    /// Update the game state by applying a (presumably valid) move.
+    /// Will not change state if the game has ended.
     
     PDECL void Step( const MoveSpecT< SIMD >& move, MoveMapT< SIMD >* nextMapOut = NULL )
     {
@@ -93,8 +94,6 @@ struct ALIGN_SIMD PositionT
         SIMD isPawnMove = SelectIfNotZero( srcBit & _WhitePawns, MaskAllSet< SIMD >() );
         SIMD blackPieces= _BlackPawns | _BlackKnights | _BlackBishops | _BlackRooks | _BlackQueens;
         SIMD isCapture  = SelectIfNotZero( destBit & blackPieces, MaskAllSet< SIMD >() );
-
-        // FIXME: isCapture not accounting for en passant?
 
         this->ApplyMove( move._Src, move._Dest, move._Type );
         this->FlipInPlace();
@@ -427,7 +426,7 @@ struct ALIGN_SIMD PositionT
 
     bool operator<( const PositionT& other ) const
     {
-        return(memcmp(this, &other, sizeof(*this)) == 0);
+        return(memcmp(this, &other, sizeof(*this)) < 0);
     }
 };
 

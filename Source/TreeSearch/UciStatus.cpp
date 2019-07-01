@@ -4,7 +4,7 @@
 #include "TreeSearch.h"
 #include "Util/FEN.h"
 
-void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest )
+void TreeSearch::ExtractBestLine( TreeNode* node, MoveList* dest ) // ##
 {
     if( !node )
         return;

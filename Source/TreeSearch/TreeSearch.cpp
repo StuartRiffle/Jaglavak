@@ -58,7 +58,7 @@ void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList
 
     Position pos = startPos;
     if( moveList )
-        for( int i = 0; i < moveList->_Count; i++ )
+        for( int i = 0; i < moveList->_Count; i++ ) // ##
             pos.Step( moveList->_Move[i] );
 
     _SearchTree->SetPosition( pos );
@@ -116,6 +116,7 @@ void TreeSearch::StopSearching()
 void TreeSearch::SearchThread()
 {
     FiberSet fibers;
+    int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
 
     _SearchTimer.Reset();
     while( !_SearchExit )
@@ -132,12 +133,11 @@ void TreeSearch::SearchThread()
             SendUciStatus();
         }
 
-        int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
         if( fiberLimit > 1 )
         {
             fibers.Update();
 
-            if( fibers.GetCount() < fiberLimit )
+            while( fibers.GetCount() < fiberLimit )
                 fibers.Spawn( [&]() { this->SearchFiber(); } );            
         }
         else

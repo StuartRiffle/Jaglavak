@@ -104,29 +104,29 @@ SCENARIO( "Branch-free operations" )
     REQUIRE( Min( T( ~0 ), T(  0 ) ) == T(  0 ) );
     REQUIRE( Min( T( ~0 ), T(  1 ) ) == T(  1 ) );
 
-    REQUIRE( Min( T( 0 ), T( ~0 ) ) == T( 0 ) );
-    REQUIRE( Min( T( 0 ), T( 0 ) ) == T( 0 ) );
-    REQUIRE( Min( T( 0 ), T( 1 ) ) == T( 0 ) );
+    REQUIRE( Min( T(  0 ), T( ~0 ) ) == T(  0 ) );
+    REQUIRE( Min( T(  0 ), T(  0 ) ) == T(  0 ) );
+    REQUIRE( Min( T(  0 ), T(  1 ) ) == T(  0 ) );
 
-    REQUIRE( Min( T( 1 ), T( ~0 ) ) == T( 1 ) );
-    REQUIRE( Min( T( 1 ), T( 0 ) ) == T( 0 ) );
-    REQUIRE( Min( T( 1 ), T( 1 ) ) == T( 1 ) );
+    REQUIRE( Min( T(  1 ), T( ~0 ) ) == T(  1 ) );
+    REQUIRE( Min( T(  1 ), T(  0 ) ) == T(  0 ) );
+    REQUIRE( Min( T(  1 ), T(  1 ) ) == T(  1 ) );
 
     REQUIRE( Max( T( ~0 ), T( ~0 ) ) == T( ~0 ) );
-    REQUIRE( Max( T( ~0 ), T( 0 ) ) == T( ~0 ) );
-    REQUIRE( Max( T( ~0 ), T( 1 ) ) == T( ~0 ) );
+    REQUIRE( Max( T( ~0 ), T(  0 ) ) == T( ~0 ) );
+    REQUIRE( Max( T( ~0 ), T(  1 ) ) == T( ~0 ) );
 
-    REQUIRE( Max( T( 0 ), T( ~0 ) ) == T( ~0 ) );
-    REQUIRE( Max( T( 0 ), T( 0 ) ) == T( 0 ) );
-    REQUIRE( Max( T( 0 ), T( 1 ) ) == T( 1 ) );
+    REQUIRE( Max( T(  0 ), T( ~0 ) ) == T( ~0 ) );
+    REQUIRE( Max( T(  0 ), T(  0 ) ) == T(  0 ) );
+    REQUIRE( Max( T(  0 ), T(  1 ) ) == T(  1 ) );
 
-    REQUIRE( Max( T( 1 ), T( ~0 ) ) == T( ~0 ) );
-    REQUIRE( Max( T( 1 ), T( 0 ) ) == T( 1 ) );
-    REQUIRE( Max( T( 1 ), T( 1 ) ) == T( 1 ) );
-
-    REQUIRE( SignOrZero( T( 2 ) ) == T( 1 ) );
-    REQUIRE( SignOrZero( T( 1 ) ) == T( 1 ) );
-    REQUIRE( SignOrZero( T( 0 ) ) == T( 0 ) );
+    REQUIRE( Max( T(  1 ), T( ~0 ) ) == T( ~0 ) );
+    REQUIRE( Max( T(  1 ), T(  0 ) ) == T(  1 ) );
+    REQUIRE( Max( T(  1 ), T(  1 ) ) == T(  1 ) );
+                      
+    REQUIRE( SignOrZero( T(  2 ) ) == T(  1 ) );
+    REQUIRE( SignOrZero( T(  1 ) ) == T(  1 ) );
+    REQUIRE( SignOrZero( T(  0 ) ) == T(  0 ) );
     REQUIRE( SignOrZero( T( -1 ) ) == T( -1 ) );
     REQUIRE( SignOrZero( T( -2 ) ) == T( -1 ) );
 
@@ -153,7 +153,7 @@ SCENARIO( "Branch-free operations" )
 
     for( int x = 0; x < 8; x++ )
         for( int y = 0; y < 8; y++ )
-            REQUIRE( FlipSquareIndex( (x << 4) | y ) == FlipSquareIndex( (y << 4) | x );)
+            REQUIRE( FlipSquareIndex( (x << 4) | y ) == FlipSquareIndex( (y << 4) | x ) );
 
     REQUIRE( ClearBitIndex( T( 0 ), T( 0 ) ) == T( 0 ) );
     REQUIRE( ClearBitIndex( T( 0 ), T( 1 ) ) == T( 0 ) );
@@ -175,15 +175,15 @@ SCENARIO( "Branch-free operations" )
     REQUIRE( ClearBitIndex( T( 3 ), T( 2 ) ) == T( 2 ) );
     REQUIRE( ClearBitIndex( T( 3 ), T( 3 ) ) == T( 3 ) );
 
-    REQUIRE( LowestBitIndex( 0 ) == T( ~0 ) );
-    REQUIRE( LowestBitIndex( 1 ) == T(  0 ) );
-    REQUIRE( LowestBitIndex( 2 ) == T(  1 ) );
-    REQUIRE( LowestBitIndex( 3 ) == T(  0 ) );
-    REQUIRE( LowestBitIndex( 4 ) == T(  2 ) );
-    REQUIRE( LowestBitIndex( 5 ) == T(  0 ) );
-    REQUIRE( LowestBitIndex( 6 ) == T(  2 ) );
-    REQUIRE( LowestBitIndex( 7 ) == T(  0 ) );
-    REQUIRE( LowestBitIndex( 8 ) == T(  3 ) );
+    // LowestBitIndex( 0 ) is undefined
+    REQUIRE( LowestBitIndex( T( 1 ) ) == T( 0 ) );
+    REQUIRE( LowestBitIndex( T( 2 ) ) == T( 1 ) );
+    REQUIRE( LowestBitIndex( T( 3 ) ) == T( 0 ) );
+    REQUIRE( LowestBitIndex( T( 4 ) ) == T( 2 ) );
+    REQUIRE( LowestBitIndex( T( 5 ) ) == T( 0 ) );
+    REQUIRE( LowestBitIndex( T( 6 ) ) == T( 2 ) );
+    REQUIRE( LowestBitIndex( T( 7 ) ) == T( 0 ) );
+    REQUIRE( LowestBitIndex( T( 8 ) ) == T( 3 ) );
 
     T val = ~0;
     for( int i = 0; i < 64; i++ )
@@ -191,10 +191,12 @@ SCENARIO( "Branch-free operations" )
 
     T a( 0 );
     T b( ~0 );
+
     Exchange( a, b );
-    REQUIRE( (a == T( ~0 )) && (b == T( 0 ) );
+    REQUIRE( (a == T( ~0 )) && (b == T( 0 )) );
+
     Exchange( a, b );
-    REQUIRE( (a == T( 0 )) && (b == T( ~0 ));
+    REQUIRE( (a == T( 0 )) && (b == T( ~0 )) );
 
     u64 SIMD_ALIGN src[LANES * LANES * 2];
     u64 SIMD_ALIGN dest[LANES * LANES * 2];
@@ -208,13 +210,13 @@ SCENARIO( "Branch-free operations" )
 
             for( int y = 0; y < LANES; y++ )
                 for( int x = 0; x < LANES; x++ )
-                    src[y * lanes * srcStep + x * destStep] = (y * lanes * destStep) + x * srcStep;
+                    src[y * LANES * srcStep + x] = y * LANES * srcStep + x + 1;
 
             Transpose( src, srcStep, dest, destStep );
 
             for( int y = 0; y < LANES; y++ )
                 for( int x = 0; x < LANES; x++ )
-                    REQUIRE( dest[y * lanes * srcStep + x * destStep] == (x * lanes * destStep) + y * srcStep );
+                    REQUIRE( dest[x * LANES * destStep + y] == (y * LANES * srcStep + 1) );
         }
     }
 }

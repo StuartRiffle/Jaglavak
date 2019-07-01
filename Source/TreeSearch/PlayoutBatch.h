@@ -8,7 +8,7 @@ struct PlayoutBatch
 
     // Inputs
     PlayoutParams       _Params;
-    vector< Position >  _Position;
+    vector< GAMESTATE > _Position;
 
     // Outputs
     vector< ScoreCard > _GameResults;

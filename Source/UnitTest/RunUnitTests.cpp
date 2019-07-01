@@ -7,15 +7,13 @@
 
 int RunUnitTests()
 {
-    const char* argv[]
+    const char* catchArgs[]
     {
-        "--abort",
+        "--abort", // after first failure
         "--use-colour", "yes",
     };
 
-    int argc = NUM_ELEMENTS( argv );
-    int result = Catch::Session().run( argc, argv );    
-        
+    int result = Catch::Session().run( NUM_ELEMENTS( catchArgs ), catchArgs );
     return result;
 }
 

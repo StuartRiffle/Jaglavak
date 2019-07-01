@@ -146,6 +146,12 @@
     <ClInclude Include="..\Source\UnitTest\Perft.h">
       <Filter>UnitTest</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Chess\MoveSpec.h">
+      <Filter>Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Chess\Core.h">
+      <Filter>Chess</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />

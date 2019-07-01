@@ -40,6 +40,7 @@ struct TreeSearchMetrics
     }
 };
 
+template< typename GAMESTATE >
 class TreeSearch
 {
     GlobalSettings*         _Settings = NULL;
@@ -47,7 +48,7 @@ class TreeSearch
     BatchQueue              _BatchQueue;
     BatchRef                _Batch;
 
-    MoveList                _GameHistory;
+    vector< GAMESTATE::Move > _GameHistory;     // ##
     PlayoutParams           _PlayoutParams;
 
     UciSearchConfig         _UciConfig = {};

@@ -33,7 +33,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             _Batch->_Params = _PlayoutParams;
         }
 
-        BranchInfo* expansionBranch[MAX_POSSIBLE_MOVES];
+        BranchInfo* expansionBranch[GAMESTATE::MAX_POSSIBLE_MOVES];
         size_t offset = _Batch->_Position.size();
 
         for( int i = 0; i < count; i++ )

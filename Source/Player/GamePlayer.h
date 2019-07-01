@@ -5,19 +5,15 @@
 #include "PlayoutParams.h"
 
 template< typename SIMD >
-class GamePlayer
+class GamePlayer : public GameplayProviderBase
 {
     enum { LANES = SimdWidth< SIMD >::LANES };
 
-    const PlayoutParams* _Params;
-    RandomGen _RandomGen;
-
 public:
 
-    PDECL GamePlayer( const PlayoutParams* params, u64 salt = 0 )
+    SimdGameplayProvider( const PlayoutParams* params, u64 salt )
+        : GameplayProviderBase( params, salt )
     {
-        _Params = params;
-        _RandomGen.SetSeed( params->_RandomSeed + salt );
     }
 
     PDECL void PlayGames( const Position* pos, ScoreCard* dest, int simdCount )

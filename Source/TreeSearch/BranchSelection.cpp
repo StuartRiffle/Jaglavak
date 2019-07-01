@@ -58,13 +58,13 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
 
     // This node is fully expanded, so choose the move with highest UCT
 
-    double highestUct = DBL_MIN;
-    int highestIdx = 0;
+    double highestUct;
+    int highestIdx;
 
     for( int i = 0; i < numBranches; i++ )
     {
         double uct = CalculateUct( node, i );
-        if( uct > highestUct )
+        if( (i == 0) || (uct > highestUct) )
         {
             highestUct = uct;
             highestIdx = i;

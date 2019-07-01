@@ -9,7 +9,7 @@ struct BranchInfo
 {
     TreeNode*   _Node = NULL;
     ScoreCard   _Scores;
-    MoveSpec    _Move;
+    MoveType    _Move;
 
     float       _Prior = 0;
     float       _VirtualLoss = 0;
@@ -25,19 +25,22 @@ struct TreeLink
     TreeNode*           _Next;
 };
 
+template< typename GAMESTATE >
 struct TreeNode : public TreeLink
-{    int                 _RefCount = 0;
+{   atomic64_t          _RefCount = 0;
     BranchInfo*         _Info = NULL;
     int                 _Color = 0;
     vector<BranchInfo>  _Branch;
     bool                _GameOver = false; 
     ScoreCard           _GameResult;
-    Position            _Pos; 
+    GAMESTATE           _Pos;
     u64                 _InitSerial;
     u64                 _TouchSerial;
  
     TreeNode() : _RefCount( 0 ), _Info( NULL ), _GameOver( false ) { }
     ~TreeNode() {}
+
+    IGameState* GameState() const { return( (IGameState*) &_Pos ); }
 
     int FindMoveIndex( const MoveSpec& move )
     {

@@ -9,22 +9,25 @@ namespace po = boost::program_options;
 
 int main( int argc, char** argv )
 {
-    cout << "JAGLAVAK " << 
-        VERSION_MAJOR << "." <<  
-        VERSION_MINOR << "." << 
-        VERSION_PATCH << endl;
-
     po::options_description options( "Allowed options" );
     options.add_options()
         ("config,c",    po::value< vector< string > >(), "load JSON configuration file")
-        ("test,t",      "run integrated unit tests")
         ("uci,u",       po::value< vector< string > >(), "run UCI command after startup")
+        ("test,t",      "run integrated unit tests")
         ("version,v",   "print the program version and exit")
         ("help,h",      "show this message");
+
+    cout << "Jaglavak " <<
+        VERSION_MAJOR << "." <<
+        VERSION_MINOR << "." <<
+        VERSION_PATCH << endl;
 
     po::variables_map variables;
     po::store( po::parse_command_line( argc, argv, options ), variables );
     po::notify( variables );    
+
+    if( variables.count( "version" ) )
+        return(0);
 
     vector< string > configFiles;
     if( variables.count( "config" ) )

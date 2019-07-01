@@ -43,15 +43,6 @@ enum
 
 enum
 {
-    RESULT_UNKNOWN,
-
-    RESULT_WHITE_WIN,
-    RESULT_BLACK_WIN,
-    RESULT_DRAW
-};
-
-enum
-{
     SHIFT_N    =  8,
     SHIFT_NW   =  9,
     SHIFT_W    =  1,

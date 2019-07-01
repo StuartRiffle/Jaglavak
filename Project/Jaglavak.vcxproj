@@ -13,9 +13,11 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Chess.h" />
     <ClInclude Include="..\Source\Chess\BitBoard.h" />
+    <ClInclude Include="..\Source\Chess\Core.h" />
     <ClInclude Include="..\Source\Chess\Defs.h" />
     <ClInclude Include="..\Source\Chess\MoveList.h" />
     <ClInclude Include="..\Source\Chess\MoveMap.h" />
+    <ClInclude Include="..\Source\Chess\MoveSpec.h" />
     <ClInclude Include="..\Source\Chess\Operations.h" />
     <ClInclude Include="..\Source\Chess\Position.h" />
     <ClInclude Include="..\Source\Generated\DefaultSettings.json.h" />

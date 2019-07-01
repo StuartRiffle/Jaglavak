@@ -51,9 +51,13 @@ TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
     BranchInfo* chosenBranch = &node->_Branch[branchIdx];
     assert( chosenBranch->_Node == NULL );
 
+    GAMESTATE newPos = node->GameState();
+    bool success = node->GameState()->MakeMove( chosenBranch->_Move, &newPos );
+    assert( success );
+
     MoveMap newMap;
     Position newPos = node->_Pos;
-    newPos.Step( chosenBranch->_Move, &newMap );
+    newPos.Step( chosenBranch->_Move, &newMap ); // ##
 
     ClearNode( newNode );
     InitNode( newNode, newPos, newMap, chosenBranch ); 
@@ -90,7 +94,7 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
     else
     {
         MoveList moveList;
-        moveList.UnpackMoveMap( pos, moveMap );
+        moveList.UnpackMoveMap( pos, moveMap ); // ##
 
         node->_Branch.resize( moveList._Count );
 
@@ -98,7 +102,7 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
         {
             node->_Branch[i]._Move = moveList._Move[i];
 #if DEBUG        
-            MoveSpecToString( moveList._Move[i], node->_Branch[i]._MoveText );
+            MoveSpecToString( moveList._Move[i], node->_Branch[i]._MoveText ); // ##
 #endif
         }
     }
