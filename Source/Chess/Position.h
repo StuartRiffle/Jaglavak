@@ -175,7 +175,7 @@ struct ALIGN_SIMD PositionT
         SIMD    destKing            = SelectIfNotZero( srcKing,                        destBit );
 
         SIMD    epTargetNext        = Shift< SHIFT_S >( Shift< SHIFT_N * 2 >( srcPawn ) & destPawn );
-        SIMD    epVicti_Now         = blackPawns & Shift< SHIFT_S >( destPawn & castlingAndEP & EP_SQUARES );
+        SIMD    epVictimNow         = blackPawns & Shift< SHIFT_S >( destPawn & castlingAndEP & EP_SQUARES );
         SIMD    castleRookKing      = CmpEqual( (srcKing | destBit), (SIMD) (SQUARE_E1 | SQUARE_G1) ) & SQUARE_H1;
         SIMD    castleRookQueen     = CmpEqual( (srcKing | destBit), (SIMD) (SQUARE_E1 | SQUARE_C1) ) & SQUARE_A1;
         SIMD    disableCastleBit    = 0;                 
@@ -192,7 +192,7 @@ struct ALIGN_SIMD PositionT
         whiteRooks                  = MaskOut( whiteRooks,   srcRook )   | destRook;
         whiteQueens                 = MaskOut( whiteQueens,  srcQueen )  | destQueen;
         whiteKing                   = MaskOut( whiteKing,    srcKing )   | destKing;
-        blackPawns                  = MaskOut( MaskOut( blackPawns, destBit ), epVicti_Now );
+        blackPawns                  = MaskOut( MaskOut( blackPawns, destBit ), epVictimNow );
         blackKnights                = MaskOut( blackKnights, destBit );
         blackBishops                = MaskOut( blackBishops, destBit );
         blackRooks                  = MaskOut( blackRooks,   destBit );

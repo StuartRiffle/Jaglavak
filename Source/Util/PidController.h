@@ -9,17 +9,11 @@ struct PidConfig
 
 class PidController
 {
-
     float  _Value;
     float  _Target;
     float  _AddError;
     float  _PrevError;
     Config _PidConfig;
-
-    PidController()
-    {
-
-    }
 
     float Update( float value, float dt )
     {
@@ -37,6 +31,5 @@ class PidController
 
         return _Value;
     }
-
 };
 
