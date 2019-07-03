@@ -29,7 +29,7 @@ int main( int argc, char** argv )
     if( variables.count( "version" ) )
         return 0;
 
-    if( variables.count( "test" ) )
+    if( 0 )//variables.count( "test" ) )
     {
         extern int RunUnitTests( const char* argv0 );
         int testResult = RunUnitTests( argv[0] );
@@ -51,7 +51,7 @@ int main( int argc, char** argv )
         for( auto& cmd : variables["uci"].as< vector< string > >() )
             engine.ProcessCommand( cmd.c_str() );
 
-    engine.ProcessCommand( "uci" );
+    //engine.ProcessCommand( "uci" );
     //engine.ProcessCommand( "go" );
 
     string cmd;

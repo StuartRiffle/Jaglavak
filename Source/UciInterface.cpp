@@ -118,7 +118,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
             }
             else
                 break;
-        }
+        }                   
 
         if( conf._MateSearchDepth )
             cout << "info string WARNING: mate search is not supported" << endl;
