@@ -23,6 +23,7 @@ using std::vector;
 using std::list;
 using std::string;    
 using std::mutex;
+using std::map;
 using std::condition_variable;
 using std::thread;
 using std::shared_ptr;

@@ -1,0 +1,216 @@
+GradualTest ver. 2.4
+
+All the test utilities for chess engines that is in my knowledge is
+primary designed for tactical tests (only one best move).
+My need was to have a test utility that could be running on test position
+where there could be many good moves and maybe one best move, just like you
+see in some test books. 
+
+So this utility is what it results in. 
+
+Syntax:
+GradualTest [switches] <engine command>
+
+** switches:
+
+  /c - Command to reset hash. Defaults to 'new'. 
+  /e - Method to set up the board. Values: edit, cbedit or setboard.
+       Default=setboard. (cbedit is used if the engine have implemented
+       Chessbase's method of edit.)
+  /i - Input file to be tested.
+  /o - Output file.
+  /s - Init string for the engine. Defaults to 'xboard\nnew\nlevel 1 1440 0\npost\n'.
+  /t - Time to use at each position.
+  /w - File to write positions with move not found.
+  /g - File to write positions with only good moves
+
+Each position that is tested would be saved in an output file.
+If you run the same test again, with the same output file, then only
+tests that not already is in the outputfile will be tested.
+
+If you only want to see results then you could use the /o switch alone
+and no testing would be done.
+
+If there is any spaces in the switch values you should surround it ".
+eg. /s "xboard\nst 86000\nnew".
+The engine command will not need this if not the engine itself need it.
+eg. c:\Program files\crafty\wcrafty log is legal.
+
+Ex.
+
+GradualTest /i wac.epd /o crafty_wac_10.epd /t 10 wcrafty.exe
+
+This would let crafty run through the position in wac.epd.
+
+If you abort (ctrl C) the test after 25 position. You could
+see the result with the command:
+
+GradualTest /o crafty_wac_10.epd
+
+If you would let Crafty proceed with the test, the command is
+exactly like the first time:
+
+GradualTest /i wac.epd /o crafty_wac_10.epd /t 10 wcrafty.exe
+
+If you let it run to finish the test it will print out the scoretable.
+
+For seeing the scoretable later run GradualTest again but now only
+with the /o switch:
+
+GradualTest /o crafty_wac_10.epd
+
+
+The commands that are sent to the engine are:
+
+After startup Gradual test send:
+
+xboard
+new
+level 1 1440 0
+post
+
+This commands could be changed through the /s switch. Be sure to set the level
+(or 'st n' if this is better) so it don't make any move before the test time
+is over.
+
+Before each position GradualTest send:
+
+new
+setboard <fen string>
+time 8640000
+otim 8640000
+go
+
+The first 'new' command is for clearing the hash and could be
+changed through the /c switch.
+
+The setboard command set up the board. If your engine use the old
+Winboard method (edit) you could add '/e edit' to the command line.
+Also the Chessbase extension to edit is supported, you then will use
+'/e cbedit' instead of '/e edit'. The default /e switch is '/e setboard'
+so if your engine support this you don't need to use this switch.
+
+To force the move it will send the move now (?) command at the time
+when the testtime is over.
+
+The essential command that the engine must support is 'setboard' (or 'edit'),
+'go' and '?'.
+
+The engine is running in its home directory so if it needs any ini files
+you should put it in there.
+
+** Input fileformat.
+
+This could be an ordinary epd file or a somewhere modified one.
+
+The modification is to let the test be performed when avoid/best-move
+have other scores than -1/1.
+
+Ex.
+
+In this test by Pandolfini:
+
+r1b1k2r/3nbppp/p1qpp3/1p4P1/4PP2/P1NBBQ2/1PP4P/R3K2R b KQkq -
+am a5 d5; bm Rb8 Bb7 Nb6 Nc5 e5 O-O h6; id "G1Q2";
+
+he have given the following score.
+
+Bad moves:
+a5 -1
+d5 -1
+
+Good moves
+Rb8 5
+Bb7 2
+Nb6 2
+Nc5 3
+e5  1
+O-O 2
+h6  2
+
+To construct the c1 field we line up all scores after each other as it
+appears in the am and bm field with am field sorted before bm field.
+It must be a whitespace between each score.
+Then we will get from
+am: -1 -1
+bm: 5 2 2 3 1 2 2
+
+Putting in the c1 field would look like:
+c1 "-1 -1 5 2 2 3 1 2 2";
+
+The hole epd line could then be something like this:
+
+r1b1k2r/3nbppp/p1qpp3/1p4P1/4PP2/P1NBBQ2/1PP4P/R3K2R b KQkq -
+am a5 d5; bm Rb8 Bb7 Nb6 Nc5 e5 O-O h6; 
+c0 "Iordachescu-Portisch"; c1 "-1 -1 5 2 2 3 1 2 2"; id "G1Q2";
+
+I have added Tony Hedlund's positional test (with his permission, thanks!).
+See his site for some testresults and comments:
+http://home.interact.se/~w100107/fentest.htm
+
+Other places to find tests could be in some of these positional test-books
+meant for human test. Also the 'Match the Masters' test in Chessmaster
+is easy to translate (and nice to use).
+
+** Output fileformat.
+
+The output format of the '/o' file is the same epd file as the inputfile with added the
+following epd opcodes:
+
+acd - Depth of the search for the pv line.
+acn - Number of node serched for the pv line.
+acs - Seconds searched for the pv line.
+ce  - Centipawn evaluation of the pv line.
+pm  - The best move from the engine.
+pv  - The last pv line (pv=Predicted Variation).
+
+Ex:
+r1b1k2r/3nbppp/p1qpp3/1p4P1/4PP2/P1NBBQ2/1PP4P/R3K2R b KQkq - 
+acd 7; acn 4627749; acs 4040; am a5 d5; bm Rb8 Bb7 Nb6 Nc5 e5 O-O h6; 
+c0 "Iordachescu-Portisch, Linares 2000"; c1 "-1 -1 5 2 2 3 1 2 2"; 
+ce -26; id "G1Q2"; pm Bb7; pv Bb7 O-O-O Rc8 Rhe1;
+
+The files generated with /w and /g switches are cleaned.
+
+History:
+--------------------------------------------------------------
+Date     Version  Remarks
+--------------------------------------------------------------
+ 9.Aug.01  1.0    -Initial version
+ 8.Jan.02  2.0    -Added /w switch for making error file.
+                  -Using last move changed to right answer as time in epd.
+                  -Don't wait for timeout if the engine moves.
+                  -Show score in move
+                  -Highlight right answer.
+12.Jan.02  2.1    -Added /g switch
+                  -Tolerating more pv-lines for timestamp.
+                  -Corrected interpreting of pv line as comment.
+15.Jan.02  2.2    -Made /w and /g switch produce cleaned epd files
+                  -Changed verifying of PV to check if digit instead 
+                   of number for the first 4 field.
+                  -Sleep in 2 sec. before first position is tested
+16.Jan.02  2.3    -Fixed bug that was introduced in 2.2 :)
+ 3.Feb.02  2.4    -Bug fix: Error when reading commentfield.
+--------------------------------------------------------------
+
+Known bugs:
+none.
+
+Tested engines:
+Anmon 5.10    (use /e edit)
+Bringer 1.8   (use /e edit)
+Comet B37
+Crafty 18.10
+Gerbil 1.1
+LG2000 3.0    (use /e edit)
+SOS 11/99     (use /e edit)
+TheKing 3.12d (use /s to modify the initstring)
+Yace 0.99 50  (add 'GUI CP' to the ini file or in the '/s' switch to get a pv string.)
+
+I have not tested the '/e cbedit' so it could be that this is better for the engines that
+need '/e edit'.
+
+
+Odd Gunnar Malin
+malin@online.no
+http://home.online.no/~malin/sjakk

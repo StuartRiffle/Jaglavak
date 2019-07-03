@@ -12,6 +12,10 @@
 #define DEBUG (1)
 #endif
 
+#ifndef ENABLE_POPCNT
+#define ENABLE_POPCNT (0)
+#endif
+
 #define SIMD_ALIGNMENT (64)
 
 #if defined( __CUDA_ARCH__ )
@@ -24,7 +28,8 @@
     #define RESTRICT            __restrict
     #define INLINE              __forceinline__    
     #define PDECL               __device__
-    #define atomic64_t          uint64_t
+
+    typedef uint64_t atomic64_t;
 
 #elif defined( __GNUC__ )
 
@@ -47,12 +52,12 @@
     #define RESTRICT            __restrict
     #define DEBUGBREAK          void
     #define INLINE              inline __attribute__(( always_inline ))
-    #define atomic64_t          std::atomic_uint64_t
     #define PDECL         
 
     #define stricmp             strcasecmp
     #define strnicmp            strncasecmp
 
+    typedef std::atomic< uint64_t > atomic64_t;
 
 #elif defined( _MSC_VER )
 
@@ -76,9 +81,10 @@
     #define DEBUGBREAK          __debugbreak
     #define INLINE              __forceinline
     #define PRId64              "I64d"
-    #define atomic64_t          std::atomic_uint64_t
     #define PDECL         
 
+    typedef std::atomic< uint64_t > atomic64_t;
+    
     extern "C" void * __cdecl memset(void *, int, size_t);
     #pragma intrinsic( memset )        
 
@@ -131,6 +137,15 @@ INLINE PDECL void PlatSleep( int ms )
     nanosleep( &request, &remaining );
 #elif TOOLCHAIN_MSVC
     Sleep( ms );
+#endif
+}
+
+INLINE PDECL void PlatStoreAtomic( atomic64_t* dest, u64 val )
+{
+#if ON_CUDA_DEVICE
+    atomicExch( (unsigned long long*) dest, val );
+#else
+    dest->store( val );
 #endif
 }
 
