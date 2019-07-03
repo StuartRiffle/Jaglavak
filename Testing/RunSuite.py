@@ -8,7 +8,7 @@ engineName = sys.argv[1]
 jsonfile = sys.argv[2]
 
 all_epd = []
-movetime = 10
+movetime = 5
 
 with open(jsonfile) as epd:
     teststr = epd.read()

@@ -3,12 +3,14 @@
 
 struct Perft
 {
-    const MAX_PARALLEL_DEPTH = 5;
+    enum { MAX_PARALLEL_DEPTH = 5 };
 
     static void GatherPerftParallelPositions( const Position& pos, int depth, vector< Position >* dest )
     {
+        MoveMap mmap;
+        pos.CalcMoveMap( &mmap );
         MoveList valid;
-        valid.FindMoves( pos );
+        valid.UnpackMoveMap( pos, mmap );
 
         for( int i = 0; i < valid._Count; i++ )
         {
@@ -21,7 +23,6 @@ struct Perft
                 Perft::GatherPerftParallelPositions( next, depth - 1, dest );
         }
     }
-
 
     static u64 CalcPerftParallel( const Position& pos, int depth )
     {
@@ -107,6 +108,6 @@ struct Perft
             cout << "info string divide " << depth << " " << moveText << "  " << count << endl;
         }
 
-        cout << "info string divide " << depth << " total " << total << endl;
+        cout << "info string divide " << depth << " TOTAL " << total << endl;
     }
 };

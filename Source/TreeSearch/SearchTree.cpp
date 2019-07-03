@@ -15,6 +15,7 @@ void SearchTree::Init()
     for( int i = 0; i < _NodePoolEntries; i++ )
     {
         new( _NodePool + i ) TreeNode();
+
         _NodePool[i]._Prev = &_NodePool[i - 1];
         _NodePool[i]._Next = &_NodePool[i + 1];
     }
@@ -48,6 +49,8 @@ TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
     TreeNode* newNode = AllocNode();
     assert( newNode != node );
 
+    //_Metrics._NumNodesCreated++;
+
     BranchInfo* chosenBranch = &node->_Branch[branchIdx];
     assert( chosenBranch->_Node == NULL );
 
@@ -70,7 +73,6 @@ TreeNode* SearchTree::AllocNode()
     ClearNode( node );
     Touch( node );
 
-    //_Metrics._NumNodesCreated++;
     return node;
 }
 
@@ -97,7 +99,7 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
         for( int i = 0; i < moveList._Count; i++ )
         {
             node->_Branch[i]._Move = moveList._Move[i];
-#if DEBUG        
+#if 1//DEBUG        
             MoveSpecToString( moveList._Move[i], node->_Branch[i]._MoveText );
 #endif
         }
@@ -152,7 +154,6 @@ void SearchTree::SetPosition( const Position& pos )
     _SearchRoot = AllocNode();
     _SearchRoot->_Info = &_RootInfo;
     _RootInfo._Node = _SearchRoot;
-    this->VerifyTopology();
 
     InitNode( _SearchRoot, pos, moveMap, _SearchRoot->_Info );
 }
@@ -189,5 +190,4 @@ void  SearchTree::VerifyTopology() const
         deletedNodes.insert( node );
         node = (TreeNode*) node->_Prev;
     }         
-    printf( "." );
 }

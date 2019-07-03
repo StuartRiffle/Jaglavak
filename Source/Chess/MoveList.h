@@ -16,8 +16,6 @@ struct MoveSpecT
 
     template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : _Src( rhs._Src ), _Dest( rhs._Dest ), _Type( rhs._Type ) {}
 
-    INLINE PDECL int  IsCapture() const       { return( ((_Type >= CAPTURE_LOSING) && (_Type <= CAPTURE_WINNING)) || ((_Type >= CAPTURE_PROMOTE_KNIGHT) && (_Type <= CAPTURE_PROMOTE_QUEEN)) ); }
-    INLINE PDECL int  IsPromotion() const     { return( (_Type >= PROMOTE_KNIGHT) && (_Type <= CAPTURE_PROMOTE_QUEEN) ); }
     INLINE PDECL void Flip()                  { _Src = FlipSquareIndex( _Src ); _Dest = FlipSquareIndex( _Dest ); }
     INLINE PDECL char GetPromoteChar() const  { return( "\0\0\0\0nbrqnbrq\0\0"[_Type] ); }
 
@@ -87,6 +85,8 @@ struct MoveList
         this->Clear();
 
         u64 whitePieces = pos._WhitePawns | pos._WhiteKnights | pos._WhiteBishops | pos._WhiteRooks | pos._WhiteQueens | pos._WhiteKing;
+
+        // Pawn single move being interpreted as knight NNW
 
         if( mmap._PawnMovesN )      this->StorePawnMoves( mmap._PawnMovesN,     SHIFT_N );
         if( mmap._PawnDoublesN )    this->StorePawnMoves( mmap._PawnDoublesN,   SHIFT_N * 2 );

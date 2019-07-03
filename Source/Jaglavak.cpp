@@ -9,6 +9,8 @@ namespace po = boost::program_options;
 
 int main( int argc, char** argv )
 {
+    setbuf( stdout, NULL );
+
     cout << "JAGLAVAK " << 
         VERSION_MAJOR << "." <<  
         VERSION_MINOR << "." << 
@@ -39,7 +41,11 @@ int main( int argc, char** argv )
             engine.ProcessCommand( cmd.c_str() );
 
     engine.ProcessCommand( "uci" );
-    engine.ProcessCommand( "go" );
+    engine.ProcessCommand( "position startpos" );
+    //engine.ProcessCommand( "position startpos fen 5rk1/ppp3pp/8/3pQ3/3P2b1/6P1/PP1P2K1/R1BB1r2 b - - 51 53" );
+    //engine.ProcessCommand( "positions startpos fen 8/6r1/8/3Rb1Np/1p2p3/pPk5/P1P3PP/1K6 w - - 49 53" );
+    //engine.ProcessCommand( "go movetime 10000" );
+    //engine.ProcessCommand( "go" ); 
 
 
     string cmd;

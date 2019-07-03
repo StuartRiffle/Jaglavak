@@ -14,7 +14,7 @@ struct BranchInfo
     float       _Prior = 0;
     float       _VirtualLoss = 0;
 
-#if DEBUG    
+#if 1//DEBUG    
     char        _MoveText[MAX_MOVETEXT_LENGTH];
 #endif
 };

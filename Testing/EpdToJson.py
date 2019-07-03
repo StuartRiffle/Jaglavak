@@ -6,7 +6,7 @@ import chess.engine
 epdfile = sys.argv[1]
 all_epd = []
 
-refengine = chess.engine.SimpleEngine.popen_uci("..\Engine\stockfish-10")
+refengine = chess.engine.SimpleEngine.popen_uci("..\\Engine\\stockfish-10")
 
 line_idx = 0
 with open(epdfile + ".epd") as epd:
