@@ -10,7 +10,7 @@
 
 SCENARIO( "Embedded Perft tests" )
 {
-
+           
     GIVEN( "the embedded EPD file of Perft results" )
     {
         extern const char* Embedded_Perft;
@@ -27,8 +27,11 @@ SCENARIO( "Embedded Perft tests" )
 
             WHEN( "those lines are split into fields" )
             {
-                for( auto& fieldList : epdLines)
+                for( auto& fieldList : epdLines )
                 {
+                    for( string field : fieldList )
+                        cout << "\"" << field << "\"" << endl;
+
                     Position pos;
                     string fen = fieldList[0];
 
