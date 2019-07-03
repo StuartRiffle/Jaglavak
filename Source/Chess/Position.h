@@ -424,5 +424,10 @@ struct ALIGN_SIMD PositionT
     { 
         this->FlipFrom( *this ); 
     }
+
+    bool operator<( const PositionT& other ) const
+    {
+        return(memcmp(this, &other, sizeof(*this)) == 0);
+    }
 };
 

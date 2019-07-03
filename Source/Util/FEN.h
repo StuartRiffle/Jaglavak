@@ -221,6 +221,14 @@ static string SerializePosition( const Position& pos )
     return string( fen );
 }
 
+static Position DeserializePosition( const string& str )
+{
+    Position pos;
+    StringToPosition( str.c_str(), pos );
+
+    return pos;
+}
+
 static string SerializeMoveSpec( const MoveSpec& spec )
 {
     char movetext[MAX_MOVETEXT_LENGTH];

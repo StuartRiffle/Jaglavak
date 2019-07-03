@@ -18,8 +18,9 @@
     <ClInclude Include="..\Source\Chess\MoveMap.h" />
     <ClInclude Include="..\Source\Chess\Operations.h" />
     <ClInclude Include="..\Source\Chess\Position.h" />
+    <ClInclude Include="..\Source\Generated\DefaultSettings.json.h" />
+    <ClInclude Include="..\Source\Generated\Perft.epd.h" />
     <ClInclude Include="..\Source\Jaglavak.h" />
-    <ClInclude Include="..\Source\Generated\DefaultSettings.h" />
     <ClInclude Include="..\Source\Platform.h" />
     <ClInclude Include="..\Source\Player\AVX2.h" />
     <ClInclude Include="..\Source\Player\AVX512.h" />
@@ -34,16 +35,17 @@
     <ClInclude Include="..\Source\TreeSearch\SearchTree.h" />
     <ClInclude Include="..\Source\TreeSearch\TreeSearch.h" />
     <ClInclude Include="..\Source\UciInterface.h" />
+    <ClInclude Include="..\Source\UnitTest\Perft.h" />
     <ClInclude Include="..\Source\Util\Allocator.h" />
     <ClInclude Include="..\Source\Util\CpuInfo.h" />
     <ClInclude Include="..\Source\Util\FEN.h" />
     <ClInclude Include="..\Source\Util\FiberSet.h" />
     <ClInclude Include="..\Source\Util\HugeBuffer.h" />
-    <ClInclude Include="..\Source\Util\Perft.h" />
     <ClInclude Include="..\Source\Util\PidController.h" />
     <ClInclude Include="..\Source\Util\Queue.h" />
     <ClInclude Include="..\Source\Util\Random.h" />
     <ClInclude Include="..\Source\Util\SmallBlocks.h" />
+    <ClInclude Include="..\Source\Util\StringUtil.h" />
     <ClInclude Include="..\Source\Util\Timer.h" />
     <ClInclude Include="..\Source\Util\Tokenizer.h" />
     <ClInclude Include="..\Source\Version.h" />
@@ -51,6 +53,7 @@
     <ClInclude Include="..\Source\Worker\CpuWorker.h" />
     <ClInclude Include="..\Source\Worker\CudaSupport.h" />
     <ClInclude Include="..\Source\Worker\CudaWorker.h" />
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
@@ -66,10 +69,15 @@
     <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp" />
     <ClCompile Include="..\Source\TreeSearch\UciStatus.cpp" />
     <ClCompile Include="..\Source\UciInterface.cpp" />
+    <ClCompile Include="..\Source\UnitTest\TestOperations.cpp" />
+    <ClCompile Include="..\Source\UnitTest\TestPerft.cpp" />
+    <ClCompile Include="..\Source\UnitTest\RunUnitTests.cpp" />
+    <ClCompile Include="..\Source\UnitTest\TestSIMD.cpp" />
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="..\Source\Generated\AddWrapper.bat" />
     <None Include="..\Source\Generated\EmbedFile.bat">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

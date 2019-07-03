@@ -1,7 +1,4 @@
 @echo off
-echo Embedding settings
-call EmbedFile ..\Settings\DefaultSettings.json > %TEMP%\DefaultSettings.h
-fc %TEMP%\DefaultSettings.h DefaultSettings.h > NUL
-if ERRORLEVEL 1 copy /y %TEMP%\DefaultSettings.h DefaultSettings.h
-del %TEMP%\DefaultSettings.h
-                                    
+call EmbedFile ..\Settings\DefaultSettings.json
+call EmbedFile ..\..\Testing\Perft\Perft.epd
+

@@ -115,7 +115,7 @@ public:
     }
 };
 
-static inline int GetCudaCoresPerSM( int major, int minor )
+static int GetCudaCoresPerSM( int major, int minor )
 {
     switch( (major << 4) + minor )
     {

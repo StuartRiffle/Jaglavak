@@ -54,8 +54,6 @@ public:
 
                 if( nextAddr == (freeAddr + freeSize) )
                 {
-                    // Combine consecutive free blocks
-
                     iter->second += nextSize;
                     _Free.erase( next );
                     continue;

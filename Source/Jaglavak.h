@@ -47,6 +47,7 @@ using std::unordered_map;
 #include "Util/Queue.h"
 #include "Util/Timer.h"
 #include "Util/FiberSet.h"
+#include "Util/StringUtil.h"
 #include "Worker/AsyncWorker.h"
 
 #include "Player/ScoreCard.h"

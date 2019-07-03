@@ -50,8 +50,6 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
 
         BatchRef ourBatch = _Batch;
 
-
-
         if( (_Batch->_Position.size() >= _Settings->Get( "Search.BatchSize" )) || _Settings->Get( "Search.FlushEveryBatch" ) )
             this->FlushBatch();
 
@@ -60,7 +58,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             ourBatch->_YieldCounter++;
 
             // -----------------------------------------------------------------------------------
-            YIELD_FIBER();
+            FIBER_YIELD();
             // -----------------------------------------------------------------------------------
         }
 
