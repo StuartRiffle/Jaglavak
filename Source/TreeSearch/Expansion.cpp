@@ -55,12 +55,11 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
 
         while( !ourBatch->_Done )
         {
+            _SearchFibers.YieldFiber();
             ourBatch->_YieldCounter++;
-
-            // -----------------------------------------------------------------------------------
-            FIBER_YIELD();
-            // -----------------------------------------------------------------------------------
         }
+
+        cout << "YIELD COMPLETE" << endl;
 
         assert( ourBatch->_GameResults.size() >= (offset + count) );
 

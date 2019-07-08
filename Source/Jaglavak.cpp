@@ -9,6 +9,8 @@ namespace po = boost::program_options;
 
 int main( int argc, char** argv )
 {
+    setvbuf( stdout, NULL, _IONBF, 0 );
+
     po::options_description options( "Allowed options" );
     options.add_options()
         ("config,c",    po::value< vector< string > >(), "load JSON configuration file")
