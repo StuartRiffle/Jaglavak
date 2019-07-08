@@ -11,7 +11,7 @@ const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
     "CPU.SIMD.Enabled":         { "value": 0,    "desc": "Detect and use SIMD instructions on CPU" },
     "CPU.SIMD.ForceLevel":      { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
 
-    "CUDA.Enabled":             { "value": 1,    "desc": "Run playouts on CUDA devices" },      
+    "CUDA.Enabled":             { "value": 0,    "desc": "Run playouts on CUDA devices" },      
     "CUDA.HeapMegs":            { "value": 64,   "desc": "CUDA heap size" },     
     "CUDA.AffinityMask":        { "value": 1,    "desc": "" },      
     "CUDA.BatchSize":           { "value": 8192, "desc": "" },       
@@ -24,7 +24,7 @@ const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
     "Search.NumTreeNodes":      { "value": 100000, "desc": "" },   
     "Search.ForceRandomSeed":   { "value": 1,    "desc": "" },      
     "Search.BatchSize":         { "value": 128,  "desc": "" },      
-    "Search.FlushEveryBatch":   { "value": 0,    "desc": "" },
+    "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
 
     "UCI.TimeSafetyMargin":     { "value": 100,  "desc": "" },        
     "UCI.UpdateTime":           { "value": 500,  "desc": "" }

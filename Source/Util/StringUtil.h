@@ -5,13 +5,13 @@
 #include "boost/algorithm/string.hpp"
 
 #include <vector>
-using std::vector;
+using vector;
 static vector< vector< string > > SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims )
 {
     vector< vector< string > > result;
 
     vector< string > lineList;
-    boost::split( lineList, str, boost::is_any_of( lineDelims ), boost::token_compress_on );
+    split( lineList, str, is_any_of( lineDelims ), token_compress_on );
 
     for( string line : lineList )
     {
@@ -19,23 +19,23 @@ static vector< vector< string > > SplitLinesIntoFields( const char* str, const c
         if( commentOfs != string::npos )
             line.erase( commentOfs );
 
-        boost::trim( line );
+        trim( line );
         if( line.empty() )
             continue;
 
         vector< string > rawFields;
-        boost::split( rawFields, line, boost::is_any_of( fieldDelims ), boost::token_compress_on );
+        split( rawFields, line, is_any_of( fieldDelims ), token_compress_on );
 
         vector< string > fields;
         for( auto field : rawFields )
         {
-            boost::trim( field );
+            trim( field );
             if( !field.empty() )
                 fields.push_back( field );
         }
 
         if( !fields.empty() )
-            result.push_back( std::move( fields ) );
+            result.push_back( move( fields ) );
     }
 
     return result;

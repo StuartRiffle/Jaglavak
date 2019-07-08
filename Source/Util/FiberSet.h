@@ -2,7 +2,7 @@
 
 #include "boost/fiber/all.hpp"
 
-namespace bf = boost::fibers;
+namespace bf = fibers;
 
 typedef bf::fiber        Fiber;
 typedef bf::fiber::id    FiberId;
@@ -20,6 +20,7 @@ public:
     {
         //_MainFiber = this->GetCurrentFiber();
 
+        this->Trace( "Constructor" );
     }
 
     int GetCount() const { return (int) _Fibers.size(); }
@@ -37,7 +38,7 @@ public:
     void YieldFiber()
     {
         this->Trace( "Before yield" );
-        boost::this_fiber::yield();
+        this_fiber::yield();
         this->Trace( "After yield" );
     }
 
@@ -59,14 +60,14 @@ private:
 
     FiberId GetCurrentFiber() const
     {
-        auto thisFiber = boost::this_fiber::get_id();
+        auto thisFiber = this_fiber::get_id();
         return thisFiber;
     }
 
     void JoinCompletedFibers()
     {
         this->Trace( "Before joins" );
-        auto joinable = std::remove_if( _Fibers.begin(), _Fibers.end(),
+        auto joinable = remove_if( _Fibers.begin(), _Fibers.end(),
             []( Fiber& f ) -> bool { return f.joinable(); } );
 
         for( auto iter = joinable; iter != _Fibers.end(); ++iter )

@@ -16,7 +16,7 @@ SCENARIO( "Embedded Perft tests" )
         extern const char* Embedded_Perft;
         const char* file = Embedded_Perft;
 
-        std::map< Position, map< int, u64 > > targetsByPosition;
+        map< Position, map< int, u64 > > targetsByPosition;
 
         WHEN( "the file is split into lines" )
         {
@@ -43,7 +43,7 @@ SCENARIO( "Embedded Perft tests" )
 
                     WHEN( "the fields are parsed into depth and target" )
                     {
-                        std::map< int, u64 > depthToTarget;
+                        map< int, u64 > depthToTarget;
 
                         THEN( "the fields contain ONLY depth and target" )
                         {
@@ -54,7 +54,7 @@ SCENARIO( "Embedded Perft tests" )
                                 REQUIRE( field[0] == 'D' );
 
                                 size_t after = 0;
-                                int depth = std::stoi( field.substr( 1 ), &after );
+                                int depth = stoi( field.substr( 1 ), &after );
 
                                 REQUIRE( depth > 0 );
                                 REQUIRE( after > 0 );
@@ -62,7 +62,7 @@ SCENARIO( "Embedded Perft tests" )
                                 REQUIRE( field[after] == ' ' );
                                 after++;
                                 
-                                u64 perftTarget = std::stoull( field.substr( after ) );
+                                u64 perftTarget = stoull( field.substr( after ) );
                                 REQUIRE( perftTarget > 0 );
 
                                 REQUIRE( depthToTarget.find( depth ) == depthToTarget.end() );
@@ -70,7 +70,7 @@ SCENARIO( "Embedded Perft tests" )
                             }
                         }
 
-                        targetsByPosition[pos] = std::move( depthToTarget );
+                        targetsByPosition[pos] = move( depthToTarget );
                     }
 
                     THEN( "there is at least one solution given for each position" )
@@ -86,7 +86,7 @@ SCENARIO( "Embedded Perft tests" )
                 Position pos = iter.first;
                 string fen = SerializePosition( pos );
 
-                std::map< int, u64 >& depthToTarget = iter.second;
+                map< int, u64 >& depthToTarget = iter.second;
                 for( auto& elem : depthToTarget )
                 {
                     int depth = elem.first;

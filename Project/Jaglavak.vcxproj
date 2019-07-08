@@ -44,7 +44,6 @@
     <ClInclude Include="..\Source\Util\PidController.h" />
     <ClInclude Include="..\Source\Util\Queue.h" />
     <ClInclude Include="..\Source\Util\Random.h" />
-    <ClInclude Include="..\Source\Util\SmallBlocks.h" />
     <ClInclude Include="..\Source\Util\StringUtil.h" />
     <ClInclude Include="..\Source\Util\Timer.h" />
     <ClInclude Include="..\Source\Util\Tokenizer.h" />
@@ -73,6 +72,7 @@
     <ClCompile Include="..\Source\UnitTest\TestPerft.cpp" />
     <ClCompile Include="..\Source\UnitTest\RunUnitTests.cpp" />
     <ClCompile Include="..\Source\UnitTest\TestSIMD.cpp" />
+    <ClCompile Include="..\Source\Worker\CpuWorker.cpp" />
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp" />
   </ItemGroup>
   <ItemGroup>

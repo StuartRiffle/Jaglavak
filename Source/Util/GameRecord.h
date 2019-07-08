@@ -29,7 +29,7 @@ static vector< GameRecord > LoadGameRecordsFromJson( const char* json )
 
     try 
     { 
-        pt::read_json( std::stringstream( json ), tree ); 
+        pt::read_json( stringstream( json ), tree ); 
 
     } catch( ... ) {}
 
@@ -100,7 +100,7 @@ static vector< GameRecord > LoadGameRecordsFromJson( const char* json )
             REQUIRE( field[0] == 'D' );
 
             size_t after = 0;
-            int depth = std::stoi( field.substr( 1 ), &after );
+            int depth = stoi( field.substr( 1 ), &after );
 
             REQUIRE( depth > 0 );
             REQUIRE( after > 0 );
@@ -108,7 +108,7 @@ static vector< GameRecord > LoadGameRecordsFromJson( const char* json )
             REQUIRE( field[after] == ' ' );
             after++;
 
-            u64 perftTarget = std::stoull( field.substr( after ) );
+            u64 perftTarget = stoull( field.substr( after ) );
             REQUIRE( perftTarget > 0 );
 
             REQUIRE( depthToTarget.find( depth ) == depthToTarget.end() );
@@ -116,7 +116,7 @@ static vector< GameRecord > LoadGameRecordsFromJson( const char* json )
         }
             }
 
-            targetsByPosition[pos] = std::move( depthToTarget );
+            targetsByPosition[pos] = move( depthToTarget );
         }
 
         THEN( "there is at least one solution given for each position" )
@@ -132,7 +132,7 @@ static vector< GameRecord > LoadGameRecordsFromJson( const char* json )
             Position pos = iter.first;
             string fen = SerializePosition( pos );
 
-            std::map< int, u64 >& depthToTarget = iter.second;
+            map< int, u64 >& depthToTarget = iter.second;
             for( auto& elem : depthToTarget )
             {
                 int depth = elem.first;

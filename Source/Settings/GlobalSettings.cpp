@@ -5,7 +5,7 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-namespace pt = boost::property_tree;
+namespace pt = property_tree;
 
 void GlobalSettings::Initialize( const vector< string >& configFiles )
 {
@@ -47,7 +47,7 @@ void GlobalSettings::LoadJsonValues( const string& json )
 
     try 
     { 
-        pt::read_json( std::stringstream( json ), tree ); 
+        pt::read_json( stringstream( json ), tree ); 
 
     } catch( ... ) {}
 

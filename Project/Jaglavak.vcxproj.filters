@@ -84,9 +84,6 @@
     <ClInclude Include="..\Source\Util\HugeBuffer.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Util\SmallBlocks.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Player\AVX2.h">
       <Filter>Player</Filter>
     </ClInclude>
@@ -197,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\UnitTest\TestSIMD.cpp">
       <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Worker\CpuWorker.cpp">
+      <Filter>Worker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

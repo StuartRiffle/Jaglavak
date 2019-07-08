@@ -9,7 +9,6 @@
 #include <time.h>
 #include <math.h>
 #include <float.h>
-
 #include <algorithm>
 #include <atomic>
 #include <string>
@@ -26,21 +25,8 @@
 #include <iostream>
 #include <unordered_map>
 
-using std::atomic;
-using std::string;    
-using std::vector;
-using std::list;
-using std::map;
-using std::set;
-using std::mutex;
-using std::condition_variable;
-using std::thread;
-using std::shared_ptr;
-using std::unique_ptr;
-using std::unique_lock;
-using std::cout;
-using std::endl;
-using std::unordered_map;
+using namespace std;
+using namespace boost;
 
 #include "Settings/GlobalSettings.h"
 #include "Util/Random.h"
