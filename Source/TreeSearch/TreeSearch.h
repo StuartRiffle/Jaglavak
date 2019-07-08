@@ -65,12 +65,16 @@ class TreeSearch
     bool                    _DrawsWorthHalf = false;
     float                   _ExplorationFactor = 0;
 
+    FiberSet                _SearchFibers;
+
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > _Workers;
 
     void SearchThread();
     void SearchFiber();
     void FlushBatch();
+    void UpdateUciStatus();
+    void UpdateFibers();
 
     // BranchSelection.cpp
 

@@ -4,11 +4,11 @@
 const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
 {
     "CPU.Enabled":              { "value": 1,    "desc": "Run playouts on the CPU" },   
-    "CPU.Multicore":            { "value": 1,    "desc": "Use all available CPU cores" },   
+    "CPU.Multicore":            { "value": 0,    "desc": "Use all available CPU cores" },   
     "CPU.AffinityMask":         { "value": 0,    "desc": "" },      
     "CPU.DispatchThreads":      { "value": 1,    "desc": "" },
-    "CPU.SearchFibers":         { "value": 64,   "desc": "" },       
-    "CPU.SIMD.Enabled":         { "value": 1,    "desc": "Detect and use SIMD instructions on CPU" },
+    "CPU.SearchFibers":         { "value": 4,   "desc": "" },       
+    "CPU.SIMD.Enabled":         { "value": 0,    "desc": "Detect and use SIMD instructions on CPU" },
     "CPU.SIMD.ForceLevel":      { "value": 0,    "desc": "Override detected SIMD level [1, 2, 4, 8]" },
 
     "CUDA.Enabled":             { "value": 0,    "desc": "Run playouts on CUDA devices" },      
@@ -18,11 +18,11 @@ const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
 
     "Search.DrawsWorthHalf":    { "value": 1,    "desc": "" },      
     "Search.NumPlayoutMoves":   { "value": 200,  "desc": "" },        
-    "Search.NumPlayouts":       { "value": 8,    "desc": "" },  
+    "Search.NumPlayouts":       { "value": 1,    "desc": "" },  
     "Search.ExplorationFactor": { "value": 141,  "desc": "" },
     "Search.BranchesToExpand":  { "value": 0,    "desc": "A value of zero means to expand them all." },
     "Search.NumTreeNodes":      { "value": 100000, "desc": "" },   
-    "Search.ForceRandomSeed":   { "value": 0,    "desc": "" },      
+    "Search.ForceRandomSeed":   { "value": 1,    "desc": "" },      
     "Search.BatchSize":         { "value": 128,  "desc": "" },      
     "Search.FlushEveryBatch":   { "value": 1,    "desc": "" },
 

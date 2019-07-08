@@ -115,9 +115,8 @@ void TreeSearch::StopSearching()
 
 void TreeSearch::SearchThread()
 {
-    FiberSet fibers;
-
     _SearchTimer.Reset();
+
     while( !_SearchExit )
     {
         if( IsTimeToMove() )
@@ -126,32 +125,12 @@ void TreeSearch::SearchThread()
         for( auto& worker : _Workers )
             worker->Update();
 
-        if( _UciUpdateTimer.GetElapsedMs() >= _Settings->Get( "UCI.UpdateTime" ) )
-        {
-            _UciUpdateTimer.Reset();
-            SendUciStatus();
-        }
-
-        int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
-        if( fiberLimit > 1 )
-        {
-            fibers.Update();
-
-            if( fibers.GetCount() < fiberLimit )
-                fibers.Spawn( [&]() { this->SearchFiber(); } );            
-        }
-        else
-        {
-            // Call synchronously (for debugging)
-
-            this->SearchFiber();
-        }
+        this->UpdateFibers();
+        this->UpdateUciStatus();
     } 
 
     SendUciBestMove();
-
-    while( fibers.GetCount() > 0 )
-        fibers.Update();
+    _SearchFibers.TerminateAll();
 }
 
 void TreeSearch::SearchFiber()
@@ -160,6 +139,24 @@ void TreeSearch::SearchFiber()
 
     ScoreCard rootScores = this->ExpandAtLeaf( root );
     root->_Info->_Scores.Add( rootScores );
+}
+
+void TreeSearch::UpdateFibers()
+{
+    _SearchFibers.Update();
+
+    int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
+    if( _SearchFibers.GetCount() < fiberLimit )
+        _SearchFibers.Spawn( [&]() { this->SearchFiber(); } );
+}
+
+void TreeSearch::UpdateUciStatus()
+{
+    if( _UciUpdateTimer.GetElapsedMs() >= _Settings->Get( "UCI.UpdateTime" ) )
+    {
+        _UciUpdateTimer.Reset();
+        SendUciStatus();
+    }
 }
 
 

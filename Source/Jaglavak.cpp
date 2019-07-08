@@ -9,6 +9,8 @@ namespace po = boost::program_options;
 
 int main( int argc, char** argv )
 {
+    setvbuf( stdout, NULL, _IONBF, 0 );
+
     po::options_description options( "Allowed options" );
     options.add_options()
         ("config,c",    po::value< vector< string > >(), "load JSON configuration file")
@@ -51,7 +53,7 @@ int main( int argc, char** argv )
         for( auto& cmd : variables["uci"].as< vector< string > >() )
             engine.ProcessCommand( cmd.c_str() );
 
-    engine.ProcessCommand( "uci" );
+    //engine.ProcessCommand( "uci" );
     //engine.ProcessCommand( "go" );
 
     string cmd;

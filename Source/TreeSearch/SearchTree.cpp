@@ -112,7 +112,8 @@ void SearchTree::ClearNode( TreeNode* node )
     // This should never actually happen, because the tree is huge.
 
     // -----------------------------------------------------------------------------------
-    FIBER_YIELD_UNTIL( node->_RefCount > 0 );
+    //FIBER_YIELD_UNTIL( node->_RefCount == 0 );
+    assert( node->_RefCount == 0 );
     // -----------------------------------------------------------------------------------
 
     // We should only ever see leaf nodes at the end of the MRU list.
