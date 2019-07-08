@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Player/CpuPlayer.h"
+#include "boost/algorithm/string.hpp"
 
 class CpuWorker : public AsyncWorker
 {
@@ -28,46 +29,10 @@ public:
             thread->join();
     }
 
-    virtual bool Initialize()
-    {
-        string cpuName   = CpuInfo::GetCpuName();
-        int    cores     = CpuInfo::DetectCpuCores();
-        int    simdLevel = CpuInfo::GetSimdLevel();
-        string simdDesc  = CpuInfo::GetSimdDesc( simdLevel );
-
-        cout << 
-            "CPU: " << cpuName << endl <<
-            "  Cores    " << cores << endl <<
-            "  SIMD     " << simdLevel << "x (" << simdDesc << ")" << endl << endl;
-
-        for( int i = 0; i < _Settings->Get( "CPU.DispatchThreads" ); i++ )
-            _WorkThreads.emplace_back( new thread( [this]() { WorkThread(); } ) );
-
-        return (_WorkThreads.size() > 0);
-    }
+    virtual bool Initialize();
 
 private:
 
-    void WorkThread()
-    {
-        while( !_TimeToExit )
-        {
-            BatchRef batch;
-            if( !_BatchQueue->Pop( batch ) )
-                break;
-
-            int count = (int) batch->_Position.size();
-            batch->_GameResults.resize( count + SIMD_WIDEST );
-
-            PlayGamesCpu( 
-                _Settings, 
-                &batch->_Params, 
-                batch->_Position.data(), 
-                batch->_GameResults.data(),
-                count );
-
-            batch->_GameResults.resize( count );
-            batch->_Done = true;
-        }
-    }
+    void PrintCpuInfo();
+    void WorkThread();
 };
