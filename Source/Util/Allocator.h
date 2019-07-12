@@ -44,7 +44,7 @@ public:
         while( iter != _Free.end() )
         {
             addr_t freeAddr = iter->first;
-            size_t freeSize = iter->second;
+            size_t& freeSize = iter->second;
 
             auto next = iter;
             if( ++next != _Free.end() )
@@ -54,13 +54,13 @@ public:
 
                 if( nextAddr == (freeAddr + freeSize) )
                 {
-                    iter->second += nextSize;
+                    freeSize += nextSize;
                     _Free.erase( next );
                     continue;
                 }
             }
 
-            if( size <= freeSize )
+            if( freeSize >= size )
             {
                 addr_t addr = freeAddr;
 

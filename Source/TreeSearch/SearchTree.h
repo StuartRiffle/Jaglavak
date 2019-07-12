@@ -26,10 +26,12 @@ struct TreeLink
 };
 
 struct TreeNode : public TreeLink
-{    int                 _RefCount = 0;
+{   
+    int                 _RefCount = 0;
     BranchInfo*         _Info = NULL;
-    int                 _Color = 0;
     vector<BranchInfo>  _Branch;
+
+    int                 _Color = 0;
     bool                _GameOver = false; 
     ScoreCard           _GameResult;
     Position            _Pos; 

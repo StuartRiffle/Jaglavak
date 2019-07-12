@@ -143,7 +143,7 @@ void TreeSearch::SearchFiber()
 
 void TreeSearch::UpdateFibers()
 {
-    _SearchFibers.Update();
+    _SearchFibers.UpdateAll();
 
     int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
     if( _SearchFibers.GetCount() < fiberLimit )

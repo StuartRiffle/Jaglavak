@@ -2,7 +2,10 @@
 
 #include "Jaglavak.h"
 #include "CpuWorker.h"
+#include "CpuPlayer.h"
 
+#include "boost/algorithm/string.hpp"
+using namespace boost;
 
 bool CpuWorker::Initialize()
 {

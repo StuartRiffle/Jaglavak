@@ -26,7 +26,6 @@
 #include <unordered_map>
 
 using namespace std;
-using namespace boost;
 
 #include "Settings/GlobalSettings.h"
 #include "Util/Random.h"

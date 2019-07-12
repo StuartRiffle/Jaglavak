@@ -41,6 +41,7 @@
     <ClInclude Include="..\Source\Util\FEN.h" />
     <ClInclude Include="..\Source\Util\FiberSet.h" />
     <ClInclude Include="..\Source\Util\HugeBuffer.h" />
+    <ClInclude Include="..\Source\Util\Logging.h" />
     <ClInclude Include="..\Source\Util\PidController.h" />
     <ClInclude Include="..\Source\Util\Queue.h" />
     <ClInclude Include="..\Source\Util\Random.h" />
@@ -52,7 +53,6 @@
     <ClInclude Include="..\Source\Worker\CpuWorker.h" />
     <ClInclude Include="..\Source\Worker\CudaSupport.h" />
     <ClInclude Include="..\Source\Worker\CudaWorker.h" />
-    <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
@@ -72,6 +72,8 @@
     <ClCompile Include="..\Source\UnitTest\TestPerft.cpp" />
     <ClCompile Include="..\Source\UnitTest\RunUnitTests.cpp" />
     <ClCompile Include="..\Source\UnitTest\TestSIMD.cpp" />
+    <ClCompile Include="..\Source\Util\FiberSet.cpp" />
+    <ClCompile Include="..\Source\Util\StringUtil.cpp" />
     <ClCompile Include="..\Source\Worker\CpuWorker.cpp" />
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp" />
   </ItemGroup>

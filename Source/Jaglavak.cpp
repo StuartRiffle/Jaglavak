@@ -5,6 +5,8 @@
 #include "TreeSearch/IGameState.h"
 
 #include "boost/program_options.hpp"
+
+using namespace boost;
 namespace po = program_options;
 
 int main( int argc, char** argv )

@@ -2,41 +2,6 @@
 #pragma once
 
 #include "Jaglavak.h"
-#include "boost/algorithm/string.hpp"
 
-#include <vector>
-using vector;
-static vector< vector< string > > SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims )
-{
-    vector< vector< string > > result;
-
-    vector< string > lineList;
-    split( lineList, str, is_any_of( lineDelims ), token_compress_on );
-
-    for( string line : lineList )
-    {
-        size_t commentOfs =  line.find_first_of( commentDelims );
-        if( commentOfs != string::npos )
-            line.erase( commentOfs );
-
-        trim( line );
-        if( line.empty() )
-            continue;
-
-        vector< string > rawFields;
-        split( rawFields, line, is_any_of( fieldDelims ), token_compress_on );
-
-        vector< string > fields;
-        for( auto field : rawFields )
-        {
-            trim( field );
-            if( !field.empty() )
-                fields.push_back( field );
-        }
-
-        if( !fields.empty() )
-            result.push_back( move( fields ) );
-    }
-
-    return result;
-}
+vector< vector< string > >
+SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims );

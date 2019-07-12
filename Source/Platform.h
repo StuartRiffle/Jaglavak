@@ -51,7 +51,7 @@
     #define stricmp             strcasecmp
     #define strnicmp            strncasecmp
 
-    typedef atomic< uint64_t > atomic64_t;
+    typedef std::atomic< uint64_t > atomic64_t;
 
 #elif defined( _MSC_VER )
 
@@ -79,7 +79,7 @@
     #define PDECL         
 
     #include <atomic>
-    typedef atomic< uint64_t > atomic64_t;
+    typedef std::atomic< uint64_t > atomic64_t;
     
     extern "C" void * __cdecl memset(void *, int, size_t);
     #pragma intrinsic( memset )        

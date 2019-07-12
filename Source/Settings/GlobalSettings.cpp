@@ -5,6 +5,8 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+
+using namespace boost;
 namespace pt = property_tree;
 
 void GlobalSettings::Initialize( const vector< string >& configFiles )

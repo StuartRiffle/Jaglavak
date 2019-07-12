@@ -134,13 +134,13 @@
     <ClInclude Include="..\Source\Generated\DefaultSettings.json.h">
       <Filter>Generated</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\UnitTest\Perft.h">
       <Filter>UnitTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Util\StringUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\Logging.h">
       <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
@@ -197,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="..\Source\Worker\CpuWorker.cpp">
       <Filter>Worker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Util\FiberSet.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Util\StringUtil.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,15 +10,15 @@ struct simd8_avx512
     INLINE simd8_avx512( const __m512i& v )      : vec( v ) {}
     INLINE simd8_avx512( const simd8_avx512& v ) : vec( v.vec ) {}
 
-    INLINE explicit      operator   __m512i()                 const { return( vec ); }
-    INLINE simd8_avx512  operator~  ()                        const { return( _mm512_xor_si512(  vec, _mm512_set1_epi8( ~0 ) ) ); }
-    INLINE simd8_avx512  operator-  ( u64 s )                 const { return( _mm512_sub_epi64(  vec, _mm512_set1_epi64( s ) ) ); }
-    INLINE simd8_avx512  operator+  ( u64 s )                 const { return( _mm512_add_epi64(  vec, _mm512_set1_epi64( s ) ) ); }
-    INLINE simd8_avx512  operator&  ( u64 s )                 const { return( _mm512_and_si512(  vec, _mm512_set1_epi64( s ) ) ); }
-    INLINE simd8_avx512  operator|  ( u64 s )                 const { return( _mm512_or_si512(   vec, _mm512_set1_epi64( s ) ) ); }
-    INLINE simd8_avx512  operator^  ( u64 s )                 const { return( _mm512_xor_si512(  vec, _mm512_set1_epi64( s ) ) ); }
-    INLINE simd8_avx512  operator<< ( int c )                 const { return( _mm512_slli_epi64( vec, c ) ); }
-    INLINE simd8_avx512  operator>> ( int c )                 const { return( _mm512_srli_epi64( vec, c ) ); }
+    INLINE explicit      operator   __m512i()          const { return( vec ); }
+    INLINE simd8_avx512  operator~  ()                 const { return( _mm512_xor_si512(  vec, _mm512_set1_epi8( ~0 ) ) ); }
+    INLINE simd8_avx512  operator-  ( u64 s )          const { return( _mm512_sub_epi64(  vec, _mm512_set1_epi64( s ) ) ); }
+    INLINE simd8_avx512  operator+  ( u64 s )          const { return( _mm512_add_epi64(  vec, _mm512_set1_epi64( s ) ) ); }
+    INLINE simd8_avx512  operator&  ( u64 s )          const { return( _mm512_and_si512(  vec, _mm512_set1_epi64( s ) ) ); }
+    INLINE simd8_avx512  operator|  ( u64 s )          const { return( _mm512_or_si512(   vec, _mm512_set1_epi64( s ) ) ); }
+    INLINE simd8_avx512  operator^  ( u64 s )          const { return( _mm512_xor_si512(  vec, _mm512_set1_epi64( s ) ) ); }
+    INLINE simd8_avx512  operator<< ( int c )          const { return( _mm512_slli_epi64( vec, c ) ); }
+    INLINE simd8_avx512  operator>> ( int c )          const { return( _mm512_srli_epi64( vec, c ) ); }
     INLINE simd8_avx512  operator<< ( simd8_avx512 v ) const { return( _mm512_sllv_epi64( vec, v.vec ) ); }
     INLINE simd8_avx512  operator>> ( simd8_avx512 v ) const { return( _mm512_srlv_epi64( vec, v.vec ) ); }
     INLINE simd8_avx512  operator-  ( simd8_avx512 v ) const { return( _mm512_sub_epi64(  vec, v.vec ) ); }

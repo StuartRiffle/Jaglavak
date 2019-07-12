@@ -24,15 +24,15 @@ struct simd2_sse4
     INLINE simd2_sse4( const __m128i& v )       : vec( v ) {}
     INLINE simd2_sse4( const simd2_sse4& v )    : vec( v.vec ) {}
 
-    INLINE              operator __m128i()                  const { return( vec ); }
-    INLINE simd2_sse4   operator~  ()                       const { return( _mm_xor_si128(   vec, _mm_set1_epi8(  ~0 ) ) ); }
-    INLINE simd2_sse4   operator-  ( u64 s )                const { return( _mm_sub_epi64(   vec, _mm_set1_epi64x( s ) ) ); }
-    INLINE simd2_sse4   operator+  ( u64 s )                const { return( _mm_add_epi64(   vec, _mm_set1_epi64x( s ) ) ); }
-    INLINE simd2_sse4   operator&  ( u64 s )                const { return( _mm_and_si128(   vec, _mm_set1_epi64x( s ) ) ); }
-    INLINE simd2_sse4   operator|  ( u64 s )                const { return( _mm_or_si128(    vec, _mm_set1_epi64x( s ) ) ); }
-    INLINE simd2_sse4   operator^  ( u64 s )                const { return( _mm_xor_si128(   vec, _mm_set1_epi64x( s ) ) ); }
-    INLINE simd2_sse4   operator<< ( int c )                const { return( _mm_slli_epi64(  vec, c ) ); }
-    INLINE simd2_sse4   operator>> ( int c )                const { return( _mm_srli_epi64(  vec, c ) ); }
+    INLINE              operator __m128i()           const { return( vec ); }
+    INLINE simd2_sse4   operator~  ()                const { return( _mm_xor_si128(   vec, _mm_set1_epi8(  ~0 ) ) ); }
+    INLINE simd2_sse4   operator-  ( u64 s )         const { return( _mm_sub_epi64(   vec, _mm_set1_epi64x( s ) ) ); }
+    INLINE simd2_sse4   operator+  ( u64 s )         const { return( _mm_add_epi64(   vec, _mm_set1_epi64x( s ) ) ); }
+    INLINE simd2_sse4   operator&  ( u64 s )         const { return( _mm_and_si128(   vec, _mm_set1_epi64x( s ) ) ); }
+    INLINE simd2_sse4   operator|  ( u64 s )         const { return( _mm_or_si128(    vec, _mm_set1_epi64x( s ) ) ); }
+    INLINE simd2_sse4   operator^  ( u64 s )         const { return( _mm_xor_si128(   vec, _mm_set1_epi64x( s ) ) ); }
+    INLINE simd2_sse4   operator<< ( int c )         const { return( _mm_slli_epi64(  vec, c ) ); }
+    INLINE simd2_sse4   operator>> ( int c )         const { return( _mm_srli_epi64(  vec, c ) ); }
     INLINE simd2_sse4   operator<< ( simd2_sse4 v )  const { return( _mm_sllv_epi64x( vec, v.vec ) ); }
     INLINE simd2_sse4   operator-  ( simd2_sse4 v )  const { return( _mm_sub_epi64(   vec, v.vec ) ); }
     INLINE simd2_sse4   operator+  ( simd2_sse4 v )  const { return( _mm_add_epi64(   vec, v.vec ) ); }
