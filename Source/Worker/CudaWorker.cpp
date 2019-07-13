@@ -30,9 +30,9 @@ bool CudaWorker::Initialize( int deviceIndex  )
     cudaSetDevice( _DeviceIndex );
     cudaDeviceSetCacheConfig( cudaFuncCachePreferL1 );
 
-    int totalCores = GetCudaCoresPerSM( _Prop.major, _Prop.minor );
-    int mb = (int) _Prop.totalGlobalMem / (1024 * 1024);
-    int mhz = (int) _Prop.clockRate / 1000;
+    int totalCores = _Prop.multiProcessorCount * GetCudaCoresPerSM( _Prop.major, _Prop.minor );
+    u64 mb = _Prop.totalGlobalMem / (1024 * 1024);
+    u64 mhz = _Prop.clockRate / 1000;
 
     cout << "CUDA " << _DeviceIndex << ": " << _Prop.name << endl;
     cout << "  Compute  " << _Prop.major << "." << _Prop.minor << endl;
@@ -40,7 +40,9 @@ bool CudaWorker::Initialize( int deviceIndex  )
     cout << "  Memory   " << mb << " MB" << endl;
     cout << "  Cores    " << totalCores << endl << endl;
 
-    _Heap.Init( (u64) _Settings->Get( "CUDA.HeapMegs" ) * 1024 * 1024 );
+    int megs = _Settings->Get( "CUDA.HeapMegs" );
+
+    _Heap.Init( megs * 1024 * 1024 );
     _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
 
     return true;

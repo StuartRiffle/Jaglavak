@@ -107,9 +107,8 @@ void TreeSearch::StopSearching()
     {
         _SearchExit = true;
         _SearchThread->join();
-
-        _SearchExit = false;
         _SearchThread = NULL;
+        _SearchExit = false;
     }
 }
 
@@ -126,6 +125,8 @@ void TreeSearch::SearchThread()
             worker->Update();
 
         this->UpdateFibers();
+        this->FlushBatch();
+
         this->UpdateUciStatus();
     } 
 

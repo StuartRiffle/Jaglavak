@@ -7,12 +7,14 @@ using namespace boost;
 void FiberSet::YieldFiber()
 {
     this_fiber::yield();
+    _NumYields++;
 }
 
 void FiberSet::UpdateAll()
 {
-    this_fiber::yield();
+    YieldFiber();
     DestroyCompletedFibers();
+    _NumUpdates++;
 }
 
 void FiberSet::TerminateAll()
@@ -22,13 +24,22 @@ void FiberSet::TerminateAll()
 
 void FiberSet::DestroyCompletedFibers()
 {
-    auto completed = remove_if( _Fibers.begin(), _Fibers.end(),
-        []( FiberInstance& f ) -> bool { return f._Done; } );
+    auto iter = _Fibers.begin();
+    while( iter != _Fibers.end() )
+    {
+        auto next = iter;
+        ++next;
 
-    for( auto iter = completed; iter != _Fibers.end(); ++iter )
-        iter->_Fiber->join();
+        if( iter->_Done )
+        {
+            iter->_Fiber->join();
+            _NumJoins++;
 
-    _Fibers.erase( completed, _Fibers.end() );
+            _Fibers.erase( iter );
+        }
+
+        iter = next;
+    }
 }
 
 void FiberSet::Trace( const char* msg )
@@ -37,5 +48,6 @@ void FiberSet::Trace( const char* msg )
     cout << "Fiber " << this_fiber::get_id() << " " << msg << endl;
 #endif
 }
+
 
 

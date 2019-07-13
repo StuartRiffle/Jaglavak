@@ -216,7 +216,7 @@ struct ALIGN_SIMD PositionT
 
     /// Generate a map of valid moves from the current position
     
-    PDECL void CalcMoveMap( MoveMapT< SIMD >* RESTRICT dest ) const
+    PDECL void CalcMoveMap( MoveMapT< SIMD >* RESTRICT dest ) const                              
     {
         SIMD    whitePawns          = _WhitePawns;    
         SIMD    whiteKnights        = _WhiteKnights;  

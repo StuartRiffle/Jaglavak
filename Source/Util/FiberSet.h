@@ -24,12 +24,18 @@ class FiberSet
 {
     list< FiberInstance > _Fibers;
 
+    u64 _NumUpdates = 0;
+    u64 _NumYields  = 0;
+    u64 _NumSpawns  = 0;
+    u64 _NumJoins   = 0;
+
 public:
     template< typename TFUNC >
     void Spawn( TFUNC& fiberproc )
     {
         _Fibers.emplace_back();
         _Fibers.back().Spawn( fiberproc );
+        _NumSpawns++;
     }
 
     void YieldFiber();

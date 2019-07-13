@@ -13,10 +13,20 @@ struct BranchInfo
 
     float       _Prior = 0;
     float       _VirtualLoss = 0;
+    float       _LastUct = 0;
 
 #if 1//DEBUG    
     char        _MoveText[MAX_MOVETEXT_LENGTH];
 #endif
+
+    struct VirtualLossScope
+    {
+        BranchInfo& _Info;
+        float _Loss;
+
+        VirtualLossScope( BranchInfo& info, float loss ) : _Info( info ), _Loss( loss ) { _Info._VirtualLoss += _Loss; }
+        ~VirtualLossScope() { _Info._VirtualLoss -= _Loss;  }
+    };
 };
 
 struct TreeLink

@@ -28,6 +28,7 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
         childInfo._VirtualLoss +
         childInfo._Prior;
 
+    childInfo._LastUct = (float) uct;
     return uct;
 }
 

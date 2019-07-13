@@ -55,8 +55,10 @@ int main( int argc, char** argv )
         for( auto& cmd : variables["uci"].as< vector< string > >() )
             engine.ProcessCommand( cmd.c_str() );
 
-    //engine.ProcessCommand( "uci" );
-    //engine.ProcessCommand( "go" );
+#if DEBUG
+    engine.ProcessCommand( "uci" );
+    engine.ProcessCommand( "go" );
+#endif
 
     string cmd;
     while( getline( cin, cmd ) ) 

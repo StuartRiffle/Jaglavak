@@ -59,7 +59,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             ourBatch->_YieldCounter++;
         }
 
-        cout << "YIELD COMPLETE" << endl;
+        //cout << "YIELD COMPLETE" << endl;
 
         assert( ourBatch->_GameResults.size() >= (offset + count) );
 
@@ -77,8 +77,6 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
     }
 
     int chosenBranchIdx = SelectNextBranch( node );
-       if ( chosenBranchIdx< 0 )
-           chosenBranchIdx = SelectNextBranch(node);
     assert( chosenBranchIdx >= 0 );
 
     BranchInfo* chosenBranch = &node->_Branch[chosenBranchIdx];

@@ -58,8 +58,8 @@ void GlobalSettings::LoadJsonValues( const string& json )
         const string& name = option.first;
         pt::ptree&    info = option.second;
 
-        int value = info.get< int >( "value" );
-        this->Set( name, value );
+        double value = info.get< double >( "value" );
+        _Value[name] = value;
     }
 }
 
@@ -68,7 +68,7 @@ void GlobalSettings::PrintListForUci() const
     for( auto& pair : _Value )
     {
         const string& name = pair.first;
-        int val = pair.second;
+        int val = (int) pair.second;
 
         cout << "option type spin name " << name << " default " << val << endl;
     }

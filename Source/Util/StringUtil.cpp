@@ -19,9 +19,7 @@ SplitLinesIntoFields( const char* str, const char* lineDelims, const char* field
 {
     vector< vector< string > > result;
 
-    vector< string > lineList;
-    split( lineList, str, is_any_of( lineDelims ), token_compress_on );
-
+    vector< string > lineList = SplitString( str, lineDelims );
     for( string line : lineList )
     {
         size_t commentOfs =  line.find_first_of( commentDelims );
