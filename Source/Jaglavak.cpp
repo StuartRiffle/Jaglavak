@@ -55,8 +55,9 @@ int main( int argc, char** argv )
         for( auto& cmd : variables["uci"].as< vector< string > >() )
             engine.ProcessCommand( cmd.c_str() );
 
-#if DEBUG
-    engine.ProcessCommand( "uci" );
+#if 1//DEBUG
+    //engine.ProcessCommand( "uci" );
+    engine.ProcessCommand( "position startpos fen r3qb1k/1b4p1/p2pr2p/3n4/Pnp1N1N1/6RP/1B3PP1/1B1QR1K1 w - -" );
     engine.ProcessCommand( "go" );
 #endif
 
