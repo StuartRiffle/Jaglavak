@@ -53,26 +53,44 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
     int numBranches = (int) node->_Branch.size();
     assert( numBranches > 0 );
 
-    int randomBranch = GetRandomUnexploredBranch( node );
-    if( randomBranch >= 0 )
-        return randomBranch;    
+//    bool expandingAllBranches = (_Settings->Get( "Search.BranchesToExpand" ) == 0);
+//    if( !expandingAllBranches )
+    {
+        int randomBranch = GetRandomUnexploredBranch( node );
+        if( randomBranch >= 0 )
+            return randomBranch;
+    }
 
     // This node is fully expanded, so choose the move with highest UCT
 
-    double highestUct = DBL_MIN;
-    int highestIdx = 0;
+    double branchUct[MAX_POSSIBLE_MOVES];
+    double highestUct = -DBL_MAX;
 
     for( int i = 0; i < numBranches; i++ )
     {
         double uct = CalculateUct( node, i );
+        branchUct[i] = uct;
+
         if( uct > highestUct )
-        {
             highestUct = uct;
-            highestIdx = i;
-        }
     }
 
-    return highestIdx;
+    // Early on, there could be a lot with the same value, so pick fairly among them
+
+    int highestIndex[MAX_POSSIBLE_MOVES];
+    int numHighest = 0;
+
+    for( int i = 0; i < numBranches; i++ )
+    {
+        assert( branchUct[i] <= highestUct );
+        if( branchUct[i] == highestUct )
+            highestIndex[numHighest++] = i;
+    }
+
+    assert( numHighest > 0 );
+    int idx = ( int) _RandomGen.GetRange( numHighest );
+
+    return highestIndex[idx];
 }
 
 

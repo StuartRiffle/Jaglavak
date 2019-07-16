@@ -43,7 +43,7 @@ bool CudaWorker::Initialize( int deviceIndex  )
     int megs = _Settings->Get( "CUDA.HeapMegs" );
 
     _Heap.Init( megs * 1024 * 1024 );
-    _LaunchThread = unique_ptr< thread >( new thread( [this] { this->LaunchThread(); } ) );
+    _LaunchThread = unique_ptr< thread >( new thread( [this] { this->___CUDA_LAUNCH_THREAD___(); } ) );
 
     return true;
 }
@@ -84,7 +84,7 @@ void CudaWorker::FreeEvent( cudaEvent_t event )
     _EventCache.push_back( event );
 }
 
-void CudaWorker::LaunchThread()
+void CudaWorker::___CUDA_LAUNCH_THREAD___()
 {
     CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
@@ -196,7 +196,7 @@ void CudaWorker::Update()
 
             _Heap.Free( launch->_Params );
             _Heap.Free( launch->_Inputs );
-            _Heap.Free( launch->_Outputs );
+            _Heap.Free( launch->_Outputs ); 
 
             this->FreeEvent( launch->_StartTimer );
             this->FreeEvent( launch->_StopTimer );

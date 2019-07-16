@@ -64,7 +64,7 @@ private:
     cudaEvent_t AllocEvent();
     void FreeEvent( cudaEvent_t event );
 
-    void LaunchThread();
+    void ___CUDA_LAUNCH_THREAD___();
     virtual void Update() override;
 };
   

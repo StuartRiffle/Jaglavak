@@ -31,5 +31,5 @@ public:
 private:
 
     void PrintCpuInfo();
-    void WorkThread();
+    void ___CPU_WORK_THREAD___();
 };

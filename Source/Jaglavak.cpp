@@ -49,7 +49,7 @@ int main( int argc, char** argv )
     GlobalSettings settings;
     settings.Initialize( configFiles );
 
-    UciInterface engine( &settings );
+    static UciInterface engine( &settings );
 
     if( variables.count( "uci" ) )
         for( auto& cmd : variables["uci"].as< vector< string > >() )

@@ -70,8 +70,12 @@ class TreeSearch
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > _Workers;
 
-    void SearchThread();
-    void SearchFiber();
+    
+    
+
+    void ___SEARCH_THREAD___();   // These declarations are goofy so that they
+    void ___SEARCH_FIBER___();    // are easier to see in a callstack
+
     void FlushBatch();
     void UpdateUciStatus();
     void UpdateFibers();

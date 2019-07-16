@@ -34,13 +34,13 @@ public:
             int offset = idx * LANES;
 
             Swizzle< SIMD >( pos + offset, &simdPos );
-            PlayOneGame( simdPos, dest + offset );
+            ___PLAYOUT___( simdPos, dest + offset );
         }
     }
 
 protected:
 
-    PDECL void PlayOneGame( const PositionT< SIMD >& startPos, ScoreCard* outScores )
+    PDECL void ___PLAYOUT___( const PositionT< SIMD >& startPos, ScoreCard* outScores )
     {
         PositionT< SIMD > simdPos = startPos;
         MoveMapT< SIMD >  simdMoveMap;

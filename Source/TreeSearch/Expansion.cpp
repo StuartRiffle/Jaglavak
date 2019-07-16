@@ -41,9 +41,8 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             int expansionBranchIdx = SelectNextBranch( node );
             expansionBranch[i] = &node->_Branch[expansionBranchIdx];
 
-            assert( expansionBranch[i]->_Node == NULL );
             TreeNode* newNode = _SearchTree->CreateBranch( node, expansionBranchIdx );
-            assert( expansionBranch[i]->_Node == newNode );
+            _Metrics._NumNodesCreated++;
 
             _Batch->_Position.push_back( newNode->_Pos );
         }
@@ -59,14 +58,12 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             ourBatch->_YieldCounter++;
         }
 
-        //cout << "YIELD COMPLETE" << endl;
-
         assert( ourBatch->_GameResults.size() >= (offset + count) );
 
         for( int i = 0; i < count; i++ )
         {
             ScoreCard& results = ourBatch->_GameResults[offset + i];
-            assert( results._Plays == ourBatch->_Params._NumGamesEach );
+            //assert( results._Plays == ourBatch->_Params._NumGamesEach );
 
             expansionBranch[i]->_Scores.Add( results );
             totalScore.Add( results );
@@ -80,6 +77,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
     assert( chosenBranchIdx >= 0 );
 
     BranchInfo* chosenBranch = &node->_Branch[chosenBranchIdx];
+    BranchInfo::VirtualLossScope lossScope( *chosenBranch, _Settings->Get< float >( "Search.VirtualLoss" ) );
 
     ScoreCard branchScores = ExpandAtLeaf( chosenBranch->_Node, depth + 1 );
     chosenBranch->_Scores.Add( branchScores );
@@ -91,13 +89,13 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
 
 void TreeSearch::FlushBatch()
 {
-    if( !_Batch )
-        return;
+    if( _Batch )
+    {
+        _BatchQueue.Push( _Batch );
+        _Batch = NULL;
 
-    _BatchQueue.Push( _Batch );
-    _Batch = NULL;
-
-    _Metrics._NumBatchesMade++;
+        _Metrics._NumBatchesMade++;
+    }
 }
 
 

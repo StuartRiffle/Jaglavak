@@ -6,16 +6,14 @@ class GlobalSettings
     map< string, double > _Value;
 
 public:
-    int Get( const string& key ) const
+    template< typename T = int >
+    T Get( const string& key ) const
     { 
-        int value = 0;
+        T value = 0;
 
         auto iter = _Value.find( key );
         if( iter != _Value.end() )
-        {
-            value = (int) iter->second;
-            assert( iter->second - value == 0 );
-        }
+            value = (T) iter->second;
 
         return value;
     }

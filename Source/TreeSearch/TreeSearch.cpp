@@ -76,7 +76,7 @@ void TreeSearch::Reset()
     _DeepestLevelSearched = 0;
 
     _DrawsWorthHalf    = _Settings->Get( "Search.DrawsWorthHalf" );
-    _ExplorationFactor = _Settings->Get( "Search.ExplorationFactor" ) / 100.0f;
+    _ExplorationFactor = _Settings->Get< float >( "Search.ExplorationFactor" );
 
     _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
     _PlayoutParams._NumGamesEach    = _Settings->Get( "Search.NumPlayouts" );
@@ -98,7 +98,7 @@ void TreeSearch::StartSearching()
     this->Reset();
     assert( _SearchThread == NULL );
 
-    _SearchThread = unique_ptr< thread >( new thread( [this] { this->SearchThread(); } ) );
+    _SearchThread = unique_ptr< thread >( new thread( [this] { this->___SEARCH_THREAD___(); } ) );
 }
                                          
 void TreeSearch::StopSearching()
@@ -112,7 +112,7 @@ void TreeSearch::StopSearching()
     }
 }
 
-void TreeSearch::SearchThread()
+void TreeSearch::___SEARCH_THREAD___()
 {
     _SearchTimer.Reset();
 
@@ -126,7 +126,6 @@ void TreeSearch::SearchThread()
 
         this->UpdateFibers();
         this->FlushBatch();
-
         this->UpdateUciStatus();
     } 
 
@@ -134,7 +133,7 @@ void TreeSearch::SearchThread()
     _SearchFibers.TerminateAll();
 }
 
-void TreeSearch::SearchFiber()
+void TreeSearch::___SEARCH_FIBER___()
 {
     TreeNode* root = _SearchTree->GetRootNode();
 
@@ -148,7 +147,7 @@ void TreeSearch::UpdateFibers()
 
     int fiberLimit = _Settings->Get( "CPU.SearchFibers" );
     if( _SearchFibers.GetCount() < fiberLimit )
-        _SearchFibers.Spawn( [&]() { this->SearchFiber(); } );
+        _SearchFibers.Spawn( [&]() { this->___SEARCH_FIBER___(); } );
 }
 
 void TreeSearch::UpdateUciStatus()
@@ -157,10 +156,14 @@ void TreeSearch::UpdateUciStatus()
     {
         _UciUpdateTimer.Reset();
         SendUciStatus();
+
+        cout << endl;
+        _SearchTree->DumpRoot();
+
+        cout << endl;
+        _SearchTree->DumpTop();
     }
 }
-
-
 
 
 

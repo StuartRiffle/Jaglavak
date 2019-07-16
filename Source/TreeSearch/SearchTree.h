@@ -24,8 +24,8 @@ struct BranchInfo
         BranchInfo& _Info;
         float _Loss;
 
-        VirtualLossScope( BranchInfo& info, float loss ) : _Info( info ), _Loss( loss ) { _Info._VirtualLoss += _Loss; }
-        ~VirtualLossScope() { _Info._VirtualLoss -= _Loss;  }
+        VirtualLossScope( BranchInfo& info, float loss ) : _Info( info ), _Loss( loss ) { _Info._VirtualLoss -= _Loss; }
+        ~VirtualLossScope() { _Info._VirtualLoss += _Loss;  }
     };
 };
 
@@ -72,7 +72,6 @@ struct TreeNode : public TreeLink
     struct RefScope
     {
         TreeNode* _Node;
-
         RefScope( TreeNode* node ) : _Node( node ) { _Node->_RefCount++; }
         ~RefScope() { _Node->_RefCount--; }
     };
@@ -93,6 +92,7 @@ class SearchTree
     TreeNode* AllocNode();
     void InitNode( TreeNode* node, const Position& pos, const MoveMap& moveMap, BranchInfo* info );
     void ClearNode( TreeNode* node );
+    void EstimatePriors( TreeNode* node );
 
 public:
     SearchTree( GlobalSettings* settings ) : _Settings( settings ) {}
@@ -105,6 +105,10 @@ public:
     TreeNode* GetRootNode() { return _SearchRoot; }
 
     void VerifyTopology() const;
+
+    void Dump( TreeNode* node, int depth, int topMoves, string prefix = "" ) const;
+    void DumpRoot() const;
+    void DumpTop() const;
 };              
 
 

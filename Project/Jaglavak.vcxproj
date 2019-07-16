@@ -127,6 +127,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -137,6 +141,8 @@
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
       <SDLCheck>true</SDLCheck>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Jaglavak.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -159,6 +165,10 @@
     <PreBuildEvent>
       <Command>cd $(ProjectDir)..\Source\Generated &amp;&amp; GenerateHeaders</Command>
     </PreBuildEvent>
+    <CustomBuildStep>
+      <Command>cd $(ProjectDir)..\Source\Generated &amp;&amp; GenerateHeaders</Command>
+      <Outputs>FileThatDoesNotExist</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,6 +180,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)..\Source\Player;$(SolutionDir)..\Source\Worker;$(SolutionDir)..\Source\Util;$(SolutionDir)..\Source\TreeSearch;$(SolutionDir)..\Source;$(SolutionDir)..\External\Headers\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <OpenMPSupport>true</OpenMPSupport>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Jaglavak.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -192,6 +204,10 @@
     <PreBuildEvent>
       <Command>cd $(ProjectDir)..\Source\Generated &amp;&amp; GenerateHeaders</Command>
     </PreBuildEvent>
+    <CustomBuildStep>
+      <Command>cd $(ProjectDir)..\Source\Generated &amp;&amp; GenerateHeaders</Command>
+      <Outputs>FileThatDoesNotExist</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

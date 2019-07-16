@@ -84,9 +84,9 @@ public:
                 if( size > 0 )
                     _Used[addr] = size;
 
-                _Free.erase( iter );
                 if( size < freeSize )
                     _Free[freeAddr + size] = freeSize - size;
+                _Free.erase( iter );
 
                 _TotalAllocated += size;
                 if( _TotalAllocated > _HighestAllocated )
@@ -108,9 +108,14 @@ public:
         unique_lock< mutex > lock( _Mutex );
 
         assert( addr != 0 );
+
         assert( addr >= _Base );
+
         assert( addr < _Base + _Size );
-        assert( addr & (_Align - 1) == 0 );
+
+        addr_t mask = (_Align - 1); 
+        addr_t result = addr & mask;
+        assert( result == 0 );
 
         auto iter = _Used.find( addr );
         assert( iter != _Used.end() );

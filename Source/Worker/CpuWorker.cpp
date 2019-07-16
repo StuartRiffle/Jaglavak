@@ -12,7 +12,7 @@ bool CpuWorker::Initialize()
     PrintCpuInfo();
 
     for( int i = 0; i < _Settings->Get( "CPU.DispatchThreads" ); i++ )
-        _WorkThreads.emplace_back( new thread( [this]() { WorkThread(); } ) );
+        _WorkThreads.emplace_back( new thread( [this]() { ___CPU_WORK_THREAD___(); } ) );
 
     return (_WorkThreads.size() > 0);
 }
@@ -27,28 +27,26 @@ void CpuWorker::PrintCpuInfo()
     replace_all( cpuName, "(R)", "" );
     replace_all( cpuName, "CPU ", "" );
 
-    const char* ampersand = strchr( cpuName.c_str(), '@' );
-    if( ampersand )
-        cpuName = cpuName.substr( 0, ampersand - cpuName.c_str() - 1 );
+    string clockSpeed;
 
-    cout << "[CPU] " << cpuName << endl;
-
-    if( ampersand )
+    size_t ampersand = cpuName.find( "@" );
+    if( ampersand != string::npos )
     {
-        string clockSpeed = (ampersand + 1);
-        trim( clockSpeed );
-
-        cout << "[CPU]   " << clockSpeed << endl;
+        clockSpeed = cpuName.substr( ampersand + 1 );
+        cpuName = cpuName.substr( 0, ampersand - 1 );
     }
 
-    cout << "[CPU]   " << cores << " total cores" << endl;
-    cout << "[CPU] SIMD   " << simdDesc << endl;
-    cout << "[CPU] Lanes  " << simdLevel << endl;
 
+    cout << "CPU: " << cpuName << endl;
 
+    if( !clockSpeed.empty() )
+        cout << "  Clock   " << clockSpeed << endl;
+
+    cout << "  SIMD     " << simdDesc << " (" << simdLevel << "x)" << endl;
+    cout << "  Cores    " << cores << endl;
 }
 
-void CpuWorker::WorkThread()
+void CpuWorker::___CPU_WORK_THREAD___()
 {
     while( !_TimeToExit )
     {
@@ -66,7 +64,7 @@ void CpuWorker::WorkThread()
             batch->_GameResults.data(),
             count );
 
-        batch->_GameResults.resize( count );
+        batch->_GameResults.resize( count );  
         batch->_Done = true;
     }
 }

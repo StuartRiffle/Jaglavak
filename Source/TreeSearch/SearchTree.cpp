@@ -49,8 +49,6 @@ TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
     TreeNode* newNode = AllocNode();
     assert( newNode != node );
 
-    //_Metrics._NumNodesCreated++;
-
     BranchInfo* chosenBranch = &node->_Branch[branchIdx];
     assert( chosenBranch->_Node == NULL );
 
@@ -60,7 +58,7 @@ TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
 
     ClearNode( newNode );
     InitNode( newNode, newPos, newMap, chosenBranch ); 
-//    EstimatePriors( newNode );
+    EstimatePriors( newNode );
 
     chosenBranch->_Node = newNode;
     return newNode;
@@ -141,6 +139,14 @@ void SearchTree::ClearNode( TreeNode* node )
     node->_RefCount = 0;
 }
 
+void SearchTree::EstimatePriors( TreeNode* node )
+{
+    // TODO
+    for( auto& info : node->_Branch )
+        info._Prior = 0;
+}
+
+
 void SearchTree::SetPosition( const Position& pos )
 {
     MoveMap moveMap;
@@ -189,3 +195,67 @@ void  SearchTree::VerifyTopology() const
         node = (TreeNode*) node->_Prev;
     }         
 }
+
+void SearchTree::Dump( TreeNode* node, int depth, int topMoves, string prefix ) const
+{
+    if( node == NULL )
+        return;
+
+    u64 totalPlayed = 0;
+    for( auto& info : node->_Branch )
+        totalPlayed += info._Scores._Plays;
+
+    if( totalPlayed == 0 )
+        return;
+
+    vector< pair< u64, int > > playsByIndex;
+    int idx = 0;
+    for( auto& info : node->_Branch )
+        playsByIndex.emplace_back( info._Scores._Plays, idx++ );
+
+    sort( playsByIndex.begin(), playsByIndex.end() );
+    reverse( playsByIndex.begin(), playsByIndex.end() );
+
+    int movesToShow = topMoves;
+    if( movesToShow == 0 )
+        movesToShow = (int) node->_Branch.size();
+
+    int movesShown = 0;
+    for( auto iter : playsByIndex )
+    {
+        cout << prefix;
+
+        u64 plays = iter.first;
+        int moveIndex = iter.second;
+
+        assert( moveIndex < node->_Branch.size() );
+        BranchInfo& info = node->_Branch[moveIndex];
+
+        string moveText = SerializeMoveSpec( info._Move );
+        cout << moveText << " ";
+
+        float frac = info._Scores._Plays * 1.0f / totalPlayed;
+        float pct = frac * 100;
+
+        cout << frac << " (" << plays << ")" << endl;
+
+        if( depth > 1 )
+            this->Dump( info._Node, depth - 1, topMoves, prefix + "     " );       
+
+        if( ++movesShown >= movesToShow )
+            break;
+    }
+
+
+}
+
+void SearchTree::DumpRoot() const
+{
+    this->Dump( _SearchRoot, 1, 0 );
+}
+
+void SearchTree::DumpTop() const
+{
+    this->Dump( _SearchRoot, 3, 3 );
+}
+

@@ -41,7 +41,7 @@ void GlobalSettings::Initialize( const vector< string >& configFiles )
         if( loaded == size )
             this->LoadJsonValues( json );
     }
-}
+}                                          
 
 void GlobalSettings::LoadJsonValues( const string& json )
 {
