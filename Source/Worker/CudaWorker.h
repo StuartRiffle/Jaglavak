@@ -15,7 +15,8 @@ struct LaunchInfo
 
     cudaEvent_t _StartTimer;
     cudaEvent_t _StopTimer; 
-    cudaEvent_t _ReadyEvent; 
+    cudaEvent_t _ReadyEvent;
+    float _GpuTime;
 };
 
 typedef shared_ptr< LaunchInfo > LaunchInfoRef;

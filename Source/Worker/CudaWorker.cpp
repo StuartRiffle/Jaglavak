@@ -180,6 +180,8 @@ void CudaWorker::Update()
             if( cudaEventQuery( launch->_ReadyEvent ) != cudaSuccess )
                 break;
 
+            CUDA_REQUIRE(( cudaEventElapsedTime( &launch->_GpuTime, launch->_StartTimer, launch->_StopTimer ) ));
+
             inFlight.pop_front();
             launch->_TickReturned = CpuInfo::GetClockTick();
 
