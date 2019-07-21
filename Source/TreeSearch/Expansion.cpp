@@ -2,6 +2,7 @@
 
 #include "Jaglavak.h"
 #include "TreeSearch.h"
+#include "CpuPlayer.h"
 
 ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
 {
@@ -42,22 +43,38 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             expansionBranch[i] = &node->_Branch[expansionBranchIdx];
 
             TreeNode* newNode = _SearchTree->CreateBranch( node, expansionBranchIdx );
-            _Metrics._NumNodesCreated++;
+            _Metrics._NodesExpanded++;
 
             _Batch->_Position.push_back( newNode->_Pos );
         }
 
         BatchRef ourBatch = _Batch;
 
-        if( (_Batch->_Position.size() >= _Settings->Get( "Search.BatchSize" )) || _Settings->Get( "Search.FlushEveryBatch" ) )
-            this->FlushBatch();
-
-        while( !ourBatch->_Done )
+        int doPlayoutsNow = _Settings->Get( "Debug.DoPlayoutsInline" );
+        if( doPlayoutsNow )
         {
-            _SearchFibers.YieldFiber();
-            ourBatch->_YieldCounter++;
+            PlayBatchCpu( _Settings, ourBatch );
+            ourBatch->_Done = true;
+        }
+        else
+        {
+            int batchFullEnough = (_Batch->_Position.size() >= _Settings->Get( "Search.BatchSize" ));
+            int forceFlush = _Settings->Get( "Debug.FlushEveryBatch" );
+
+            if( batchFullEnough || forceFlush )
+                FlushBatch();
+
+            while( !ourBatch->_Done )
+            {
+                _SearchFibers.YieldFiber();
+                ourBatch->_YieldCounter++;
+
+                if( _SearchExit )
+                    return totalScore;
+            }
         }
 
+        assert( ourBatch->_Done );
         assert( ourBatch->_GameResults.size() >= (offset + count) );
 
         for( int i = 0; i < count; i++ )
@@ -68,7 +85,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             expansionBranch[i]->_Scores.Add( results );
             totalScore.Add( results );
         }
-
+    
         _SearchTree->Touch( node );
         return totalScore;
     }
@@ -83,7 +100,6 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
     chosenBranch->_Scores.Add( branchScores );
 
     _SearchTree->Touch( node );
-
     return branchScores;
 }
 
@@ -91,10 +107,11 @@ void TreeSearch::FlushBatch()
 {
     if( _Batch )
     {
+        _Batch->_TickQueued = CpuInfo::GetClockTick();
         _BatchQueue.Push( _Batch );
         _Batch = NULL;
 
-        _Metrics._NumBatchesMade++;
+        _Metrics._BatchesQueued++;
     }
 }
 

@@ -204,6 +204,7 @@
     <ClCompile Include="..\Source\Util\StringUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Platform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

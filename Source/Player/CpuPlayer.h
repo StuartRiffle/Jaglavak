@@ -27,3 +27,21 @@ static void PlayGamesCpu( const GlobalSettings* settings, const PlayoutParams* p
     default:  PlayGamesX64(    params, pos, dest, count ); break;
     }
 }
+
+static void PlayBatchCpu( const GlobalSettings* settings, BatchRef& batch )
+{
+    int count = (int) batch->_Position.size();
+    batch->_GameResults.resize( count + SIMD_WIDEST );
+
+    PlayGamesCpu(
+        settings,
+        &batch->_Params,
+        batch->_Position.data(),
+        batch->_GameResults.data(),
+        count );
+
+    batch->_GameResults.resize( count );
+    batch->_Done = true;
+}
+
+

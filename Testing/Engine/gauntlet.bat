@@ -1,6 +1,6 @@
 ..\Tools\cutechess-cli\cutechess-cli ^
     -debug ^
-     ^
+    ^
     -engine name="Jaglavak" ^
     cmd=\dev\Jaglavak\Project\x64\Release\Jaglavak.exe ^
     proto=uci ^
@@ -22,7 +22,6 @@
     -engine conf="Cinnamon 1.1" ^
     -engine conf="CT800 1.34" ^
     -engine conf="Cyrano 0.6" ^
-    -engine conf="Darky 0.5" ^
     -engine conf="Daydreamer 1.75" ^
     -engine conf="Deepov 0.4" ^
     -engine conf="Demolito" ^

@@ -5,6 +5,7 @@ struct PlayoutBatch
 {
     bool _Done = false;
     u64 _YieldCounter = 0;
+    u64 _TickQueued = 0;
 
     // Inputs
     PlayoutParams       _Params;

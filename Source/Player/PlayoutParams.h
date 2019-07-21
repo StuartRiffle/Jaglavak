@@ -5,8 +5,8 @@ struct PlayoutParams
 {
     u64     _RandomSeed;
     int     _MaxMovesPerGame;
-    int     _Multicore;
     int     _NumGamesEach;
+    int     _LimitPlayoutCores;
 };
 
 

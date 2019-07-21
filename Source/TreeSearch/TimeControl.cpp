@@ -23,7 +23,7 @@ bool TreeSearch::IsTimeToMove()
             return true;
 
     if( _UciConfig._NodesLimit )
-        if( _Metrics._NumNodesCreated >= _UciConfig._NodesLimit )
+        if( _Metrics._NodesExpanded >= _UciConfig._NodesLimit )
             return true;
 
     if( _UciConfig._DepthLimit )

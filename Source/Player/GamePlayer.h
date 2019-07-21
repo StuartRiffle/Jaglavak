@@ -24,11 +24,23 @@ public:
     {
         assert( (uintptr_t) pos % sizeof( SIMD ) == 0 );
 
+        #if !ON_CUDA_DEVICE
+            int totalCores = PlatDetectCpuCores();
+            int coresToUse = _Params->_LimitPlayoutCores;
+            if( coresToUse < 0 )
+                coresToUse += totalCores;
+            omp_set_num_threads( coresToUse );
+        #endif
+
         int totalIters = simdCount * _Params->_NumGamesEach;
 
-        #pragma omp parallel for schedule(dynamic) if (_Params->_Multicore)
+        #pragma omp parallel for schedule(dynamic) if(totalIters)
         for( int i = 0; i < totalIters; i++ )
         {
+        #if !ON_CUDA_DEVICE
+            PlatLimitCores( coresToUse, false );
+        #endif
+
             PositionT< SIMD > simdPos;
             int idx = i % simdCount;
             int offset = idx * LANES;

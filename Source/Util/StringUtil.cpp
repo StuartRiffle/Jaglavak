@@ -7,7 +7,7 @@
 #include "boost/algorithm/string.hpp"
 using namespace boost;
 
-vector< string > SplitString( const char* str, const char* delims = " " )
+vector< string > SplitString( const string& str, const string& delims )
 {
     vector< string > fields;
     split( fields, str, is_any_of( delims ), token_compress_on );
@@ -15,7 +15,7 @@ vector< string > SplitString( const char* str, const char* delims = " " )
 }
 
 vector< vector< string > >
-SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims )
+SplitLinesIntoFields( const string& str, const string& lineDelims, const string& fieldDelims, const string& commentDelims )
 {
     vector< vector< string > > result;
 
@@ -31,7 +31,6 @@ SplitLinesIntoFields( const char* str, const char* lineDelims, const char* field
             continue;
 
         vector< string > rawFields = SplitString( line.c_str(), fieldDelims );
-
         vector< string > fields;
         for( auto field : rawFields )
         {
@@ -46,3 +45,37 @@ SplitLinesIntoFields( const char* str, const char* lineDelims, const char* field
 
     return result;
 }
+
+/*
+string CleanJson( const string& dirty )
+{
+    string json = dirty;
+    replace_all( json, "\r", "" );
+
+    auto lines = SplitString( json, "" );
+    for( string line : lines )
+    {
+        size_t commentOfs =  line.find_first_of( "#" );
+        if( commentOfs != string::npos )
+            line.erase( commentOfs );
+    }
+
+
+
+}
+
+
+string FormatString( string fmt, ... )
+{
+    const int BUFSIZE = 1024;
+    char str[BUFSIZE];
+
+    va_list args;
+    va_start( args, fmt.c_str() );
+    vsprintf( str, fmt.c_str(), args );
+    va_end( args );
+
+    return str;
+
+}
+*/

@@ -7,15 +7,14 @@ struct TreeNode;
 
 struct BranchInfo
 {
-    TreeNode*   _Node = NULL;
     ScoreCard   _Scores;
+    TreeNode*   _Node = NULL;
     MoveSpec    _Move;
 
     float       _Prior = 0;
     float       _VirtualLoss = 0;
-    float       _LastUct = 0;
 
-#if 1//DEBUG    
+#if DEBUG    
     char        _MoveText[MAX_MOVETEXT_LENGTH];
 #endif
 
@@ -45,8 +44,10 @@ struct TreeNode : public TreeLink
     bool                _GameOver = false; 
     ScoreCard           _GameResult;
     Position            _Pos; 
-    u64                 _InitSerial;
-    u64                 _TouchSerial;
+
+#if DEBUG
+    u64 _TouchSerial = 0;
+#endif
  
     TreeNode() : _RefCount( 0 ), _Info( NULL ), _GameOver( false ) { }
     ~TreeNode() {}
@@ -83,6 +84,7 @@ class SearchTree
 
     TreeNode*       _NodePool = NULL;
     size_t          _NodePoolEntries = 0;
+    size_t          _NodePoolUsed = 0;
     unique_ptr< HugeBuffer > _NodePoolBuf;
 
     TreeNode*       _SearchRoot = NULL;
@@ -94,11 +96,14 @@ class SearchTree
     void ClearNode( TreeNode* node );
     void EstimatePriors( TreeNode* node );
 
+    TreeNode* FollowMoveList( TreeNode* node, const MoveList& moveList, int idx );
+
 public:
     SearchTree( GlobalSettings* settings ) : _Settings( settings ) {}
 
     void Init();
-    void SetPosition( const Position& pos );
+
+    void SetPosition( const Position& startPos );
     TreeNode* CreateBranch( TreeNode* node, int branchIdx );
     void Touch( TreeNode* node );
 

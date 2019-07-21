@@ -13,6 +13,10 @@ UciInterface::UciInterface( GlobalSettings* settings ) :
     _DebugMode( false ) 
 {
     _TreeSearch.Init();
+
+    int limitCores = _Settings->Get( "CPU.LimitCores" );
+    if( limitCores )
+        PlatLimitCores( limitCores, true );
 }
 
 
@@ -92,16 +96,15 @@ bool UciInterface::ProcessCommand( const char* cmd )
 
         for( ;; )
         {
-            if(      t.Consume( "wtime" ) )          conf._WhiteTimeLeft       = t.ConsumeInt();
-            else if( t.Consume( "btime" ) )          conf._BlackTimeLeft       = t.ConsumeInt();
-            else if( t.Consume( "winc" ) )           conf._WhiteTimeInc        = t.ConsumeInt();
-            else if( t.Consume( "binc" ) )           conf._BlackTimeInc        = t.ConsumeInt();
-            else if( t.Consume( "movestogo" ) )      conf._TimeControlMoves    = t.ConsumeInt();
-            else if( t.Consume( "mate" ) )           conf._MateSearchDepth     = t.ConsumeInt();
-            else if( t.Consume( "depth" ) )          conf._DepthLimit          = t.ConsumeInt();
-            else if( t.Consume( "nodes" ) )          conf._NodesLimit          = t.ConsumeInt();
-            else if( t.Consume( "movetime" ) )       conf._TimeLimit           = t.ConsumeInt();
-            else if( t.Consume( "infinite" ) )       conf._TimeLimit           = 0;
+            if(      t.Consume( "wtime" ) )         conf._WhiteTimeLeft       = t.ConsumeInt();
+            else if( t.Consume( "btime" ) )         conf._BlackTimeLeft       = t.ConsumeInt();
+            else if( t.Consume( "winc" ) )          conf._WhiteTimeInc        = t.ConsumeInt();
+            else if( t.Consume( "binc" ) )          conf._BlackTimeInc        = t.ConsumeInt();
+            else if( t.Consume( "movestogo" ) )     conf._TimeControlMoves    = t.ConsumeInt();
+            else if( t.Consume( "depth" ) )         conf._DepthLimit          = t.ConsumeInt();
+            else if( t.Consume( "nodes" ) )         conf._NodesLimit          = t.ConsumeInt();
+            else if( t.Consume( "movetime" ) )      conf._TimeLimit           = t.ConsumeInt();
+            else if( t.Consume( "infinite" ) )      conf._TimeLimit           = 0;
             else if( t.Consume( "searchmoves" ) )
             {
                 for( const char* movetext = t.ConsumeNext(); movetext; movetext = t.ConsumeNext() )
@@ -111,17 +114,15 @@ bool UciInterface::ProcessCommand( const char* cmd )
 
                     conf._LimitMoves.Append( spec );
                 }
+
+                //  FIXME
+                cout << "info string WARNING: limiting a search to certain moves is not supported" << endl;
             }
-            else if( t.Consume( "ponder" ) )
-            {
-                cout << "info string WARNING: pondering is not supported" << endl;
-            }
+            else if( t.Consume( "mate" ) )   cout << "info string WARNING: mate search is not supported" << endl;
+            else if( t.Consume( "ponder" ) ) cout << "info string WARNING: pondering is not supported" << endl;
             else
                 break;
         }                   
-
-        if( conf._MateSearchDepth )
-            cout << "info string WARNING: mate search is not supported" << endl;
 
         _TreeSearch.SetUciSearchConfig( conf );
         _TreeSearch.StartSearching();
@@ -132,8 +133,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
     }
     else if( t.Consume( "quit" ) )
     {
-        exit( 0 );
-        //return false;
+        return false;
     }
     else if( t.Consume( "perft" ) )
     {

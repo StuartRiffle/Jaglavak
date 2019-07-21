@@ -3,5 +3,15 @@
 
 #include "Jaglavak.h"
 
-vector< vector< string > >
-SplitLinesIntoFields( const char* str, const char* lineDelims, const char* fieldDelims, const char* commentDelims );
+vector< string > SplitString( const string& str, const string& delims = ", \r\n\t" );
+
+vector< vector< string > > SplitLinesIntoFields( 
+    const string& str, 
+    const string& lineDelims, 
+    const string& fieldDelims, 
+    const string& commentDelims );
+
+string FormatString( const string& fmt, ... );
+
+string CleanJson( const string& json );
+

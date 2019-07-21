@@ -6,9 +6,10 @@
 #include "CudaPlayer.h"
 #include "CudaWorker.h"
 
-CudaWorker::CudaWorker( const GlobalSettings* settings, BatchQueue* batchQueue )
+CudaWorker::CudaWorker( const GlobalSettings* settings, Metrics* metrics, BatchQueue* batchQueue )
 {
     _Settings = settings;
+    _Metrics = metrics;
     _BatchQueue = batchQueue;
     _ShuttingDown = false;
 }
@@ -59,6 +60,8 @@ void CudaWorker::Shutdown()
 
     for( auto& event : _EventCache )
         cudaEventDestroy( event );
+
+    _Heap.Shutdown();
 }
 
 cudaEvent_t CudaWorker::AllocEvent()
@@ -86,6 +89,9 @@ void CudaWorker::FreeEvent( cudaEvent_t event )
 
 void CudaWorker::___CUDA_LAUNCH_THREAD___()
 {
+    string threadName = "_CUDA " + _DeviceIndex;
+    PlatSetThreadName( "_SEARCH" );
+
     CUDA_REQUIRE(( cudaSetDevice( _DeviceIndex ) ));
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
         CUDA_REQUIRE(( cudaStreamCreateWithFlags( _StreamId + i, cudaStreamNonBlocking ) ));
@@ -117,7 +123,7 @@ void CudaWorker::___CUDA_LAUNCH_THREAD___()
         _Heap.Alloc( total, &launch->_Params );
         _Heap.Alloc( total, &launch->_Inputs );
         _Heap.Alloc( total, &launch->_Outputs );
-                                     
+
         int offset = 0;
         for( auto& batch : launch->_Batches )
         {
@@ -134,7 +140,7 @@ void CudaWorker::___CUDA_LAUNCH_THREAD___()
         _StreamIndex %= CUDA_NUM_STREAMS;
         cudaStream_t stream = _StreamId[streamIndex];
 
-        int totalWidth = total * _Settings->Get( "Search.NumPlayouts" );
+        int totalWidth = total * _Settings->Get( "Search.NumPlayoutsEach" );
         int blockSize  = _Prop.warpSize;
         int blockCount = (totalWidth + blockSize - 1) / blockSize;
 
@@ -160,7 +166,6 @@ void CudaWorker::___CUDA_LAUNCH_THREAD___()
         launch->_Outputs.CopyDownToHostAsync( stream );
         CUDA_REQUIRE(( cudaEventRecord( launch->_ReadyEvent, stream ) ));
 
-        launch->_TickSubmitted = CpuInfo::GetClockTick();
         _InFlightByStream[streamIndex].push_back( launch );
     }
 }
@@ -180,10 +185,10 @@ void CudaWorker::Update()
             if( cudaEventQuery( launch->_ReadyEvent ) != cudaSuccess )
                 break;
 
-            CUDA_REQUIRE(( cudaEventElapsedTime( &launch->_GpuTime, launch->_StartTimer, launch->_StopTimer ) ));
-
             inFlight.pop_front();
-            launch->_TickReturned = CpuInfo::GetClockTick();
+
+            float gpuTime = 0;
+            CUDA_REQUIRE( (cudaEventElapsedTime( &gpuTime, launch->_StartTimer, launch->_StopTimer )) );
 
             int offset = 0;
             for( auto& batch : launch->_Batches )
@@ -192,6 +197,21 @@ void CudaWorker::Update()
 
                 batch->_GameResults.assign( results, results + batch->GetCount() );
                 offset += batch->GetCount();
+
+                u64 gamesPlayed = 0;
+                for( int i = 0; i < batch->GetCount(); i++ )
+                {
+                    assert( results[i]._Plays > 0 );
+                    gamesPlayed += results[i]._Plays;
+                }
+
+                u64 latency = CpuInfo::GetClockTick() - batch->_TickQueued;
+
+                _Metrics->_BatchesDone++;
+                _Metrics->_BatchTotalLatency += latency;
+                _Metrics->_BatchTotalRuntime += (u64) (gpuTime * CpuInfo::GetClockFrequency());
+                _Metrics->_PositionsPlayed += batch->GetCount();
+                _Metrics->_GamesPlayed += gamesPlayed;
 
                 batch->_Done = true;
             }

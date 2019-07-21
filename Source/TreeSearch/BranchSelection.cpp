@@ -28,7 +28,6 @@ double TreeSearch::CalculateUct( TreeNode* node, int childIndex )
         childInfo._VirtualLoss +
         childInfo._Prior;
 
-    childInfo._LastUct = (float) uct;
     return uct;
 }
 
@@ -75,7 +74,7 @@ int TreeSearch::SelectNextBranch( TreeNode* node )
             highestUct = uct;
     }
 
-    // Early on, there could be a lot with the same value, so pick fairly among them
+    // Early on, there could be a lot with the same UCT, so pick fairly among them
 
     int highestIndex[MAX_POSSIBLE_MOVES];
     int numHighest = 0;

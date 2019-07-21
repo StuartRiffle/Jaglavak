@@ -4,10 +4,20 @@
 #include "FiberSet.h"
 using namespace boost;
 
+FiberSet::~FiberSet()
+{
+    TerminateAll();
+}
+
 void FiberSet::YieldFiber()
 {
     this_fiber::yield();
     _NumYields++;
+
+    if( _TerminatingFibers )
+    {
+        throw FiberUnwindException();
+    }
 }
 
 void FiberSet::UpdateAll()
@@ -19,7 +29,11 @@ void FiberSet::UpdateAll()
 
 void FiberSet::TerminateAll()
 {
-    _Fibers.clear();
+    _TerminatingFibers = true;
+    this_fiber::yield();
+    _TerminatingFibers = false;
+
+    DestroyCompletedFibers();
 }
 
 void FiberSet::DestroyCompletedFibers()

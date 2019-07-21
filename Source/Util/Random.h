@@ -1,10 +1,8 @@
 // JAGLAVAK CHESS ENGINE (c) 2019 Stuart Riffle
 #pragma once
 
-PDECL INLINE u64 Mix64( u64 s )
+PDECL INLINE u64 WangMix64( u64 s )
 {
-    // This is Thomas Wang's 64-bit mix function
-
     s = ~s + (s << 21);
     s =  s ^ (s >> 24);
     s =  s + (s << 3) + (s << 8);
@@ -25,7 +23,7 @@ struct RandomGen
 
     PDECL u64 GetNext()
     {
-        s = Mix64( s );
+        s = WangMix64( s );
         return s;
     }
 

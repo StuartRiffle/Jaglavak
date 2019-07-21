@@ -4,6 +4,7 @@
 class CpuWorker : public AsyncWorker
 {
     const GlobalSettings*   _Settings   = NULL;
+    Metrics*                _Metrics    = NULL;
     BatchQueue*             _BatchQueue = NULL;
     volatile bool           _TimeToExit = false;
     
@@ -11,9 +12,10 @@ class CpuWorker : public AsyncWorker
 
 public:
 
-    CpuWorker( const GlobalSettings* settings, BatchQueue* batchQueue )
+    CpuWorker( const GlobalSettings* settings, Metrics* metrics, BatchQueue* batchQueue )
     {
         _Settings = settings;
+        _Metrics = metrics;
         _BatchQueue = batchQueue;
     }
 
@@ -31,5 +33,5 @@ public:
 private:
 
     void PrintCpuInfo();
-    void ___CPU_WORK_THREAD___();
+    void ___CPU_WORK_THREAD___( int idx );
 };

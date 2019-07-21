@@ -12,15 +12,15 @@ bool CpuWorker::Initialize()
     PrintCpuInfo();
 
     for( int i = 0; i < _Settings->Get( "CPU.DispatchThreads" ); i++ )
-        _WorkThreads.emplace_back( new thread( [this]() { ___CPU_WORK_THREAD___(); } ) );
+        _WorkThreads.emplace_back( new thread( [=,this]() { ___CPU_WORK_THREAD___( i ); } ) );
 
     return (_WorkThreads.size() > 0);
 }
 
 void CpuWorker::PrintCpuInfo()
 {
+    int    cores     = PlatDetectCpuCores();
     string cpuName   = CpuInfo::GetCpuName();
-    int    cores     = CpuInfo::DetectCpuCores();
     int    simdLevel = CpuInfo::GetSimdLevel();
     string simdDesc  = CpuInfo::GetSimdDesc( simdLevel );
 
@@ -36,7 +36,6 @@ void CpuWorker::PrintCpuInfo()
         cpuName = cpuName.substr( 0, ampersand - 1 );
     }
 
-
     cout << "CPU: " << cpuName << endl;
 
     if( !clockSpeed.empty() )
@@ -46,26 +45,32 @@ void CpuWorker::PrintCpuInfo()
     cout << "  Cores    " << cores << endl;
 }
 
-void CpuWorker::___CPU_WORK_THREAD___()
+
+void CpuWorker::___CPU_WORK_THREAD___( int idx )
 {
+    string threadName = "_CPU " + idx;
+    PlatSetThreadName( threadName.c_str() );
+
     while( !_TimeToExit )
     {
         BatchRef batch;
         if( !_BatchQueue->Pop( batch ) )
             break;
 
-        int count = ( int) batch->_Position.size();
-        batch->_GameResults.resize( count + SIMD_WIDEST );
+        Timer runTimer;
+        PlayBatchCpu( _Settings, batch );
 
-        PlayGamesCpu(
-            _Settings,
-            &batch->_Params,
-            batch->_Position.data(),
-            batch->_GameResults.data(),
-            count );
+        u64 gamesPlayed = 0;
+        for( int i = 0; i < batch->GetCount(); i++ )
+        {
+            assert( batch->_GameResults[i]._Plays > 0 );
+            gamesPlayed += batch->_GameResults[i]._Plays;
+        }
 
-        batch->_GameResults.resize( count );  
-        batch->_Done = true;
+        _Metrics->_GamesPlayed += gamesPlayed;
+        _Metrics->_BatchesDone++;
+        _Metrics->_BatchTotalLatency += CpuInfo::GetClockTick() - batch->_TickQueued;
+        _Metrics->_BatchTotalRuntime += runTimer.GetElapsedTicks();
     }
 }
 

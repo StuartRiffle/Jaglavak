@@ -1,34 +1,34 @@
 #pragma once
 struct PidConfig
 {
-    float  _ProportionalGain;
-    float  _IntegralGain;
-    float  _DerivativeGain;
-    float  _Bias;
+    double  _ProportionalGain;
+    double  _IntegralGain;
+    double  _DerivativeGain;
+    double  _Bias;
 };
 
 class PidController
 {
-    float  _Value;
-    float  _Target;
-    float  _AddError;
-    float  _PrevError;
-    Config _PidConfig;
+    double      _Value;
+    double      _Target;
+    double      _SumError;
+    double      _PrevError;
+    PidConfig   _Config;
 
-    float Update( float value, float dt )
+    double Update( double value, double dt )
     {
-        float error = _Target - value + _Config._Bias;
-        float slope = (_PrevError - error) / dt;
+        _Value = _Config._Bias;
 
-        _AddError += error * dt;
+        double error = _Target - value + _Config._Bias;
+        _Value += _Config._ProportionalGain * error;
+
+        double slope = (_PrevError - error) / dt;
+        _Value += _Config._DerivativeGain * slope;
+
+        _SumError += error * dt;
+        _Value += _Config._IntegralGain * _SumError;
+
         _PrevError = error;
-
-        _Value =
-            _Config._ProportionalGain * error +
-            _Config._IntegralGain     * _AddError +
-            _Config._DerivativeGain   * slope +
-            _Config._Bias;
-
         return _Value;
     }
 };

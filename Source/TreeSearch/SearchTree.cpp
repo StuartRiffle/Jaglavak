@@ -6,25 +6,14 @@
 
 void SearchTree::Init()
 {
-    _NodePoolEntries = _Settings->Get( "Search.NumTreeNodes" );
+    _NodePoolEntries = _Settings->Get( "Search.MaxTreeNodes" );
 
     size_t totalSize = _NodePoolEntries * sizeof( TreeNode );
     _NodePoolBuf = unique_ptr< HugeBuffer >( new HugeBuffer( totalSize ) );
     _NodePool = (TreeNode*) _NodePoolBuf->_Ptr;
 
-    for( int i = 0; i < _NodePoolEntries; i++ )
-    {
-        new( _NodePool + i ) TreeNode();
-
-        _NodePool[i]._Prev = &_NodePool[i - 1];
-        _NodePool[i]._Next = &_NodePool[i + 1];
-    }
-
-    _NodePool[0]._Prev = (TreeNode*) &_MruListHead;
-    _MruListHead._Next = &_NodePool[0];
-
-    _NodePool[_NodePoolEntries - 1]._Next = (TreeNode*) &_MruListHead;
-    _MruListHead._Prev = &_NodePool[_NodePoolEntries - 1];
+    _MruListHead._Next = (TreeNode*) &_MruListHead;
+    _MruListHead._Prev = (TreeNode*) &_MruListHead;
 }
 
 void SearchTree::Touch( TreeNode* node )
@@ -44,28 +33,24 @@ void SearchTree::Touch( TreeNode* node )
     node->_Prev->_Next = node;
 }
 
-TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
-{
-    TreeNode* newNode = AllocNode();
-    assert( newNode != node );
-
-    BranchInfo* chosenBranch = &node->_Branch[branchIdx];
-    assert( chosenBranch->_Node == NULL );
-
-    MoveMap newMap;
-    Position newPos = node->_Pos;
-    newPos.Step( chosenBranch->_Move, &newMap );
-
-    ClearNode( newNode );
-    InitNode( newNode, newPos, newMap, chosenBranch ); 
-    EstimatePriors( newNode );
-
-    chosenBranch->_Node = newNode;
-    return newNode;
-}
-
 TreeNode* SearchTree::AllocNode()
 {
+    if( _NodePoolUsed < _NodePoolEntries )
+    {
+        size_t idx = _NodePoolUsed++;
+
+        TreeNode* newNode = _NodePool + idx;
+        new(newNode) TreeNode();
+
+        newNode->_Next = (TreeNode*) &_MruListHead;
+        newNode->_Prev = newNode->_Next->_Prev;
+
+        newNode->_Next->_Prev = newNode;
+        newNode->_Prev->_Next = newNode;
+
+        assert( _MruListHead._Prev == newNode );
+    }
+
     TreeNode* node = _MruListHead._Prev;
 
     ClearNode( node );
@@ -97,7 +82,7 @@ void SearchTree::InitNode( TreeNode* node, const Position& pos, const MoveMap& m
         for( int i = 0; i < moveList._Count; i++ )
         {
             node->_Branch[i]._Move = moveList._Move[i];
-#if 1//DEBUG        
+#if DEBUG        
             MoveSpecToString( moveList._Move[i], node->_Branch[i]._MoveText );
 #endif
         }
@@ -115,7 +100,7 @@ void SearchTree::ClearNode( TreeNode* node )
     // -----------------------------------------------------------------------------------
 
     // We should only ever see leaf nodes at the end of the MRU list.
-    // Anything else indicates a bug.
+    // *Anything* else is a bug.
 
     for( auto& info : node->_Branch )
     {
@@ -146,9 +131,30 @@ void SearchTree::EstimatePriors( TreeNode* node )
         info._Prior = 0;
 }
 
-
-void SearchTree::SetPosition( const Position& pos )
+TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
 {
+    TreeNode* newNode = AllocNode();
+    assert( newNode != node );
+
+    BranchInfo* chosenBranch = &node->_Branch[branchIdx];
+    assert( chosenBranch->_Node == NULL );
+
+    MoveMap newMap;
+    Position newPos = node->_Pos;
+    newPos.Step( chosenBranch->_Move, &newMap );
+
+    InitNode( newNode, newPos, newMap, chosenBranch );
+    EstimatePriors( newNode );
+
+    chosenBranch->_Node = newNode;
+    return newNode;
+}
+
+
+void SearchTree::SetPosition( const Position& startPos )
+{
+    Position pos = startPos;
+
     MoveMap moveMap;
     pos.CalcMoveMap( &moveMap );
 
@@ -166,6 +172,7 @@ void SearchTree::SetPosition( const Position& pos )
 
 void  SearchTree::VerifyTopology() const
 {
+#if DEBUG
     set< TreeNode* > deletedNodes;
     u64 highestTouch = 0;
 
@@ -194,6 +201,7 @@ void  SearchTree::VerifyTopology() const
         deletedNodes.insert( node );
         node = (TreeNode*) node->_Prev;
     }         
+#endif
 }
 
 void SearchTree::Dump( TreeNode* node, int depth, int topMoves, string prefix ) const
@@ -223,7 +231,7 @@ void SearchTree::Dump( TreeNode* node, int depth, int topMoves, string prefix ) 
     int movesShown = 0;
     for( auto iter : playsByIndex )
     {
-        cout << prefix;
+        cout << "info string " << prefix;
 
         u64 plays = iter.first;
         int moveIndex = iter.second;

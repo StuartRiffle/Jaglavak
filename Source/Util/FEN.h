@@ -96,7 +96,7 @@ static const char* StringToPosition( const char* str, Position& pos )
         case '4':   bit >>= 3;  break;
         case '3':   bit >>= 2;  break;
         case '2':   bit >>= 1;  break;
-        case '1':   break;
+        case '1':               break;
         case '/':   bit <<= 1;  break;
         default:    return( NULL );
         }

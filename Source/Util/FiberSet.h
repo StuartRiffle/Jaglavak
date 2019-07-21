@@ -3,6 +3,8 @@
 #include "boost/fiber/all.hpp"
 typedef public boost::fibers::fiber Fiber;
 
+struct FiberUnwindException : public std::exception {};
+
 struct FiberInstance
 {
     unique_ptr< Fiber > _Fiber;
@@ -11,18 +13,29 @@ struct FiberInstance
     template< typename TFUNC >
     void Spawn( TFUNC& fiberproc )
     {
-        _Fiber.reset( new Fiber( [=]()
+        auto wrapper = 
+            [=]()
             {
-                fiberproc(); 
-                _Done = true;
+                try
+                {
+                    fiberproc();
+                }
+                catch( FiberUnwindException& )
+                {
+                    // This is how the fibers are terminated
+                }
 
-            } ) );
+                _Done = true;
+            };
+
+        _Fiber.reset( new Fiber( wrapper ) );
     }
 };
 
 class FiberSet
 {
     list< FiberInstance > _Fibers;
+    bool _TerminatingFibers = false;
 
     u64 _NumUpdates = 0;
     u64 _NumYields  = 0;
@@ -30,6 +43,8 @@ class FiberSet
     u64 _NumJoins   = 0;
 
 public:
+    ~FiberSet();
+
     template< typename TFUNC >
     void Spawn( TFUNC& fiberproc )
     {

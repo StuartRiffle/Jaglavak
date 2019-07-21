@@ -20,26 +20,6 @@ struct UciSearchConfig
     void Clear()        { memset( this, 0, sizeof( *this ) ); }
 };
 
-struct TreeSearchMetrics
-{
-    u64         _NumBatchesMade;
-    u64         _NumBatchesDone;
-    u64         _NumNodesCreated;
-    u64         _NumGamesPlayed;
-
-    void Clear() { memset( this, 0, sizeof( *this )); }
-
-    void operator+=( const TreeSearchMetrics& rhs )
-    {
-        u64* src = (u64*) &rhs;
-        u64* dest = (u64*) this;
-        int count = (int) (sizeof( *this ) / sizeof( u64 ));
-
-        for( int i = 0; i < count; i++ )
-            dest[i] += src[i];
-    }
-};
-
 class TreeSearch
 {
     GlobalSettings*         _Settings = NULL;
@@ -47,6 +27,7 @@ class TreeSearch
     BatchQueue              _BatchQueue;
     BatchRef                _Batch;
 
+    Position                _GameStartPosition;
     MoveList                _GameHistory;
     PlayoutParams           _PlayoutParams;
 
@@ -58,9 +39,9 @@ class TreeSearch
 
     Timer                   _UciUpdateTimer;
     int                     _DeepestLevelSearched = 0;
-    TreeSearchMetrics       _Metrics;
-    TreeSearchMetrics       _SearchStartMetrics;
-    TreeSearchMetrics       _StatsStartMetrics;
+    Metrics                 _Metrics;
+    Metrics                 _SearchStartMetrics;
+    Metrics                 _StatsStartMetrics;
 
     bool                    _DrawsWorthHalf = false;
     float                   _ExplorationFactor = 0;

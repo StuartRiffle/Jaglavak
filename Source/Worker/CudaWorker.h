@@ -10,13 +10,9 @@ struct LaunchInfo
     CudaBuffer< Position >      _Inputs;
     CudaBuffer< ScoreCard >     _Outputs;
 
-    u64 _TickSubmitted;
-    u64 _TickReturned;
-
     cudaEvent_t _StartTimer;
     cudaEvent_t _StopTimer; 
     cudaEvent_t _ReadyEvent;
-    float _GpuTime;
 };
 
 typedef shared_ptr< LaunchInfo > LaunchInfoRef;
@@ -29,6 +25,7 @@ class CudaWorker : public AsyncWorker
     };
 
     const GlobalSettings*   _Settings;
+    Metrics*                _Metrics;
     BatchQueue*             _BatchQueue;
 
     int                     _DeviceIndex;      
@@ -47,7 +44,7 @@ class CudaWorker : public AsyncWorker
     vector< cudaEvent_t >   _EventCache;
 
 public:    
-    CudaWorker( const GlobalSettings* settings, BatchQueue* queue );
+    CudaWorker( const GlobalSettings* settings, Metrics* metrics, BatchQueue* queue );
     ~CudaWorker();
 
     static int CudaWorker::GetDeviceCount()

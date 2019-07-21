@@ -62,14 +62,17 @@ MoveSpec TreeSearch::SendUciStatus()
 {
     float dt = _UciUpdateTimer.GetElapsedSec();
 
-    u64 nodesDone = _Metrics._NumNodesCreated - _StatsStartMetrics._NumNodesCreated;
+    u64 nodesDone = _Metrics._NodesExpanded - _StatsStartMetrics._NodesExpanded;
     u64 nodesPerSec = (u64) (nodesDone / dt);
 
-    u64 batchesDone = _Metrics._NumBatchesDone - _StatsStartMetrics._NumBatchesDone;
+    u64 batchesDone = _Metrics._BatchesDone - _StatsStartMetrics._BatchesDone;
     u64 batchesPerSec = (u64) (batchesDone / dt);
 
-    u64 gamesDone = _Metrics._NumGamesPlayed - _StatsStartMetrics._NumGamesPlayed;
+    u64 gamesDone = _Metrics._GamesPlayed - _StatsStartMetrics._GamesPlayed;
     u64 gamesPerSec = (u64) (gamesDone / dt);
+
+    double batchLatency = _Metrics._BatchTotalLatency * 1.0 / (_Metrics._BatchesDone * CpuInfo::GetClockFrequency());
+    double batchRuntime = _Metrics._BatchTotalRuntime * 1.0 / (_Metrics._BatchesDone * CpuInfo::GetClockFrequency());
 
     MoveList bestLine;
     ExtractBestLine( _SearchTree->GetRootNode(), &bestLine );
@@ -79,14 +82,21 @@ MoveSpec TreeSearch::SendUciStatus()
         evaluation = EstimatePawnAdvantageForMove( bestLine._Move[0] );
 
     cout << "info"  <<
+        " nodes "   << _Metrics._NodesExpanded <<
         " nps "     << nodesPerSec <<
-        " bps "     << batchesPerSec <<
-        " gps "     << gamesPerSec <<
         " cp "      << evaluation <<
         " depth "   << _DeepestLevelSearched <<
-        " nodes "   << _Metrics._NumNodesCreated <<
         " time "    << _SearchTimer.GetElapsedMs() <<
         " pv "      << SerializeMoveList( bestLine ) <<
+        endl;
+
+    cout << "info string" <<
+        " games "   << _Metrics._GamesPlayed <<
+        " gps "     << gamesPerSec <<
+        " batches " << _Metrics._BatchesDone <<
+        " bps "     << batchesPerSec <<
+        " latency " << batchLatency <<
+        " runtime " << batchRuntime <<
         endl;
 
     _StatsStartMetrics = _Metrics;

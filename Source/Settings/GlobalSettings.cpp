@@ -56,9 +56,8 @@ void GlobalSettings::LoadJsonValues( const string& json )
     for( auto& option : tree )
     {
         const string& name = option.first;
-        pt::ptree&    info = option.second;
+        double value = option.second.get_value< double >();
 
-        double value = info.get< double >( "value" );
         _Value[name] = value;
     }
 }

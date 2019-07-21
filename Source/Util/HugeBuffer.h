@@ -3,7 +3,7 @@
 
 struct HugeBuffer
 {
-    void* _Ptr;
+    void* _Ptr = NULL;
     size_t _Size;
 
     HugeBuffer( size_t size, bool useLargePages = true ) : _Size( size )
@@ -25,6 +25,7 @@ struct HugeBuffer
         }
 
         _Ptr = VirtualAlloc( NULL, size, flags, PAGE_READWRITE );
+        assert( _Ptr );
         return;
 
 #endif

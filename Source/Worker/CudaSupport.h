@@ -83,6 +83,9 @@ public:
 
     void Shutdown()
     {
+        // FIXME: cudaFreeHost will hang here on shutdown
+        return;
+
         assert( _HostBuffer );
         CUDA_REQUIRE(( cudaFreeHost( _HostBuffer ) ));
         _HostBuffer = NULL;

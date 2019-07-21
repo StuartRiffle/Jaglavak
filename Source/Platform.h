@@ -131,19 +131,6 @@ INLINE PDECL u64 PlatLowestBitIndex64( const u64& val )
 #endif
 }
 
-INLINE PDECL void PlatSleep( int ms )
-{
-#if TOOLCHAIN_GCC
-    timespec request;
-    timespec remaining;
-    request.tv_sec  = (ms / 1000);
-    request.tv_nsec = (ms % 1000) * 1000 * 1000;
-    nanosleep( &request, &remaining );
-#elif TOOLCHAIN_MSVC
-    Sleep( ms );
-#endif
-}
-
 INLINE PDECL void PlatStoreAtomic( atomic64_t* dest, u64 val )
 {
 #if ON_CUDA_DEVICE
@@ -186,28 +173,20 @@ INLINE PDECL u64 PlatCountBits64( u64 n )
 #endif
 }
 
-INLINE PDECL void PlatSetCoreAffinity( u64 mask, bool entireProcess = false )
+INLINE PDECL int PlatDetectCpuCores()
 {
-    // TODO: support more than 64 cores
-#if TOOLCHAIN_GCC
-    const cpu_set_t cs;
-    CPU_ZERO( &cs );
-    for( int i = 0; i < 64; i++ )
-        if( mask & (1ULL << i) )
-            CPU_SET( i, &cs );
-    if( entireProcess )
-        sched_setaffinity( gettid(), sizeof( cs ), &cs );
-    else
-        pthread_setaffinity_np( pthread_self(), sizeof( cs ), &cs );
+#if ON_CUDA_DEVICE
+    return 1;
+#elif TOOLCHAIN_GCC
+    return(sysconf( _SC_NPROCESSORS_ONLN ));
 #elif TOOLCHAIN_MSVC
-    if( entireProcess )
-        SetProcessAffinityMask( GetCurrentProcess(), mask );
-    else
-        SetThreadAffinityMask( GetCurrentThread(), mask );
+    SYSTEM_INFO si ={ 0 };
+    GetSystemInfo( &si );
+    return(si.dwNumberOfProcessors);
 #endif
 }
 
-
-
-
-#define DEBUG_VALIDATE_BATCH_RESULTS (0)
+void PlatSetCoreAffinity( u64 mask, bool entireProcess = false );
+void PlatLimitCores( int count, bool entireProcess = false );
+void PlatSetThreadName( const char* name );
+void PlatSleep( int ms );

@@ -60,17 +60,6 @@ struct CpuInfo
         return "";
     }
 
-    static int DetectCpuCores()
-    {
-    #if TOOLCHAIN_GCC
-        return( sysconf( _SC_NPROCESSORS_ONLN ) );
-    #elif TOOLCHAIN_MSVC
-        SYSTEM_INFO si = { 0 };
-        GetSystemInfo( &si );
-        return( si.dwNumberOfProcessors );
-    #endif
-    }
-
     static string GetCpuName()
     {
         string result;

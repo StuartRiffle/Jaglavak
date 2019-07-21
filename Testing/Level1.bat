@@ -6,7 +6,6 @@ proto=uci ^
 restart=on ^
 st=10 ^
 -wait 1000 ^
--engine st=1 conf="Darky 0.5" ^
 -engine st=1 conf="Philemon c" ^
 -engine st=1 conf="Shallow Blue 2.0.0" ^
 -engine st=1 conf="Apollo 1.2.1" ^

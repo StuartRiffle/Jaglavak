@@ -19,7 +19,7 @@ class HeapAllocator
     bool IsAligned( addr_t addr ) const { return( (addr & (_Align - 1)) == 0 ); }
 
 public:
-    const addr_t INVALID = addr_t( ~0 );
+    const addr_t INVALID = ~addr_t( 0 );
 
     void Init( size_t size, addr_t base = 0, size_t alignment = 128 )
     {
@@ -28,14 +28,6 @@ public:
 
         assert( IsAligned( base ) );
         assert( IsAligned( size ) );
-
-        if( base == 0 )
-        {
-            // 0 is reserved to mean NULL
-
-            base += _Align;
-            size -= _Align;
-        }
 
         _Align = alignment;
         _Size = size;
@@ -53,6 +45,8 @@ public:
     addr_t Alloc( size_t size )
     {
         unique_lock< mutex > lock( _Mutex );
+        this->SanityCheck();
+
         size = (size + _Align - 1) & ~(_Align - 1);
         assert( size > 0 );
 
@@ -60,7 +54,7 @@ public:
         while( iter != _Free.end() )
         {
             addr_t freeAddr = iter->first;
-            size_t& freeSize = iter->second;
+            size_t freeSize = iter->second;
 
             auto next = iter;
             if( ++next != _Free.end() )
@@ -70,7 +64,7 @@ public:
 
                 if( nextAddr == (freeAddr + freeSize) )
                 {
-                    freeSize += nextSize;
+                    iter->second += nextSize;
                     _Free.erase( next );
                     continue;
                 }
@@ -79,13 +73,14 @@ public:
             if( freeSize >= size )
             {
                 addr_t addr = freeAddr;
-
                 assert( _Used.find( addr ) == _Used.end() );
+
                 if( size > 0 )
                     _Used[addr] = size;
 
                 if( size < freeSize )
                     _Free[freeAddr + size] = freeSize - size;
+
                 _Free.erase( iter );
 
                 _TotalAllocated += size;
@@ -99,23 +94,21 @@ public:
             iter = next;
         }
 
+        cout << "GPU heap overflow! Increase \"CUDA.HeapMegs\" in the settings" << endl;
         assert( !"Heap overflow" );
-        return 0;
+        return INVALID;
     }
 
     void Free( addr_t addr )
     {
         unique_lock< mutex > lock( _Mutex );
-
-        assert( addr != 0 );
+        this->SanityCheck();
 
         assert( addr >= _Base );
-
         assert( addr < _Base + _Size );
 
         addr_t mask = (_Align - 1); 
-        addr_t result = addr & mask;
-        assert( result == 0 );
+        assert( (addr & mask) == 0 );
 
         auto iter = _Used.find( addr );
         assert( iter != _Used.end() );
