@@ -60,6 +60,9 @@ int TreeSearch::EstimatePawnAdvantageForMove( const MoveSpec& spec )
 
 MoveSpec TreeSearch::SendUciStatus()
 {
+    if( _Metrics._BatchesDone < 1 )
+        return MoveSpec();
+
     float dt = _UciUpdateTimer.GetElapsedSec();
 
     u64 nodesDone = _Metrics._NodesExpanded - _StatsStartMetrics._NodesExpanded;

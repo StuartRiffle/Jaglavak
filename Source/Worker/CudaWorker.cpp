@@ -35,11 +35,9 @@ bool CudaWorker::Initialize( int deviceIndex  )
     u64 mb = _Prop.totalGlobalMem / (1024 * 1024);
     u64 mhz = _Prop.clockRate / 1000;
 
-    cout << "CUDA " << _DeviceIndex << ": " << _Prop.name << endl;
-    cout << "  Compute  " << _Prop.major << "." << _Prop.minor << endl;
-    cout << "  Clock    " << mhz << " MHz" << endl;
-    cout << "  Memory   " << mb << " MB" << endl;
-    cout << "  Cores    " << totalCores << endl << endl;
+    stringstream desc;
+    desc << "CUDA device " << _DeviceIndex << ": " << _Prop.name << ", " <<  mhz << "MHz, " << totalCores << " cores";
+    _Desc = desc.str();
 
     int megs = _Settings->Get( "CUDA.HeapMegs" );
 

@@ -34,7 +34,7 @@ public:
 
         int totalIters = simdCount * _Params->_NumGamesEach;
 
-        #pragma omp parallel for schedule(dynamic) if(totalIters)
+        #pragma omp parallel for schedule(dynamic) if(totalIters > 0)
         for( int i = 0; i < totalIters; i++ )
         {
         #if !ON_CUDA_DEVICE

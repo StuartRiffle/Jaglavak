@@ -28,6 +28,7 @@ public:
             thread->join();
     }
 
+    virtual string GetDesc();
     virtual bool Initialize();
 
 private:

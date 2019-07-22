@@ -27,6 +27,7 @@ class CudaWorker : public AsyncWorker
     const GlobalSettings*   _Settings;
     Metrics*                _Metrics;
     BatchQueue*             _BatchQueue;
+    string                  _Desc;
 
     int                     _DeviceIndex;      
     cudaDeviceProp          _Prop;
@@ -57,6 +58,8 @@ public:
     const cudaDeviceProp& GetDeviceProperties() { return _Prop; }
     bool Initialize( int deviceIndex );
     void Shutdown();
+
+    string GetDesc() { return _Desc; }
 
 private:
     cudaEvent_t AllocEvent();

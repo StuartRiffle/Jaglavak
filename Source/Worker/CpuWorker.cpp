@@ -9,40 +9,23 @@ using namespace boost;
 
 bool CpuWorker::Initialize()
 {
-    PrintCpuInfo();
-
     for( int i = 0; i < _Settings->Get( "CPU.DispatchThreads" ); i++ )
         _WorkThreads.emplace_back( new thread( [=,this]() { ___CPU_WORK_THREAD___( i ); } ) );
 
     return (_WorkThreads.size() > 0);
 }
 
-void CpuWorker::PrintCpuInfo()
+string CpuWorker::GetDesc()
 {
     int    cores     = PlatDetectCpuCores();
     string cpuName   = CpuInfo::GetCpuName();
     int    simdLevel = CpuInfo::GetSimdLevel();
     string simdDesc  = CpuInfo::GetSimdDesc( simdLevel );
 
-    replace_all( cpuName, "(R)", "" );
-    replace_all( cpuName, "CPU ", "" );
+    stringstream desc;
+    desc << "CPU: " << cpuName << ", " << cores << " cores, " << simdDesc << " (" << simdLevel << "x)";
 
-    string clockSpeed;
-
-    size_t ampersand = cpuName.find( "@" );
-    if( ampersand != string::npos )
-    {
-        clockSpeed = cpuName.substr( ampersand + 1 );
-        cpuName = cpuName.substr( 0, ampersand - 1 );
-    }
-
-    cout << "CPU: " << cpuName << endl;
-
-    if( !clockSpeed.empty() )
-        cout << "  Clock   " << clockSpeed << endl;
-
-    cout << "  SIMD     " << simdDesc << " (" << simdLevel << "x)" << endl;
-    cout << "  Cores    " << cores << endl;
+    return desc.str();
 }
 
 

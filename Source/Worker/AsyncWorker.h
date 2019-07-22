@@ -6,5 +6,6 @@ class AsyncWorker
 public:
     virtual void Update() {}
     virtual bool Initialize() { return true; }
+    virtual string GetDesc() { return ""; }
 };
 

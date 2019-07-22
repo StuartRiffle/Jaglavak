@@ -49,6 +49,9 @@ void TreeSearch::Init()
                 _Workers.push_back( cudaWorker );
         }
     }
+
+    for( auto& worker : _Workers )
+        cout << worker->GetDesc() << endl;
 }
 
 TreeNode* SearchTree::FollowMoveList( TreeNode* node, const MoveList& moveList, int idx )
@@ -201,15 +204,13 @@ void TreeSearch::UpdateUciStatus()
 {
     if( _UciUpdateTimer.GetElapsedMs() >= _Settings->Get( "UCI.UpdateTime" ) )
     {
-        cout << endl;
         SendUciStatus();
         _UciUpdateTimer.Reset();
 
-        cout << endl;
-        _SearchTree->DumpRoot();
-
-        cout << endl;
-        _SearchTree->DumpTop();
+        //cout << endl;
+        //_SearchTree->DumpRoot();
+        //cout << endl;
+        //_SearchTree->DumpTop();
     }
 }
 

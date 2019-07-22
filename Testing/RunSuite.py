@@ -3,12 +3,12 @@ import io
 import json
 import chess
 import chess.engine
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 engineName = sys.argv[1]
 jsonfile = sys.argv[2]
-
-all_epd = []
-movetime = 300
+movetime = int( sys.argv[3] )
 
 with open(jsonfile) as epd:
     teststr = epd.read()
@@ -31,9 +31,14 @@ for pos in tests:
     result = engine.play( board, chess.engine.Limit( time=movetime ) )
     engine.quit()
 
+    msg = ""
     if (str(result.move) == bmove.uci()):
-       numcorrect = numcorrect + 1
+        msg = " CORRECT!"
+        numcorrect = numcorrect + 1
 
-    print( pos['id']+":", result.move, "(bm", bmove.uci()+")" )
+    numdone = numdone + 1
 
-print( numcorrect, "/", numdone, "correct: ", (numcorrect * 100) / numdone )
+    print( pos['id']+":", pos['fen'], " (bm", bmove.uci()+")... ", result.move, msg )
+    print( numcorrect, '/', numdone, '-', numcorrect/numdone )
+
+

@@ -32,7 +32,7 @@ bool UciInterface::ProcessCommand( const char* cmd )
         cout << "id name Jaglavak " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << endl;
         cout << "id author Stuart Riffle" << endl;
 
-        _Settings->PrintListForUci();
+        //_Settings->PrintListForUci();
         
         _TreeSearch.Reset();
         cout << "uciok" << endl;

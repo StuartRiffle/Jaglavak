@@ -5,19 +5,19 @@ const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
 {
     "CPU.Enabled":                  0,       
     "CPU.LimitCores":               -2,      
-    "CPU.LimitPlayoutCores":        12,      
-    "CPU.DispatchThreads":          4,
+    "CPU.LimitPlayoutCores":        1,      
+    "CPU.DispatchThreads":          0,
     "CPU.SearchFibers":             8192,    
-    "CPU.SIMD.Enabled":             0,
+    "CPU.SIMD.Enabled":             1,
     "CPU.SIMD.ForceLevel":          0,
 
     "CUDA.Enabled":                 1,       
     "CUDA.HeapMegs":                512,     
     "CUDA.AffinityMask":            1,       
-    "CUDA.BatchSize":               128,     
+    "CUDA.BatchSize":               512,     
 
-    "Search.NumPlayoutsEach":       1,       
-    "Search.BranchesToExpand":      1,       
+    "Search.NumPlayoutsEach":       10,       
+    "Search.BranchesToExpand":      0,       
     "Search.BatchSize":             16,      
     "Search.MaxPlayoutMoves":       200,     
     "Search.DrawsWorthHalf":        1,       
@@ -26,7 +26,7 @@ const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
     "Search.MaxTreeNodes":          100000,
 
     "UCI.TimeSafetyMargin":         100,     
-    "UCI.UpdateTime":               3000,    
+    "UCI.UpdateTime":               5000,    
 
     "Debug.ForceRandomSeed":        0,       
     "Debug.FlushEveryBatch":        0,       

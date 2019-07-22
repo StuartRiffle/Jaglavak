@@ -26,6 +26,7 @@
 #include <iomanip>
 #include <unordered_map>
 #include <exception>
+#include <sstream>
 
 using namespace std;
 
