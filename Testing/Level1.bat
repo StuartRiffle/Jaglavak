@@ -4,7 +4,7 @@
 cmd=\dev\Jaglavak\Project\x64\Release\JaglavakTest.exe ^
 proto=uci ^
 restart=on ^
-st=10 ^
+st=30 ^
 -wait 1000 ^
 -engine st=1 conf="Philemon c" ^
 -engine st=1 conf="Shallow Blue 2.0.0" ^
@@ -19,5 +19,5 @@ st=10 ^
 -pgnout gauntlet.pgn ^
 -tournament gauntlet ^
 -each timemargin=500 restart=on ^
--games 1 ^
+-games 2 ^
 -repeat ^
