@@ -6,21 +6,21 @@
 template< typename T >
 struct MoveSpecT
 {
-    T   _Src;
-    T   _Dest;
-    T   _Type;
+    T   _Src;       // Source square index
+    T   _Dest;      // Dest square index
+    T   _Promo;     // The promotion, if there is one
 
     INLINE PDECL MoveSpecT() {}
-    INLINE PDECL MoveSpecT( T src, T dest, T type = 0 ) : _Src(  src ), _Dest( dest ), _Type( type ) {}
-    INLINE PDECL void Set(  T src, T dest, T type = 0 ) { _Src = src;  _Dest = dest;   _Type = type; }
+    INLINE PDECL MoveSpecT( T src, T dest, T type = 0 ) : _Src(  src ), _Dest( dest ), _Promo( type ) {}
+    INLINE PDECL void Set(  T src, T dest, T type = 0 ) { _Src = src;  _Dest = dest;   _Promo = type; }
 
-    template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : _Src( rhs._Src ), _Dest( rhs._Dest ), _Type( rhs._Type ) {}
+    template< typename U > INLINE PDECL MoveSpecT( const MoveSpecT< U >& rhs ) : _Src( rhs._Src ), _Dest( rhs._Dest ), _Promo( rhs._Promo ) {}
 
     INLINE PDECL void Flip()                  { _Src = FlipSquareIndex( _Src ); _Dest = FlipSquareIndex( _Dest ); }
-    INLINE PDECL char GetPromoteChar() const  { return( "\0\0\0\0nbrqnbrq\0\0"[_Type] ); }
+    INLINE PDECL char GetPromoteChar() const  { return( "\0nbrq"[_Promo] ); } // This corresponds to the PROMOTE_* enums
 
-    INLINE PDECL bool operator==( const MoveSpecT& rhs ) const { return( (_Src == rhs._Src) && (_Dest == rhs._Dest) && (_Type == rhs._Type) ); }
-    INLINE PDECL bool operator!=( const MoveSpecT& rhs ) const { return( (_Src != rhs._Src) || (_Dest != rhs._Dest) || (_Type != rhs._Type) ); }
+    INLINE PDECL bool operator==( const MoveSpecT& rhs ) const { return( (_Src == rhs._Src) && (_Dest == rhs._Dest) && (_Promo == rhs._Promo) ); }
+    INLINE PDECL bool operator!=( const MoveSpecT& rhs ) const { return( (_Src != rhs._Src) || (_Dest != rhs._Dest) || (_Promo != rhs._Promo) ); }
 
     template< typename SCALARSPEC >
     INLINE PDECL void Unpack( const SCALARSPEC* moves )
@@ -32,7 +32,7 @@ struct MoveSpecT
         {
             unpacked[i]._Src   = moves[i]._Src;
             unpacked[i]._Dest  = moves[i]._Dest;
-            unpacked[i]._Type  = moves[i]._Type;
+            unpacked[i]._Promo = moves[i]._Promo;
         }
 
         Swizzle< T >( unpacked, this );

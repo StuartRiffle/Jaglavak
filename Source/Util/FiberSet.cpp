@@ -15,9 +15,7 @@ void FiberSet::YieldFiber()
     _NumYields++;
 
     if( _TerminatingFibers )
-    {
         throw FiberUnwindException();
-    }
 }
 
 void FiberSet::UpdateAll()

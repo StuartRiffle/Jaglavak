@@ -64,6 +64,8 @@ public:
 
                 if( nextAddr == (freeAddr + freeSize) )
                 {
+                    // Merge free blocks
+
                     iter->second += nextSize;
                     _Free.erase( next );
                     continue;
@@ -147,7 +149,7 @@ public:
         for( auto iter : _Used )
             blocks.push_back( iter );
 
-        std::sort( blocks.begin(), blocks.end() );
+        sort( blocks.begin(), blocks.end() );
 
         addr_t cursor = _Base;
         for( auto& block : blocks )

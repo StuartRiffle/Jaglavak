@@ -74,31 +74,6 @@ void TreeSearch::SetPosition( const Position& startPos, const MoveList* moveList
 {
     this->StopSearching();
 
-    /*
-    if( pos == _GameStartPosition )
-    {
-        if( moveList._Count >= _GameHistory.size() )
-        {
-            if( !memcmp( moveList._Move, _GameHistory._Move, _GameHistory->_Count * sizeof( MoveSpec ) ) )
-            {
-                TreeNode* rootNode = _SearchTree->GetRootNode();
-                TreeNode* existingChild = FollowMoveList( rootNode, moveList, _GameHistory._Count );
-                if( existingChild )
-                {
-                    _SearchRoot = existingChild;
-                    _RootInfo = *(existingChild->_Info);
-                    _SearchRoot->_Info = &_RootInfo;
-
-                    cout << "info string Using cached position with " << _RootInfo._Scores._Plays " games";
-
-                    _GameHistory = moveList;
-                    return;
-                }
-            }
-        }
-    }
-    */
-
     Position pos = startPos;
     if( moveList )
         for( int i = 0; i < moveList->_Count; i++ )
@@ -124,7 +99,7 @@ void TreeSearch::Reset()
     _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
     _PlayoutParams._NumGamesEach    = _Settings->Get( "Search.NumPlayoutsEach" );
     _PlayoutParams._MaxMovesPerGame = _Settings->Get( "Search.MaxPlayoutMoves" );
-    _PlayoutParams._LimitPlayoutCores        = _Settings->Get( "CPU.LimitPlayoutCores" );
+    _PlayoutParams._LimitPlayoutCores = _Settings->Get( "CPU.LimitPlayoutCores" );
 }
 
 TreeSearch::~TreeSearch()

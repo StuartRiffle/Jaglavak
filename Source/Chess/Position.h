@@ -96,7 +96,7 @@ struct ALIGN_SIMD PositionT
 
         // FIXME: isCapture not accounting for en passant?
 
-        this->ApplyMove( move._Src, move._Dest, move._Type );
+        this->ApplyMove( move._Src, move._Dest, move._Promo );
         this->FlipInPlace();
 
         _WhiteToMove   = SelectIfNotZero( _GameResult, _WhiteToMove,    _WhiteToMove ^ 1 );
@@ -333,6 +333,7 @@ struct ALIGN_SIMD PositionT
 
         SIMD    blackPawnsCon       = StepSW( blackPawns ) | StepSE( blackPawns ); 
         SIMD    blackKnightsCon     = StepKnights( blackKnights );
+
         SIMD    blackDiagCon        = SlideIntoExDiag(  blackDiag,  empty | whiteKing, blackPieces );
         SIMD    blackOrthoCon       = SlideIntoExOrtho( blackOrtho, empty | whiteKing, blackPieces );
         SIMD    blackKingCon        = StepOut( blackKing );

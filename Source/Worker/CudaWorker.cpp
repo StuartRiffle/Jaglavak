@@ -160,7 +160,6 @@ void CudaWorker::___CUDA_LAUNCH_THREAD___()
             blockSize, 
             stream );
         CUDA_REQUIRE(( cudaEventRecord( launch->_StopTimer, stream ) ));
-
         launch->_Outputs.CopyDownToHostAsync( stream );
         CUDA_REQUIRE(( cudaEventRecord( launch->_ReadyEvent, stream ) ));
 
@@ -176,14 +175,13 @@ void CudaWorker::Update()
 
     for( int i = 0; i < CUDA_NUM_STREAMS; i++ )
     {
-        auto& inFlight = _InFlightByStream[i];
-        while( !inFlight.empty() )
+        while( !_InFlightByStream[i].empty() )
         {
-            LaunchInfoRef launch = inFlight.front();
+            LaunchInfoRef launch = _InFlightByStream[i].front();
             if( cudaEventQuery( launch->_ReadyEvent ) != cudaSuccess )
                 break;
 
-            inFlight.pop_front();
+            _InFlightByStream[i].pop_front();
 
             float gpuTime = 0;
             CUDA_REQUIRE( (cudaEventElapsedTime( &gpuTime, launch->_StartTimer, launch->_StopTimer )) );

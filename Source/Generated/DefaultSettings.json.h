@@ -3,10 +3,10 @@
 
 const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
 {
-    "CPU.Enabled":                  0,       
+    "CPU.Enabled":                  1,       
     "CPU.LimitCores":               -2,      
     "CPU.LimitPlayoutCores":        1,      
-    "CPU.DispatchThreads":          0,
+    "CPU.DispatchThreads":          1,
     "CPU.SearchFibers":             8192,    
     "CPU.SIMD.Enabled":             1,
     "CPU.SIMD.ForceLevel":          0,
@@ -14,16 +14,16 @@ const char* Embedded_DefaultSettings = R"EMBEDDED_FILE(
     "CUDA.Enabled":                 1,       
     "CUDA.HeapMegs":                512,     
     "CUDA.AffinityMask":            1,       
-    "CUDA.BatchSize":               512,     
+    "CUDA.BatchSize":               4096,     
 
-    "Search.NumPlayoutsEach":       10,       
+    "Search.NumPlayoutsEach":       1,       
     "Search.BranchesToExpand":      0,       
-    "Search.BatchSize":             16,      
+    "Search.BatchSize":             128,      
     "Search.MaxPlayoutMoves":       200,     
     "Search.DrawsWorthHalf":        1,       
     "Search.ExplorationFactor":     1.41,
-    "Search.VirtualLoss":           0.1,     
-    "Search.MaxTreeNodes":          100000,
+    "Search.VirtualLoss":           0.01,
+    "Search.MaxTreeNodes":          10000000,
 
     "UCI.TimeSafetyMargin":         100,     
     "UCI.UpdateTime":               5000,    

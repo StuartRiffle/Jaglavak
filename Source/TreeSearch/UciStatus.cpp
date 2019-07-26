@@ -74,8 +74,8 @@ MoveSpec TreeSearch::SendUciStatus()
     u64 gamesDone = _Metrics._GamesPlayed - _StatsStartMetrics._GamesPlayed;
     u64 gamesPerSec = (u64) (gamesDone / dt);
 
-    double batchLatency = _Metrics._BatchTotalLatency * 1.0 / (_Metrics._BatchesDone * CpuInfo::GetClockFrequency());
-    double batchRuntime = _Metrics._BatchTotalRuntime * 1.0 / (_Metrics._BatchesDone * CpuInfo::GetClockFrequency());
+    double batchLatency = _Metrics._BatchTotalLatency * 1000.0 / (_Metrics._BatchesDone * CpuInfo::GetClockFrequency());
+    double batchRuntime = _Metrics._BatchTotalRuntime * 1000.0 / (_Metrics._BatchesDone * CpuInfo::GetClockFrequency());
 
     MoveList bestLine;
     ExtractBestLine( _SearchTree->GetRootNode(), &bestLine );

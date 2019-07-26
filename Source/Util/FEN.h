@@ -193,14 +193,14 @@ static const char* StringToMoveSpec( const char* str, MoveSpec& spec )
 
     spec._Src  = (src_rank0  * 8) + src_file0;
     spec._Dest = (dest_rank0 * 8) + dest_file0;
-    spec._Type = 0;
+    spec._Promo = 0;
 
     switch( tolower( *str ) )
     {
-    case 'n':   spec._Type = PROMOTE_KNIGHT; str++; break;
-    case 'b':   spec._Type = PROMOTE_BISHOP; str++; break;
-    case 'r':   spec._Type = PROMOTE_ROOK;   str++; break;
-    case 'q':   spec._Type = PROMOTE_QUEEN;  str++; break;
+    case 'n':   spec._Promo = PROMOTE_KNIGHT; str++; break;
+    case 'b':   spec._Promo = PROMOTE_BISHOP; str++; break;
+    case 'r':   spec._Promo = PROMOTE_ROOK;   str++; break;
+    case 'q':   spec._Promo = PROMOTE_QUEEN;  str++; break;
     }
 
     while( *str && strchr( "-+#!?", *str ) ) 

@@ -13,8 +13,7 @@ struct FiberInstance
     template< typename TFUNC >
     void Spawn( TFUNC& fiberproc )
     {
-        auto wrapper = 
-            [=]()
+        auto wrapper = [=]()
             {
                 try
                 {

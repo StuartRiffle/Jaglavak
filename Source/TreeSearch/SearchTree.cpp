@@ -100,7 +100,7 @@ void SearchTree::ClearNode( TreeNode* node )
     // -----------------------------------------------------------------------------------
 
     // We should only ever see leaf nodes at the end of the MRU list.
-    // *Anything* else is a bug.
+    // Anything else is a bug.
 
     for( auto& info : node->_Branch )
     {
@@ -221,7 +221,7 @@ void SearchTree::Dump( TreeNode* node, int depth, int topMoves, string prefix ) 
     for( auto& info : node->_Branch )
         playsByIndex.emplace_back( info._Scores._Plays, idx++ );
 
-    sort( playsByIndex.begin(), playsByIndex.end() );
+    sort(    playsByIndex.begin(), playsByIndex.end() );
     reverse( playsByIndex.begin(), playsByIndex.end() );
 
     int movesToShow = topMoves;

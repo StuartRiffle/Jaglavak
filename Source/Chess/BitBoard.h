@@ -28,16 +28,16 @@ INLINE PDECL T Propagate( T bits, T allow )
 }
 
 template< typename T >
-INLINE PDECL T StepKnights( T val, T allow = ANY )
+INLINE PDECL T StepKnights( T n, T allow = ANY )
 {
     //  . C . C .
     //  D . . . D
-    //  b a(N)a b
+    //  b a(n)a b
     //  D . . . D
     //  . C . C .
 
-    T a = Shift< SHIFT_W >( val & ~FILE_A ) | Shift< SHIFT_E >( val & ~FILE_H );                                  
-    T b = Shift< SHIFT_W * 2 >( val & ~(FILE_A | FILE_B) ) | Shift< SHIFT_E * 2 >( val & ~(FILE_G | FILE_H) );    
+    T a = Shift< SHIFT_W >( n & ~FILE_A ) | Shift< SHIFT_E >( n & ~FILE_H );                                  
+    T b = Shift< SHIFT_W * 2 >( n & ~(FILE_A | FILE_B) ) | Shift< SHIFT_E * 2 >( n & ~(FILE_G | FILE_H) );    
     T c = Shift< SHIFT_N * 2 >( a ) | Shift< SHIFT_S * 2 >( a );                                                  
     T d = Shift< SHIFT_N >( b ) | Shift< SHIFT_S >( b );                                                          
 
