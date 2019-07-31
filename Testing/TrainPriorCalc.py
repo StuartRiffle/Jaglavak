@@ -7,68 +7,57 @@ import numpy as np
 
 import tensorflow as tf
 import tensorflow.keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv1D, Conv2D, Flatten
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, Input, Conv2D, Flatten, Concatenate, MaxPooling2D, Reshape
+#from tensorflow.keras.layers.merge import concatenate
 
 jsonfile = "c:/dev/Jaglavak/Testing/Games/ccrl-4040-1051523-0.pgn.json"
 
-def python_square_to_jag( ps ):
-    x = ps % 8
-    y = ps / 8
-    x = 7 - x
-    return int( y * 8 + x )
-
 def encode_position( board ):
-    encoded = np.zeros( 64 * 6 + 1 )
+    encoded = np.zeros( (8, 8, 7), np.float32 )
+
     for square in range( 64 ):
         piece_type = board.piece_type_at( square )
         if piece_type != None:
-            offset = (piece_type - 1) * 64
+            piece_index = (piece_type - 1)
 
-            jag_square = python_square_to_jag( square )
-            offset = int( offset + jag_square )
+            x = int( square % 8 )
+            y = int( square / 8 )
 
             if board.color_at( square ) == chess.WHITE:
-                encoded[offset] = 1
+                encoded[x, y, piece_index] = 1
             elif board.color_at( square ) == chess.BLACK:
-                encoded[offset] = -1
+                encoded[x, y, piece_index] = -1
 
-    if board.turn == chess.WHITE:
-        encoded[64 * 6] = 1
-    else: 
-        encoded[64 * 6] = -1
+    for x in range( 8 ):
+        for y in range( 8 ):
+            encoded[x, y, 6] = 1 if (board.turn == chess.WHITE) else -1 
+
     return encoded
 
 def encode_move( move ):
-    encoded = np.zeros( 64 * 64 + 4 )
-    src = python_square_to_jag( move.from_square )
-    dest = python_square_to_jag( move.to_square )
-    encoded[src * 64 + dest] = 1
+    encoded = np.zeros( (64, 64), np.float32 )
+    encoded[move.from_square, move.to_square ] = 1
+    return encoded
 
-    if move.promotion == chess.KNIGHT:
-        encoded[64 * 64 + 0] = 1
-    if move.promotion == chess.BISHOP:
-        encoded[64 * 64 + 1] = 1
-    if move.promotion == chess.ROOK:
-        encoded[64 * 64 + 2] = 1
-    if move.promotion == chess.QUEEN:
-        encoded[64 * 64 + 3] = 1
-
+def encode_all_moves( board ):
+    encoded = np.zeros( (64, 64), np.float32 )
+    for move in board.legal_moves:
+        encoded[move.from_square, move.to_square] = 1
     return encoded
 
 
+ep_list = []
+ebm_list = []
+emm_list = []
+stm_list = []
 
-
-
-
-inputs = []
-outputs = []
-batch_size = 100
+batch_size = 1000
 
 with open(jsonfile) as f:
     game_list = json.load( f )
 
-while len( inputs ) < batch_size:
+while len( ep_list ) < batch_size:
     idx = random.randrange( len( game_list ) )
 
     moves  = game_list[idx]['moves']
@@ -101,42 +90,49 @@ while len( inputs ) < batch_size:
         assert( board.turn == chess.BLACK )
 
     ep = encode_position( board )
-    em = encode_move( target_move )
+    ebm = encode_move( target_move )
+    emm = encode_all_moves( board )
 
-    inputs.append( ep )
-    outputs.append( em )
+    ep_list.append( ep )
+    ebm_list.append( ebm )
+    emm_list.append( emm )
+    stm_list.append( 1 if (board.turn == chess.WHITE) else -1  )
 
-input_data = np.asarray( inputs, np.float32 )
-output_data = np.asarray( outputs, np.float32 )
+def convolution2d( conv, filters, kernel, pooling ):
+    result = Conv2D( filters, kernel_size = (kernel, kernel), activation = 'relu' )( conv )
+    result = MaxPooling( pool_size = (pooling, pooling) )( result )
+    return result
 
-X = np.array([[0,0],[0,1],[1,0],[1,1]])
+position_input = Input( shape = (8, 8, 7), name = 'position' )
+movemap_input  = Input( shape = (64, 64), name = 'movemap' )
+side_to_move_input = Input( shape = (1,), name = 'side_to_move' )
 
-model = Sequential()
-model.add( Dense( 64, activation = 'relu', input_dim = input_data.shape[1] ) )
-model.add( Dense( 32, activation = 'relu' ) )
-model.add( Dense( output_data.shape[1], activation = 'sigmoid' ) )
+conv = position_input
+conv = Conv2D( 100, kernel_size = (5, 5), activation = 'relu' )( conv )
+conv = MaxPooling2D( pool_size = (2, 2) )( conv )
 
+conv_flat = Flatten()( conv )
+
+dense_inputs = tensorflow.keras.layers.concatenate( [conv_flat, side_to_move_input] )
+dense = Dense( 64 * 64, activation = 'relu' )( dense_inputs )
+output_layer = Dense( 64 * 64, activation = 'sigmoid' )( dense )
+output_array = Reshape( (64, 64) )( output_layer )
+
+model = Model( [position_input, side_to_move_input], output_array )
 model.compile(
     optimizer = 'adam', 
     loss = 'binary_crossentropy', 
     metrics = ['accuracy'] )
 
-model.fit( input_data, output_data,
-   epochs = 10,
+position_data = np.asarray( ep_list, np.float32 )
+movemap_data = np.asarray( emm_list, np.float32 )
+stm_data = np.asarray( stm_list, np.float32 )
+bestmove_data = np.asarray( ebm_list, np.float32 )
+
+model.fit( [position_data, stm_data], bestmove_data, 
+   epochs = 1,
    batch_size = 10,
    validation_split = 0.2,
    verbose = True )
 
-# https://int8.io/chess-position-evaluation-with-convolutional-neural-networks-in-julia/ recommends this for position evaluation:
-# conv, pooling, conv, inner product, inner product, binary cross entropy loss
-
-# https://www.ai.rug.nl/~mwiering/GROUP/ARTICLES/ICPRAM_CHESS_DNN_2018.pdf
-# recommends no pooling layers
-
-
-# save here
-
 model.save('c:/dev/Jaglavak/Testing/foo.h5')
-
-print( "Yo" )
-
