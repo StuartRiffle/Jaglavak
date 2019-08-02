@@ -23,17 +23,44 @@ struct RandomGen
 
     PDECL u64 GetNext()
     {
+        // 0 to (2^63 - 1)
+
         s = WangMix64( s );
         return s;
     }
 
     PDECL u64 GetRange( u64 range )
     {
+        // 0 to (range - 1)
+
         return (GetNext() % range);
     }
 
-    PDECL float GetFloat()
+    PDECL float GetFrac()
     {
+        // 0 to 1
+
         return ((GetNext() >> 32) * 1.0f) / (1ULL << 32);
+    }
+
+    PDECL float GetSigned()
+    {
+        // -1 to 1
+
+        return (GetFrac() * 2) - 1.0f;
+    }
+
+    PDECL float GetNormal()
+    {
+        // -1 to 1 with normal distribution around zero
+
+        float a = GetSigned();
+        float b = GetSigned();
+
+        float dist = (a * a) + (b * b);
+        if( (dist == 0) || (dist > 1) )
+            return GetNormal();
+
+        return a * sqrtf( -2 * logf( dist ) / dist );
     }
 };
