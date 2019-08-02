@@ -2,7 +2,17 @@
 
 #include "Jaglavak.h"
 #include "TreeSearch.h"
+#include "FEN.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+using namespace boost;
+namespace pt = property_tree;
+
+#include "RpcClient.h"
+
+/*
 struct EncodedPosition
 {
     float   _Pawns[64];
@@ -82,49 +92,44 @@ struct EncodedMove
     }
 };
 
+*/
+
 void TreeSearch::EstimatePriors( TreeNode* node )
 {
-    EncodedPosition ep;
-    ep.Init( node->_Pos );
+    CallRef call( new RpcCall() );
 
-    float* buf = (float*) &ep;
-    size_t epLen = sizeof( ep ) / sizeof( float );
+    call->_ServerType = "inference";
+    call->_Inputs.put( "type", "estimate_priors" );
+    call->_Inputs.put( "position", SerializePosition( node->_Pos ) );
 
-    vector< float > inputs( buf, buf + epLen );
-
-    InferJobRef job( new InferJob() );
-    job->SetInput( "board", boardVec );
-
-    _InferJobQueue.Push( job );
-    while( !job->IsDone() )
+    _RpcClient->Call( call );
+    while( !call->_Done )
     {
         // ------------------------
         _SearchFibers.YieldFiber();
         // ------------------------
-
-        if( _SearchExit )
-            return;
     }
 
-    const vector< string >& moveVec = job->GetOutput( "move" );
-    assert( moveVec.size() == (sizeof( EncodedMove ) / sizeof( float )) );
+    if( call->_Success )
+    {
+        vector< string > moveList  = SplitString( call->_Outputs.get< string >( "moves" ) );
+        vector< string > valueList = SplitString( call->_Outputs.get< string >( "values" ) );
+        assert( moveList.size() == valueList.size() );
+        assert( moveList.size() == node->_Branch.size() );
 
-    MoveList moveList;
-    for( int i = 0; i < node->_Branch.size(); i++ )
-        moveList.Append( node->_Branch[i]._Move );
+        map< string, float > moveValue;
+        for( int i = 0; i < (int) moveList.size(); i++ )
+            moveValue[moveList[i]] = (float) atof( valueList[i].c_str() );
 
-    float prob[MAX_POSSIBLE_MOVES];
+        for( int i = 0; i < node->_Branch.size(); i++ )
+            node->_Branch[i]._Prior = moveValue[SerializeMoveSpec( node->_Branch[i]._Move )];
+    }
 
-    auto em = (const EncodedMove*) &moveVec[0];
-    em->ExtractMoveProbability( moveList, prob );
-
-    float scaleNoise = _Settings->Get< float >( "Search.PriorNoise" )
+    float scaleNoise = _Settings->Get< float >( "Search.PriorNoise" );
     for( int i = 0; i < node->_Branch.size(); i++ )
     {
         float noise = _RandomGen.GetNormal() * scaleNoise;
-        float prior = prob[i] + noise;
-
-        node->_Branch[i]._Prior = prior;
+        node->_Branch[i]._Prior += noise;
     }
 }
 
