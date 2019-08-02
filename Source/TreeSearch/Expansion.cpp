@@ -43,6 +43,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
             expansionBranch[i] = &node->_Branch[expansionBranchIdx];
 
             TreeNode* newNode = _SearchTree->CreateBranch( node, expansionBranchIdx );
+            EstimatePriors( newNode );
             _Metrics._NodesExpanded++;
 
             _Batch->_Position.push_back( newNode->_Pos );
@@ -66,9 +67,11 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
 
             while( !ourBatch->_Done )
             {
+                // ------------------------
                 _SearchFibers.YieldFiber();
-                ourBatch->_YieldCounter++;
+                // ------------------------
 
+                ourBatch->_YieldCounter++;
                 if( _SearchExit )
                     return totalScore;
             }
@@ -94,6 +97,7 @@ ScoreCard TreeSearch::ExpandAtLeaf( TreeNode* node, int depth )
     assert( chosenBranchIdx >= 0 );
 
     BranchInfo* chosenBranch = &node->_Branch[chosenBranchIdx];
+
     BranchInfo::VirtualLossScope lossScope( *chosenBranch, _Settings->Get< float >( "Search.VirtualLoss" ) );
 
     ScoreCard branchScores = ExpandAtLeaf( chosenBranch->_Node, depth + 1 );
@@ -114,6 +118,8 @@ void TreeSearch::FlushBatch()
         _Metrics._BatchesQueued++;
     }
 }
+
+
 
 
 

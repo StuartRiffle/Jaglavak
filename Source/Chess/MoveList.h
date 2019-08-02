@@ -93,6 +93,7 @@ struct MoveList
         u64 whitePieces = pos._WhitePawns | pos._WhiteKnights | pos._WhiteBishops | pos._WhiteRooks | pos._WhiteQueens | pos._WhiteKing;
 
         // Pawn single move being interpreted as knight NNW
+        // TODO: still true?
 
         if( mmap._PawnMovesN )      this->StorePawnMoves( mmap._PawnMovesN,     SHIFT_N );
         if( mmap._PawnDoublesN )    this->StorePawnMoves( mmap._PawnDoublesN,   SHIFT_N * 2 );

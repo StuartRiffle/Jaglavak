@@ -20,6 +20,8 @@ struct UciSearchConfig
     void Clear()        { memset( this, 0, sizeof( *this ) ); }
 };
 
+class RpcClient;
+
 class TreeSearch
 {
     GlobalSettings*         _Settings = NULL;
@@ -34,6 +36,7 @@ class TreeSearch
     UciSearchConfig         _UciConfig = {};
     unique_ptr< SearchTree > _SearchTree;
     unique_ptr< thread >    _SearchThread;
+    unique_ptr< RpcClient > _RpcClient;
     volatile bool           _SearchExit = false;
     Timer                   _SearchTimer;
 
@@ -51,13 +54,10 @@ class TreeSearch
     typedef shared_ptr< AsyncWorker > AsyncWorkerRef;
     vector< AsyncWorkerRef > _Workers;
 
-    
-    
 
     void ___SEARCH_THREAD___();   // These declarations are goofy so that they
     void ___SEARCH_FIBER___();    // are easier to see in a callstack
 
-    void FlushBatch();
     void UpdateUciStatus();
     void UpdateFibers();
 
@@ -70,6 +70,7 @@ class TreeSearch
     // Expansion.cpp
 
     ScoreCard ExpandAtLeaf( TreeNode* node, int depth = 1 );
+    void FlushBatch();
 
     // TimeControl.cpp
 
@@ -81,6 +82,10 @@ class TreeSearch
     int EstimatePawnAdvantageForMove( const MoveSpec& spec );
     MoveSpec SendUciStatus();
     void SendUciBestMove();
+
+    // Priors.cpp
+
+    void EstimatePriors( TreeNode* node );
 
 public:
 

@@ -53,6 +53,7 @@
     <ClInclude Include="..\Source\Worker\CpuWorker.h" />
     <ClInclude Include="..\Source\Worker\CudaSupport.h" />
     <ClInclude Include="..\Source\Worker\CudaWorker.h" />
+    <ClInclude Include="..\Source\Worker\RpcClient.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
@@ -64,6 +65,7 @@
     <ClCompile Include="..\Source\Settings\GlobalSettings.cpp" />
     <ClCompile Include="..\Source\TreeSearch\BranchSelection.cpp" />
     <ClCompile Include="..\Source\TreeSearch\Expansion.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\PriorProbability.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TimeControl.cpp" />
     <ClCompile Include="..\Source\TreeSearch\SearchTree.cpp" />
     <ClCompile Include="..\Source\TreeSearch\TreeSearch.cpp" />
@@ -77,6 +79,7 @@
     <ClCompile Include="..\Source\Util\StringUtil.cpp" />
     <ClCompile Include="..\Source\Worker\CpuWorker.cpp" />
     <ClCompile Include="..\Source\Worker\CudaWorker.cpp" />
+    <ClCompile Include="..\Source\Worker\RpcClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
@@ -149,7 +152,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>opencl.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\External\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\External\Libraries\tensorflow;$(SolutionDir)..\External\Libraries\boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
@@ -190,7 +193,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>opencl.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\External\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\External\Libraries\tensorflow;$(SolutionDir)..\External\Libraries\boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>

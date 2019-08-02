@@ -143,6 +143,9 @@
     <ClInclude Include="..\Source\Util\Logging.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Worker\RpcClient.h">
+      <Filter>Worker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Jaglavak.cpp" />
@@ -205,6 +208,12 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Platform.cpp" />
+    <ClCompile Include="..\Source\TreeSearch\PriorProbability.cpp">
+      <Filter>TreeSearch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Worker\RpcClient.cpp">
+      <Filter>Worker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

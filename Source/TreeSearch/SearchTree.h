@@ -94,7 +94,6 @@ class SearchTree
     TreeNode* AllocNode();
     void InitNode( TreeNode* node, const Position& pos, const MoveMap& moveMap, BranchInfo* info );
     void ClearNode( TreeNode* node );
-    void EstimatePriors( TreeNode* node );
 
     TreeNode* FollowMoveList( TreeNode* node, const MoveList& moveList, int idx );
 

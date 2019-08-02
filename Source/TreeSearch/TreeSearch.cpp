@@ -9,6 +9,13 @@
 #include "Util/FEN.h"
 #include "Util/FiberSet.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+namespace pt = boost::property_tree;
+
+#include "RpcClient.h"
+
 TreeSearch::TreeSearch( GlobalSettings* settings ) : 
     _Settings( settings )
 {
@@ -52,6 +59,12 @@ void TreeSearch::Init()
 
     for( auto& worker : _Workers )
         cout << worker->GetDesc() << endl;
+
+    _RpcClient.reset( new RpcClient( _Settings, &_Metrics ) );
+    _RpcClient->Init();
+
+    // fixme obvs
+    _RpcClient->AddServer( "inference", "127.0.0.1", "5000", "/inference" );
 }
 
 TreeNode* SearchTree::FollowMoveList( TreeNode* node, const MoveList& moveList, int idx )
@@ -96,9 +109,9 @@ void TreeSearch::Reset()
     _DrawsWorthHalf    = _Settings->Get( "Search.DrawsWorthHalf" );
     _ExplorationFactor = _Settings->Get< float >( "Search.ExplorationFactor" );
 
-    _PlayoutParams._RandomSeed      = _RandomGen.GetNext();
-    _PlayoutParams._NumGamesEach    = _Settings->Get( "Search.NumPlayoutsEach" );
-    _PlayoutParams._MaxMovesPerGame = _Settings->Get( "Search.MaxPlayoutMoves" );
+    _PlayoutParams._RandomSeed        = _RandomGen.GetNext();
+    _PlayoutParams._NumGamesEach      = _Settings->Get( "Search.NumPlayoutsEach" );
+    _PlayoutParams._MaxMovesPerGame   = _Settings->Get( "Search.MaxPlayoutMoves" );
     _PlayoutParams._LimitPlayoutCores = _Settings->Get( "CPU.LimitPlayoutCores" );
 }
 
@@ -184,8 +197,8 @@ void TreeSearch::UpdateUciStatus()
 
         //cout << endl;
         //_SearchTree->DumpRoot();
-        //cout << endl;
-        //_SearchTree->DumpTop();
+        cout << endl;
+        _SearchTree->DumpTop();
     }
 }
 

@@ -124,13 +124,6 @@ void SearchTree::ClearNode( TreeNode* node )
     node->_RefCount = 0;
 }
 
-void SearchTree::EstimatePriors( TreeNode* node )
-{
-    // TODO
-    for( auto& info : node->_Branch )
-        info._Prior = 0;
-}
-
 TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
 {
     TreeNode* newNode = AllocNode();
@@ -144,7 +137,6 @@ TreeNode* SearchTree::CreateBranch( TreeNode* node, int branchIdx )
     newPos.Step( chosenBranch->_Move, &newMap );
 
     InitNode( newNode, newPos, newMap, chosenBranch );
-    EstimatePriors( newNode );
 
     chosenBranch->_Node = newNode;
     return newNode;
@@ -264,6 +256,6 @@ void SearchTree::DumpRoot() const
 
 void SearchTree::DumpTop() const
 {
-    this->Dump( _SearchRoot, 3, 3 );
+    this->Dump( _SearchRoot, 5, 5 );
 }
 
