@@ -1,0 +1,3 @@
+[submodule "Testing/Data"]
+	path = Testing/Data
+	url = https://github.com/StuartRiffle/JaglavakTestData
