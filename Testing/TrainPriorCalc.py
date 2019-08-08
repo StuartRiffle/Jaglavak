@@ -12,9 +12,12 @@ import tensorflow as tf
 import tensorflow.keras
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Input, Conv2D, Flatten, Concatenate, MaxPooling2D, Reshape
+from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.optimizers import SGD, Adam
+
 
 def encode_position( board ):
-    encoded = np.zeros( (8, 8, 7), np.int8 )
+    encoded = np.zeros( (8, 8, 7), np.float32 )
 
     for square in range( 64 ):
         piece_type = board.piece_type_at( square )
@@ -36,12 +39,12 @@ def encode_position( board ):
     return encoded
 
 def encode_move( move ):
-    encoded = np.zeros( (64, 64), np.int8 )
+    encoded = np.zeros( (64, 64), np.float32 )
     encoded[move.from_square, move.to_square ] = 1
     return encoded
 
 def encode_all_moves( board ):
-    encoded = np.zeros( (64, 64), np.int8 )
+    encoded = np.zeros( (64, 64), np.float32 )
     for move in board.legal_moves:
         encoded[move.from_square, move.to_square] = 1
     return encoded
@@ -56,42 +59,83 @@ movemap_input  = Input( shape = (64, 64), name = 'movemap' )
 # The side to move is either 1 [white] or -1 [black] for a given position
 side_to_move_input = Input( shape = (1,), name = 'side_to_move' )
 
-# 8x8x7 position (the INPUT!) -> 8x8x64 -> 4x4x64
-conv = position_input
-conv = Conv2D( 64, kernel_size = 5, activation = 'relu', padding = 'same', data_format='channels_last' )( conv )
-conv = Conv2D( 64, kernel_size = 3, activation = 'relu', padding = 'same', data_format='channels_last' )( conv )
-conv = MaxPooling2D()( conv )
+num_filters = 64
 
-# 4x4x64 -> 4x4x128 -> 2x2x128
-conv = Conv2D( 128, kernel_size = 3, activation = 'relu', padding = 'same', data_format='channels_last' )( conv )
-conv = Conv2D( 128, kernel_size = 1, activation = 'relu', padding = 'same', data_format='channels_last' )( conv )
-conv = MaxPooling2D()( conv )
+if True:
 
-# (2x2x128 + some extra stuff) -> 1x1x4k
-dense = tensorflow.keras.layers.concatenate( 
-    [Flatten()( conv ), 
-    Flatten()( position_input ), 
-    Flatten()( movemap_input ), 
-    side_to_move_input] )
-dense = Dense( 64 * 64, activation = 'relu' )( dense )
-dense = Dense( 64 * 64, activation = 'relu' )( dense )
-output_layer = Dense( 64 * 64, activation = 'sigmoid' )( dense )
+    conv5 = position_input
+    conv3 = position_input
+    conv1 = position_input
 
-# 1x1x4k -> 64x64x1, a move probability map (the OUTPUT!)
-output_array = Reshape( (64, 64) )( output_layer )
 
-model = Model( [position_input, movemap_input, side_to_move_input], output_array ) 
-model.compile( optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'] )
 
-# Shit is about to get real, yo
-    
+
+    G = Conv2D( num_filters, kernel_size = 15, activation = 'relu', padding = 'same', data_format='channels_last' )( position_input )
+    H = Conv2D( num_filters, kernel_size = 11, activation = 'relu', padding = 'same', data_format='channels_last' )( position_input )
+    I = Conv2D( num_filters, kernel_size = 7, activation = 'relu', padding = 'same', data_format='channels_last' )( position_input )
+    J = Conv2D( num_filters, kernel_size = 3, activation = 'relu', padding = 'same', data_format='channels_last' )( position_input )
+    G = MaxPooling2D()( G )
+    H = MaxPooling2D()( H )
+    I = MaxPooling2D()( I )
+    J = MaxPooling2D()( J )
+
+    K = Conv2D( num_filters, kernel_size = 7, activation = 'relu', padding = 'same', data_format='channels_last' )( G )
+    L = Conv2D( num_filters, kernel_size = 5, activation = 'relu', padding = 'same', data_format='channels_last' )( H )
+    M = Conv2D( num_filters, kernel_size = 3, activation = 'relu', padding = 'same', data_format='channels_last' )( I )
+    K = MaxPooling2D()( K )
+    L = MaxPooling2D()( L )
+    M = MaxPooling2D()( M )
+
+    N = Conv2D( num_filters, kernel_size = 3, activation = 'relu', padding = 'same', data_format='channels_last' )( K )
+    P = Conv2D( num_filters, kernel_size = 1, activation = 'relu', padding = 'same', data_format='channels_last' )( L )
+    N = MaxPooling2D()( N )
+    P = MaxPooling2D()( P )
+
+    Q = Conv2D( num_filters, kernel_size = 1, activation = 'relu', padding = 'same', data_format='channels_last' )( N )
+    Q = MaxPooling2D()( Q )
+
+    dense = tensorflow.keras.layers.concatenate( [ 
+        Flatten()( G ), 
+        Flatten()( H ), 
+        Flatten()( I ), 
+        Flatten()( J ), 
+        Flatten()( K ), 
+        Flatten()( L ), 
+        Flatten()( M ), 
+        Flatten()( N ), 
+        Flatten()( P ), 
+        Flatten()( Q ), 
+        Flatten()( position_input ), 
+#        Flatten()( movemap_input ), 
+        side_to_move_input] )
+
+    dense = Dense( 512, activation = 'relu' )( dense )
+
+    output_layer = Dense( 64 * 64, activation = 'softmax' )( dropout )
+
+    # 1x1x4k -> 64x64x1, a move probability map (the OUTPUT!)
+    output_array = Reshape( (64, 64) )( output_layer )
+
+    sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+    adam = Adam()
+
+    model = Model( [position_input, movemap_input, side_to_move_input], output_array ) 
+    model.compile( optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'] )
+
+#print( "Loading model" )
+#model = tensorflow.keras.models.load_model('c:/dev/Jaglavak/Testing/foo.h5' )
+
+tensorboard = TensorBoard(log_dir='c:/temp/l12', histogram_freq=0, write_graph=True, write_images=False)
+
+model.summary()
+   
 while True:
     ep_list = []
     ebm_list = []
     emm_list = []
     stm_list = []
 
-    data_directory = "c:/dev/Jaglavak/Testing/Games"
+    data_directory = "c:/dev/Jaglavak/Testing/Data/Games"
     data_files_avail = glob.glob(data_directory + '/*.pgn.json.zip')
     data_file_name = data_files_avail[random.randrange( len( data_files_avail ) )]
 
@@ -141,15 +185,16 @@ while True:
             emm_list.append( emm )
             stm_list.append( 1 if (board.turn == chess.WHITE) else -1  )
 
-    position_data = np.asarray( ep_list,  np.int8 )
-    movemap_data  = np.asarray( emm_list, np.int8 )
-    stm_data      = np.asarray( stm_list, np.int8 )
-    bestmove_data = np.asarray( ebm_list, np.int8 )
+    position_data = np.asarray( ep_list,  np.float32 )
+    movemap_data  = np.asarray( emm_list, np.float32 )
+    stm_data      = np.asarray( stm_list, np.float32 )
+    bestmove_data = np.asarray( ebm_list, np.float32 )
 
     model.fit( [position_data, movemap_data, stm_data], bestmove_data, 
-        epochs = 100,
-        batch_size = 1000,
-        validation_split = 0.2,
-        verbose = 1 )
+        epochs = 20,
+        batch_size = 10,
+        validation_split = 0.12,
+        verbose = 1, 
+        callbacks=[tensorboard] )
 
     model.save('c:/dev/Jaglavak/Testing/foo.h5' )
