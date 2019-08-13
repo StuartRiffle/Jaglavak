@@ -4,7 +4,8 @@
 - It's an **asynchronous** implementation designed for high throughput.
 - It runs on GPU using all attached **CUDA** devices.
 - It runs on CPU in **SIMD**, up to 8-wide with AVX-512.
-- Under construction!
 
+
+## Under construction!
 ![Architecture](Testing/NetworkArchitecture.png)
 
