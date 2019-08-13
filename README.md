@@ -6,5 +6,5 @@
 - It runs on CPU in **SIMD**, up to 8-wide with AVX-512.
 - Under construction!
 
-
+![Architecture](Testing/NetworkArchitecture.png)
 
