@@ -57,8 +57,6 @@ def infer( modelname ):
     outputs = model.predict( inputs )
     return flask.jsonify( outputs )
 
-
-
 if __name__ == "__main__":
     flaskApp.run()
 

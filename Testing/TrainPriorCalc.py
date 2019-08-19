@@ -12,188 +12,167 @@ import subprocess
 import tensorflow as tf
 import tensorflow.keras
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Input, Conv2D, Flatten, Concatenate, MaxPooling2D, Reshape
+from tensorflow.keras.layers import Dense, Input, SeparableConv2D, Conv2D, Flatten, Multiply, Concatenate, MaxPooling2D, Reshape, Dropout, SpatialDropout2D, BatchNormalization, LeakyReLU
+#from tensorflow.keras.layers.advanced_activations import LeakyReLU
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.optimizers import SGD, Adam, Nadam, Adagrad
 
 from multiprocessing import Process
 
-def encode_position( board ):
-    encoded = np.zeros( (7, 8, 8), np.int8 )
 
-    for square in range( 64 ):
-        piece_type = board.piece_type_at( square )
-        if piece_type != None:
-            piece_index = (piece_type - 1)
+temp_directory = "c:/temp/"
 
-            x = 7 - int( square / 8 )
-            y = int( square % 8 )
-
-            if board.color_at( square ) == chess.WHITE:
-                encoded[piece_index, x, y] = 1
-            elif board.color_at( square ) == chess.BLACK:
-                encoded[piece_index, x, y] = -1
-
-    side_to_move_layer = 6
-
-    for x in range( 8 ):
-        for y in range( 8 ):
-            encoded[side_to_move_layer, x, y] = 1 if (board.turn == chess.WHITE) else -1 
-
-    return encoded
-
-def encode_move( move ):
-    src  = np.zeros( 64, np.int8 )
-    dest = np.zeros( 64, np.int8 )
-    src[move.from_square] = 1;
-    dest[move.to_square] = 1;
-    return src, dest
-
-def load_game_list(data_file_name):
-    game_list = []
-    with zipfile.ZipFile( data_file_name ) as z:
-        just_name, _ = os.path.splitext( os.path.basename( data_file_name ) )
-        with z.open( just_name ) as f:
-            game_list = json.loads( f.read().decode("utf-8") )
-    return game_list
-    
-def generate_test_data():
-
-    ep_list = []
-    ebm_src_list = []
-    ebm_dest_list = []
-
-    data_directory = "c:/dev/Jaglavak/Testing/Data/Games"
-    data_files_avail = glob.glob(data_directory + '/ccrl-4040-*.pgn.json.zip')
-
-    for i in range( 1 ):
-        data_file_name = data_files_avail[random.randrange( len( data_files_avail ) )]
-        game_list = load_game_list( data_file_name )
-
-        print( "*** [" + str( i ) + "] Tapping " + data_file_name )
-        for game in game_list:
-                moves  = game['moves']
-                result = game['result']
-
-                move_list = moves.split( ' ' )
-
-                valid = len( move_list ) - 2
-                move_to_use = int( (random.randrange( valid ) + random.randrange( valid )) / 2 )
-                flip_board = False
-
-                if result == '1-0':
-                    # make sure it's a white move
-                    move_to_use = move_to_use & ~1
-                elif result == '0-1':
-                    # make sure it's a black move
-                    move_to_use = move_to_use | 1
-                    flip_board = True
-                else:
-                    continue
-
-                board = chess.Board()
-                for move in range( move_to_use ):
-                    board.push_uci( move_list[move] )
-
-                target_move = board.parse_uci( move_list[move_to_use] )
-
-                if flip_board:
-                    # Everything is pres
-                    board = board.mirror()
-                    target_move = Move( 
-                        chess.square_mirror( target_move.from_square ), 
-                        chess.square_mirror( target_move.to_square ) )
-
-                assert( target_move in board.legal_moves() )
-
-                ep  = encode_position( board )
-                ebm_src, ebm_dest = encode_move( target_move )
-
-                ep_list.append( ep )
-                ebm_src_list.append( ebm_src )
-                ebm_dest_list.append( ebm_dest )
-
-    position_data = np.asarray( ep_list,  np.int8 )
-    bestmove_src_data = np.asarray( ebm_src_list, np.int8 )
-    bestmove_dest_data = np.asarray( ebm_dest_list, np.int8 )
-
-    np.save( 'c:/temp/ep', position_data )
-    np.save( 'c:/temp/ebm_src', bestmove_src_data )
-    np.save( 'c:/temp/ebm_dest', bestmove_dest_data )
-    print( "*** NEXT DATASET GENERATED ***")
-
-
-# The position is represented by 6 planes of 8x8 (one plane for each piece type), plus
-# a silly /extra/ plane, representing the side to move, with all values 1 or -1.
 
 
 def conv_layer( layer, kernel, filters ):
     return Conv2D( filters, kernel_size = kernel, activation = 'relu', padding = 'same', data_format='channels_first' )( layer )
 
-def pool_layer( layer ):
-    return MaxPooling2D( data_format = 'channels_first' )( layer )
+def sep_conv_layer( layer, kernel, filters ):
+    return SeparableConv2D( filters, kernel_size = kernel, activation = 'relu', padding = 'same', data_format='channels_first' )( layer )
 
-def load_or_create_model():
-    try:
-        model = tensorflow.keras.models.load_model('c:/dev/Jaglavak/Testing/foo.h5' )
-        print( "*** MODEL LOADED ***" )
-    except:
-        global num_filters
+def pool_layer( layer, downsample ):
+    return MaxPooling2D( pool_size = downsample, data_format = 'channels_first' )( layer )
 
-        position_input = Input( shape = (7, 8, 8), name = 'position' )
-        filters = 100
-        layer = position_input
+def normalize_layer( layer ):
+    return BatchNormalization( axis = 1, shape = layer.shape() )
 
+def fooceptor( input_layer, filters ):
+    lane1 = conv_layer( input_layer, 1, filters )
+    lane2 = conv_layer( input_layer, 1, filters )
+    lane2 = conv_layer( lane2, 3, filters )
+    stacked_output = Concatenate( axis = 1 )( [lane1, lane2] )
+    return stacked_output
 
-        layer = conv_layer( layer, 3, filters )
-        layer = conv_layer( layer, 3, filters )
-        layer = conv_layer( layer, 3, filters )
-        layer = conv_layer( layer, 3, filters )
-        layer = pool_layer( layer )
-        pool1 = layer
+def fooceptor2( input_layer, filters ):
+    levels = 1
 
-        filters = filters * 2
+    a = input_layer
+    for _ in range( levels ):
+        a = conv_layer( a, (1, 3), filters )
+        a = conv_layer( a, (3, 1), filters )
 
-        layer = conv_layer( layer, 3, filters )
-        layer = conv_layer( layer, 3, filters )
-        layer = conv_layer( layer, 3, filters )
-        layer = pool_layer( layer )
-        pool2 = layer
+    b = input_layer
+    for _ in range( levels ):
+        b = conv_layer( b, (3, 1),  filters )
+        b = conv_layer( b, (1, 3), filters )
 
-        filters = filters * 2
+    layer = Concatenate( axis = 1 )( [a, b] )
 
-        layer = conv_layer( layer, 3, filters )
-        layer = conv_layer( layer, 3, filters )
-        layer = pool_layer( layer )
-        pool3 = layer
-
-        dense = Concatenate()( [
-            Flatten()( position_input ),
-            Flatten()( pool1 ), 
-            Flatten()( pool2 ), 
-            Flatten()( pool3 ), 
-            ] )
-        #dense = Flatten()( layer )
-        dense = Dense( 2048, activation = 'relu' )( dense )
-
-        output_src  = Dense( 64, activation = 'softmax' )( dense )
-        output_dest = Dense( 64, activation = 'softmax' )( dense )
-#        outputs = Concatenate()( [output_src, output_dest], axis = 1 )
+    layer = conv_layer( layer, 3, filters )
+    layer = conv_layer( layer, 1, filters )
+    return layer
 
 
-        adam = Adam()
+def testlayer( input_layer, filters ):
+    layer = input_layer
+#    layer = sep_conv( layer, filters )
+    layer = conv_layer( layer, (3, 1), filters )
+    layer = conv_layer( layer, (1, 3), filters )
 
-        model = Model( position_input, [output_src, output_dest] ) 
-        model.compile( 
-            optimizer = 'sgd',
-            loss = 'categorical_crossentropy',
-            metrics = ['categorical_accuracy'],
-            )
-        model.save('c:/dev/Jaglavak/Testing/foo.h5' )
-        print( "*** MODEL GENERATED ***" )
+    return layer
 
+
+def generate_model( optimizer, 
+    start_filters = 256, 
+    scale_filters = 2,
+    levels = 3, 
+    level_dropout = 0.1,
+    modules_per_level = 1, 
+    downsample = 2,
+    dense_layer_size = 1024, 
+    dense_dropout = 0.1,
+    skip_layers=False,
+    include_position_input=False,
+    ):
+
+    #position_input = Input( shape = (12, 8, 8), name = 'position' )
+    position_input = Input( shape = (12, 8, 8), name = 'position' )
+    movemask_input = Input( shape = (2, 8, 8), name = 'movemask' )
+
+    #inputs = Concatenate( axis = 1 )( [position_input, movemask_input] )
+    inputs = position_input
+
+    layer = inputs
+
+    all_layers = []
+    if include_position_input:
+        all_layers.append(Flatten()( position_input ))
+
+    filters = start_filters
+
+    #layer = conv_layer( layer, 3, filters )
+    #layer = conv_layer( layer, 3, filters )
+    #layer = conv_layer( layer, 3, filters )
+
+
+    for i in range( levels ):
+        for j in range( modules_per_level ):
+            #layer = testlayer( layer, filters )
+            #layer = sep_conv_layer( layer, (1,3), filters )
+            #layer = sep_conv_layer( layer, (3,1), filters )
+            layer = conv_layer( layer, 3, filters )
+            layer = conv_layer( layer, 3, filters )
+            layer = conv_layer( layer, 1, filters )
+            #if True:#i < levels - 1:
+                #layer = conv_layer( layer, 1, filters * 2 )
+        #modules_per_level = int( modules_per_level * 0.5 )
+
+        layer = pool_layer( layer, downsample )
+
+        filters = int( filters * scale_filters )
+        
+        all_layers.append( Flatten()( layer ) )
+
+    if skip_layers:
+        layer = Concatenate( axis = 1 )( all_layers )
+
+
+
+    #layer = Flatten()( layer )
+
+    layer = Flatten()( layer )
+
+    layer = Dense( 1024, activation = 'relu' )( layer )
+    layer = Dense( 1024, activation = 'relu' )( layer )
+    #layer = Dropout( dense_dropout )( layer )
+
+    layer = Dense( 128, activation = 'sigmoid' )( layer )
+
+    layer = Reshape(target_shape = (2,8,8))( layer )
+    layer = Multiply()( [layer, movemask_input] )
+
+    movevalue_output = layer
+
+    model = Model( [position_input, movemask_input], movevalue_output ) 
+    model.compile( 
+        optimizer = optimizer,
+        loss = 'mean_squared_error',
+        metrics = ['accuracy'],
+        )
+
+    with open('foo.json', 'w') as f:
+        f.write(model.to_json())    
+
+
+    model.summary()
+    quit()
     return model
 
+
+def fit_model( model, inputs, outputs, 
+    validation_data = None, 
+    epochs = 1, 
+    batch_size = 10 ):
+
+    model.fit( position_data, bestmove_src, 
+        validation_data = validation_data,
+        epochs = epochs,
+        batch_size = batch_size,
+        validation_split = 0,
+        verbose = 1, 
+        shuffle = True,
+        #validation_freq = epochs,
+        callbacks=[tensorboard] )
 
 
 if __name__ == '__main__':
@@ -207,41 +186,105 @@ if __name__ == '__main__':
     os.system("start /MIN tensorboard --logdir=" + logdir)
 
     tensorboard = TensorBoard(log_dir=logdir, histogram_freq=0, write_graph=True, write_images=False)
-    model = load_or_create_model()
-    model.summary()
 
-    val_data = None
+    model = None
     try:
-        position_test_data = np.load( "c:/temp/test10_ep.npy" )
-        bestmove_test_src  = np.load( "c:/temp/test10_ebm_src.npy" )
-        bestmove_test_dest = np.load( "c:/temp/test10_ebm_dest.npy" )
-        val_data = (position_test_data, [bestmove_test_src, bestmove_test_dest])
+        model = tensorflow.keras.models.load_model('foo.h5' )
+        print( "*** Loaded model" )
+    except:
+        print( "*** COULD NOT LOAD MODEL!" )
+        pass
+
+    val_data_present = False
+    try:
+        val_position_data = np.load( "c:/temp/validation-position.npy" )
+        val_bestmove_src  = np.load( "c:/temp/validation-bm-src.npy" )
+        val_data_present = True
     except:
         pass
 
+
+    dataset_index = -1
+    printed_summary = False
+    epochs = 1
+    batch_size = 10
+    learning_rate = 0.1
+    dataset_size = 100000
+    recompile = False
+
+
+    datasets_processed = 0
+
+    optimizer=SGD( lr=learning_rate, nesterov = True )
+
     while True:
-        try:
-            # FIXME for testing only
-            position_data = np.load( "c:/temp/ep.npy" )
-            bestmove_src  = np.load( "c:/temp/ebm_src.npy" )
-            bestmove_dest = np.load( "c:/temp/ebm_dest.npy" )
-        except:
-            generate_test_data()
+        #for batch_size in [10, 100, 1000]:
+            #for learning_rate in [0.1, 0.01, 0.001, 0.0001]:
 
-        asyncgen = Process(target=generate_test_data)
-        asyncgen.start()
+                #optimizer = Adam(lr=learning_rate)
 
-        model.fit( position_data, [bestmove_src, bestmove_dest], 
-            #validation_data = (position_test_data, [bestmove_test_src, bestmove_test_dest]),
-            epochs = 2,
-            batch_size = 10,
-            validation_split = 0.1,
-            verbose = 2, 
-            shuffle = True,
-            callbacks=[tensorboard] )
+                if not model:
+                    model = generate_model(optimizer)
 
-        asyncgen.join()
+                if not printed_summary:
+                    model.summary()
+                    printed_summary = True
 
-        #foo = model.predict(position_data )
+                if recompile:
+                    model.compile( 
+                            optimizer = sgd,
+                            loss = 'categorical_crossentropy',
+                            metrics = ['categorical_accuracy'] )
 
-        model.save('c:/dev/Jaglavak/Testing/foo.h5' )
+                datasets_avail = glob.glob(temp_directory + "/position-*.npy")
+                datasets_avail.sort()
+
+                if dataset_index < 0:
+                    dataset_index = random.randrange( len( datasets_avail ) )
+
+                dataset_index = dataset_index + 1
+                if dataset_index >= len( datasets_avail ):
+                    dataset_index = 0
+                chosen = datasets_avail[dataset_index][-16:]
+
+                index_str = chosen[-7:-4]
+                print( "Using dataset " + index_str )
+                datasets_processed = datasets_processed + 1
+
+                try:
+                    position_data =np.load( temp_directory + chosen )
+                    #random.shuffle( position_data )
+                    position_data = position_data[:dataset_size]
+
+                    bestmove_src  =  np.load( temp_directory + chosen.replace( "position", "bm-src" ) )
+                    #random.shuffle( bestmove_src )
+                    bestmove_src = bestmove_src[:dataset_size]
+                    print( "*** LOADED DATASET" )
+                except:
+                    print( "*** NO DATA!!!" )
+                    quit()
+
+
+
+
+
+
+
+
+
+
+                print( "*** epochs/dataset", epochs, "batch size", batch_size, "learning rate", learning_rate )
+                fit_model( model, position_data, bestmove_src,
+                    epochs = epochs,
+                    batch_size = batch_size )
+
+                model.save('foo.h5' )
+
+                if val_data_present:
+                    val_cat_acc = model.evaluate( val_position_data, val_bestmove_src, batch_size=1000 )
+                    print( "*** Validation result", val_cat_acc[1], "datasets processed", datasets_processed )
+
+        #        asyncgen.join()
+
+                #foo = model.predict(position_data )
+

@@ -8,6 +8,7 @@ import zipfile
 import glob
 import os
 import subprocess
+import time
 
 import tensorflow as tf
 import tensorflow.keras
@@ -18,8 +19,8 @@ from tensorflow.keras.optimizers import SGD, Adam, Nadam, Adagrad
 
 from multiprocessing import Process
 
-
-temp_directory = "c:/temp/"
+pgnfile = sys.argv[1]#'c:/dev/jaglavak/testing/data/games/ccrl-40-40-1.pgn.json.zip'#sys.argv[1]
+suffix = sys.argv[2]#'test'#sys.argv[2]
 
 def get_direction_index( board, from_square, to_square ):
     x1 = chess.square_file( from_square )
@@ -71,8 +72,13 @@ def get_direction_index( board, from_square, to_square ):
 
 def encode_position( board ):
 
-    piece_values = [0, .1, .3, .35, .5, .9, 1]
-    encoded = np.zeros( (60, 8, 8), np.float32 )
+    # 12 6 layers for white pieces, 6 layers for black, one hot
+    sparse = np.zeros( (12, 8, 8), np.int8 )
+
+    # 1 layer piece types 1-6, normalized 0-1, black is negative
+    piece_types = np.zeros( (8, 8), np.int8 )
+
+    
 
     for square in range( 64 ):
         piece_type = board.piece_type_at( square )
@@ -84,45 +90,42 @@ def encode_position( board ):
 
             # 0 - 5: white piece values
             if board.color_at( square ) == chess.WHITE:
-                encoded[piece_index, x, y] = piece_values[piece_type]
+                sparse[piece_index, x, y] = 1
+                piece_types[x, y] = piece_type / 6 
 
             # 6 - 11: black piece values
             if board.color_at( square ) == chess.BLACK:
-                encoded[6 + piece_index, x, y] = piece_values[piece_type]
+                sparse[6 + piece_index, x, y] = 1
+                piece_types[x, y] = -piece_type / 6
 
-            # 12 - 27: for 16 directions, distance able to move
-
+            '''
+            # 0 - 11: for 16 directions, distance able to move
+            max_distance = 14
             for move in board.legal_moves:
                 if move.from_square == square:
                     direct = get_direction_index( board, square, move.to_square )
-                    distance = chess.square_distance( square, move.to_square ) * 0.1
+                    distance = chess.square_distance( square, move.to_square ) / max_distance
                     if distance > encoded[12 + direct, x, y]:
-                        encoded[12 + direct, x, y] = distance
+                        encoded[0 + direct, x, y] = distance
                     
-            # 28 - 43: for 16 directions, value of prey
+            # 12 - 27: for 16 directions, value of prey
             attacks = board.attacks( square )
             for prey_square in attacks:
                 if board.piece_at( prey_square ) != None:
                     prey_value = piece_values[board.piece_type_at( prey_square )]
                     direct = get_direction_index( board, square, prey_square )
-                    encoded[28 + direct, x, y] = prey_value
+                    encoded[12 + direct, x, y] = prey_value
 
-            # 44-59: for 16 directions, value of attacker
+            # 28 - 43: for 16 directions, value of attacker
             attackers = board.attackers( board.turn, square )
             for attacker_square in attackers:
                 if board.piece_at( attacker_square ) != None:
                     attacker_value = piece_values[board.piece_type_at( attacker_square )]
                     direct = get_direction_index( board, attacker_square, square )
-                    encoded[44 + direct, x, y] = attacker_value
+                    encoded[28 + direct, x, y] = attacker_value
+            '''
 
-    return encoded
-
-def encode_move( move ):
-    src  = np.zeros( 64, np.float32 )
-    dest = np.zeros( 64, np.float32 )
-    src[move.from_square] = 1;
-    dest[move.to_square] = 1;
-    return src, dest
+    return sparse, piece_types
 
 def load_game_list(data_file_name):
     game_list = []
@@ -134,79 +137,110 @@ def load_game_list(data_file_name):
 
 
 ep_list = []
-ebm_src_list = []
-ebm_dest_list = []
+movemap_list = []
+movesflat_list = []
+movevalid_list = []
+move_valid_flat_list = []
+move_values_flat_list = []
+coded_list = []
+game_list = load_game_list( pgnfile )
 
-data_directory = "Data/Games"
-data_files_avail = glob.glob(data_directory + '/ccrl-4040-*.pgn.json.zip')
+stockyfish = chess.engine.SimpleEngine.popen_uci('c:/dev/Jaglavak/Testing/Data/Engines/stockfish-10.exe')
 
-for i in range( 10 ):
-    chosen_idx = random.randrange( len( data_files_avail ) )
-    data_file_name = data_files_avail[chosen_idx]
-    data_files_avail.remove( data_file_name )
+def analyze(board, depth):
+    try:
+        info = stockyfish.analyse( board, chess.engine.Limit(depth=depth))
+        eval = info["score"].pov(board.turn).score() / 100
+        return eval
+    except:
+        return None
 
-    game_list = load_game_list( data_file_name )
 
-    print( "*** [" + str( i ) + "] Tapping " + data_file_name )
-    for game in game_list:
+for game in game_list:
+    moves  = game['moves']
+    result = game['result']
 
-            moves  = game['moves']
-            result = game['result']
+    move_list = moves.split( ' ' )
+    move_to_use = int( random.randrange( len( move_list ) - 2 ) )
 
-            move_list = moves.split( ' ' )
+    board = chess.Board()
+    for move in range( move_to_use ):
+        board.push_uci( move_list[move] )
 
-            move_to_use = int( random.randrange( len( move_list ) - 1 ) )
-            flip_board = False
+    move_valid = np.zeros( (64, 64), np.int8 )
+    move_values = np.zeros( (64, 64), np.float32 )
 
-            if result == '1-0':
-                # make sure it's a white move
-                move_to_use = move_to_use & ~1
-            elif result == '0-1':
-                # make sure it's a black move
-                move_to_use = move_to_use | 1
-                if move_to_use > len( move_list ):
-                    move_to_use = move_to_use - 2
-                flip_board = True
-            else:
-                continue
+    move_valid_flat = np.zeros( (2, 64), np.int8 )
+    move_values_flat = np.zeros( (2, 64), np.float32 )
 
-            board = chess.Board()
-            for move in range( move_to_use ):
-                board.push_uci( move_list[move] )
+    print( board.fen(), "move", move_to_use )
 
-            target_move = board.parse_uci( move_list[move_to_use] )
+    start_time = time.time()
+    base_eval = analyze(board, 13)
+    if base_eval == None:
+        continue
 
-            if flip_board:
-                board = board.mirror()
-                target_move = chess.Move( 
-                    chess.square_mirror( target_move.from_square ), 
-                    chess.square_mirror( target_move.to_square ) )
+    bad_game = False
 
-            ep  = encode_position( board )
-            ebm_src, ebm_dest = encode_move( target_move )
+    eval = 0
+    for childmove in board.legal_moves:
+        board.push(childmove)
+        eval= analyze(board, 12)
 
-            ep_list.append( ep )
-            ebm_src_list.append( ebm_src )
-            ebm_dest_list.append( ebm_dest )
+        if eval == None:
+            bad_game = True
+            break
 
-position_data = np.asarray( ep_list,  np.float32 )
-bestmove_src_data = np.asarray( ebm_src_list, np.float32 )
-bestmove_dest_data = np.asarray( ebm_dest_list, np.float32 )
+        delta = eval - base_eval
+        move_values[childmove.from_square, childmove.to_square] = delta
+        move_valid[childmove.from_square, childmove.to_square] = 1
 
-index = 0
+        source_values = []
 
-datasets_avail = glob.glob(temp_directory + "/position-*.npy")
-if len( datasets_avail ) > 0:
-    datasets_avail.sort()
-    highest = datasets_avail[-1]
-    index_str = highest[-7:-4]
-    index = int( index_str )
-    index = index + 1
+        move_valid_flat[0, childmove.from_square] = move_valid_flat[0, childmove.from_square] + 1
+        move_valid_flat[1, childmove.to_square]   = move_valid_flat[1, childmove.to_square]   + 1
 
-index_str = "{:03}".format(index)
+        move_values_flat[0, childmove.from_square] = move_values_flat[0, childmove.from_square] + delta
+        move_values_flat[1, childmove.to_square]   = move_values_flat[1, childmove.to_square]   + delta
 
-np.save( temp_directory + "position-" + index_str, position_data )
-np.save(temp_directory + "bm-src-" + index_str, bestmove_src_data )
-np.save( temp_directory + "bm-dest-" + index_str, bestmove_dest_data )
-print( "*** DATASET " + index_str+ " GENERATED ***")
+        board.pop()
 
+    if bad_game:
+        print( "Retrying bad " )
+        continue
+
+    for y in range(2):
+        for x in range(64):
+            count = move_valid_flat[y, x]
+            if count > 0:
+                move_valid_flat[y, x]  = 1
+                move_values_flat[y, x] = move_values_flat[y, x] / count
+
+
+    elapsed = time.time() - start_time
+    print( "eval", base_eval, "elapsed", elapsed )
+
+
+    sparse, coded  = encode_position( board )
+    ep_list.append( sparse )
+    coded_list.append( coded )
+    movemap_list.append( move_values )
+    movevalid_list.append( move_valid )
+
+    move_valid_flat_list.append( move_valid_flat )
+    move_values_flat_list.append( move_values_flat )
+
+position_data = np.asarray( ep_list, np.int8 )
+movemap_data = np.asarray( movemap_list, np.float16 )
+movevalid_data = np.asarray( movevalid_list, np.int8 )
+coded_data = np.asarray( coded_list, np.int8 )  
+#move_valid_flat_data = np.asarray( move_valid_flat_list, np.int8 )
+move_values_flat_data = np.asarray( move_values_flat_list, np.float16 )
+
+np.save( "position-" + suffix, position_data )
+np.save( "position-coded-" + suffix, coded_data )
+#np.save( "move-value-" + suffix, movemap_data )
+np.save( "move-value-flat-" + suffix, move_values_flat_data )
+#np.save( "move-mask-" + suffix, movevalid_data )
+
+quit()
