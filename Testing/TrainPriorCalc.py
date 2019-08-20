@@ -8,11 +8,12 @@ import zipfile
 import glob
 import os
 import subprocess
+import time
 
 import tensorflow as tf
 import tensorflow.keras
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Input, SeparableConv2D, Conv2D, Flatten, Multiply, Concatenate, MaxPooling2D, Reshape, Dropout, SpatialDropout2D, BatchNormalization, LeakyReLU
+from tensorflow.keras.layers import Dense, Input, SeparableConv2D, Conv2D, Flatten, Multiply, Concatenate, MaxPooling2D, Reshape, Dropout, SpatialDropout2D, BatchNormalization, LeakyReLU, Lambda
 #from tensorflow.keras.layers.advanced_activations import LeakyReLU
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.optimizers import SGD, Adam, Nadam, Adagrad
@@ -21,6 +22,10 @@ from multiprocessing import Process
 
 
 temp_directory = "c:/temp/"
+model_name = 'foo.h5'#sys.argv[1]
+data_directory = 'c:/cache/'#sys.argv[2]
+
+
 
 
 
@@ -73,7 +78,7 @@ def testlayer( input_layer, filters ):
 
 
 def generate_model( optimizer, 
-    start_filters = 256, 
+    start_filters = 128, 
     scale_filters = 2,
     levels = 3, 
     level_dropout = 0.1,
@@ -85,77 +90,49 @@ def generate_model( optimizer,
     include_position_input=False,
     ):
 
-    #position_input = Input( shape = (12, 8, 8), name = 'position' )
-    position_input = Input( shape = (12, 8, 8), name = 'position' )
-    movemask_input = Input( shape = (2, 8, 8), name = 'movemask' )
+    position_input = Input( shape = (6, 8, 8), name = 'position' )
 
-    #inputs = Concatenate( axis = 1 )( [position_input, movemask_input] )
-    inputs = position_input
-
-    layer = inputs
+    layer = position_input
 
     all_layers = []
     if include_position_input:
         all_layers.append(Flatten()( position_input ))
 
     filters = start_filters
-
-    #layer = conv_layer( layer, 3, filters )
-    #layer = conv_layer( layer, 3, filters )
-    #layer = conv_layer( layer, 3, filters )
-
+    number_of_trey = 3
 
     for i in range( levels ):
         for j in range( modules_per_level ):
-            #layer = testlayer( layer, filters )
-            #layer = sep_conv_layer( layer, (1,3), filters )
-            #layer = sep_conv_layer( layer, (3,1), filters )
-            layer = conv_layer( layer, 3, filters )
-            layer = conv_layer( layer, 3, filters )
+            for k in range( number_of_trey ):
+                layer = conv_layer( layer, 3, filters )
             layer = conv_layer( layer, 1, filters )
-            #if True:#i < levels - 1:
-                #layer = conv_layer( layer, 1, filters * 2 )
-        #modules_per_level = int( modules_per_level * 0.5 )
+            number_of_trey = number_of_trey - 1
 
         layer = pool_layer( layer, downsample )
-
-        filters = int( filters * scale_filters )
-        
         all_layers.append( Flatten()( layer ) )
+        filters = int( filters * scale_filters )
 
     if skip_layers:
         layer = Concatenate( axis = 1 )( all_layers )
 
-
-
-    #layer = Flatten()( layer )
-
     layer = Flatten()( layer )
-
     layer = Dense( 1024, activation = 'relu' )( layer )
-    layer = Dense( 1024, activation = 'relu' )( layer )
-    #layer = Dropout( dense_dropout )( layer )
-
     layer = Dense( 128, activation = 'sigmoid' )( layer )
-
     layer = Reshape(target_shape = (2,8,8))( layer )
-    layer = Multiply()( [layer, movemask_input] )
 
-    movevalue_output = layer
+    value_output = layer
 
-    model = Model( [position_input, movemask_input], movevalue_output ) 
+    model = Model( position_input, value_output ) 
     model.compile( 
         optimizer = optimizer,
         loss = 'mean_squared_error',
-        metrics = ['accuracy'],
         )
 
-    with open('foo.json', 'w') as f:
+    with open( model_name + '.json', 'w' ) as f:
         f.write(model.to_json())    
 
-
-    model.summary()
-    quit()
+    #model.summary()
+    #quit()
     return model
 
 
@@ -164,15 +141,59 @@ def fit_model( model, inputs, outputs,
     epochs = 1, 
     batch_size = 10 ):
 
-    model.fit( position_data, bestmove_src, 
+    start_time = time.time()
+
+    model.fit( inputs, outputs, 
         validation_data = validation_data,
         epochs = epochs,
         batch_size = batch_size,
-        validation_split = 0,
+        validation_split = 0.2,
         verbose = 1, 
         shuffle = True,
         #validation_freq = epochs,
         callbacks=[tensorboard] )
+
+    elapsed = time.time() - start_time
+    #print( "eval", base_eval, "elapsed", elapsed )
+
+def normalize_move_eval_flat( eval ):
+    # (n, 2, 8, 8)
+    print( "normalize_move_eval_flat", eval.shape )
+    for n in range( eval.shape[0] ):
+        largest = float('-inf')
+        smallest = float('inf')
+        for z in range( 2 ):
+            for y in range( 8 ):
+                for x in range( 8 ):
+                    samp = eval[n, z, y, x]
+                    if samp != 0:
+                        largest = max( largest, samp )
+                        smallest = min( smallest, samp )
+
+        if largest > smallest:
+            for z in range( 2 ):
+                    scale = 1 / (largest - smallest)
+                    for y in range( 8 ):
+                        for x in range( 8 ):
+                            samp = eval[n, z, y, x]
+                            if samp != 0:
+                                eval[n, z, y, x] = (samp - smallest)  * scale
+
+def position_flat_to_one_hot( flat ):
+    # (n, 8, 8)
+    print( "position_flat_to_one_hot", flat.shape )
+    count = flat.shape[0]
+    one_hot = np.zeros( (count, 6, 8, 8), np.float32 )
+    for n in range( flat.shape[0] ):
+        for y in range( 8 ):
+            for x in range( 8 ):
+                pid = round( flat[n, y, x] * 6 )
+                assert( pid >= -6 and pid <= 6 )
+                if pid > 0:
+                    one_hot[n, pid - 1, y, x] = 1
+                if pid < 0:
+                    one_hot[n, -pid - 1, y, x] = -1
+    return one_hot
 
 
 if __name__ == '__main__':
@@ -189,102 +210,84 @@ if __name__ == '__main__':
 
     model = None
     try:
-        model = tensorflow.keras.models.load_model('foo.h5' )
+        model = tensorflow.keras.models.load_model( model_name )
         print( "*** Loaded model" )
     except:
         print( "*** COULD NOT LOAD MODEL!" )
         pass
 
-    val_data_present = False
-    try:
-        val_position_data = np.load( "c:/temp/validation-position.npy" )
-        val_bestmove_src  = np.load( "c:/temp/validation-bm-src.npy" )
-        val_data_present = True
-    except:
-        pass
 
-
-    dataset_index = -1
+    datasets_avail = []
+    datasets_processed = 0
     printed_summary = False
+
     epochs = 1
     batch_size = 10
-    learning_rate = 0.1
-    dataset_size = 100000
+    learning_rate = 0.0001
     recompile = False
 
-
-    datasets_processed = 0
-
-    optimizer=SGD( lr=learning_rate, nesterov = True )
+    optimizer=SGD( 
+        lr=learning_rate, 
+        decay=1e-6, 
+        momentum=0.9, 
+        nesterov = True )
+    #optimizer=Adam(lr=learning_rate )
 
     while True:
-        #for batch_size in [10, 100, 1000]:
-            #for learning_rate in [0.1, 0.01, 0.001, 0.0001]:
+        if not model:
+            model = generate_model(optimizer)
 
-                #optimizer = Adam(lr=learning_rate)
+        if not printed_summary:
+            model.summary()
+            printed_summary = True
 
-                if not model:
-                    model = generate_model(optimizer)
+        if recompile:
+            model.compile( 
+                    optimizer = sgd,
+                    loss = 'mean_squared_error',
+                    metrics = ['accuracy'] )
 
-                if not printed_summary:
-                    model.summary()
-                    printed_summary = True
+        if len( datasets_avail ) == 0:
+            datasets_avail = glob.glob(data_directory + "*.npz")
+            random.shuffle( datasets_avail )
 
-                if recompile:
-                    model.compile( 
-                            optimizer = sgd,
-                            loss = 'categorical_crossentropy',
-                            metrics = ['categorical_accuracy'] )
+        if len( datasets_avail ) == 0:
+            break
 
-                datasets_avail = glob.glob(temp_directory + "/position-*.npy")
-                datasets_avail.sort()
+        chosen = random.choice( datasets_avail )
+        datasets_avail.remove( chosen )
 
-                if dataset_index < 0:
-                    dataset_index = random.randrange( len( datasets_avail ) )
+        print( "***** Using dataset", chosen )
 
-                dataset_index = dataset_index + 1
-                if dataset_index >= len( datasets_avail ):
-                    dataset_index = 0
-                chosen = datasets_avail[dataset_index][-16:]
+        try:
+            archive = np.load( chosen )
 
-                index_str = chosen[-7:-4]
-                print( "Using dataset " + index_str )
-                datasets_processed = datasets_processed + 1
+            position_data = archive['position_coded']
+            position_data = position_flat_to_one_hot( position_data )
 
-                try:
-                    position_data =np.load( temp_directory + chosen )
-                    #random.shuffle( position_data )
-                    position_data = position_data[:dataset_size]
+            move_value_data = archive['move_value_flat']
+            move_value_data = move_value_data.reshape( (move_value_data.shape[0], 2, 8, 8) )
+            
+            normalize_move_eval_flat( move_value_data )
 
-                    bestmove_src  =  np.load( temp_directory + chosen.replace( "position", "bm-src" ) )
-                    #random.shuffle( bestmove_src )
-                    bestmove_src = bestmove_src[:dataset_size]
-                    print( "*** LOADED DATASET" )
-                except:
-                    print( "*** NO DATA!!!" )
-                    quit()
+            print( "Training data shape", position_data.shape, "->", move_value_data.shape )
+        except:
+            print( "*** NO DATA!!!" )
+            quit()
 
+        datasets_processed = datasets_processed + 1
 
+        print( "***** ",
+            "epochs/dataset", epochs, 
+            "batch size", batch_size, 
+            "learning rate", learning_rate,
+            "sets processed", datasets_processed,
+                )
 
+        fit_model( model, position_data, move_value_data,
+            epochs = epochs,
+            batch_size = batch_size )
 
-
-
-
-
-
-
-                print( "*** epochs/dataset", epochs, "batch size", batch_size, "learning rate", learning_rate )
-                fit_model( model, position_data, bestmove_src,
-                    epochs = epochs,
-                    batch_size = batch_size )
-
-                model.save('foo.h5' )
-
-                if val_data_present:
-                    val_cat_acc = model.evaluate( val_position_data, val_bestmove_src, batch_size=1000 )
-                    print( "*** Validation result", val_cat_acc[1], "datasets processed", datasets_processed )
-
-        #        asyncgen.join()
-
-                #foo = model.predict(position_data )
+        model.save( model_name )
+        print( "***** Saved model", model_name )
 
