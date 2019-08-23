@@ -1,0 +1,124 @@
+
+
+digraph G {
+ratio=0.8;
+mode=major
+nodesep=0.3;
+overlap=false;
+arrowsize=10;
+  rankdir=TB
+
+  node [
+    #penwidth=5
+    shape=box 
+    fontsize=50 fontname="Helvetica" 
+    style=filled 
+    fillcolor=white
+    ];
+
+    inputs [shape=record label="{inputs|{8|8|60}}"]
+    
+    level11 [shape=record label="{conv 1x1|{8|8|128}}"]
+    level11_2 [shape=record label="{conv 1x1|{8|8|128}}"]
+    level13 [ shape=record label="{conv 3x3|{8|8|128}}"]
+    cat1 [shape=record label="{concatenate|{8|8|256}}"]
+
+    inputs -> level11
+    inputs -> level11_2
+
+    level11 -> level13
+    level11_2 -> cat1
+    level13 -> cat1
+
+    level21 [shape=record label="{conv 1x1|{8|8|128}}"]
+    level21_2 [shape=record label="{conv 1x1|{8|8|128}}"]
+    level23 [ shape=record label="{conv 3x3|{8|8|128}}"]
+    cat2 [shape=record label="{concatenate|{8|8|256}}"]
+
+    cat1 -> level21 
+    cat1 -> level21_2
+
+    level21 -> level23
+    level23 -> cat2
+    level21_2 -> cat2
+    
+    pool1 [shape=record label="{max pool|{4|4|256}}"]
+    cat2 -> pool1
+
+
+
+
+
+    level31 [shape=record label="{conv 1x1|{4|4|256}}"]
+    level31_2 [shape=record label="{conv 1x1|{4|4|256}}"]
+    level33 [ shape=record label="{conv 3x3|{4|4|256}}"]
+    cat3 [shape=record label="{concatenate|{4|4|512}}"]
+
+    pool1 -> level31
+    pool1 -> level31_2
+
+    level31 -> level33
+    level31_2 -> cat3
+    level33 -> cat3
+
+    level41 [shape=record label="{conv 1x1|{4|4|256}}"]
+    level41_2 [shape=record label="{conv 1x1|{4|4|256}}"]
+    level43 [ shape=record label="{conv 3x3|{4|4|256}}"]
+    cat4 [shape=record label="{concatenate|{4|4|512}}"]
+
+    cat3 -> level41 
+    cat3 -> level41_2
+
+    level41 -> level43
+    level43 -> cat4
+    level41_2 -> cat4
+    
+    pool2 [shape=record label="{max pool|{2|2|512}}"]
+    cat4 -> pool2
+
+
+
+    level51 [shape=record label="{conv 1x1|{2|2|512}}"]
+    level51_2 [shape=record label="{conv 1x1|{2|2|512}}"]
+    level53 [ shape=record label="{conv 3x3|{2|2|512}}"]
+    cat5 [shape=record label="{concatenate|{2|2|1024}}"]
+
+    pool2 -> level51
+    pool2 -> level51_2
+
+    level51 -> level53
+    level51_2 -> cat5
+    level53 -> cat5
+
+    level61 [shape=record label="{conv 1x1|{2|2|512}}"]
+    level61_2 [shape=record label="{conv 1x1|{2|2|512}}"]
+    level63 [ shape=record label="{conv 3x3|{2|2|512}}"]
+    cat6 [shape=record label="{concatenate|{2|2|1024}}"]
+
+    cat5 -> level61 
+    cat5 -> level61_2
+
+    level61 -> level63
+    level63 -> cat6
+    level61_2 -> cat6
+    
+    pool3 [shape=record label="{max pool|{1|1|1024}}"]
+    cat6 -> pool3
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {rank=1 level11 level11_2}
+    {rank=2 level13}
+    
+
+}

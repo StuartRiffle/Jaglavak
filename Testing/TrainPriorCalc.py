@@ -27,8 +27,6 @@ data_directory = 'c:/cache/'#sys.argv[2]
 
 
 
-
-
 def conv_layer( layer, kernel, filters ):
     return Conv2D( filters, kernel_size = kernel, activation = 'relu', padding = 'same', data_format='channels_first' )( layer )
 
@@ -41,98 +39,85 @@ def pool_layer( layer, downsample ):
 def normalize_layer( layer ):
     return BatchNormalization( axis = 1, shape = layer.shape() )
 
-def fooceptor( input_layer, filters ):
-    lane1 = conv_layer( input_layer, 1, filters )
-    lane2 = conv_layer( input_layer, 1, filters )
-    lane2 = conv_layer( lane2, 3, filters )
-    stacked_output = Concatenate( axis = 1 )( [lane1, lane2] )
-    return stacked_output
-
-def fooceptor2( input_layer, filters ):
-    levels = 1
-
-    a = input_layer
-    for _ in range( levels ):
-        a = conv_layer( a, (1, 3), filters )
-        a = conv_layer( a, (3, 1), filters )
-
-    b = input_layer
-    for _ in range( levels ):
-        b = conv_layer( b, (3, 1),  filters )
-        b = conv_layer( b, (1, 3), filters )
-
-    layer = Concatenate( axis = 1 )( [a, b] )
-
-    layer = conv_layer( layer, 3, filters )
-    layer = conv_layer( layer, 1, filters )
-    return layer
-
-
-def testlayer( input_layer, filters ):
-    layer = input_layer
-#    layer = sep_conv( layer, filters )
-    layer = conv_layer( layer, (3, 1), filters )
-    layer = conv_layer( layer, (1, 3), filters )
-
-    return layer
-
 
 def generate_model( optimizer, 
     start_filters = 128, 
     scale_filters = 2,
-    levels = 3, 
+    add_filters = 0,
+    levels = 1, 
     level_dropout = 0.1,
-    modules_per_level = 1, 
+    modules_per_level = 7, 
     downsample = 2,
-    dense_layer_size = 1024, 
+    dense_layer_size = 2048, 
     dense_dropout = 0.1,
     skip_layers=False,
     include_position_input=False,
     ):
 
     position_input = Input( shape = (6, 8, 8), name = 'position' )
+    mask_input = Input( shape = (2, 8, 8), name = 'mask' )
 
     layer = position_input
+    layer = Concatenate( axis = 1 )( [layer, mask_input] )
 
     all_layers = []
     if include_position_input:
-        all_layers.append(Flatten()( position_input ))
+        all_layers.append(Flatten()( layer ))
 
     filters = start_filters
-    number_of_trey = 3
+
+    #layer = conv_layer( layer, 3, filters )
 
     for i in range( levels ):
+        #layer = conv_layer( layer, 3, filters )
         for j in range( modules_per_level ):
-            for k in range( number_of_trey ):
-                layer = conv_layer( layer, 3, filters )
-            layer = conv_layer( layer, 1, filters )
-            number_of_trey = number_of_trey - 1
+            #layer = conv_layer( layer, 1, filters )
+            layer = conv_layer( layer, 3, filters )
+            filters = filters + add_filters
+        modules_per_level = int( modules_per_level / 2 )
 
-        layer = pool_layer( layer, downsample )
-        all_layers.append( Flatten()( layer ) )
+        #layer = conv_layer( layer, 1, filters )
+
+        #if True:#i < levels - 1:
+            #layer = pool_layer( layer, downsample )
+        #all_layers.append( Flatten()( layer ) )
         filters = int( filters * scale_filters )
 
-    if skip_layers:
-        layer = Concatenate( axis = 1 )( all_layers )
+    #layer = Concatenate()( [layer, Flatten()( position_input ), Flatten()( mask_input )] )
+
+    #filters = int( filters / 2 )
+
+    for i in range( 3 ):
+        layer = conv_layer( layer, 1, filters )
+        filters = int( filters * 2 )
+        layer = pool_layer( layer, downsample )
 
     layer = Flatten()( layer )
+
+    if skip_layers:
+        layer = Concatenate()( [layer, all_layers] )
+        
     layer = Dense( 1024, activation = 'relu' )( layer )
-    layer = Dense( 128, activation = 'sigmoid' )( layer )
+    #layer = Dense( 1024, activation = 'relu' )( layer )
+    layer = Dense( 1,  activation = 'tanh' )( layer )
+
     layer = Reshape(target_shape = (2,8,8))( layer )
+    layer = Multiply()( [layer, mask_input] )
 
     value_output = layer
 
-    model = Model( position_input, value_output ) 
+    model = Model( [position_input, mask_input], value_output ) 
     model.compile( 
         optimizer = optimizer,
-        loss = 'mean_squared_error',
+        loss = 'mse',
+        metrics = ['accuracy'], 
         )
 
     with open( model_name + '.json', 'w' ) as f:
         f.write(model.to_json())    
 
-    #model.summary()
-    #quit()
+    model.summary()
+    quit()
     return model
 
 
@@ -155,45 +140,6 @@ def fit_model( model, inputs, outputs,
 
     elapsed = time.time() - start_time
     #print( "eval", base_eval, "elapsed", elapsed )
-
-def normalize_move_eval_flat( eval ):
-    # (n, 2, 8, 8)
-    print( "normalize_move_eval_flat", eval.shape )
-    for n in range( eval.shape[0] ):
-        largest = float('-inf')
-        smallest = float('inf')
-        for z in range( 2 ):
-            for y in range( 8 ):
-                for x in range( 8 ):
-                    samp = eval[n, z, y, x]
-                    if samp != 0:
-                        largest = max( largest, samp )
-                        smallest = min( smallest, samp )
-
-        if largest > smallest:
-            for z in range( 2 ):
-                    scale = 1 / (largest - smallest)
-                    for y in range( 8 ):
-                        for x in range( 8 ):
-                            samp = eval[n, z, y, x]
-                            if samp != 0:
-                                eval[n, z, y, x] = (samp - smallest)  * scale
-
-def position_flat_to_one_hot( flat ):
-    # (n, 8, 8)
-    print( "position_flat_to_one_hot", flat.shape )
-    count = flat.shape[0]
-    one_hot = np.zeros( (count, 6, 8, 8), np.float32 )
-    for n in range( flat.shape[0] ):
-        for y in range( 8 ):
-            for x in range( 8 ):
-                pid = round( flat[n, y, x] * 6 )
-                assert( pid >= -6 and pid <= 6 )
-                if pid > 0:
-                    one_hot[n, pid - 1, y, x] = 1
-                if pid < 0:
-                    one_hot[n, -pid - 1, y, x] = -1
-    return one_hot
 
 
 if __name__ == '__main__':
@@ -223,29 +169,33 @@ if __name__ == '__main__':
 
     epochs = 1
     batch_size = 10
-    learning_rate = 0.0001
+    learning_rate = 0.1
     recompile = False
 
-    optimizer=SGD( 
+    sgd=SGD( 
         lr=learning_rate, 
-        decay=1e-6, 
-        momentum=0.9, 
-        nesterov = True )
-    #optimizer=Adam(lr=learning_rate )
+        #decay=1e-6, 
+        #momentum = 0.9,
+        nesterov = True,
+        )
+    adam=Adam(lr=learning_rate )
 
     while True:
         if not model:
-            model = generate_model(optimizer)
+            model = generate_model(sgd)
+            model.save( model_name )
 
         if not printed_summary:
             model.summary()
             printed_summary = True
 
         if recompile:
+            '''
             model.compile( 
                     optimizer = sgd,
-                    loss = 'mean_squared_error',
+                    loss = 'mse',
                     metrics = ['accuracy'] )
+            '''
 
         if len( datasets_avail ) == 0:
             datasets_avail = glob.glob(data_directory + "*.npz")
@@ -259,34 +209,29 @@ if __name__ == '__main__':
 
         print( "***** Using dataset", chosen )
 
-        try:
-            archive = np.load( chosen )
+        archive = np.load( chosen )
+        position_data = archive['position']
+        move_value_data = archive['move_value_flat']
 
-            position_data = archive['position_coded']
-            position_data = position_flat_to_one_hot( position_data )
+        position_data = position_data
 
-            move_value_data = archive['move_value_flat']
-            move_value_data = move_value_data.reshape( (move_value_data.shape[0], 2, 8, 8) )
-            
-            normalize_move_eval_flat( move_value_data )
+        # HACK: fabricate an output mask
+        mask_data = (move_value_data != 0).astype( np.int8 )
 
-            print( "Training data shape", position_data.shape, "->", move_value_data.shape )
-        except:
-            print( "*** NO DATA!!!" )
-            quit()
-
-        datasets_processed = datasets_processed + 1
+        print( "Training data shape", position_data.shape, "->", move_value_data.shape, "mask", mask_data.shape )
 
         print( "***** ",
             "epochs/dataset", epochs, 
             "batch size", batch_size, 
             "learning rate", learning_rate,
             "sets processed", datasets_processed,
-                )
+            )
 
-        fit_model( model, position_data, move_value_data,
+        fit_model( model, [position_data, mask_data], move_value_data,
             epochs = epochs,
             batch_size = batch_size )
+
+        datasets_processed = datasets_processed + 1
 
         model.save( model_name )
         print( "***** Saved model", model_name )

@@ -9,6 +9,7 @@ import flask
 import io
 import os
 import glob
+import argparse
 import multiprocessing
 
 import tensorflow as tf
@@ -16,48 +17,104 @@ import tensorflow.keras
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Dense, Input, Conv2D, Flatten, Concatenate, MaxPooling2D, Reshape
 
+app = flask.Flask(__name__)
+
+model_path = './'
+model_ext = '.h5'
+port_number = 5000
+
 loaded_models = {}
-model_directory = 'c:/dev/Jaglavak/Testing'
 
-flaskApp = flask.Flask(__name__)
-
-def find_available_models():
-    models = []
-    for file in glob.glob(model_directory + '/*.h5'):
-        name, ext = os.path.splitext( os.path.basename( file ) )
-        models.append( name )
-    return models
-
-@flaskApp.route('/model/list')
-def model_list():
-    models = find_available_models()
-    reply = { "models" : models }
-    return flask.jsonify( reply )
-
-@flaskApp.route('/inference', methods=['POST'])
-def infer( modelname ):
+def load_model( modelname ):
     if modelname in loaded_models:
-        model = loaded_models[modelname]
-    else:
-        model = tensorflow.keras.models.load_model( model_directory + "/" + modelname + ".h5" )
-        if model:
-            loaded_models[modelname] = model
+        return loaded_models[modelname]
+    try:
+        model = tensorflow.keras.models.load_model( model_path + modelname + model_ext )
+        loaded_models[modelname] = model
+        return model
+    except:
+        return None
 
-    if not model:
-        return "Model not found", 404
 
-    info = json.loads( request.data )
+@app.route('/models')
+def model_list():
+    available = []
+    for file in glob.glob( model_path + '*' + model_ext ):
+        name, ext = os.path.splitext( os.path.basename( file ) )
+        available.append( name )
+    return flask.jsonify( models = available )
 
-    if info["type"] == "estimate_priors":
-        fen = info["position"]
-        board = chess.Board()
-        board.set_board_fen( fen )
 
-    inputs = info["inputs"]
-    outputs = model.predict( inputs )
-    return flask.jsonify( outputs )
+@app.route('/models/<modelname>')
+def model_info( modelname ):
+    try:
+        model = load_model( modelname )
+        info = json.loads( model.to_json() )
+        return flask.jsonify( info )
+    except:
+        return flask.jsonify( error = "Model not found" )
+
+
+@app.route('/models/<modelname>/infer', methods=['POST'])
+def infer( modelname ):
+    try:
+        model = load_model( modelname )
+        info = json.loads( request.data )
+        inputs = info['inputs']
+
+        if ('fen' in inputs) and not ('position' in inputs):
+            board = chess.Board( inputs['fen'] )
+            inputs['position'] = encode_position_one_hot( board )
+
+        start_time = time.time()
+
+        #################################
+        outputs = model.predict( inputs )
+        #################################
+
+        response = {}
+        response['time'] = time.time() - start_time
+        response['outputs'] = outputs
+        return flask.jsonify( response )
+
+    except err:
+        return flask.jsonify( error = str( err ) )
+
 
 if __name__ == "__main__":
-    flaskApp.run()
+
+    parser = argparse.ArgumentParser( description='JAGLAVAK INFERENCE SERVER' )
+    parser.add_argument( '--version',
+        action = 'store_true',
+        dest = 'just_show_version',
+        help = 'print the version and exit' )
+    parser.add_argument( '--model-path', 
+        dest = 'path',
+        help = 'location of the serialized models (*' + model_ext + ')' )
+    parser.add_argument( '--port', 
+        dest = 'port',
+        type = int,
+        help = 'server port' )
+    args = parser.parse_args()
+
+    print()
+    print( "Jaglavak Inference Server 0.0.1" )
+    if args.just_show_version:
+        quit()
+
+    if args.path:
+        model_path = args.path
+        if len( model_path ) > 0:
+            if (model_path[-1:] != '/') and (model_path[-1:] != '\\'):
+                model_path = model_path + '/'
+
+    if args.port:
+        port_number = args.port
+
+    model_path = os.path.abspath( model_path )
+    print( "Serving models from", model_path, "on port", port_number )
+    print()
+
+    app.run()
 
 

@@ -1,0 +1,69 @@
+*****  epochs/dataset 1 batch size 10 learning rate 0.0001 sets processed 40
+Sideways at 14
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.0001 sets processed 224
+Train on 7117 samples, validate on 1780 samples
+7117/7117 [==============================] - 13s 2ms/sample - loss: 14.7056 - val_loss: 12.5040
+
+
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.01 sets processed 18
+Train on 7168 samples, validate on 1792 samples
+7168/7168 [==============================] - 13s 2ms/sample - loss: 0.0381 - val_loss: 0.0367
+Dropped quickly then hit a floor at 0.038
+
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.0001 sets processed 6
+Train on 7155 samples, validate on 1789 samples
+7155/7155 [==============================] - 13s 2ms/sample - loss: 0.2190 - acc: 0.1788 - val_loss: 0.2193 - val_acc: 0.1779
+No progress
+
+
+*** Added MASKING
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.1 sets processed 24
+Train on 7156 samples, validate on 1789 samples
+7156/7156 [==============================] - 13s 2ms/sample - loss: 0.0185 - acc: 0.7251 - val_loss: 0.0188 - val_acc: 0.7240
+
+
+
+7168/7168 [==============================] - 2s 332us/sample - loss: 0.0231 - acc: 0.7107 - val_loss: 0.0231 - val_acc: 0.7154
+*****  epochs/dataset 10 batch size 100 learning rate 0.01 sets processed 4
+Slow but steady
+
+7115/7115 [==============================] - 2s 335us/sample - loss: 0.0170 - acc: 0.7409 - val_loss: 0.0168 - val_acc: 0.7416
+*****  epochs/dataset 10 batch size 100 learning rate 0.1 sets processed 7
+Plateau at 0.17
+
+Epoch 10/10
+7143/7143 [==============================] - 2s 331us/sample - loss: 0.0187 - acc: 0.7260 - val_loss: 0.0184 - val_acc: 0.7257
+*****  epochs/dataset 10 batch size 100 learning rate 0.01 sets processed 12
+Plateau at 0.18
+
+Epoch 3/3
+7168/7168 [==============================] - 13s 2ms/sample - loss: 0.0180 - acc: 0.7250 - val_loss: 0.0176 - val_acc: 0.7283
+*****  epochs/dataset 3 batch size 10 learning rate 0.01 sets processed 6
+Plateau at 0.18
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.01 sets processed 46
+6230/7156 [=========================>....] - ETA: 3s - loss: 0.0165 - acc: 0.7488Traceback (most recent call last):
+Still going, removing the skip layers now, and the last pooling layer
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.01 sets processed 7
+T370/7116 [>.............................] - ETA: 28s - loss: 0.0161 - acc: 0.7586Traceback (most recent call last):
+
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.0001 sets processed 40
+2680/7161 [==========>...................] - ETA: 18s - loss: 0.0149 - acc: 0.7747Traceback (most recent call last):
+foo1
+
+
+*****  epochs/dataset 1 batch size 10 learning rate 0.1 sets processed 573
+Train on 7116 samples, validate on 1779 samples
+7116/7116 [==============================] - 31s 4ms/sample - loss: 0.0090 - acc: 0.7840 - val_loss: 0.0160 - val_acc: 0.7694
+
+ODD: there was a huge jump in loss when the second 100k of training data arrived, then instability, then it stabilized at
+lower loss. 
+
+Switching to one value output
+
