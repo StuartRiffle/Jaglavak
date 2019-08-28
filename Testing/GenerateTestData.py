@@ -114,8 +114,11 @@ def looks_like_endgame(board):
     if (non_pawns[0] <= 2) and (non_pawns[1] <= 2) and (total_pieces <= 8):
         return True
 
-    if board.peek().promotion != None:
-        return True
+    try:
+        if board.peek().promotion != None:
+            return True
+    except:
+        pass
 
     return False
 

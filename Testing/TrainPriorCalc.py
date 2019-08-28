@@ -1,5 +1,6 @@
 import sys
 import json
+import math
 import chess
 import chess.engine
 import random
@@ -7,139 +8,143 @@ import numpy as np
 import zipfile
 import glob
 import os
+import datetime
 import subprocess
 import time
+import argparse
 
 import tensorflow as tf
-import tensorflow.keras
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Input, SeparableConv2D, Conv2D, Flatten, Multiply, Concatenate, MaxPooling2D, Reshape, Dropout, SpatialDropout2D, BatchNormalization, LeakyReLU, Lambda
-#from tensorflow.keras.layers.advanced_activations import LeakyReLU
+from tensorflow.keras.layers import *#Activation, BatchNormalization, Dense, Input, SeparableConv2D, Conv2D, Flatten, Multiply, Concatenate, MaxPooling2D, Reshape, Dropout, SpatialDropout2D, BatchNormalization, LeakyReLU, Lambda
 from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.keras.optimizers import SGD, Adam, Nadam, Adagrad
+from tensorflow.keras.optimizers import SGD, Adam, Nadam, Adagrad, RMSprop
 
-from multiprocessing import Process
+parser = argparse.ArgumentParser(
+    description = 'JAGLAVAK MODEL TRAINER',
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter )
 
+parser.add_argument( 'model', help = 'the model to train' )
+parser.add_argument( 'datapath' , help = 'location of training data files' )
+parser.add_argument( 'validpath' , help = 'location of validation data files' )
+parser.add_argument( '--data-files', metavar = 'N', type = float, help = 'training files to use',           default = 20 )
+parser.add_argument( '--val-files', metavar = 'N', type = float, help = 'validation files to use',          default = 4 )
+parser.add_argument( '--val-frac', metavar = 'N', type = float, help = 'portion of validation data to use', default = 1.0 )
+parser.add_argument( '--optimizer', metavar = 'NAME', help = 'keras optimizer [sgd, adam, rmsprop]',        default = 'sgd' )
+parser.add_argument( '--loss', metavar = 'FUNC', help = 'keras loss function',                              default = 'mse' )
+parser.add_argument( '--learning-rate', metavar = 'RATE', type = float, help = 'learning rate',             default = 0.00001 )
+parser.add_argument( '--batch-size', metavar = 'SIZE', type = int, help = 'batch size',                     default = 128 )
+parser.add_argument( '--momentum', metavar = 'N', type = float, help = 'momentum',                          default = 0 )
+parser.add_argument( '--decay', metavar = 'N', type = int, help = 'weight decay over time',                 default = 0 )
+parser.add_argument( '--epochs', metavar = 'N', type = int, help = 'passes over the training data',         default = 1 )
+parser.add_argument( '--fit-size', metavar = 'N', type = int, help = 'samples per call to fit',             default = 10000 )
+parser.add_argument( '--tensorboard', action="store_true", help = 'run tensorboard server',                 default = True )
+args = parser.parse_args()
 
-temp_directory = "c:/temp/"
-model_name = 'foo.h5'#sys.argv[1]
-data_directory = 'c:/cache/'#sys.argv[2]
+desc_filters = 0
+network_desc = ''
 
-
+def handle_desc_filters( filters ):
+    global desc_filters, network_desc
+    if filters != desc_filters:
+        network_desc = network_desc + '[' + str( filters ) + '] '
+        desc_filters = filters
 
 def conv_layer( layer, kernel, filters ):
+    global network_desc
+    handle_desc_filters( filters )
+    network_desc = network_desc + str( kernel ) + 'x '
     return Conv2D( filters, kernel_size = kernel, activation = 'relu', padding = 'same', data_format='channels_first' )( layer )
 
-def sep_conv_layer( layer, kernel, filters ):
-    return SeparableConv2D( filters, kernel_size = kernel, activation = 'relu', padding = 'same', data_format='channels_first' )( layer )
+def dense_layer( layer, filters, dense_dropout = 0, batch_normalization = True ):
+    global network_desc
+    handle_desc_filters( filters )
+    network_desc = network_desc + 'dense '
+    layer = Dense( filters )( layer )
+    if batch_normalization:
+        layer = BatchNormalization()( layer )
+        network_desc = network_desc + 'norm '
+    layer = Activation( 'relu' )( layer )
+    if dense_dropout > 0:
+        layer = Dropout( dense_dropout )( layer )    
+        network_desc = network_desc + 'dropout '
+    return layer
 
 def pool_layer( layer, downsample ):
+    global network_desc
+    network_desc = network_desc + 'pool '
     return MaxPooling2D( pool_size = downsample, data_format = 'channels_first' )( layer )
-
-def normalize_layer( layer ):
-    return BatchNormalization( axis = 1, shape = layer.shape() )
 
 
 def generate_model( optimizer, 
     start_filters = 128, 
-    scale_filters = 2,
-    add_filters = 0,
     levels = 1, 
-    level_dropout = 0.1,
-    modules_per_level = 7, 
     downsample = 2,
-    dense_layer_size = 2048, 
-    dense_dropout = 0.1,
-    skip_layers=False,
+    dense_layers = 5,
+    dense_layer_size = 1024, 
+    dense_dropout = 0.5,
+    skip_layers = False,
     include_position_input=False,
+    modules=8,
+    low_modules = 1
     ):
 
     position_input = Input( shape = (6, 8, 8), name = 'position' )
-    mask_input = Input( shape = (2, 8, 8), name = 'mask' )
-
     layer = position_input
-    layer = Concatenate( axis = 1 )( [layer, mask_input] )
 
+    '''
     all_layers = []
     if include_position_input:
         all_layers.append(Flatten()( layer ))
 
     filters = start_filters
-
-    #layer = conv_layer( layer, 3, filters )
-
     for i in range( levels ):
-        #layer = conv_layer( layer, 3, filters )
-        for j in range( modules_per_level ):
-            #layer = conv_layer( layer, 1, filters )
+        num_modules = low_modules if i < levels - 1 else modules
+        for j in range( num_modules ):
+            layer = conv_layer( layer, 1, filters )
             layer = conv_layer( layer, 3, filters )
-            filters = filters + add_filters
-        modules_per_level = int( modules_per_level / 2 )
-
+        #filters = filters * 2
         #layer = conv_layer( layer, 1, filters )
-
-        #if True:#i < levels - 1:
-            #layer = pool_layer( layer, downsample )
-        #all_layers.append( Flatten()( layer ) )
-        filters = int( filters * scale_filters )
-
-    #layer = Concatenate()( [layer, Flatten()( position_input ), Flatten()( mask_input )] )
-
-    #filters = int( filters / 2 )
-
-    for i in range( 3 ):
-        layer = conv_layer( layer, 1, filters )
-        filters = int( filters * 2 )
-        layer = pool_layer( layer, downsample )
-
-    layer = Flatten()( layer )
+        if (levels > 1) and (i < levels - 1):
+            layer = pool_layer( layer, downsample )    
+        all_layers.append(Flatten()( layer ))
 
     if skip_layers:
-        layer = Concatenate()( [layer, all_layers] )
-        
-    layer = Dense( 1024, activation = 'relu' )( layer )
-    #layer = Dense( 1024, activation = 'relu' )( layer )
-    layer = Dense( 1,  activation = 'tanh' )( layer )
+        layer = Concatenate()( [Flatten()( layer ), all_layers] )
 
-    layer = Reshape(target_shape = (2,8,8))( layer )
-    layer = Multiply()( [layer, mask_input] )
+
+    #layer = conv_layer( layer, 1, int( filters / 2 ))
+
+    for i in range( 3 ):
+        filters = filters * 2
+        layer = conv_layer( layer, 1, filters )
+        layer = pool_layer( layer, downsample )    
+    '''
+
+
+    layer = Flatten()( layer )
+    for i in range( dense_layers ):
+        layer = dense_layer( layer, dense_layer_size, dense_dropout = dense_dropout )
+
+    layer = Dense( 1,  activation = 'sigmoid' )( layer )
 
     value_output = layer
 
-    model = Model( [position_input, mask_input], value_output ) 
-    model.compile( 
-        optimizer = optimizer,
-        loss = 'mse',
-        metrics = ['accuracy'], 
-        )
-
-    with open( model_name + '.json', 'w' ) as f:
-        f.write(model.to_json())    
-
-    model.summary()
-    quit()
+    model = Model( position_input, value_output ) 
     return model
 
 
-def fit_model( model, inputs, outputs, 
-    validation_data = None, 
-    epochs = 1, 
-    batch_size = 10 ):
-
+def fit_model( model, inputs, outputs, validation_data = None ):
     start_time = time.time()
-
-    model.fit( inputs, outputs, 
+    history = model.fit( inputs, outputs, 
         validation_data = validation_data,
-        epochs = epochs,
-        batch_size = batch_size,
-        validation_split = 0.2,
+        epochs = 1, # we do epochs
+        batch_size = args.batch_size,
+        validation_split = 0, # we load it
         verbose = 1, 
         shuffle = True,
-        #validation_freq = epochs,
         callbacks=[tensorboard] )
-
     elapsed = time.time() - start_time
-    #print( "eval", base_eval, "elapsed", elapsed )
+    print( "Total fit time", elapsed )
 
 
 if __name__ == '__main__':
@@ -149,90 +154,97 @@ if __name__ == '__main__':
         if not os.path.exists( logdir ):
             break
 
-    os.system("pskill tensorboard >NUL 2>NUL")
-    os.system("start /MIN tensorboard --logdir=" + logdir)
+    if args.tensorboard:
+        os.system("pskill tensorboard >NUL 2>NUL")
+        os.system("start /MIN tensorboard --logdir=" + logdir)
 
     tensorboard = TensorBoard(log_dir=logdir, histogram_freq=0, write_graph=True, write_images=False)
 
+    if args.optimizer == 'sgd':
+        optimizer = SGD(
+            lr = args.learning_rate, 
+            decay = args.decay,
+            momentum = args.momentum,
+            nesterov = True )
+    elif args.optimizer == 'adam':
+        optimizer = Adam(
+            lr = args.learning_rate, 
+            decay = args.decay )
+    elif args.optimizer == 'rmsprop':
+        optimizer = RMSprop(
+            lr = args.learning_rate, 
+            decay = args.decay )
+    else:
+        print( "Invalid optimizer" )
+        exit(-1)
+
     model = None
     try:
-        model = tensorflow.keras.models.load_model( model_name )
-        print( "*** Loaded model" )
+        model = tensorflow.keras.models.load_model( args.model )
+        print( "Loaded model", args.model )
+        model.summary()
     except:
-        print( "*** COULD NOT LOAD MODEL!" )
-        pass
+        model = generate_model( optimizer )
+        model.save( args.model )
+        model.summary()
+        print( "Generated new model:", network_desc )
+
+    model.compile( optimizer = optimizer, loss = args.loss )
+
+    def load_bulk_data( path, limit, tag ):
+        position_data_list = []
+        eval_data_list = []
+        datasets_avail = glob.glob(os.path.join(path, '*.npz'))
+        random.shuffle( datasets_avail )
+        for dataset in datasets_avail:
+            print( tag, dataset )
+            archive = np.load( dataset )
+            position_data_list.append( archive['position_one_hot'] )
+            eval_data_list.append( archive['position_eval'] )
+            if len( eval_data_list ) >= limit:
+                break
+        position_data = np.concatenate( position_data_list )
+        eval_data = np.concatenate( eval_data_list )
+        return position_data, eval_data
+
+    position_data, eval_data = load_bulk_data( args.datapath, args.data_files, "Training data" )
+    val_position_data, val_eval_data = load_bulk_data( args.validpath, args.val_files, "Validation data" )
+
+    val_position_data = val_position_data[:int(args.val_frac * len( val_position_data ))]
+    val_eval_data = val_eval_data[:int(args.val_frac * len( val_eval_data ))]
 
 
-    datasets_avail = []
-    datasets_processed = 0
-    printed_summary = False
-
-    epochs = 1
-    batch_size = 10
-    learning_rate = 0.1
-    recompile = False
-
-    sgd=SGD( 
-        lr=learning_rate, 
-        #decay=1e-6, 
-        #momentum = 0.9,
-        nesterov = True,
-        )
-    adam=Adam(lr=learning_rate )
-
+    epoch_number = 1
     while True:
-        if not model:
-            model = generate_model(sgd)
-            model.save( model_name )
+        print( "Training", position_data.shape, "->", eval_data.shape )
+        print( "Starting epoch", epoch_number )
+        epoch_number = epoch_number + 1
 
-        if not printed_summary:
-            model.summary()
-            printed_summary = True
+        peek_position = val_position_data[:10]
+        peek_targets = val_eval_data[:10]
+        print( "Validation sample target" )
+        print( peek_targets )
+        check_eval = model.predict( peek_position )
+        print( "Validation sample predicted" )
+        print( check_eval )
 
-        if recompile:
-            '''
-            model.compile( 
-                    optimizer = sgd,
-                    loss = 'mse',
-                    metrics = ['accuracy'] )
-            '''
+        chunks = math.ceil( len( position_data ) / args.fit_size )
+        for i in range( chunks ):
 
-        if len( datasets_avail ) == 0:
-            datasets_avail = glob.glob(data_directory + "*.npz")
-            random.shuffle( datasets_avail )
+            left = i * args.fit_size
+            right = min( left + args.fit_size, len( position_data ))
+            print( "Fitting samples", left, "to", right, "of",  len( position_data ) )
+            fit_model( model, 
+                position_data[left:right], 
+                eval_data[left:right],
+                validation_data = [val_position_data, val_eval_data] )
 
-        if len( datasets_avail ) == 0:
-            break
+            model_checkpoint = args.model + '-' + datetime.datetime.now().strftime("%w%H")
+            model.save( model_checkpoint )
+            model.save( args.model )
+            print( "Saved model", args.model, "checkpoint", model_checkpoint )
 
-        chosen = random.choice( datasets_avail )
-        datasets_avail.remove( chosen )
-
-        print( "***** Using dataset", chosen )
-
-        archive = np.load( chosen )
-        position_data = archive['position']
-        move_value_data = archive['move_value_flat']
-
-        position_data = position_data
-
-        # HACK: fabricate an output mask
-        mask_data = (move_value_data != 0).astype( np.int8 )
-
-        print( "Training data shape", position_data.shape, "->", move_value_data.shape, "mask", mask_data.shape )
-
-        print( "***** ",
-            "epochs/dataset", epochs, 
-            "batch size", batch_size, 
-            "learning rate", learning_rate,
-            "sets processed", datasets_processed,
-            )
-
-        fit_model( model, [position_data, mask_data], move_value_data,
-            epochs = epochs,
-            batch_size = batch_size )
-
-        datasets_processed = datasets_processed + 1
-
-        model.save( model_name )
-        print( "***** Saved model", model_name )
+        if args.epochs > 0:
+            if epoch_number >= args.epochs:
+                break
 
