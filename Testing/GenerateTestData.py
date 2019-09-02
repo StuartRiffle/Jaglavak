@@ -44,7 +44,7 @@ def analyze(board, depth):
         return None
 
 position_eval = {}
-analysis_depth = 12
+analysis_depth = 1
 games_done = 0
 dupes_skipped = 0
 positions_per_file = 100000
@@ -98,6 +98,22 @@ def flush_to_file():
 start_time = time.time()
 
 
+def get_piece_value(piece):
+    values = [0, 1, 3, 3, 5, 9, 100]
+    return values[piece]
+
+def is_quiet_position(board):
+    if board.is_check():
+        return False
+    for move in board.legal_moves:
+        if board.is_capture(move):
+            src = board.piece_type_at( move.from_square )
+            dest = board.piece_type_at( move.to_square )
+            if dest != None: # could be ep
+                if get_piece_value( src ) < get_piece_value( dest ):
+                    return False
+    return True
+
 
 
 def looks_like_endgame(board):
@@ -139,7 +155,7 @@ for game in game_list:
         try:
             board.push_uci( move )
         except:
-            pass
+            break
 
         if looks_like_endgame( board ):
             break
@@ -147,6 +163,9 @@ for game in game_list:
         fen = board.fen()
         if fen in position_eval:
             dupes_skipped = dupes_skipped + 1
+            continue
+
+        if not is_quiet_position( board ):
             continue
 
         value = analyze( board, analysis_depth )
