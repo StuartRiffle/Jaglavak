@@ -1,0 +1,3 @@
+--dense=0
+--conv-levels=0
+--output-act=linear

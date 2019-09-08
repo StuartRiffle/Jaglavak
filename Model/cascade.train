@@ -1,0 +1,3 @@
+--fit-size=200000
+--batch-size=128
+--learning-rate=0.0001

@@ -1,0 +1,7 @@
+--dense=1
+--dense-size=1024
+--filters-init=64
+--filters-scale=1
+--conv-per-level=16
+--conv-levels=1
+--output-act=linear

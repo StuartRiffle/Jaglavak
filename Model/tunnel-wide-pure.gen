@@ -1,0 +1,8 @@
+--filters-init=512
+--filters-scale=1
+--conv-per-level=4
+--conv-levels=1
+--pooling-prescale=0.125
+--dense=0
+--dense-size=1024
+--output-act=linear

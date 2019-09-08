@@ -1,0 +1,4 @@
+--dense=2
+--dense-size=4096
+--conv-levels=0
+--output-act=linear
