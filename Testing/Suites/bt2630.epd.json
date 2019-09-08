@@ -1,0 +1,185 @@
+[
+    {
+        "bm": "Nxg7",
+        "desc": "BT2630-01",
+        "fen": "rq2r1k1/5pp1/p7/4bNP1/1p2P2P/5Q2/PP4K1/5R1R w - -",
+        "id": "bt2630-1"
+    },
+    {
+        "bm": "Bxb6",
+        "desc": "BT2630-02",
+        "fen": "6k1/2b2p1p/ppP3p1/4p3/PP1B4/5PP1/7P/7K w - -",
+        "id": "bt2630-2"
+    },
+    {
+        "bm": "Re6",
+        "desc": "BT2630-03",
+        "fen": "5r1k/p1q2pp1/1pb4p/n3R1NQ/7P/3B1P2/2P3P1/7K w - -",
+        "id": "bt2630-3"
+    },
+    {
+        "bm": "Qf7",
+        "desc": "BT2630-04",
+        "fen": "5r1k/1P4pp/3P1p2/4p3/1P5P/3q2P1/Q2b2K1/B3R3 b - -",
+        "id": "bt2630-4"
+    },
+    {
+        "bm": "Ka6",
+        "c0": "Only winning move for white",
+        "desc": "BT2630-05",
+        "fen": "3B4/8/2B5/1K6/8/8/3p4/3k4 w - -",
+        "id": "bt2630-5"
+    },
+    {
+        "bm": "e3",
+        "desc": "BT2630-06",
+        "fen": "1k1r4/1pp4p/2n5/P6R/2R1p1r1/2P2p2/1PP2B1P/4K3 b - -",
+        "id": "bt2630-6"
+    },
+    {
+        "bm": "Rd6",
+        "c0": "Black forces a draw",
+        "desc": "BT2630-07",
+        "fen": "6k1/p3q2p/1nr3pB/8/3Q1P2/6P1/PP5P/3R2K1 b - -",
+        "id": "bt2630-7"
+    },
+    {
+        "bm": "Rxc6+",
+        "desc": "BT2630-08",
+        "fen": "2krr3/1p4pp/p1bRpp1n/2p5/P1B1PP2/8/1PP3PP/R1K3B1 w - -",
+        "id": "bt2630-8"
+    },
+    {
+        "bm": "g5",
+        "desc": "BT2630-09",
+        "fen": "r5k1/pp2p1bp/6p1/n1p1P3/2qP1NP1/2PQB3/P5PP/R4K2 b - -",
+        "id": "bt2630-9"
+    },
+    {
+        "bm": "Rxg7+",
+        "desc": "BT2630-10",
+        "fen": "2r3k1/1qr1b1p1/p2pPn2/nppPp3/8/1PP1B2P/P1BQ1P2/5KRR w - -",
+        "id": "bt2630-10"
+    },
+    {
+        "bm": "Qxh2+",
+        "desc": "BT2630-11",
+        "fen": "1br3k1/p4p2/2p1r3/3p1b2/3Bn1p1/1P2P1Pq/P3Q1BP/2R1NRK1 b - -",
+        "id": "bt2630-11"
+    },
+    {
+        "bm": "Qe4",
+        "desc": "BT2630-12",
+        "fen": "8/pp3k2/2p1qp2/2P5/5P2/1R2p1rp/PP2R3/4K2Q b - -",
+        "id": "bt2630-12"
+    },
+    {
+        "bm": "Be6",
+        "desc": "BT2630-13",
+        "fen": "2bq3k/2p4p/p2p4/7P/1nBPPQP1/r1p5/8/1K1R2R1 b - -",
+        "id": "bt2630-13"
+    },
+    {
+        "bm": "Rxh7",
+        "c0": "Mate in 7 moves",
+        "desc": "BT2630-14",
+        "fen": "3r1rk1/1p3pnp/p3pBp1/1qPpP3/1P1P2R1/P2Q3R/6PP/6K1 w - -",
+        "id": "bt2630-14"
+    },
+    {
+        "bm": "e5",
+        "desc": "BT2630-15",
+        "fen": "2b1q3/p7/1p1p2kb/nPpN3p/P1P1P2P/6P1/5R1K/5Q2 w - -",
+        "id": "bt2630-15"
+    },
+    {
+        "bm": "Nxg2",
+        "desc": "BT2630-16",
+        "fen": "2krr3/pppb1ppp/3b4/3q4/3P3n/2P2N1P/PP2B1P1/R1BQ1RK1 b - -",
+        "id": "bt2630-16"
+    },
+    {
+        "bm": "Qxf4",
+        "desc": "BT2630-17",
+        "fen": "4r1k1/p1qr1p2/2pb1Bp1/1p5p/3P1n1R/3B1P2/PP3PK1/2Q4R w - -",
+        "id": "bt2630-17"
+    },
+    {
+        "bm": "d6",
+        "desc": "BT2630-18",
+        "fen": "8/4p3/8/3P3p/P2pK3/6P1/7b/3k4 w - -",
+        "id": "bt2630-18"
+    },
+    {
+        "bm": "f3",
+        "desc": "BT2630-19",
+        "fen": "3r2k1/pp4B1/6pp/PP1Np2n/2Pp1p2/3P2Pq/3QPPbP/R4RK1 b - -",
+        "id": "bt2630-19"
+    },
+    {
+        "bm": "Ra2",
+        "desc": "BT2630-20",
+        "fen": "r4rk1/5p2/1n4pQ/2p5/p5P1/P4N2/1qb1BP1P/R3R1K1 w - -",
+        "id": "bt2630-20"
+    },
+    {
+        "bm": "Re1",
+        "desc": "BT2630-21",
+        "fen": "k7/8/PP1b2P1/K2Pn2P/4R3/8/6np/8 w - -",
+        "id": "bt2630-21"
+    },
+    {
+        "bm": "a3",
+        "desc": "BT2630-22",
+        "fen": "rnb1k2r/pp2qppp/3p1n2/2pp2B1/1bP5/2N1P3/PP2NPPP/R2QKB1R w KQkq -",
+        "id": "bt2630-22"
+    },
+    {
+        "bm": "g4",
+        "desc": "BT2630-23",
+        "fen": "8/7p/8/p4p2/5K2/Bpk3P1/4P2P/8 w - -",
+        "id": "bt2630-23"
+    },
+    {
+        "bm": "g6",
+        "desc": "BT2630-24",
+        "fen": "R7/3p3p/8/3P2P1/3k4/1p5p/1P1NKP1P/7q w - -",
+        "id": "bt2630-24"
+    },
+    {
+        "bm": "Nd3",
+        "desc": "BT2630-25",
+        "fen": "8/8/3k1p2/p2BnP2/4PN2/1P2K1p1/8/5b2 b - -",
+        "id": "bt2630-25"
+    },
+    {
+        "bm": "f5",
+        "desc": "BT2630-26",
+        "fen": "2r3k1/pbr1q2p/1p2pnp1/3p4/3P1P2/1P1BR3/PB1Q2PP/5RK1 w - -",
+        "id": "bt2630-26"
+    },
+    {
+        "bm": "e6",
+        "desc": "BT2630-27",
+        "fen": "3r2k1/p2r2p1/1p1B2Pp/4PQ1P/2b1p3/P3P3/7K/8 w - -",
+        "id": "bt2630-27"
+    },
+    {
+        "bm": "e5",
+        "desc": "BT2630-28",
+        "fen": "rnb1k1nr/p2p1ppp/3B4/1p1N1N1P/4P1P1/3P1Q2/PqP5/R4Kb1 w kq -",
+        "id": "bt2630-28"
+    },
+    {
+        "bm": "O-O-O",
+        "desc": "BT2630-29",
+        "fen": "r1b1kb1r/pp1n1ppp/2q5/2p3B1/Q1B5/2p2N2/PP3PPP/R3K2R w KQkq -",
+        "id": "bt2630-29"
+    },
+    {
+        "bm": "f4",
+        "desc": "BT2630-30",
+        "fen": "2k5/2p3Rp/p1pb4/1p2p3/4P3/PN1P1P2/1P2KP1r/8 w - -",
+        "id": "bt2630-30"
+    }
+]

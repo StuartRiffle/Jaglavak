@@ -1,0 +1,284 @@
+[
+    {
+        "bm": "e3",
+        "desc": "Fine position 11",
+        "fen": "8/8/4k3/8/4K3/8/4P3/8 w - -",
+        "id": "fine-1"
+    },
+    {
+        "bm": "a4",
+        "desc": "Fine position 13",
+        "fen": "8/8/8/8/8/P4p2/k6K/8 w - -",
+        "id": "fine-2"
+    },
+    {
+        "bm": "f7",
+        "desc": "Fine position 14",
+        "fen": "8/8/5P2/8/6K1/7p/6k1/8 w - -",
+        "id": "fine-3"
+    },
+    {
+        "bm": "e3",
+        "desc": "Fine position 16",
+        "fen": "8/8/7k/8/4p1K1/8/5P2/8 b - -",
+        "id": "fine-4"
+    },
+    {
+        "bm": "Kg4 Kf4",
+        "desc": "Fine position 20",
+        "fen": "8/8/8/3P1k2/7P/3K1p2/8/8 b - -",
+        "id": "fine-5"
+    },
+    {
+        "bm": "Kd4",
+        "desc": "Fine position 24",
+        "fen": "8/p7/2k5/8/2P5/2K5/P7/8 w - -",
+        "id": "fine-6"
+    },
+    {
+        "bm": "Kf7",
+        "desc": "Fine position 25",
+        "fen": "6k1/7p/5P1K/8/8/8/7P/8 b - -",
+        "id": "fine-7"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "Fine position 29",
+        "fen": "4k3/4Pp2/5P2/4K3/8/8/8/8 w - -",
+        "id": "fine-8"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "Fine position 31",
+        "fen": "8/8/8/1k6/3pP3/1K1P4/8/8 w - -",
+        "id": "fine-9"
+    },
+    {
+        "bm": "Kd4",
+        "desc": "Fine position 31A",
+        "fen": "8/8/8/4k3/5pP1/5P2/4K3/8 b - -",
+        "id": "fine-10"
+    },
+    {
+        "bm": "Ke4",
+        "desc": "Fine position 42",
+        "fen": "8/5p2/8/4K1P1/5Pk1/8/8/8 w - -",
+        "id": "fine-11"
+    },
+    {
+        "bm": "e4 c4",
+        "desc": "Fine position 43",
+        "fen": "8/3p4/3k4/8/3K4/8/2P1P3/8 w - -",
+        "id": "fine-12"
+    },
+    {
+        "bm": "Ke4",
+        "desc": "Fine position 45",
+        "fen": "8/7p/5K2/3k4/6P1/8/6P1/8 b - -",
+        "id": "fine-13"
+    },
+    {
+        "bm": "d6+ e6",
+        "desc": "Fine position 47",
+        "fen": "8/pp2k3/8/3PPK2/8/8/8/8 w - -",
+        "id": "fine-14"
+    },
+    {
+        "bm": "d5",
+        "desc": "Fine position 51 (W to move)",
+        "fen": "8/8/2pp3k/8/1P1P3K/8/8/8 w - -",
+        "id": "fine-15"
+    },
+    {
+        "bm": "d5",
+        "desc": "Fine position 51 (B to move)",
+        "fen": "8/8/2pp3k/8/1P1P3K/8/8/8 b - -",
+        "id": "fine-16"
+    },
+    {
+        "bm": "Ke4",
+        "desc": "Fine position 53",
+        "fen": "8/8/3pkp2/8/8/3PK3/5P2/8 w - -",
+        "id": "fine-17"
+    },
+    {
+        "bm": "c4",
+        "desc": "Fine position 53f (B to move)",
+        "fen": "8/8/2p5/1kp5/8/2K5/1P1P4/8 b - -",
+        "id": "fine-18"
+    },
+    {
+        "bm": "Kf3",
+        "desc": "Fine position 56",
+        "fen": "8/8/8/5p1p/4k2P/6P1/5P2/5K2 b - -",
+        "id": "fine-19"
+    },
+    {
+        "bm": "d5+",
+        "desc": "Fine position 58",
+        "fen": "8/8/2ppk3/8/2PPK3/2P5/8/8 w - -",
+        "id": "fine-20"
+    },
+    {
+        "bm": "Kg3",
+        "desc": "Fine position 59c",
+        "fen": "8/7p/3p4/8/6pP/8/4PK2/7k w - -",
+        "id": "fine-21"
+    },
+    {
+        "bm": "b6",
+        "desc": "Fine position 61",
+        "fen": "8/ppp5/8/PPP3kp/8/6KP/8/8 w - -",
+        "id": "fine-22"
+    },
+    {
+        "bm": "Kd6",
+        "desc": "Fine position 66 (W to move)",
+        "fen": "8/1k3ppp/8/3K4/7P/5PP1/8/8 w - -",
+        "id": "fine-23"
+    },
+    {
+        "bm": "Kc7",
+        "desc": "Fine position 66 (B to move)",
+        "fen": "8/1k3ppp/8/3K4/7P/5PP1/8/8 b - -",
+        "id": "fine-24"
+    },
+    {
+        "bm": "b4",
+        "desc": "Fine position 67",
+        "fen": "8/2p5/3k4/1p1p1K2/8/1P1P4/2P5/8 w - -",
+        "id": "fine-25"
+    },
+    {
+        "bm": "Kb1",
+        "desc": "Fine position 70 (W to move)",
+        "fen": "8/k7/3p4/p2P1p2/P2P1P2/8/8/K7 w - -",
+        "id": "fine-26"
+    },
+    {
+        "bm": "f4",
+        "desc": "Fine position 76",
+        "fen": "8/8/p6p/1p3kp1/1P6/P4PKP/5P2/8 w - -",
+        "id": "fine-27"
+    },
+    {
+        "bm": "Kd7",
+        "desc": "Fine position 78",
+        "fen": "4K3/pk6/p7/2P5/1pP5/PP6/8/8 w - -",
+        "id": "fine-28"
+    },
+    {
+        "bm": "h4",
+        "desc": "Fine position 81",
+        "fen": "8/pp3k2/2p3p1/4p3/8/2P5/P1P3PP/6K1 w - -",
+        "id": "fine-29"
+    },
+    {
+        "bm": "e4",
+        "desc": "Fine position 90",
+        "fen": "8/7p/2k1Pp2/pp1p2p1/3P2P1/4P3/P3K2P/8 w - -",
+        "id": "fine-30"
+    },
+    {
+        "bm": "Kg7",
+        "desc": "Fine position 90b",
+        "fen": "3k4/4pp2/7K/3pPp2/3P1P2/2P5/8/8 w - -",
+        "id": "fine-31"
+    },
+    {
+        "bm": "g5",
+        "desc": "Fine position 135",
+        "fen": "1n6/4k2p/p3ppp1/1pPp/3P1PP/3NP3/P3K2P/8 w - -",
+        "id": "fine-32"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "Fine position 156",
+        "fen": "3b4/5k2/3P1p1P/3K4/8/8/8/8 w - -",
+        "id": "fine-33"
+    },
+    {
+        "bm": "Bc5",
+        "desc": "Fine position 174",
+        "fen": "2K5/1P6/k7/8/8/8/5B1b/8 w - -",
+        "id": "fine-34"
+    },
+    {
+        "bm": "Ke5",
+        "desc": "Fine position 180a",
+        "fen": "1k6/8/1P3K2/3B1p2/5P2/7b/8/8 w - -",
+        "id": "fine-35"
+    },
+    {
+        "bm": "Bd5",
+        "desc": "Fine position 219",
+        "fen": "3k4/5B2/8/n3P1K1/8/8/8/8 w - -",
+        "id": "fine-36"
+    },
+    {
+        "bm": "Ra5",
+        "desc": "Fine position 281",
+        "fen": "RK6/8/6kp/8/8/8/8/8 w - -",
+        "id": "fine-37"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "Fine position 284",
+        "fen": "8/1K6/8/8/3pk3/8/8/R7 w - -",
+        "id": "fine-38"
+    },
+    {
+        "bm": "Rd2",
+        "desc": "Fine position 286",
+        "fen": "8/4K3/8/3pk3/3R4/8/8/8 w - -",
+        "id": "fine-39"
+    },
+    {
+        "bm": "Kc3",
+        "desc": "Fine position 291",
+        "fen": "8/P7/1P6/8/3k4/8/r7/2K5 b - -",
+        "id": "fine-40"
+    },
+    {
+        "bm": "a6",
+        "desc": "Fine position 294",
+        "fen": "3K4/8/2P5/P7/8/6k1/8/4r3 w - -",
+        "id": "fine-41"
+    },
+    {
+        "bm": "Rc3",
+        "desc": "Fine position 298",
+        "fen": "6k1/6P1/4PP2/8/K7/7r/8/8 b - -",
+        "id": "fine-42"
+    },
+    {
+        "bm": "Rc1",
+        "desc": "Fine position 306",
+        "fen": "2k5/7R/1K6/2P5/8/8/8/6r1 b - -",
+        "id": "fine-43"
+    },
+    {
+        "bm": "Re1",
+        "desc": "Fine position 310",
+        "fen": "1r6/8/5k2/8/1P6/1K6/8/3R4 w - -",
+        "id": "fine-44"
+    },
+    {
+        "bm": "Rd8",
+        "desc": "Fine position 322",
+        "fen": "r7/4k3/8/PK6/3R4/8/8/8 b - -",
+        "id": "fine-45"
+    },
+    {
+        "bm": "Kb6",
+        "desc": "Fine position 497",
+        "fen": "k7/n7/K7/8/8/8/8/1R6 w - -",
+        "id": "fine-46"
+    },
+    {
+        "bm": "Qb3",
+        "desc": "Fine position 548",
+        "fen": "8/8/8/8/6K1/6Q1/2p5/3k4 w - -",
+        "id": "fine-47"
+    }
+]

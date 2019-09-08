@@ -1,0 +1,1802 @@
+[
+    {
+        "bm": "Nf5+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0001",
+        "fen": "1n1r1rn1/1p1qb1kp/p2p1pp1/2pPp1P1/4P2N/2P3P1/PPB2PK1/R1BQ3R w - -",
+        "id": "op-1"
+    },
+    {
+        "bm": "d1c1",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0002",
+        "fen": "1r2kb1r/p1qn1ppp/B3pn2/2pb4/Pp1P4/4PN2/NP1BQPPP/R2R2K1 w k -",
+        "id": "op-2"
+    },
+    {
+        "bm": "a6b5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0003",
+        "fen": "1r2kb1r/p2n1ppp/Bq2pn2/2pb4/Pp1P4/4PN2/NP1BQPPP/R1R3K1 w k -",
+        "id": "op-3"
+    },
+    {
+        "bm": "f7f5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0004",
+        "fen": "1r3rk1/pppq1pb1/3p2pp/1P1Pp3/6n1/3P2Pb/P1QNPP1P/1RB1R1KB b - -",
+        "id": "op-4"
+    },
+    {
+        "bm": "e7d5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0005",
+        "fen": "1r3rk1/pppqnpb1/3p2pp/1P1Np3/2P3n1/3P2Pb/P1QNPP1P/1RB1R1KB b - -",
+        "id": "op-5"
+    },
+    {
+        "bm": "b5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0006",
+        "fen": "2r2rk1/1pb1qppp/p4n2/3npb2/1PNp4/P2P1NP1/1B1QPPBP/2R2RK1 b - -",
+        "id": "op-6"
+    },
+    {
+        "bm": "c5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0007",
+        "fen": "2rq1rk1/pp2bppp/1npp1n2/3PpN1b/2P5/2N3PP/PP2PPB1/R1BQ1RK1 w - -",
+        "id": "op-7"
+    },
+    {
+        "bm": "e4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0008",
+        "fen": "2rqbrk1/pp1nbppp/3p1n2/3Pp3/8/P1N1PPN1/1P2B1PP/R1BQ1R1K w - -",
+        "id": "op-8"
+    },
+    {
+        "bm": "Nxe4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0009",
+        "fen": "3r1rk1/pp2bppp/1qp1pn2/5b2/3Pn3/2N1P1P1/PP2QPBP/R1BRN1K1 w - -",
+        "id": "op-9"
+    },
+    {
+        "bm": "Rfc1",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0010",
+        "fen": "n1bq1rk1/r2n1pbp/2RQp1p1/p2pP3/1p1P1P2/5N2/PP1BBNPP/5RK1 w - -",
+        "id": "op-10"
+    },
+    {
+        "bm": "dxe5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0011",
+        "fen": "r1b1k2r/2qnbppp/pppp1n2/4p3/P1BPP3/2N2N2/1PP1QPPP/R1BR2K1 w kq -",
+        "id": "op-11"
+    },
+    {
+        "bm": "Ne6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0012",
+        "fen": "r1b1k2r/pp1nppbp/1qnp2p1/4P3/3N1P2/2N1B3/PPP1B1PP/R2QK2R w KQkq -",
+        "id": "op-12"
+    },
+    {
+        "bm": "Nxe4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0013",
+        "fen": "r1b1k2r/pp1pppbp/2n2np1/q7/3NP3/2N1B2P/PPPQ1PP1/R3KB1R b KQkq -",
+        "id": "op-13"
+    },
+    {
+        "bm": "Nxe2",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0014",
+        "fen": "r1b1k2r/pp2npbp/3pp1p1/2p5/1q1nPP2/2NPB1P1/P1PQN1BP/1R2K2R b Kkq -",
+        "id": "op-14"
+    },
+    {
+        "bm": "Nf3#",
+        "c0": "white pieces=14 black pieces=12",
+        "c1": "material balance: 4,5",
+        "desc": "Holmes Opening Pos. 0015",
+        "fen": "r1b1k2r/ppp1qppp/5B2/3Pn3/8/8/PPP2PPP/RN1QKB1R b KQkq -",
+        "id": "op-15"
+    },
+    {
+        "bm": "Qxf1+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0016",
+        "fen": "r1b1k2r/pppp1ppp/2n2q2/2b1P3/4P3/2P3P1/PP1PN1Bn/RNBQKR2 b Qkq -",
+        "id": "op-16"
+    },
+    {
+        "bm": "Nxe6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0017",
+        "fen": "r1b1kb1r/1p1n1ppp/p2ppn2/6BB/2qNP3/2N5/PPP2PPP/R2Q1RK1 w - -",
+        "id": "op-17"
+    },
+    {
+        "bm": "Nxe6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0018",
+        "fen": "r1b1kb1r/1p1n1ppp/p2ppn2/6BB/2qNP3/2N5/PPP2PPP/R2Q1RK1 w kq -",
+        "id": "op-18"
+    },
+    {
+        "bm": "Ndb5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0019",
+        "fen": "r1b1kb1r/1pqpnppp/p1n1p3/8/3NP3/2N1B3/PPP1BPPP/R2QK2R w KQkq -",
+        "id": "op-19"
+    },
+    {
+        "bm": "Bh5+",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -3,5",
+        "desc": "Holmes Opening Pos. 0020",
+        "fen": "r1b1kb1r/p2n2pp/4p3/qp1pNp2/2pP1P1B/2P1P3/PPQnB1PP/R3K2R w KQkq -",
+        "id": "op-20"
+    },
+    {
+        "bm": "cxd4",
+        "c0": "white pieces=14 black pieces=15",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0021",
+        "fen": "r1b1kb1r/pp2pppp/2n2n2/3q4/3p4/2P2N2/PP2BPPP/RNBQK2R w KQkq -",
+        "id": "op-21"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0022",
+        "fen": "r1b1kb1r/pp3ppp/2n1pn2/2pq4/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq -",
+        "id": "op-22"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0023",
+        "fen": "r1b1kbnr/1pqp1ppp/p1n1p3/8/3NP3/2N5/PPP1BPPP/R1BQK2R w KQkq -",
+        "id": "op-23"
+    },
+    {
+        "bm": "Ne5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0024",
+        "fen": "r1b1kbnr/p2pqppp/1pn5/2pQ4/2B5/4PN2/PPP2PPP/RNB1K2R w KQkq -",
+        "id": "op-24"
+    },
+    {
+        "bm": "Nf3#",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0025",
+        "fen": "r1b1kbnr/pppp1Npp/8/8/3nq3/8/PPPPBP1P/RNBQKR2 b Qkq -",
+        "id": "op-25"
+    },
+    {
+        "bm": "Bb4#",
+        "c0": "white pieces=14 black pieces=12",
+        "c1": "material balance: -0,5",
+        "desc": "Holmes Opening Pos. 0026",
+        "fen": "r1b1q1kr/ppNnb1pp/5n2/8/3P4/8/PPP2PPP/R1BQKB1R b KQ -",
+        "id": "op-26"
+    },
+    {
+        "bm": "Bxf6",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0027",
+        "fen": "r1b1qrk1/2p2ppp/pb1pnn2/1p2pNB1/3PP3/1BP5/PP2QPPP/RN1R2K1 w - -",
+        "id": "op-27"
+    },
+    {
+        "bm": "Qh6",
+        "c0": "white pieces=16 black pieces=15",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0028",
+        "fen": "r1b1qrk1/2pp1ppp/pb1n1Bn1/1p6/3PPQN1/1BP5/PP3PPP/RN3RK1 w - -",
+        "id": "op-28"
+    },
+    {
+        "bm": "Ne6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0029",
+        "fen": "r1b1qrk1/ppBnppb1/2n4p/1NN1P1p1/3p4/8/PPP1BPPP/R2Q1R1K w - -",
+        "id": "op-29"
+    },
+    {
+        "bm": "Ndxc5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0030",
+        "fen": "r1b1qrk1/pppnb1pp/4p3/2PpNp2/3PnP2/6P1/PP1NP1BP/R1BQ1RK1 b - -",
+        "id": "op-30"
+    },
+    {
+        "bm": "Nh5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0031",
+        "fen": "r1b2rk1/1pp1qppp/2n2n2/p1b1p3/4P3/1BP2N1P/PPQN1PP1/R1B2RK1 b - -",
+        "id": "op-31"
+    },
+    {
+        "bm": "f1e3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0032",
+        "fen": "r1b2rk1/2q1bppp/p1np1n2/1pp1p3/4P3/2PP1N2/PPB2PPP/R1BQRNK1 w - -",
+        "id": "op-32"
+    },
+    {
+        "bm": "d2f1",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0033",
+        "fen": "r1b2rk1/2q1bppp/p2p1n2/npp1p3/4P3/2PP1N2/PPBN1PPP/R1BQR1K1 w - -",
+        "id": "op-33"
+    },
+    {
+        "bm": "c2c4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0034",
+        "fen": "r1b2rk1/p2nbqpp/p3p3/2ppPpB1/N2P1N1P/8/PPP2PP1/R2Q1RK1 w - -",
+        "id": "op-34"
+    },
+    {
+        "bm": "Nxe4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0035",
+        "fen": "r1b2rk1/pp2ppbp/2np1np1/q7/4P3/2N1BN2/PPPQBPPP/2KR3R b - -",
+        "id": "op-35"
+    },
+    {
+        "bm": "Nd5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0036",
+        "fen": "r1b2rk1/ppp2pp1/2np1q1p/1B2p3/Pb2P3/2NP1N2/1PP2PPP/R2Q1RK1 w - -",
+        "id": "op-36"
+    },
+    {
+        "bm": "Bg4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0037",
+        "fen": "r1bb1rk1/ppp3pp/2np1n2/4p2q/2P1Pp2/1PNP1NP1/PB1Q1PBP/4RR1K b - -",
+        "id": "op-37"
+    },
+    {
+        "bm": "f6+",
+        "c0": "white pieces=16 black pieces=15",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0038",
+        "fen": "r1bq1b1r/pppknBp1/2np4/4pPNp/6Q1/8/PPPP1PPP/RNB2RK1 w - -",
+        "id": "op-38"
+    },
+    {
+        "bm": "Bh6+",
+        "c0": "white pieces=13 black pieces=13",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0039",
+        "fen": "r1bq1b1r/pppp2kp/2N2np1/3Q4/8/8/PPP2PPP/RNB1K2R w KQ -",
+        "id": "op-39"
+    },
+    {
+        "bm": "exf3",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0040",
+        "fen": "r1bq1r1k/1pp3pp/p1np4/2b1p1B1/2BPp1n1/2P2N2/PP2RPPP/R2Q1NK1 b - -",
+        "id": "op-40"
+    },
+    {
+        "bm": "Qb6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0041",
+        "fen": "r1bq1rk1/1p2bppp/p1nppn2/5P2/3NP3/1BN5/PPP3PP/R1BQ1RK1 b - -",
+        "id": "op-41"
+    },
+    {
+        "bm": "Nfxe4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0042",
+        "fen": "r1bq1rk1/1pp2pbp/3p1npB/p1nPp3/2P1P1P1/2N2P2/PP1Q3P/R3KBNR b KQ -",
+        "id": "op-42"
+    },
+    {
+        "bm": "Nd4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0043",
+        "fen": "r1bq1rk1/1pp2pbp/p1np1np1/3Pp3/2P1P3/2N1BP2/PP4PP/R1NQKB1R b KQ -",
+        "id": "op-43"
+    },
+    {
+        "bm": "b3c2",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0044",
+        "fen": "r1bq1rk1/2p1bppp/p2p1n2/np2p3/4P3/1BPP1N2/PP3PPP/RNBQR1K1 w - -",
+        "id": "op-44"
+    },
+    {
+        "bm": "b1d2",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0045",
+        "fen": "r1bq1rk1/4bppp/p2p1n2/npp1p3/4P3/2PP1N2/PPB2PPP/RNBQR1K1 w - -",
+        "id": "op-45"
+    },
+    {
+        "bm": "h5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0046",
+        "fen": "r1bq1rk1/pp1n1pb1/3p1npp/3Pp3/4P2P/2N1B3/PP2BPP1/R2QK1NR w KQ -",
+        "id": "op-46"
+    },
+    {
+        "bm": "d4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0047",
+        "fen": "r1bq1rk1/pp1pppbp/2n2np1/1Bp5/4P3/2P2N2/PP1P1PPP/RNBQR1K1 w - -",
+        "id": "op-47"
+    },
+    {
+        "bm": "Nb3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0048",
+        "fen": "r1bq1rk1/pp2ppbp/2np2p1/2n5/P3PP2/N1P2N2/1PB3PP/R1B1QRK1 b - -",
+        "id": "op-48"
+    },
+    {
+        "bm": "Nfxe4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0049",
+        "fen": "r1bq1rk1/pp3pbp/2pp1np1/2n3B1/2PNP3/2N2P2/PP1QB1PP/R4RK1 b - -",
+        "id": "op-49"
+    },
+    {
+        "bm": "Be2",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0050",
+        "fen": "r1bq1rk1/ppp1bppp/2n1pn2/3p4/3P1B2/4PN1P/PPPN1PP1/R2QKB1R w KQ -",
+        "id": "op-50"
+    },
+    {
+        "bm": "c8e6",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0051",
+        "fen": "r1bq1rk1/ppp2pb1/2np1npp/4p3/1PP5/2NP1NP1/P3PPBP/1RBQ1RK1 b - -",
+        "id": "op-51"
+    },
+    {
+        "bm": "Qh5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0052",
+        "fen": "r1bq1rk1/ppp2ppp/2np4/2bN1PN1/2B1P3/3p4/PPP2nPP/R1BQ1K1R w - -",
+        "id": "op-52"
+    },
+    {
+        "bm": "d3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0053",
+        "fen": "r1bq1rk1/ppp2ppp/2p2n2/4p3/1b2P3/2N2N2/PPPP1PPP/R1BQ1RK1 w - -",
+        "id": "op-53"
+    },
+    {
+        "bm": "g6f4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0054",
+        "fen": "r1bq1rk1/ppp2ppp/3p1nn1/4p1B1/2B1P2N/2PP4/P1P2PPP/R2Q1RK1 b - -",
+        "id": "op-54"
+    },
+    {
+        "bm": "cxd4",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0055",
+        "fen": "r1bq1rk1/ppp3b1/2n4p/3p2pn/3pPp2/1QPB1P2/PP1N1BPP/R3K1NR w KQ -",
+        "id": "op-55"
+    },
+    {
+        "bm": "Bxf7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0056",
+        "fen": "r1bq1rk1/pppn1ppp/5n2/4p3/1bBP4/2N1P3/PP2NPPP/R1BQ1RK1 w - -",
+        "id": "op-56"
+    },
+    {
+        "bm": "Bxh7+",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0057",
+        "fen": "r1bq1rk1/pppnnppp/4p3/3pP3/1b1P4/2NB3N/PPP2PPP/R1BQK2R w KQ -",
+        "id": "op-57"
+    },
+    {
+        "bm": "Qh4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0058",
+        "fen": "r1bq1rk1/ppppnpp1/1b5p/1Bn1P1B1/2Q5/2P2N2/PP3PPP/RN3RK1 w - -",
+        "id": "op-58"
+    },
+    {
+        "bm": "Ng6+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0059",
+        "fen": "r1bq3k/ppp2r1p/2np1p1Q/2bNpp2/2B1P2N/3P4/PPP2PPP/R3K2R w KQ -",
+        "id": "op-59"
+    },
+    {
+        "bm": "Qxh7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0060",
+        "fen": "r1bq3r/pp1nk2p/n1pNpp2/3pP1p1/3P1N1Q/3B4/PPP2PPP/R3K2R w KQ -",
+        "id": "op-60"
+    },
+    {
+        "bm": "Nxd4",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0061",
+        "fen": "r1bqk1nr/pp1nppbp/3p2p1/8/2PpP3/2N2N2/PP2BPPP/R1BQK2R w KQkq -",
+        "id": "op-61"
+    },
+    {
+        "bm": "Bxf7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0062",
+        "fen": "r1bqk1nr/pppnbppp/3p4/8/2BNP3/8/PPP2PPP/RNBQK2R w KQkq -",
+        "id": "op-62"
+    },
+    {
+        "bm": "Nf3#",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0063",
+        "fen": "r1bqk1nr/pppp1ppp/8/2b1P3/3nP3/6P1/PPP1N2P/RNBQKB1R b KQkq -",
+        "id": "op-63"
+    },
+    {
+        "bm": "c6e5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0064",
+        "fen": "r1bqk2r/2ppbppp/p1n5/1p2N3/3Pn3/1B6/PPP2PPP/RNBQ1RK1 b kq -",
+        "id": "op-64"
+    },
+    {
+        "bm": "c8b7",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0065",
+        "fen": "r1bqk2r/2ppbppp/p7/1p2P3/4n3/1B6/PPP2PPP/RNBQ1RK1 b kq -",
+        "id": "op-65"
+    },
+    {
+        "bm": "Bd3",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0066",
+        "fen": "r1bqk2r/p1pp1ppp/2p2n2/8/1b2P3/2N5/PPP2PPP/R1BQKB1R w KQkq -",
+        "id": "op-66"
+    },
+    {
+        "bm": "Nh4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0067",
+        "fen": "r1bqk2r/pp1n1ppp/2pb1n2/3pp3/8/3P1NP1/PPPNPPBP/R1BQ1RK1 w kq -",
+        "id": "op-67"
+    },
+    {
+        "bm": "e4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0068",
+        "fen": "r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/3BPN2/PP1N1PPP/R1BQK2R w KQkq -",
+        "id": "op-68"
+    },
+    {
+        "bm": "Nf3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0069",
+        "fen": "r1bqk2r/pp1nbppp/2p1pn2/3p4/2PP4/2N1P3/PPQB1PPP/R3KBNR w KQkq -",
+        "id": "op-69"
+    },
+    {
+        "bm": "d4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0070",
+        "fen": "r1bqk2r/pp2bppp/2np1n2/2p1p3/Q3P3/2PP1N2/PP1N1PPP/R1B1KB1R w KQkq -",
+        "id": "op-70"
+    },
+    {
+        "bm": "Bg5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0071",
+        "fen": "r1bqk2r/pp2ppbp/2np1np1/2p5/8/2NP1NP1/PPP1PPBP/R1BQ1RK1 w kq -",
+        "id": "op-71"
+    },
+    {
+        "bm": "Be2",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0072",
+        "fen": "r1bqk2r/ppp2p1p/2np1np1/4p3/1bP5/2NPPN2/PP1B1PPP/R2QKB1R w KQkq -",
+        "id": "op-72"
+    },
+    {
+        "bm": "Qh4+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0073",
+        "fen": "r1bqk2r/ppp2ppp/2n5/2bp1P2/4n3/2N2N1P/PPPP2P1/R1BQKB1R b KQkq -",
+        "id": "op-73"
+    },
+    {
+        "bm": "Nxf2",
+        "c0": "white pieces=15 black pieces=14",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0074",
+        "fen": "r1bqk2r/ppp2ppp/2nb4/8/2P1n3/P4NP1/1P2PP1P/RNBQKB1R b KQkq -",
+        "id": "op-74"
+    },
+    {
+        "bm": "Bxf2+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0075",
+        "fen": "r1bqk2r/pppp1ppp/5n2/2b1n3/4P3/1BP3Q1/PP3PPP/RNB1K1NR b KQkq -",
+        "id": "op-75"
+    },
+    {
+        "bm": "e3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0076",
+        "fen": "r1bqk2r/pppp1ppp/8/3Pp3/1b1n4/6P1/PP1PPPBP/R1BQK1NR w KQkq -",
+        "id": "op-76"
+    },
+    {
+        "bm": "Nxc5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0077",
+        "fen": "r1bqkb1r/1p1n1ppp/p1p2n2/2Pp1B2/3Pp3/2N1P3/PP1N1PPP/R1BQK2R b KQkq -",
+        "id": "op-77"
+    },
+    {
+        "bm": "d5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0078",
+        "fen": "r1bqkb1r/2pp1ppp/p1n5/1p2p3/3Pn3/1B3N2/PPP2PPP/RNBQ1RK1 b kq -",
+        "id": "op-78"
+    },
+    {
+        "bm": "e1g1",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0079",
+        "fen": "r1bqkb1r/p2n1ppp/2p1pn2/8/PpBP4/4PN2/NP3PPP/R1BQK2R w KQkq -",
+        "id": "op-79"
+    },
+    {
+        "bm": "Nd6#",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0080",
+        "fen": "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq -",
+        "id": "op-80"
+    },
+    {
+        "bm": "Bb3",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0081",
+        "fen": "r1bqkb1r/pp1ppppp/1nn5/4P3/2Bp4/2P2N2/PP3PPP/RNBQK2R w KQkq -",
+        "id": "op-81"
+    },
+    {
+        "bm": "Ne5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0082",
+        "fen": "r1bqkb1r/pp3ppp/2n1pn2/2p5/2pP4/5NP1/PP2PPBP/RNBQ1RK1 w kq -",
+        "id": "op-82"
+    },
+    {
+        "bm": "Bb2",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0083",
+        "fen": "r1bqkb1r/pp3ppp/2n1pn2/2pp4/2PP4/1P2PN2/P2N1PPP/R1BQKB1R w KQkq -",
+        "id": "op-83"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0084",
+        "fen": "r1bqkb1r/pp3ppp/2n2n2/2pp4/3P4/5NP1/PP2PPBP/RNBQK2R w KQkq -",
+        "id": "op-84"
+    },
+    {
+        "bm": "Bg5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0085",
+        "fen": "r1bqkb1r/pp3ppp/2np1n2/1N2p3/4P3/2N5/PPP2PPP/R1BQKB1R w KQkq -",
+        "id": "op-85"
+    },
+    {
+        "bm": "Bxf6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0086",
+        "fen": "r1bqkb1r/pp3ppp/2np1n2/4p1B1/3NP3/2N5/PPP2PPP/R2QKB1R w KQkq e6",
+        "id": "op-86"
+    },
+    {
+        "bm": "Qd2",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0087",
+        "fen": "r1bqkb1r/pp3ppp/2nppn2/6B1/3NP3/2N5/PPP2PPP/R2QKB1R w KQkq -",
+        "id": "op-87"
+    },
+    {
+        "bm": "Ng5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0088",
+        "fen": "r1bqkb1r/ppp1p1pp/1nnpp3/8/2PP4/5N2/PP3PPP/RNBQKB1R w KQkq -",
+        "id": "op-88"
+    },
+    {
+        "bm": "Be3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0089",
+        "fen": "r1bqkb1r/ppp1pppp/1nn5/4P3/2PP4/8/PP4PP/RNBQKBNR w KQkq -",
+        "id": "op-89"
+    },
+    {
+        "bm": "d5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0090",
+        "fen": "r1bqkb1r/ppp2ppp/2np4/4p3/3Pn3/2P2N2/PP2BPPP/RNBQK2R w KQkq -",
+        "id": "op-90"
+    },
+    {
+        "bm": "Qe7",
+        "c0": "white pieces=13 black pieces=15",
+        "c1": "material balance: 0,5",
+        "desc": "Holmes Opening Pos. 0091",
+        "fen": "r1bqkb1r/pppp1p2/2n2P1p/6p1/8/6B1/Pp2QPPP/RN2KBNR b KQkq -",
+        "id": "op-91"
+    },
+    {
+        "bm": "c6",
+        "c0": "white pieces=16 black pieces=15",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0092",
+        "fen": "r1bqkb1r/ppppnppp/5n2/1B2N3/4P3/3P4/PPP2PPP/RNBQK2R b KQkq -",
+        "id": "op-92"
+    },
+    {
+        "bm": "Nxe5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0093",
+        "fen": "r1bqkbnr/2pp2pp/p1n5/4p3/N3p3/1B3N2/PPPP1PPP/R1BQK2R w KQkq -",
+        "id": "op-93"
+    },
+    {
+        "bm": "Nxf7",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0094",
+        "fen": "r1bqkbnr/pp2ppp1/2p4p/3n2N1/2BP4/5N2/PPP2PPP/R1BQK2R w KQkq -",
+        "id": "op-94"
+    },
+    {
+        "bm": "Bf7+",
+        "c0": "white pieces=15 black pieces=14",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0095",
+        "fen": "r1bqkbnr/pppp2np/5pN1/7Q/2B1P3/8/PPP2PPP/RNB1K2R w KQkq -",
+        "id": "op-95"
+    },
+    {
+        "bm": "h5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0096",
+        "fen": "r1bqnrk1/2p2pb1/1p1p2pp/p1nPp3/2P1P1PP/2N1B3/PP1NBP2/R2QK2R w KQ -",
+        "id": "op-96"
+    },
+    {
+        "bm": "Bxf7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0097",
+        "fen": "r1bqnrk1/pp1pppbp/6p1/n3P3/3N4/1BN1B3/PPP2PPP/R2QK2R w KQ -",
+        "id": "op-97"
+    },
+    {
+        "bm": "Nh7",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0098",
+        "fen": "r1bqnrk1/pp2ppb1/1np3pp/4P1N1/5P2/2NBB3/PPP3PP/R2Q1RK1 w - -",
+        "id": "op-98"
+    },
+    {
+        "bm": "Nxf7",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0099",
+        "fen": "r1bqnrk1/ppp2p2/2np1bpp/3NN3/3PQ3/3B4/PPP2PPP/R1B1R1K1 w - -",
+        "id": "op-99"
+    },
+    {
+        "bm": "Bxh7+",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0100",
+        "fen": "r1bqr1k1/pp1nbppp/2n1p3/2ppP3/3P1N1P/2PB1N2/PP2QPP1/R1B1K2R w KQ -",
+        "id": "op-100"
+    },
+    {
+        "bm": "Bxf7+",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0101",
+        "fen": "r1bqr1k1/pp2npbp/6p1/n1p2pB1/3pP2Q/1B1P1N2/PPP1N1PP/R4RK1 w - -",
+        "id": "op-101"
+    },
+    {
+        "bm": "Bxf7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0102",
+        "fen": "r1bqr1k1/pppnbppp/2np4/8/2BNP3/2N4P/PPP2PP1/R1BQR1K1 w - -",
+        "id": "op-102"
+    },
+    {
+        "bm": "Rxh5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0103",
+        "fen": "r1bqr1k1/pppnppbp/3p2p1/7n/3P1B2/3BPN2/PPPN1PP1/R2QK2R w KQ -",
+        "id": "op-103"
+    },
+    {
+        "bm": "b4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0104",
+        "fen": "r1bqrnk1/pp2bp1p/2p2np1/3p2B1/3P4/2NBPN2/PPQ2PPP/1R3RK1 w - -",
+        "id": "op-104"
+    },
+    {
+        "bm": "Nxd4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0105",
+        "fen": "r1q1k2r/pp1bppbp/2np1np1/8/3NP3/2N3PP/PPP2PBK/R1BQ1R2 b kq -",
+        "id": "op-105"
+    },
+    {
+        "bm": "Nxd5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0106",
+        "fen": "r1q2rk1/p3bppb/3p1n1p/2nPp3/1p2P1P1/6NP/PP2QPB1/R1BNK2R b KQ -",
+        "id": "op-106"
+    },
+    {
+        "bm": "Nxe4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0107",
+        "fen": "r1r3k1/ppnbb1pp/2ppp1q1/1P3p2/P1PPn3/2N2NP1/2Q1PPBP/1RB2RK1 w - -",
+        "id": "op-107"
+    },
+    {
+        "bm": "h5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0108",
+        "fen": "r2q1rk1/1ppnbppp/p2p1nb1/3Pp3/2P1P1P1/2N2N1P/PPB1QP2/R1B2RK1 b - -",
+        "id": "op-108"
+    },
+    {
+        "bm": "exf6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: -2,5",
+        "desc": "Holmes Opening Pos. 0109",
+        "fen": "r2q1rk1/2p1bppp/p2p1n2/1p2P3/4P1b1/1nP1BN2/PP3PPP/RN1QR1K1 w - -",
+        "id": "op-109"
+    },
+    {
+        "bm": "g5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0110",
+        "fen": "r2q1rk1/pb1nbn1p/1pp1p1p1/3p1p2/2PP1B2/2N2NPB/PPQ1PP1P/2RR2K1 b - -",
+        "id": "op-110"
+    },
+    {
+        "bm": "Nxc6",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0111",
+        "fen": "r2q1rk1/pb1nbpp1/1pp1pn1p/3pN3/2PPP3/2N1B1P1/PP3PBP/R2Q1RK1 w - -",
+        "id": "op-111"
+    },
+    {
+        "bm": "g3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0112",
+        "fen": "r2q1rk1/pp1b1ppp/2nbp3/3p4/2PP1n2/1P3N2/PB1N1PPP/1BRQR1K1 w - -",
+        "id": "op-112"
+    },
+    {
+        "bm": "Nxf4",
+        "c0": "white pieces=16 black pieces=15",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0113",
+        "fen": "r2q1rk1/pp1n2pp/2pb4/1P1p3n/P1PPpP2/4P2b/1BNNBP1P/R2QR1K1 b - -",
+        "id": "op-113"
+    },
+    {
+        "bm": "d8d7",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0114",
+        "fen": "r2q1rk1/ppp1npb1/3pbnpp/1P2p3/2P5/2NP1NP1/P1Q1PPBP/1RB2RK1 b - -",
+        "id": "op-114"
+    },
+    {
+        "bm": "c6e7",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0115",
+        "fen": "r2q1rk1/ppp2pb1/2npbnpp/1P2p3/2P5/2NP1NP1/P3PPBP/1RBQ1RK1 b - -",
+        "id": "op-115"
+    },
+    {
+        "bm": "e8g8",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0116",
+        "fen": "r2qk2r/1bppbppp/p7/1p2P3/4n1Q1/1B6/PPP2PPP/RNB2RK1 b kq -",
+        "id": "op-116"
+    },
+    {
+        "bm": "g5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0117",
+        "fen": "r2qk2r/pbpn1ppp/1p1ppb2/8/2PP1B2/P3PN2/1P1QBPPP/R3K2R b KQkq -",
+        "id": "op-117"
+    },
+    {
+        "bm": "Nxg5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0118",
+        "fen": "r2qk2r/ppp1b1pp/2n1p3/3pP1n1/3P2b1/2PB1NN1/PP4PP/R1BQK2R w - -",
+        "id": "op-118"
+    },
+    {
+        "bm": "Ng4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 2,5",
+        "desc": "Holmes Opening Pos. 0119",
+        "fen": "r2qk2r/ppp2pp1/2np1n2/2b1p1B1/2B1P3/3P1Np1/PPP2PP1/RN1Q1RK1 b kq -",
+        "id": "op-119"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0120",
+        "fen": "r2qk2r/pppn1pb1/2n4p/1NPPp1p1/6b1/5NB1/PP3PPP/R2QKB1R b KQkq -",
+        "id": "op-120"
+    },
+    {
+        "bm": "Bxd6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0121",
+        "fen": "r2qk2r/pppnpbb1/3p2pp/3n4/3PNB1P/3B1N2/PPP1QPP1/R3K2R w KQkq -",
+        "id": "op-121"
+    },
+    {
+        "bm": "Nf6+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: -8,0",
+        "desc": "Holmes Opening Pos. 0122",
+        "fen": "r2qkb1r/2p1npp1/p1np3p/3NN3/Pp1PP3/1B6/1PP2PPP/R1BbK2R w KQkq -",
+        "id": "op-122"
+    },
+    {
+        "bm": "Nf6+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: -8,0",
+        "desc": "Holmes Opening Pos. 0123",
+        "fen": "r2qkb1r/2p1nppp/p2p4/np1NN3/4P3/1BP5/PP1P1PPP/R1BbK2R w KQkq -",
+        "id": "op-123"
+    },
+    {
+        "bm": "d1e2",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0124",
+        "fen": "r2qkb1r/pb1n1ppp/2p1pn2/8/PpBP4/4PN2/NP3PPP/R1BQ1RK1 w kq -",
+        "id": "op-124"
+    },
+    {
+        "bm": "f1d1",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0125",
+        "fen": "r2qkb1r/pb1n1ppp/4pn2/2p5/PpBP4/4PN2/NP2QPPP/R1B2RK1 w kq -",
+        "id": "op-125"
+    },
+    {
+        "bm": "a3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0126",
+        "fen": "r2qkb1r/pb1p1ppp/1pn1pn2/2p5/3PP3/2PBB3/PP1N1PPP/R2QK1NR w KQkq -",
+        "id": "op-126"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0127",
+        "fen": "r2qkb1r/pp1n1ppp/2p1bn2/3pp1B1/8/2NP1NP1/PPP1PPBP/R2QK2R w KQkq -",
+        "id": "op-127"
+    },
+    {
+        "bm": "g3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0128",
+        "fen": "r2qkb1r/pp1npppp/2p2n2/5b2/2QP4/2N2N2/PP2PPPP/R1B1KB1R w KQkq -",
+        "id": "op-128"
+    },
+    {
+        "bm": "Bf7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0129",
+        "fen": "r2qkb1r/pppb2pp/2np1n2/5pN1/2BQP3/2N5/PPP2PPP/R1B1K2R w KQkq -",
+        "id": "op-129"
+    },
+    {
+        "bm": "Bxf3",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -3,5",
+        "desc": "Holmes Opening Pos. 0130",
+        "fen": "r2qkb1r/pppnpppp/8/3p4/4nP2/1P2Pb2/PBPPB1PP/RN1QK2R w KQkq -",
+        "id": "op-130"
+    },
+    {
+        "bm": "Bf4",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0131",
+        "fen": "r2qkbnr/pp2pppp/2p5/3Pn3/2p1P1b1/2N2N2/PP3PPP/R1BQKB1R w KQkq -",
+        "id": "op-131"
+    },
+    {
+        "bm": "Nxe5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0132",
+        "fen": "r2qkbnr/pp2pppp/3p4/3Pn3/4P1b1/5N2/PP3PPP/RNBQKB1R w KQkq -",
+        "id": "op-132"
+    },
+    {
+        "bm": "Nxe5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0133",
+        "fen": "r2qkbnr/ppp1pp1p/3p2p1/3Pn3/4P1b1/2N2N2/PPP2PPP/R1BQKB1R w KQkq -",
+        "id": "op-133"
+    },
+    {
+        "bm": "Nxe5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0134",
+        "fen": "r2qkbnr/ppp1pppp/8/3Pn3/6b1/2N2N2/PPP2PPP/R1BQKB1R w KQkq -",
+        "id": "op-134"
+    },
+    {
+        "bm": "Nxf7",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0135",
+        "fen": "r2qr1k1/1b1nbppp/p3pn2/1p1pN3/3P1B2/2PB1N2/PP2QPPP/R4RK1 w - -",
+        "id": "op-135"
+    },
+    {
+        "bm": "Nf7",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0136",
+        "fen": "r2qr1k1/pb1nb1pp/1p2pn2/2p1Np2/2PP1B2/3B1N2/PP2QPPP/R4RK1 w - -",
+        "id": "op-136"
+    },
+    {
+        "bm": "Bh3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0137",
+        "fen": "r2qrnk1/pp3ppb/3b1n1p/1Pp1p3/2P1P2N/P5P1/1B1NQPBP/R4RK1 w - -",
+        "id": "op-137"
+    },
+    {
+        "bm": "Nxf7",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0138",
+        "fen": "r2r2k1/1bqpbpp1/ppn1p2p/2p1P1N1/P1B2B2/2P5/1PPRQPPP/3R2K1 w - -",
+        "id": "op-138"
+    },
+    {
+        "bm": "Bxh6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0139",
+        "fen": "r2r2k1/pb1nbpp1/1qp1pn1p/1p2N3/3P1B2/P1N1P3/BPQ2PPP/2R2RK1 w - -",
+        "id": "op-139"
+    },
+    {
+        "bm": "Nxg4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0140",
+        "fen": "r2r2k1/ppqbppbp/2n2np1/2pp4/6P1/1P1PPNNP/PBP2PB1/R2QK2R b KQ -",
+        "id": "op-140"
+    },
+    {
+        "bm": "c1d2",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0141",
+        "fen": "r3kb1r/p1qn1ppp/B3pn2/2pb4/Pp1P4/4PN2/NP2QPPP/R1BR2K1 w kq -",
+        "id": "op-141"
+    },
+    {
+        "bm": "c4a6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0142",
+        "fen": "r3kb1r/pbqn1ppp/4pn2/2p5/PpBP4/4PN2/NP2QPPP/R1BR2K1 w kq -",
+        "id": "op-142"
+    },
+    {
+        "bm": "a4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0143",
+        "fen": "r3kb1r/pp1n1ppp/1q2p3/n2p4/3P1Bb1/2PB1N2/PPQ2PPP/RN2K2R w KQkq -",
+        "id": "op-143"
+    },
+    {
+        "bm": "c1g5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0144",
+        "fen": "r3r1k1/1bq1bppp/p1np1n2/1pp1pN2/4P3/2PP1N2/PPB2PPP/R1BQR1K1 w - -",
+        "id": "op-144"
+    },
+    {
+        "bm": "g5e7",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0145",
+        "fen": "r3r1k1/1bq1bppp/p1np2n1/1ppBpNB1/4P3/2PP1N2/PP3PPP/R2QR1K1 w - -",
+        "id": "op-145"
+    },
+    {
+        "bm": "Bxf7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0146",
+        "fen": "r3r1k1/1bq1nppp/p1np4/1ppBpN2/4P3/2PP1N2/PP3PPP/R2QR1K1 w - -",
+        "id": "op-146"
+    },
+    {
+        "bm": "c2b3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0147",
+        "fen": "r3r1k1/1bqnbppp/p1np4/1pp1pNB1/4P3/2PP1N2/PPB2PPP/R2QR1K1 w - -",
+        "id": "op-147"
+    },
+    {
+        "bm": "b3d5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0148",
+        "fen": "r3rnk1/1bq1bppp/p1np4/1pp1pNB1/4P3/1BPP1N2/PP3PPP/R2QR1K1 w - -",
+        "id": "op-148"
+    },
+    {
+        "bm": "Bg5+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0149",
+        "fen": "r4b1r/pppbkBpp/q1n3n1/5p2/2NPp3/1QP5/PP3PPP/RNB2RK1 w - -",
+        "id": "op-149"
+    },
+    {
+        "bm": "Nf5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0150",
+        "fen": "r4r1k/2qbnpbp/p2p2p1/nppPp1N1/4P1PP/2P1N3/PPBBQP1K/R5R1 w - -",
+        "id": "op-150"
+    },
+    {
+        "bm": "e3f5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0151",
+        "fen": "r4rk1/1bq1bppp/p1np1n2/1pp1p3/4P3/2PPNN2/PPB2PPP/R1BQR1K1 w - -",
+        "id": "op-151"
+    },
+    {
+        "bm": "d6d5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0152",
+        "fen": "r4rk1/1bqnbp1p/pp1ppnpB/8/2P1P1P1/2N2P2/PPN1BQ1P/R4RK1 b - -",
+        "id": "op-152"
+    },
+    {
+        "bm": "f6g4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0153",
+        "fen": "r4rk1/pppqnpb1/3p1npp/1P2p3/2P5/2NP1NPb/P1Q1PP1P/1RB1R1KB b - -",
+        "id": "op-153"
+    },
+    {
+        "bm": "a8b8",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0154",
+        "fen": "r4rk1/pppqnpb1/3p2pp/1P2p3/2P3n1/2NP2Pb/P1QNPP1P/1RB1R1KB b - -",
+        "id": "op-154"
+    },
+    {
+        "bm": "e6h3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0155",
+        "fen": "r4rk1/pppqnpb1/3pbnpp/1P2p3/2P5/2NP1NP1/P1Q1PPBP/1RB1R1K1 b - -",
+        "id": "op-155"
+    },
+    {
+        "bm": "Bb3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0156",
+        "fen": "r4rk1/ppqn1ppp/2pbpn2/4Nb2/2BP4/2N5/PPPBQPPP/R3R1K1 w - -",
+        "id": "op-156"
+    },
+    {
+        "bm": "Ba4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0157",
+        "fen": "r4rnk/1ppqbppp/2n1b3/p2pP3/3P4/PB2NN2/1PQ2PPP/R1B1R1K1 w - -",
+        "id": "op-157"
+    },
+    {
+        "bm": "Nxd5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0158",
+        "fen": "rn1q1rk1/p3ppbp/2p1b1p1/1p1n4/3P1B2/2N1PN2/PPQ1BPPP/R3K2R w KQ -",
+        "id": "op-158"
+    },
+    {
+        "bm": "Bxh7+",
+        "c0": "white pieces=14 black pieces=16",
+        "c1": "material balance: -2,0",
+        "desc": "Holmes Opening Pos. 0159",
+        "fen": "rn1q1rk1/pb1p1ppp/4p3/2pnP3/1bp5/2N2N2/PP3PPP/RBBQK2R w KQ -",
+        "id": "op-159"
+    },
+    {
+        "bm": "Ng5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -3,5",
+        "desc": "Holmes Opening Pos. 0160",
+        "fen": "rn1q1rk1/pbppbppp/1p2p3/8/2P5/2n2NP1/PPQPPPBP/R1B1R1K1 w - -",
+        "id": "op-160"
+    },
+    {
+        "bm": "Nxg7",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0161",
+        "fen": "rn1q1rk1/pp2bppb/4p2p/3p3N/3P1N2/8/PPP1QPPP/R1B1R1K1 w - -",
+        "id": "op-161"
+    },
+    {
+        "bm": "Bxe6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0162",
+        "fen": "rn1qk2r/1b2bppp/p2ppn2/1p6/3NP3/1BN5/PPP2PPP/R1BQR1K1 w kq -",
+        "id": "op-162"
+    },
+    {
+        "bm": "Ba4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0163",
+        "fen": "rn1qk2r/p2bnppp/1p2p3/2ppP3/3P4/P1PB1N2/2P2PPP/R1BQK2R b KQkq -",
+        "id": "op-163"
+    },
+    {
+        "bm": "Bh6",
+        "c0": "white pieces=14 black pieces=15",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0164",
+        "fen": "rn1qk2r/p2pppbp/1p4p1/8/2Ppb3/5NP1/PP2PPBP/R1BQR1K1 w kq -",
+        "id": "op-164"
+    },
+    {
+        "bm": "e3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0165",
+        "fen": "rn1qk2r/pbp1bppp/1p2pn2/3p2B1/2PP4/P1N2N2/1P2PPPP/R2QKB1R w KQkq -",
+        "id": "op-165"
+    },
+    {
+        "bm": "g5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0166",
+        "fen": "rn1qk2r/pbpp1pp1/1p2pn1p/8/1bPP3B/4PN2/PP1N1PPP/R2QKB1R b KQkq -",
+        "id": "op-166"
+    },
+    {
+        "bm": "d5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0167",
+        "fen": "rn1qkb1r/pb1p1ppp/1p2pn2/2p5/2PP4/5NP1/PP2PPBP/RNBQK2R w KQkq c6",
+        "id": "op-167"
+    },
+    {
+        "bm": "Bxd7+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0168",
+        "fen": "rn1qkb1r/pp1b1ppp/5n2/1Bpp4/3P4/5N2/PPPN1PPP/R1BQK2R w KQkq -",
+        "id": "op-168"
+    },
+    {
+        "bm": "Bc8",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0169",
+        "fen": "rn1qkb1r/pp2pppp/5n2/3p1b2/3P4/1QN1P3/PP3PPP/R1B1KBNR b KQkq -",
+        "id": "op-169"
+    },
+    {
+        "bm": "Qb3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0170",
+        "fen": "rn1qkb1r/pp2pppp/5n2/3p1b2/3P4/2N1P3/PP3PPP/R1BQKBNR w KQkq -",
+        "id": "op-170"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0171",
+        "fen": "rn1qkb1r/pp3ppp/2p1pnb1/3p2B1/3P4/2NBPN2/PPP2PPP/R2QK2R w KQkq -",
+        "id": "op-171"
+    },
+    {
+        "bm": "Nc3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0172",
+        "fen": "rn1qkb1r/ppp2ppp/4pn2/7b/2BP4/4PN1P/PP3PP1/RNBQK2R w KQkq -",
+        "id": "op-172"
+    },
+    {
+        "bm": "Be3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0173",
+        "fen": "rn1qkb1r/ppp2ppp/4pn2/8/2PP2b1/5N2/PP2BPPP/RNBQK2R w KQkq -",
+        "id": "op-173"
+    },
+    {
+        "bm": "Nxe5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0174",
+        "fen": "rn1qkbnr/ppp2pp1/3p3p/4p3/2B1P1b1/2N2N2/PPPP1PPP/R1BQK2R w KQkq -",
+        "id": "op-174"
+    },
+    {
+        "bm": "Nf6#",
+        "c0": "white pieces=13 black pieces=15",
+        "c1": "material balance: -4,5",
+        "desc": "Holmes Opening Pos. 0175",
+        "fen": "rn1qkbnr/ppp2ppp/8/8/4Np2/5b2/PPPPQ1PP/R1B1KB1R w KQkq -",
+        "id": "op-175"
+    },
+    {
+        "bm": "c3",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0176",
+        "fen": "rn2k1nr/pbp2ppp/3q4/1p2N3/2p5/QP6/PB1PPPPP/R3KB1R b KQkq -",
+        "id": "op-176"
+    },
+    {
+        "bm": "h3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0177",
+        "fen": "rn2kb1r/pp2pppp/2p2n2/q7/2BP2b1/2N2N2/PPP2PPP/R1BQK2R w KQkq -",
+        "id": "op-177"
+    },
+    {
+        "bm": "Nh4+",
+        "c0": "white pieces=14 black pieces=15",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0178",
+        "fen": "rn2kb1r/ppp1pppp/8/8/4q3/3P1N1b/PPP1BPnP/RNBQ1K1R b kq -",
+        "id": "op-178"
+    },
+    {
+        "bm": "Nd5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0179",
+        "fen": "rn2kb1r/ppp2ppp/4pn2/q4b2/2BP4/2N5/PPPB1PPP/R2QK1NR w KQkq -",
+        "id": "op-179"
+    },
+    {
+        "bm": "Bb5+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0180",
+        "fen": "rn2kbnr/ppp3pp/1q1p1p2/8/6b1/P4N2/1PPPBPPP/RNBQR1K1 w kq -",
+        "id": "op-180"
+    },
+    {
+        "bm": "a3b4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0181",
+        "fen": "rn3k1r/pb1p1ppp/5n2/qp1PQ3/1bp5/P1N1PP2/1P4PP/R1B1KBNR w KQ -",
+        "id": "op-181"
+    },
+    {
+        "bm": "c5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0182",
+        "fen": "rn3rk1/pbp1qppp/1p2pn2/3p4/1bPP1B2/5NP1/PP2PPBP/RN1Q1RK1 w - -",
+        "id": "op-182"
+    },
+    {
+        "bm": "Nh4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0183",
+        "fen": "rn3rk1/pbppq1pp/1p3b2/3Ppp2/2P5/1Q3NP1/PP2PPBP/R1BR2K1 w - -",
+        "id": "op-183"
+    },
+    {
+        "bm": "Qh5",
+        "c0": "white pieces=16 black pieces=14",
+        "c1": "material balance: 2,0",
+        "desc": "Holmes Opening Pos. 0184",
+        "fen": "rn3rk1/pp3ppp/3b1n2/2pPq3/2B1P3/1NN2bP1/PPPQ1P1P/R1B2RK1 b - -",
+        "id": "op-184"
+    },
+    {
+        "bm": "f2+",
+        "c0": "white pieces=14 black pieces=13",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0185",
+        "fen": "rnb1k1nr/ppp2p1p/3P4/8/3q4/5pP1/PPPP3P/RNBQKB1R b KQkq -",
+        "id": "op-185"
+    },
+    {
+        "bm": "a3",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0186",
+        "fen": "rnb1k2r/pp2qppp/3p1n2/2pp2B1/1bP5/2N1P3/PP2NPPP/R2QKB1R w KQkq -",
+        "id": "op-186"
+    },
+    {
+        "bm": "Qxg3+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 2,5",
+        "desc": "Holmes Opening Pos. 0187",
+        "fen": "rnb1k2r/pppp1ppp/8/3Pp3/2P1n2q/5KPP/PP2P3/RNBQ1BNR b kq -",
+        "id": "op-187"
+    },
+    {
+        "bm": "Nc2",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0188",
+        "fen": "rnb1kb1r/pp3ppp/2p2n2/3q4/3Np3/6P1/PP1PPPBP/RNBQK2R w KQkq -",
+        "id": "op-188"
+    },
+    {
+        "bm": "Qd8+",
+        "c0": "white pieces=13 black pieces=14",
+        "c1": "material balance: -3,5",
+        "desc": "Holmes Opening Pos. 0189",
+        "fen": "rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq -",
+        "id": "op-189"
+    },
+    {
+        "bm": "b3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0190",
+        "fen": "rnb1kb1r/ppp2ppp/2q1pn2/8/2Q5/5NP1/PP1PPPBP/RNB1K2R w KQkq -",
+        "id": "op-190"
+    },
+    {
+        "bm": "Qh6+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0191",
+        "fen": "rnbq1knr/ppb4p/3NpPp1/3p4/1P1p1Q2/P7/2PB1PPP/R3KBNR w KQ -",
+        "id": "op-191"
+    },
+    {
+        "bm": "f4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0192",
+        "fen": "rnbq1rk1/1pp1ppbp/p2p1np1/8/2PPP3/2N1B3/PP2BPPP/R2QK1NR w KQ -",
+        "id": "op-192"
+    },
+    {
+        "bm": "Nd1",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0193",
+        "fen": "rnbq1rk1/2n2pbp/p3p1p1/1p1pP3/3P1P2/2N1BN2/PP2B1PP/2R1QRK1 w - -",
+        "id": "op-193"
+    },
+    {
+        "bm": "h2h4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0194",
+        "fen": "rnbq1rk1/4ppbp/p1pp1np1/8/2BPP3/2N1BP2/PP1Q2PP/2KR2NR w - -",
+        "id": "op-194"
+    },
+    {
+        "bm": "Bg5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0195",
+        "fen": "rnbq1rk1/p1pp1ppp/1p2pn2/8/2PP4/P1Q5/1P2PPPP/R1B1KBNR w KQ -",
+        "id": "op-195"
+    },
+    {
+        "bm": "Qxh5",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -3,5",
+        "desc": "Holmes Opening Pos. 0196",
+        "fen": "rnbq1rk1/pp2bp1p/4p1p1/2pp2Nn/5P1P/1P1BP3/PBPP2P1/R2QK2R w KQ -",
+        "id": "op-196"
+    },
+    {
+        "bm": "d5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0197",
+        "fen": "rnbq1rk1/ppp1bppp/3p1n2/4p3/2PP4/P1N1P3/1P2NPPP/R1BQKB1R w KQ -",
+        "id": "op-197"
+    },
+    {
+        "bm": "Qh5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0198",
+        "fen": "rnbq1rk1/pppp1ppp/1b1P2n1/6N1/2B1P3/2N5/PP3PPP/R1BQK2R w KQ -",
+        "id": "op-198"
+    },
+    {
+        "bm": "Bxc3+",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0199",
+        "fen": "rnbq1rk1/pppp1ppp/4pn2/8/1bPP4/P1N5/1PQ1PPPP/R1B1KBNR b KQ -",
+        "id": "op-199"
+    },
+    {
+        "bm": "Qf3#",
+        "c0": "white pieces=12 black pieces=13",
+        "c1": "material balance: -6,0",
+        "desc": "Holmes Opening Pos. 0200",
+        "fen": "rnbq3r/pppp2pp/1b6/8/1P2k3/8/PBPP1PPP/R2QK2R w KQ -",
+        "id": "op-200"
+    },
+    {
+        "bm": "b3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0201",
+        "fen": "rnbqk1nr/pp3ppp/3b4/3p4/2pP4/2P1BN2/PP3PPP/RN1QKB1R w KQkq -",
+        "id": "op-201"
+    },
+    {
+        "bm": "h3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0202",
+        "fen": "rnbqk2r/1p2ppbp/p1p2np1/2Pp4/3P1B2/2N2N2/PP2PPPP/R2QKB1R w KQkq -",
+        "id": "op-202"
+    },
+    {
+        "bm": "f1c4",
+        "c0": "white pieces=15 black pieces=16",
+        "c1": "material balance: -1,0",
+        "desc": "Holmes Opening Pos. 0203",
+        "fen": "rnbqk2r/4ppbp/p1pp1np1/8/2pPP3/2N1BP2/PP1Q2PP/2KR1BNR w kq -",
+        "id": "op-203"
+    },
+    {
+        "bm": "dxc6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0204",
+        "fen": "rnbqk2r/pp2nppp/2pb4/3P4/3P1p2/2N2N2/PPP3PP/R1BQKB1R w KQkq -",
+        "id": "op-204"
+    },
+    {
+        "bm": "Ngf3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0205",
+        "fen": "rnbqk2r/pp2p1bp/2p2ppn/3pP3/3P1P2/2P5/PP1N2PP/R1BQKBNR w KQkq -",
+        "id": "op-205"
+    },
+    {
+        "bm": "Nd2",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0206",
+        "fen": "rnbqk2r/ppp1n1pp/3p4/5p2/2PPp3/2N2N2/PP2PPPP/R2QKB1R w KQkq -",
+        "id": "op-206"
+    },
+    {
+        "bm": "Nd2",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0207",
+        "fen": "rnbqk2r/ppp1p1b1/3p1n1p/5pp1/3P4/2P1P1B1/PP3PPP/RN1QKBNR w KQkq -",
+        "id": "op-207"
+    },
+    {
+        "bm": "e3",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0208",
+        "fen": "rnbqk2r/ppp2pp1/4pb1p/3p4/2PP4/2N2N2/PP2PPPP/R2QKB1R w KQkq -",
+        "id": "op-208"
+    },
+    {
+        "bm": "Nf3",
+        "c0": "white pieces=14 black pieces=14",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0209",
+        "fen": "rnbqk2r/ppp2ppp/5n2/8/1bBP4/2N5/PP3PPP/R1BQK1NR w KQkq -",
+        "id": "op-209"
+    },
+    {
+        "bm": "O-O",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0210",
+        "fen": "rnbqk2r/ppp3bp/3p1np1/4pp2/2P5/2NP1NP1/PP2PPBP/R1BQK2R w KQkq -",
+        "id": "op-210"
+    },
+    {
+        "bm": "Ne4",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0211",
+        "fen": "rnbqk2r/pppp1ppp/5n2/2bPp1B1/2P5/8/PP2PPPP/RN1QKBNR b KQkq -",
+        "id": "op-211"
+    },
+    {
+        "bm": "Nxe6",
+        "c0": "white pieces=14 black pieces=16",
+        "c1": "material balance: -2,0",
+        "desc": "Holmes Opening Pos. 0212",
+        "fen": "rnbqkb1r/1p1n1pp1/p3p2p/3pP3/3p1NQP/2N5/P1PB1PP1/R3KB1R w KQkq -",
+        "id": "op-212"
+    },
+    {
+        "bm": "Be2",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0213",
+        "fen": "rnbqkb1r/1p2pp1p/p2p1np1/8/P2NP3/2N5/1PP2PPP/R1BQKB1R w KQkq -",
+        "id": "op-213"
+    },
+    {
+        "bm": "Qxf6",
+        "c0": "white pieces=14 black pieces=13",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0214",
+        "fen": "rnbqkb1r/1p3ppp/5N2/1p2p1B1/2P5/8/PP2PPPP/R2QKB1R b KQkq -",
+        "id": "op-214"
+    },
+    {
+        "bm": "e6",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0215",
+        "fen": "rnbqkb1r/p3pppp/1p6/2ppP3/3N4/2P5/PPP1QPPP/R1B1KB1R w KQkq -",
+        "id": "op-215"
+    },
+    {
+        "bm": "Qxe6+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0216",
+        "fen": "rnbqkb1r/pp1n1p2/4p1p1/1N1pP2p/1P4Q1/3B1N2/P1PB1PPP/R3K2R w KQkq -",
+        "id": "op-216"
+    },
+    {
+        "bm": "e5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0217",
+        "fen": "rnbqkb1r/pp2p3/2pp1n1p/5pp1/3PPB2/2P5/PP1N1PPP/R2QKBNR w KQkq -",
+        "id": "op-217"
+    },
+    {
+        "bm": "e5",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0218",
+        "fen": "rnbqkb1r/ppp1pppp/5n2/8/3PP3/2N5/PP3PPP/R1BQKBNR b KQkq -",
+        "id": "op-218"
+    },
+    {
+        "bm": "d5",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0219",
+        "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4PP2/2N5/PPPP2PP/R1BQKBNR b KQkq f3",
+        "id": "op-219"
+    },
+    {
+        "bm": "Ne3",
+        "c0": "white pieces=16 black pieces=15",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0220",
+        "fen": "rnbqkb1r/pppp1ppp/8/4P3/6n1/7P/PPPNPPP1/R1BQKBNR b KQkq -",
+        "id": "op-220"
+    },
+    {
+        "bm": "Qh5+",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0221",
+        "fen": "rnbqkb1r/pppp2pp/5p2/2n1N3/2B5/2N5/PPPP1PPP/R1BQK2R w KQkq -",
+        "id": "op-221"
+    },
+    {
+        "bm": "Qxh5+",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0222",
+        "fen": "rnbqkbn1/ppppp3/7r/6pp/3P1p2/3BP1B1/PPP2PPP/RN1QK1NR w KQq -",
+        "id": "op-222"
+    },
+    {
+        "bm": "Nc3",
+        "c0": "white pieces=16 black pieces=16",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0223",
+        "fen": "rnbQKbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBqkBNR w - -",
+        "id": "op-223"
+    },
+    {
+        "bm": "a4",
+        "c0": "white pieces=15 black pieces=15",
+        "c1": "material balance: 0,0",
+        "desc": "Holmes Opening Pos. 0224",
+        "fen": "rnbqr1k1/1p3pbp/p2p1np1/2pP4/4P3/2N5/PP1NBPPP/R1BQ1RK1 w - -",
+        "id": "op-224"
+    },
+    {
+        "bm": "Qg8+",
+        "c0": "white pieces=15 black pieces=14",
+        "c1": "material balance: 1,0",
+        "desc": "Holmes Opening Pos. 0225",
+        "fen": "rnbqr2k/pppp1Qpp/8/b2NN3/2B1n3/8/PPPP1PPP/R1B1K2R w KQ -",
+        "id": "op-225"
+    }
+]

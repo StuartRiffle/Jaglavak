@@ -1,0 +1,7550 @@
+[
+    {
+        "bm": "Kc5",
+        "desc": "MES.1",
+        "fen": "8/6p1/7k/8/1K6/8/1P6/8 w - -",
+        "id": "mes-1"
+    },
+    {
+        "bm": "c4",
+        "desc": "MES.2",
+        "fen": "8/8/8/2p5/8/8/1kP5/3K4 w - -",
+        "id": "mes-2"
+    },
+    {
+        "bm": "Kg7",
+        "desc": "MES.3",
+        "fen": "7K/8/k1P5/7p/8/8/8/8 w - -",
+        "id": "mes-3"
+    },
+    {
+        "bm": "Kh2",
+        "desc": "MES.4",
+        "fen": "8/8/1p6/8/8/P7/8/5k1K w - -",
+        "id": "mes-4"
+    },
+    {
+        "bm": "a4",
+        "desc": "MES.5",
+        "fen": "8/8/8/8/8/P4p2/k6K/8 w - -",
+        "id": "mes-5"
+    },
+    {
+        "bm": "Kd4",
+        "desc": "MES.6",
+        "fen": "8/8/6p1/1k6/4K3/8/5P2/8 w - -",
+        "id": "mes-6"
+    },
+    {
+        "bm": "Kg3",
+        "desc": "MES.7",
+        "fen": "5k2/6p1/7p/8/7P/7K/8/8 w - -",
+        "id": "mes-7"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.8",
+        "fen": "8/8/1kpp4/8/2P5/2K5/8/8 w - -",
+        "id": "mes-8"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.9",
+        "fen": "8/5p2/1p6/1P2K2k/8/8/8/8 w - -",
+        "id": "mes-9"
+    },
+    {
+        "bm": "Kh1",
+        "desc": "MES.10",
+        "fen": "8/8/8/4p1p1/8/5P2/6K1/3k4 w - -",
+        "id": "mes-10"
+    },
+    {
+        "bm": "g4+",
+        "desc": "MES.11",
+        "fen": "8/2p4K/8/7k/8/8/6PP/8 w - -",
+        "id": "mes-11"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.12",
+        "fen": "4k3/4p3/4P3/4P3/8/8/2K5/8 w - -",
+        "id": "mes-12"
+    },
+    {
+        "bm": "b3",
+        "desc": "MES.13",
+        "fen": "K7/8/1k6/1p6/8/2P5/1P6/8 w - -",
+        "id": "mes-13"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.14",
+        "fen": "7k/5K2/7P/6pP/8/8/8/8 w - -",
+        "id": "mes-14"
+    },
+    {
+        "bm": "Kf1",
+        "desc": "MES.15",
+        "fen": "8/p7/P7/8/8/4k3/4P3/4K3 w - -",
+        "id": "mes-15"
+    },
+    {
+        "bm": "Kg6",
+        "desc": "MES.16",
+        "fen": "8/k7/3p4/6K1/2P1P3/8/8/8 w - -",
+        "id": "mes-16"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.17",
+        "fen": "K1k5/7p/8/2P5/8/8/P7/8 w - -",
+        "id": "mes-17"
+    },
+    {
+        "bm": "h4",
+        "desc": "MES.18",
+        "fen": "8/5p2/5p2/5p2/8/4K3/7P/7k w - -",
+        "id": "mes-18"
+    },
+    {
+        "bm": "Kg6",
+        "desc": "MES.19",
+        "fen": "8/6p1/k1P2p1p/7K/8/8/8/8 w - -",
+        "id": "mes-19"
+    },
+    {
+        "bm": "Kd4",
+        "desc": "MES.20",
+        "fen": "2k5/3p4/P7/Pp6/8/4K3/8/8 w - -",
+        "id": "mes-20"
+    },
+    {
+        "bm": "Kg3",
+        "desc": "MES.21",
+        "fen": "8/1p2pk2/1P6/8/4P3/8/6K1/8 w - -",
+        "id": "mes-21"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.22",
+        "fen": "8/3Pk1p1/8/1K3Pp1/8/8/8/8 w - -",
+        "id": "mes-22"
+    },
+    {
+        "bm": "hxg5+",
+        "desc": "MES.23",
+        "fen": "8/5p2/7k/6p1/5P1P/8/8/7K w - -",
+        "id": "mes-23"
+    },
+    {
+        "bm": "Kg5",
+        "desc": "MES.24",
+        "fen": "4k3/8/3p4/p6K/P5P1/8/8/8 w - -",
+        "id": "mes-24"
+    },
+    {
+        "bm": "Kf3",
+        "desc": "MES.25",
+        "fen": "8/2p1Pk2/5P2/8/3p1K2/8/8/8 w - -",
+        "id": "mes-25"
+    },
+    {
+        "bm": "h8=Q",
+        "desc": "MES.26",
+        "fen": "1k1K4/1p5P/1P6/8/8/8/p7/8 w - -",
+        "id": "mes-26"
+    },
+    {
+        "bm": "Ke6",
+        "desc": "MES.27",
+        "fen": "k7/5K2/8/8/7p/p6P/P7/8 w - -",
+        "id": "mes-27"
+    },
+    {
+        "bm": "f4",
+        "desc": "MES.28",
+        "fen": "8/p2p4/8/8/8/k7/5P1P/7K w - -",
+        "id": "mes-28"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.29",
+        "fen": "8/8/1k1p4/8/P1P5/p7/8/3K4 w - -",
+        "id": "mes-29"
+    },
+    {
+        "bm": "Kb6",
+        "desc": "MES.30",
+        "fen": "8/K3p3/5p2/5P2/8/8/2k1P3/8 w - -",
+        "id": "mes-30"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.31",
+        "fen": "8/2K5/1p6/1P4k1/5p2/8/6P1/8 w - -",
+        "id": "mes-31"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.32",
+        "fen": "8/5p2/5p2/8/5KP1/8/6P1/3k4 w - -",
+        "id": "mes-32"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.33",
+        "fen": "8/8/4k1P1/4p1p1/4K3/3P4/8/8 w - -",
+        "id": "mes-33"
+    },
+    {
+        "bm": "a3",
+        "desc": "MES.34",
+        "fen": "8/8/7p/p7/k1P2K2/8/P7/8 w - -",
+        "id": "mes-34"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.35",
+        "fen": "8/8/1p1K4/Pp6/2k1p3/8/1P6/8 w - -",
+        "id": "mes-35"
+    },
+    {
+        "bm": "Kb6",
+        "desc": "MES.36",
+        "fen": "3k4/3p3p/3p4/PK6/4P3/8/8/8 w - -",
+        "id": "mes-36"
+    },
+    {
+        "bm": "Kb4",
+        "desc": "MES.37",
+        "fen": "7k/3p2p1/2p5/5P2/2P5/K7/8/8 w - -",
+        "id": "mes-37"
+    },
+    {
+        "bm": "Kg3",
+        "desc": "MES.38",
+        "fen": "8/7p/3p4/8/6pP/8/4PK2/7k w - -",
+        "id": "mes-38"
+    },
+    {
+        "bm": "Kb5",
+        "desc": "MES.39",
+        "fen": "8/8/K7/2p1k3/8/1p1p4/1P1P4/8 w - -",
+        "id": "mes-39"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.40",
+        "fen": "8/8/2p5/k1p1K3/p1P5/P7/8/8 w - -",
+        "id": "mes-40"
+    },
+    {
+        "bm": "Kf3",
+        "desc": "MES.41",
+        "fen": "8/8/1p1p3p/3P4/4K3/8/4P2k/8 w - -",
+        "id": "mes-41"
+    },
+    {
+        "bm": "d4",
+        "desc": "MES.42",
+        "fen": "6K1/8/pp5p/8/7k/3PP3/8/8 w - -",
+        "id": "mes-42"
+    },
+    {
+        "bm": "Kb8",
+        "desc": "MES.43",
+        "fen": "K7/8/k7/6p1/6Pp/7p/7P/8 w - -",
+        "id": "mes-43"
+    },
+    {
+        "bm": "Kd6",
+        "desc": "MES.44",
+        "fen": "2k5/3p2p1/2p5/2K5/5P2/8/2P5/8 w - -",
+        "id": "mes-44"
+    },
+    {
+        "bm": "Kd5",
+        "desc": "MES.45",
+        "fen": "6k1/p7/3K2p1/1P5p/7P/8/8/8 w - -",
+        "id": "mes-45"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.46",
+        "fen": "8/1K6/8/k4p2/4pp2/8/4PP2/8 w - -",
+        "id": "mes-46"
+    },
+    {
+        "bm": "Ke5",
+        "desc": "MES.47",
+        "fen": "8/6p1/4K3/6k1/6P1/6pP/6P1/8 w - -",
+        "id": "mes-47"
+    },
+    {
+        "bm": "Kb8",
+        "desc": "MES.48",
+        "fen": "8/K7/3pk3/8/p3P3/P7/1P6/8 w - -",
+        "id": "mes-48"
+    },
+    {
+        "bm": "Kg2",
+        "desc": "MES.49",
+        "fen": "1k6/1p6/3p4/1P6/1P6/1P6/8/7K w - -",
+        "id": "mes-49"
+    },
+    {
+        "bm": "Ke1",
+        "desc": "MES.50",
+        "fen": "8/6p1/8/5p1P/5P2/6P1/8/5K1k w - -",
+        "id": "mes-50"
+    },
+    {
+        "bm": "b4",
+        "desc": "MES.51",
+        "fen": "8/2p5/3k4/1p1p1K2/8/1P1P4/2P5/8 w - -",
+        "id": "mes-51"
+    },
+    {
+        "bm": "Kd7",
+        "desc": "MES.52",
+        "fen": "4K3/pk6/2p5/2P5/1pP4P/1P6/8/8 w - -",
+        "id": "mes-52"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.53",
+        "fen": "8/2p5/3k3P/5pp1/5p2/1p5K/8/8 w - -",
+        "id": "mes-53"
+    },
+    {
+        "bm": "Kf7",
+        "desc": "MES.54",
+        "fen": "8/8/6K1/k2p4/2p5/2P4p/3P3P/8 w - -",
+        "id": "mes-54"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.55",
+        "fen": "8/8/1p3P1k/4P3/8/1p6/pK2P3/8 w - -",
+        "id": "mes-55"
+    },
+    {
+        "bm": "Kb5",
+        "desc": "MES.56",
+        "fen": "8/4Pk2/5p2/8/K7/3p2p1/3P2P1/8 w - -",
+        "id": "mes-56"
+    },
+    {
+        "bm": "a5",
+        "desc": "MES.57",
+        "fen": "8/1p6/8/5k1p/P1P3p1/8/5PK1/8 w - -",
+        "id": "mes-57"
+    },
+    {
+        "bm": "Kd2",
+        "desc": "MES.58",
+        "fen": "4k3/5p1p/1p5P/6P1/P7/8/8/4K3 w - -",
+        "id": "mes-58"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.59",
+        "fen": "5k2/5p1p/7P/6P1/p7/P7/8/1K6 w - -",
+        "id": "mes-59"
+    },
+    {
+        "bm": "Kb7",
+        "desc": "MES.60",
+        "fen": "K7/3p3p/3k4/8/6pP/8/P5P1/8 w - -",
+        "id": "mes-60"
+    },
+    {
+        "bm": "Kg1",
+        "desc": "MES.61",
+        "fen": "1k6/1P6/2P5/P7/5ppp/8/6K1/8 w - -",
+        "id": "mes-61"
+    },
+    {
+        "bm": "f5",
+        "desc": "MES.62",
+        "fen": "8/6p1/6pp/8/k4P2/6K1/6PP/8 w - -",
+        "id": "mes-62"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.63",
+        "fen": "1k6/p3pp2/p7/P2KP3/P7/8/8/8 w - -",
+        "id": "mes-63"
+    },
+    {
+        "bm": "b4",
+        "desc": "MES.64",
+        "fen": "8/1p6/8/P7/7p/1P2p2P/4P1k1/4K3 w - -",
+        "id": "mes-64"
+    },
+    {
+        "bm": "Kd6",
+        "desc": "MES.65",
+        "fen": "k7/P2K4/p7/1p4p1/1P4P1/6P1/8/8 w - -",
+        "id": "mes-65"
+    },
+    {
+        "bm": "c5",
+        "desc": "MES.66",
+        "fen": "8/2p2p2/1p6/3P1k1K/P1P2P2/8/8/8 w - -",
+        "id": "mes-66"
+    },
+    {
+        "bm": "Ke7",
+        "desc": "MES.67",
+        "fen": "2k2K2/2p5/P7/Pp1P4/8/7p/7P/8 w - -",
+        "id": "mes-67"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.68",
+        "fen": "8/2pp4/8/2PP3k/4pPp1/4P1K1/8/8 w - -",
+        "id": "mes-68"
+    },
+    {
+        "bm": "h4",
+        "desc": "MES.69",
+        "fen": "8/3p4/3P4/3p2pp/3P4/k4K1P/7P/8 w - -",
+        "id": "mes-69"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.70",
+        "fen": "8/2p5/pp6/kP1P4/p3K3/P1P5/8/8 w - -",
+        "id": "mes-70"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.71",
+        "fen": "8/5pp1/8/k2p1Pp1/P5P1/3P4/8/3K4 w - -",
+        "id": "mes-71"
+    },
+    {
+        "bm": "f5",
+        "desc": "MES.72",
+        "fen": "8/2pp1k2/2p1pP2/4P3/5P2/6K1/5P2/8 w - -",
+        "id": "mes-72"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.73",
+        "fen": "8/8/7p/2p2PP1/p1P5/p1K5/k2P4/8 w - -",
+        "id": "mes-73"
+    },
+    {
+        "bm": "a4+",
+        "desc": "MES.74",
+        "fen": "8/1p6/1p6/1k2K3/2p1p3/PpP1P3/1P6/8 w - -",
+        "id": "mes-74"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.75",
+        "fen": "7k/8/5PpK/Pp1P2pp/3P4/8/5p2/8 w - -",
+        "id": "mes-75"
+    },
+    {
+        "bm": "Kb2",
+        "desc": "MES.76",
+        "fen": "8/1p5k/1P1p4/3p4/3Pp2p/2K1P2p/7P/8 w - -",
+        "id": "mes-76"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.77",
+        "fen": "8/2pp2pp/8/2PP1P2/1p5k/8/PP4p1/6K1 w - -",
+        "id": "mes-77"
+    },
+    {
+        "bm": "Kf1",
+        "desc": "MES.78",
+        "fen": "8/5k2/2p5/1pPp4/p2P2p1/P2P2P1/P5K1/8 w - -",
+        "id": "mes-78"
+    },
+    {
+        "bm": "Kd1",
+        "desc": "MES.79",
+        "fen": "8/4p1p1/1k2p1p1/p3P1P1/P1p2P2/2P5/5P2/4K3 w - -",
+        "id": "mes-79"
+    },
+    {
+        "bm": "Ke6",
+        "desc": "MES.80",
+        "fen": "3k4/1pp5/p4P1p/P1p1KP1P/2P4p/7P/2P5/8 w - -",
+        "id": "mes-80"
+    },
+    {
+        "bm": "h5",
+        "desc": "MES.81",
+        "fen": "8/pp1pppp1/3p2p1/PP2P1P1/K1P4P/8/k7/8 w - -",
+        "id": "mes-81"
+    },
+    {
+        "bm": "Nb2",
+        "desc": "MES.82",
+        "fen": "K7/8/8/7p/N2k4/8/8/8 w - -",
+        "id": "mes-82"
+    },
+    {
+        "bm": "Nf7",
+        "desc": "MES.83",
+        "fen": "7N/2K5/8/8/7p/2k5/8/8 w - -",
+        "id": "mes-83"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.84",
+        "fen": "8/4k2N/7p/8/1p6/8/4K3/8 w - -",
+        "id": "mes-84"
+    },
+    {
+        "bm": "Nd4",
+        "desc": "MES.85",
+        "fen": "7K/3k4/8/pN6/8/8/1P6/8 w - -",
+        "id": "mes-85"
+    },
+    {
+        "bm": "Ng1",
+        "desc": "MES.86",
+        "fen": "8/8/8/8/5p2/4k1p1/4N1P1/5K2 w - -",
+        "id": "mes-86"
+    },
+    {
+        "bm": "Ne1",
+        "desc": "MES.87",
+        "fen": "8/8/8/8/3p4/2k1p3/2N1P3/3K4 w - -",
+        "id": "mes-87"
+    },
+    {
+        "bm": "Ke7",
+        "desc": "MES.88",
+        "fen": "5K2/5P2/8/8/kp3n2/8/P7/8 w - -",
+        "id": "mes-88"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.89",
+        "fen": "8/8/8/4P3/3pp1K1/N2k4/8/8 w - -",
+        "id": "mes-89"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.90",
+        "fen": "8/7K/6p1/7P/p7/8/3kN3/8 w - -",
+        "id": "mes-90"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.91",
+        "fen": "8/8/5N2/6P1/5k2/5pp1/8/4K3 w - -",
+        "id": "mes-91"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.92",
+        "fen": "8/3p4/3k1Np1/P4p2/5K2/8/8/8 w - -",
+        "id": "mes-92"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.93",
+        "fen": "8/2p5/1p6/1K6/7k/7P/7P/6N1 w - -",
+        "id": "mes-93"
+    },
+    {
+        "bm": "d6+",
+        "desc": "MES.94",
+        "fen": "8/2kp1K2/6N1/3P4/p6P/8/8/8 w - -",
+        "id": "mes-94"
+    },
+    {
+        "bm": "Kf1",
+        "desc": "MES.95",
+        "fen": "4k3/7N/4P3/6P1/8/4p1p1/8/6K1 w - -",
+        "id": "mes-95"
+    },
+    {
+        "bm": "Nf5+",
+        "desc": "MES.96",
+        "fen": "8/8/p6k/8/3N4/PP1K4/7p/8 w - -",
+        "id": "mes-96"
+    },
+    {
+        "bm": "Nd3",
+        "desc": "MES.97",
+        "fen": "8/8/8/4N3/5p2/p4p2/5P1p/5K1k w - -",
+        "id": "mes-97"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.98",
+        "fen": "1k6/p7/8/1p5P/8/2pK4/1P5n/8 w - -",
+        "id": "mes-98"
+    },
+    {
+        "bm": "f3",
+        "desc": "MES.99",
+        "fen": "2k5/2P4K/1P3p2/6p1/6n1/8/5P2/8 w - -",
+        "id": "mes-99"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.100",
+        "fen": "2n5/1k6/4pP2/4P3/2K5/7p/6P1/8 w - -",
+        "id": "mes-100"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.101",
+        "fen": "2n5/8/1PkP4/P4p2/1K6/7P/8/8 w - -",
+        "id": "mes-101"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.102",
+        "fen": "4k3/4Pp1p/3P1K2/6P1/8/p2n4/8/8 w - -",
+        "id": "mes-102"
+    },
+    {
+        "bm": "Ng3",
+        "desc": "MES.103",
+        "fen": "8/6p1/6Pp/5p2/5P1K/2p5/3k3P/7N w - -",
+        "id": "mes-103"
+    },
+    {
+        "bm": "Kd5",
+        "desc": "MES.104",
+        "fen": "4n2k/7P/5P1p/6p1/2K3P1/5P2/8/8 w - -",
+        "id": "mes-104"
+    },
+    {
+        "bm": "d5",
+        "desc": "MES.105",
+        "fen": "6K1/p7/4ppkp/7p/2PP1P1p/7P/P2P4/4n3 w - -",
+        "id": "mes-105"
+    },
+    {
+        "bm": "Kg6",
+        "desc": "MES.106",
+        "fen": "8/7K/7P/1P6/2n4k/4n3/1P6/8 w - -",
+        "id": "mes-106"
+    },
+    {
+        "bm": "d8=N",
+        "desc": "MES.107",
+        "fen": "8/p2P4/k7/P4P2/nKPn4/8/8/8 w - -",
+        "id": "mes-107"
+    },
+    {
+        "bm": "Nhg5+",
+        "desc": "MES.108",
+        "fen": "8/5N1N/8/8/1P6/2K4k/6p1/8 w - -",
+        "id": "mes-108"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.109",
+        "fen": "1K6/N7/k7/8/6N1/1pp5/1P6/8 w - -",
+        "id": "mes-109"
+    },
+    {
+        "bm": "Ndf4",
+        "desc": "MES.110",
+        "fen": "5K2/7k/8/6P1/8/pp1N3N/8/8 w - -",
+        "id": "mes-110"
+    },
+    {
+        "bm": "Nd2",
+        "desc": "MES.111",
+        "fen": "8/3N4/5p2/8/4PK2/8/5Pp1/1N2k3 w - -",
+        "id": "mes-111"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.112",
+        "fen": "8/8/7p/3KNN1k/2p4p/8/3P2p1/8 w - -",
+        "id": "mes-112"
+    },
+    {
+        "bm": "gxh6",
+        "desc": "MES.113",
+        "fen": "8/6p1/7p/6PN/3NK1k1/6Pp/6p1/8 w - -",
+        "id": "mes-113"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.114",
+        "fen": "8/1p3p2/8/1KP1P3/3NkpP1/7p/2N2P2/8 w - -",
+        "id": "mes-114"
+    },
+    {
+        "bm": "Kh4",
+        "desc": "MES.115",
+        "fen": "8/8/8/6K1/8/4N2p/5n1k/8 w - -",
+        "id": "mes-115"
+    },
+    {
+        "bm": "Ka7",
+        "desc": "MES.116",
+        "fen": "K2n4/8/P7/8/2k5/8/2N5/8 w - -",
+        "id": "mes-116"
+    },
+    {
+        "bm": "Nc5",
+        "desc": "MES.117",
+        "fen": "8/1K6/P7/kn6/4N3/8/8/8 w - -",
+        "id": "mes-117"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.118",
+        "fen": "8/K7/8/2P1N3/n3k3/2p5/8/8 w - -",
+        "id": "mes-118"
+    },
+    {
+        "bm": "Kd6",
+        "desc": "MES.119",
+        "fen": "7k/4np2/8/4K2p/8/4N3/P7/8 w - -",
+        "id": "mes-119"
+    },
+    {
+        "bm": "b6+",
+        "desc": "MES.120",
+        "fen": "8/N1k1n3/6P1/1P2K3/8/1p6/8/8 w - -",
+        "id": "mes-120"
+    },
+    {
+        "bm": "Kb2",
+        "desc": "MES.121",
+        "fen": "8/2Pp4/1n1N4/8/8/K4Pk1/8/8 w - -",
+        "id": "mes-121"
+    },
+    {
+        "bm": "Kb7",
+        "desc": "MES.122",
+        "fen": "K7/8/1Np5/8/6k1/n7/P5P1/8 w - -",
+        "id": "mes-122"
+    },
+    {
+        "bm": "Nf2+",
+        "desc": "MES.123",
+        "fen": "3n4/8/2P5/8/5p2/p2N3k/7p/5K2 w - -",
+        "id": "mes-123"
+    },
+    {
+        "bm": "Ne6",
+        "desc": "MES.124",
+        "fen": "8/6N1/p5k1/3K4/1p1p4/1P6/8/2n5 w - -",
+        "id": "mes-124"
+    },
+    {
+        "bm": "d4",
+        "desc": "MES.125",
+        "fen": "2n5/8/Pp5p/5N2/8/5k2/3P4/7K w - -",
+        "id": "mes-125"
+    },
+    {
+        "bm": "Kd5",
+        "desc": "MES.126",
+        "fen": "7n/8/6pP/6P1/k1K5/p7/8/1N6 w - -",
+        "id": "mes-126"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.127",
+        "fen": "3n4/3K4/8/1p6/pkN5/1P6/PP6/8 w - -",
+        "id": "mes-127"
+    },
+    {
+        "bm": "Kd1",
+        "desc": "MES.128",
+        "fen": "4Nn2/8/3P4/kP2P3/5p2/5p2/8/2K5 w - -",
+        "id": "mes-128"
+    },
+    {
+        "bm": "Nf6+",
+        "desc": "MES.129",
+        "fen": "4k3/2p2nKP/3p4/3Ppp1N/8/8/8/8 w - -",
+        "id": "mes-129"
+    },
+    {
+        "bm": "Ne7",
+        "desc": "MES.130",
+        "fen": "1n4N1/8/4p1P1/kp2p3/p3P3/8/K7/8 w - -",
+        "id": "mes-130"
+    },
+    {
+        "bm": "Ne2",
+        "desc": "MES.131",
+        "fen": "n7/K5PP/2k5/8/8/1P1p2Np/6p1/8 w - -",
+        "id": "mes-131"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.132",
+        "fen": "6N1/8/3P4/3n1P2/5p2/3K1k2/6n1/8 w - -",
+        "id": "mes-132"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.133",
+        "fen": "4NN2/8/8/6Pk/8/5nK1/8/8 w - -",
+        "id": "mes-133"
+    },
+    {
+        "bm": "Nf6",
+        "desc": "MES.134",
+        "fen": "8/8/2n1n3/8/6N1/5N2/K3p3/5k2 w - -",
+        "id": "mes-134"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.135",
+        "fen": "7k/3NN3/8/4K3/8/nP1p4/1n4P1/8 w - -",
+        "id": "mes-135"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.136",
+        "fen": "6K1/3p4/7k/3N4/4N2P/5nP1/8/4n3 w - -",
+        "id": "mes-136"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.137",
+        "fen": "4k1N1/5n2/1P1p2P1/2n5/3N4/p7/8/3K4 w - -",
+        "id": "mes-137"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.138",
+        "fen": "8/8/8/2k5/p1b5/8/1P1K4/8 w - -",
+        "id": "mes-138"
+    },
+    {
+        "bm": "Ke7",
+        "desc": "MES.139",
+        "fen": "5K2/k7/4P1p1/8/8/8/4b3/8 w - -",
+        "id": "mes-139"
+    },
+    {
+        "bm": "a5",
+        "desc": "MES.140",
+        "fen": "8/6b1/5k2/8/P3K1P1/8/8/8 w - -",
+        "id": "mes-140"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.141",
+        "fen": "5K2/8/7P/5p2/1P6/8/3b4/k7 w - -",
+        "id": "mes-141"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.142",
+        "fen": "3b4/5k2/3P1p1P/3K4/8/8/8/8 w - -",
+        "id": "mes-142"
+    },
+    {
+        "bm": "Ke4",
+        "desc": "MES.143",
+        "fen": "8/8/1b5P/kP6/8/5K2/1P6/8 w - -",
+        "id": "mes-143"
+    },
+    {
+        "bm": "Ke6",
+        "desc": "MES.144",
+        "fen": "1b6/5K2/7P/1kp5/1p6/8/3P4/8 w - -",
+        "id": "mes-144"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.145",
+        "fen": "K7/1P6/1kP5/3P4/8/8/1p5b/8 w - -",
+        "id": "mes-145"
+    },
+    {
+        "bm": "Kd4",
+        "desc": "MES.146",
+        "fen": "8/1p6/8/P1K5/1P6/5b1P/4k3/8 w - -",
+        "id": "mes-146"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.147",
+        "fen": "8/p7/8/1P2K3/P6P/5b2/5k2/8 w - -",
+        "id": "mes-147"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.148",
+        "fen": "K7/2P5/b4k1p/3P4/6P1/8/8/8 w - -",
+        "id": "mes-148"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.149",
+        "fen": "8/p3p3/K2PkP2/1P6/5b2/8/8/8 w - -",
+        "id": "mes-149"
+    },
+    {
+        "bm": "Kf7",
+        "desc": "MES.150",
+        "fen": "8/3k2K1/2p1p3/b5P1/3P1P2/8/8/8 w - -",
+        "id": "mes-150"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.151",
+        "fen": "8/3Pb1p1/8/3P2P1/5P2/7k/4K3/8 w - -",
+        "id": "mes-151"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.152",
+        "fen": "8/2p1p3/4Pb2/1P1P3k/4K2P/8/8/8 w - -",
+        "id": "mes-152"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.153",
+        "fen": "8/b7/3K1p2/7P/1p5k/1P6/1PP4P/8 w - -",
+        "id": "mes-153"
+    },
+    {
+        "bm": "Kg1",
+        "desc": "MES.154",
+        "fen": "5k2/8/5PP1/8/1p3p2/6P1/P4PpK/7b w - -",
+        "id": "mes-154"
+    },
+    {
+        "bm": "h8=R",
+        "desc": "MES.155",
+        "fen": "4k1K1/3p2pP/p2P3P/P7/8/1p6/1p6/b7 w - -",
+        "id": "mes-155"
+    },
+    {
+        "bm": "g4",
+        "desc": "MES.156",
+        "fen": "8/8/2PK2p1/7p/p1b2P2/P5P1/2P2kP1/8 w - -",
+        "id": "mes-156"
+    },
+    {
+        "bm": "Kd6",
+        "desc": "MES.157",
+        "fen": "7k/3K2pP/pb4P1/8/P6p/2p1p3/2P1P1P1/8 w - -",
+        "id": "mes-157"
+    },
+    {
+        "bm": "Ke2",
+        "desc": "MES.158",
+        "fen": "8/5p1b/4pPkp/3pP2p/1p1P3P/1p2K2P/1P6/8 w - -",
+        "id": "mes-158"
+    },
+    {
+        "bm": "Bb4",
+        "desc": "MES.159",
+        "fen": "6k1/3p4/8/8/8/B7/P7/7K w - -",
+        "id": "mes-159"
+    },
+    {
+        "bm": "Bh6+",
+        "desc": "MES.160",
+        "fen": "5k2/4p2p/6P1/3K4/8/4B3/8/8 w - -",
+        "id": "mes-160"
+    },
+    {
+        "bm": "Bc2",
+        "desc": "MES.161",
+        "fen": "8/5p1B/7P/1K6/1p6/p7/1k6/8 w - -",
+        "id": "mes-161"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.162",
+        "fen": "5B2/p7/3p4/PPk5/8/8/4K3/8 w - -",
+        "id": "mes-162"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.163",
+        "fen": "8/2p2B2/5PK1/3Pk3/8/7p/8/8 w - -",
+        "id": "mes-163"
+    },
+    {
+        "bm": "Bd4",
+        "desc": "MES.164",
+        "fen": "8/B1p2p1P/8/4p3/8/k7/p2K4/8 w - -",
+        "id": "mes-164"
+    },
+    {
+        "bm": "Ba1",
+        "desc": "MES.165",
+        "fen": "8/8/3p4/8/3B4/p7/p1P4p/5K1k w - -",
+        "id": "mes-165"
+    },
+    {
+        "bm": "Kc3",
+        "desc": "MES.166",
+        "fen": "8/8/5p2/3P4/p1PK4/p7/k7/3B4 w - -",
+        "id": "mes-166"
+    },
+    {
+        "bm": "Bg2",
+        "desc": "MES.167",
+        "fen": "8/8/5p2/5p2/5P2/3p3B/5k1P/3K4 w - -",
+        "id": "mes-167"
+    },
+    {
+        "bm": "Be3",
+        "desc": "MES.168",
+        "fen": "8/8/2pp4/2p2kp1/2K5/6P1/6P1/2B5 w - -",
+        "id": "mes-168"
+    },
+    {
+        "bm": "Be8",
+        "desc": "MES.169",
+        "fen": "8/7p/6pP/1B4P1/pp6/1k1K4/8/8 w - -",
+        "id": "mes-169"
+    },
+    {
+        "bm": "Kc8",
+        "desc": "MES.170",
+        "fen": "k7/pp1K4/P2B4/p7/P7/P7/8/8 w - -",
+        "id": "mes-170"
+    },
+    {
+        "bm": "Bd2",
+        "desc": "MES.171",
+        "fen": "8/1p6/1P1p4/1K1p2B1/P2P4/6pp/1P6/5k2 w - -",
+        "id": "mes-171"
+    },
+    {
+        "bm": "a7+",
+        "desc": "MES.172",
+        "fen": "1k6/1p1p4/PK2p3/5p1p/6pP/8/8/5B2 w - -",
+        "id": "mes-172"
+    },
+    {
+        "bm": "Kg6",
+        "desc": "MES.173",
+        "fen": "5kB1/3p1P2/7K/2Pp1P1P/p6p/4P3/7P/8 w - -",
+        "id": "mes-173"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.174",
+        "fen": "3k4/3p4/3P1P2/P6B/1p1p4/1KPP3p/1P3p2/8 w - -",
+        "id": "mes-174"
+    },
+    {
+        "bm": "Kf2",
+        "desc": "MES.175",
+        "fen": "8/1p6/1P6/3p1p1p/p2PpPpk/2p1P2P/2P1B1P1/6K1 w - -",
+        "id": "mes-175"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.176",
+        "fen": "8/8/8/2P4B/8/5K2/3k4/5b2 w - -",
+        "id": "mes-176"
+    },
+    {
+        "bm": "b4",
+        "desc": "MES.177",
+        "fen": "8/8/2B5/7b/7k/2K5/1P6/8 w - -",
+        "id": "mes-177"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.178",
+        "fen": "8/8/8/1P6/7b/7k/7B/7K w - -",
+        "id": "mes-178"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.179",
+        "fen": "B3K3/8/8/P1p5/8/8/2b4k/8 w - -",
+        "id": "mes-179"
+    },
+    {
+        "bm": "Bc8",
+        "desc": "MES.180",
+        "fen": "8/8/B3P3/3k4/5K2/2P4b/8/8 w - -",
+        "id": "mes-180"
+    },
+    {
+        "bm": "Bc6+",
+        "desc": "MES.181",
+        "fen": "1K6/3p4/3P4/8/k7/1p6/8/1b5B w - -",
+        "id": "mes-181"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.182",
+        "fen": "8/8/7B/2P5/1p4p1/3k4/7K/4b3 w - -",
+        "id": "mes-182"
+    },
+    {
+        "bm": "Bf7",
+        "desc": "MES.183",
+        "fen": "k7/8/8/1p2P1p1/bK6/8/B7/8 w - -",
+        "id": "mes-183"
+    },
+    {
+        "bm": "Ba5",
+        "desc": "MES.184",
+        "fen": "3B4/6b1/6P1/2p5/P1k5/8/8/5K2 w - -",
+        "id": "mes-184"
+    },
+    {
+        "bm": "Be4",
+        "desc": "MES.185",
+        "fen": "8/pB4Pb/4k3/8/K2P4/8/8/8 w - -",
+        "id": "mes-185"
+    },
+    {
+        "bm": "Be7",
+        "desc": "MES.186",
+        "fen": "8/8/p7/p3b1B1/8/p7/1p2k3/1K6 w - -",
+        "id": "mes-186"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.187",
+        "fen": "k2K4/8/6P1/2B5/5P2/p7/4p2b/8 w - -",
+        "id": "mes-187"
+    },
+    {
+        "bm": "Kd6",
+        "desc": "MES.188",
+        "fen": "B6k/6p1/2K3PP/8/4p3/8/6b1/8 w - -",
+        "id": "mes-188"
+    },
+    {
+        "bm": "Kf4",
+        "desc": "MES.189",
+        "fen": "8/4k3/6b1/2p5/2BP4/p4K2/4P3/8 w - -",
+        "id": "mes-189"
+    },
+    {
+        "bm": "e4",
+        "desc": "MES.190",
+        "fen": "8/8/2p2K2/5B1p/k7/8/2P1P3/1b6 w - -",
+        "id": "mes-190"
+    },
+    {
+        "bm": "Bc7",
+        "desc": "MES.191",
+        "fen": "8/p7/P7/P7/P4B2/8/5k2/6bK w - -",
+        "id": "mes-191"
+    },
+    {
+        "bm": "Ba3",
+        "desc": "MES.192",
+        "fen": "8/KPb5/8/P5p1/5p2/3k4/7P/2B5 w - -",
+        "id": "mes-192"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.193",
+        "fen": "8/1k6/1b6/p3p2P/1B5p/P7/5P2/2K5 w - -",
+        "id": "mes-193"
+    },
+    {
+        "bm": "Bf5",
+        "desc": "MES.194",
+        "fen": "5k2/P4P1K/1Pb2PB1/8/3p3p/8/8/8 w - -",
+        "id": "mes-194"
+    },
+    {
+        "bm": "Kc1",
+        "desc": "MES.195",
+        "fen": "8/3p4/pp1B4/k7/p1P5/P1bp4/8/3K4 w - -",
+        "id": "mes-195"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.196",
+        "fen": "1B6/3k4/3p4/1P6/p4b2/Pp6/1P1pK3/8 w - -",
+        "id": "mes-196"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.197",
+        "fen": "1b6/3k3p/P1p5/2Pp3p/K2P3P/8/8/6B1 w - -",
+        "id": "mes-197"
+    },
+    {
+        "bm": "Bg4",
+        "desc": "MES.198",
+        "fen": "8/8/8/3pk1K1/1p1p4/1PpP3b/2P1B2P/8 w - -",
+        "id": "mes-198"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.199",
+        "fen": "7k/2b5/6P1/2p2P1K/2Pp4/p2P4/2p5/2B5 w - -",
+        "id": "mes-199"
+    },
+    {
+        "bm": "Kb3",
+        "desc": "MES.200",
+        "fen": "6k1/4b2p/7B/6p1/3p2P1/3Pp1p1/2K1P1P1/8 w - -",
+        "id": "mes-200"
+    },
+    {
+        "bm": "b3+",
+        "desc": "MES.201",
+        "fen": "8/2p2b2/Pp1p4/4pp2/k7/2P5/1P2BPK1/8 w - -",
+        "id": "mes-201"
+    },
+    {
+        "bm": "Be4",
+        "desc": "MES.202",
+        "fen": "B4k1K/4pP1p/PP2P2P/8/8/p7/1p6/3b4 w - -",
+        "id": "mes-202"
+    },
+    {
+        "bm": "Be8",
+        "desc": "MES.203",
+        "fen": "5k1K/7p/1Pb2P2/5P1B/p2Pp3/4P3/4P3/8 w - -",
+        "id": "mes-203"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.204",
+        "fen": "8/6p1/4ppb1/P1p1p3/1k6/3PP3/1PK3P1/5B2 w - -",
+        "id": "mes-204"
+    },
+    {
+        "bm": "d5",
+        "desc": "MES.205",
+        "fen": "8/p1p2pp1/1pP3p1/7k/3PPb2/5P1P/8/3K2B1 w - -",
+        "id": "mes-205"
+    },
+    {
+        "bm": "Bd2+",
+        "desc": "MES.206",
+        "fen": "8/5b1P/8/4K1B1/1k6/8/p7/8 w - -",
+        "id": "mes-206"
+    },
+    {
+        "bm": "Be4+",
+        "desc": "MES.207",
+        "fen": "5b2/1B6/1P4k1/4P3/8/8/8/K7 w - -",
+        "id": "mes-207"
+    },
+    {
+        "bm": "Bg7",
+        "desc": "MES.208",
+        "fen": "7B/7k/3p1Kp1/6P1/8/8/8/1b6 w - -",
+        "id": "mes-208"
+    },
+    {
+        "bm": "Ba2+",
+        "desc": "MES.209",
+        "fen": "8/1p6/8/8/4p3/1k1P4/5b2/KB6 w - -",
+        "id": "mes-209"
+    },
+    {
+        "bm": "Ka6",
+        "desc": "MES.210",
+        "fen": "3k4/1K6/1P6/5p2/B1p5/8/3b4/8 w - -",
+        "id": "mes-210"
+    },
+    {
+        "bm": "Be3",
+        "desc": "MES.211",
+        "fen": "b7/8/3p4/P7/6p1/8/4KBk1/8 w - -",
+        "id": "mes-211"
+    },
+    {
+        "bm": "Kc3",
+        "desc": "MES.212",
+        "fen": "8/pkP3P1/3B4/8/3K4/1b6/8/8 w - -",
+        "id": "mes-212"
+    },
+    {
+        "bm": "Kf4",
+        "desc": "MES.213",
+        "fen": "3k4/8/1p1P4/1B6/7b/5K2/7P/8 w - -",
+        "id": "mes-213"
+    },
+    {
+        "bm": "Kc5",
+        "desc": "MES.214",
+        "fen": "4B3/8/4k3/P5p1/1PK5/8/8/4b3 w - -",
+        "id": "mes-214"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.215",
+        "fen": "3K1k2/8/2P5/2p5/5P2/8/1B4p1/3b4 w - -",
+        "id": "mes-215"
+    },
+    {
+        "bm": "Be5+",
+        "desc": "MES.216",
+        "fen": "8/2B3k1/2P5/6P1/4b2p/7K/7P/8 w - -",
+        "id": "mes-216"
+    },
+    {
+        "bm": "Ka8",
+        "desc": "MES.217",
+        "fen": "8/1K6/1P6/8/4P3/1p1k4/5P2/6bB w - -",
+        "id": "mes-217"
+    },
+    {
+        "bm": "f5+",
+        "desc": "MES.218",
+        "fen": "3K4/3P1p1B/4k1p1/7p/5P2/b7/8/8 w - -",
+        "id": "mes-218"
+    },
+    {
+        "bm": "Kb8",
+        "desc": "MES.219",
+        "fen": "8/K3p3/8/1k1P1b2/1P6/BP6/1P6/8 w - -",
+        "id": "mes-219"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.220",
+        "fen": "8/3pk3/6P1/P5Pp/5B2/1p5b/pP6/K7 w - -",
+        "id": "mes-220"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.221",
+        "fen": "8/B4p2/2p5/P2p4/5P2/1K1k1P2/3P4/5b2 w - -",
+        "id": "mes-221"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.222",
+        "fen": "8/2KB4/5pp1/1Pk1p1p1/4p3/7P/4P3/2b5 w - -",
+        "id": "mes-222"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.223",
+        "fen": "8/3p3p/3B3k/P1Pp1p1P/8/8/5P2/1b5K w - -",
+        "id": "mes-223"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.224",
+        "fen": "8/3p2p1/3P4/p1PkpP1P/K7/6B1/8/5b2 w - -",
+        "id": "mes-224"
+    },
+    {
+        "bm": "fxg3",
+        "desc": "MES.225",
+        "fen": "8/5pp1/3k2p1/1p6/pPB5/P4Kb1/5PP1/8 w - -",
+        "id": "mes-225"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.226",
+        "fen": "7b/1K2p3/7P/p4P2/1pk5/4P2p/1PP5/3B4 w - -",
+        "id": "mes-226"
+    },
+    {
+        "bm": "d4+",
+        "desc": "MES.227",
+        "fen": "8/pp3pb1/P1p5/2K1k2B/5p1p/3P4/3P2P1/8 w - -",
+        "id": "mes-227"
+    },
+    {
+        "bm": "Ba6",
+        "desc": "MES.228",
+        "fen": "1b6/5p1p/3k4/8/2Bp1pP1/1p1P4/1KPP3P/8 w - -",
+        "id": "mes-228"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.229",
+        "fen": "8/p2p1Bp1/P2p4/1Pp3pP/4K1kp/8/6P1/6b1 w - -",
+        "id": "mes-229"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.230",
+        "fen": "8/4B1pp/8/pp1PppP1/b3p3/P7/P3KP1P/2k5 w - -",
+        "id": "mes-230"
+    },
+    {
+        "bm": "Bh5+",
+        "desc": "MES.231",
+        "fen": "4B2K/6B1/8/8/8/8/2p5/3k4 w - -",
+        "id": "mes-231"
+    },
+    {
+        "bm": "c4",
+        "desc": "MES.232",
+        "fen": "3k2B1/p7/1p2K3/8/6P1/2P1p2p/1B6/8 w - -",
+        "id": "mes-232"
+    },
+    {
+        "bm": "Kb3",
+        "desc": "MES.233",
+        "fen": "8/2B5/1p2p1B1/1P6/2K5/8/2p1pP2/2k5 w - -",
+        "id": "mes-233"
+    },
+    {
+        "bm": "a5",
+        "desc": "MES.234",
+        "fen": "Bk6/1Pp5/1p2p3/4P3/P7/1pK4p/8/B7 w - -",
+        "id": "mes-234"
+    },
+    {
+        "bm": "Bd4",
+        "desc": "MES.235",
+        "fen": "1K6/2Pb4/1B5k/7P/5b2/2p5/8/8 w - -",
+        "id": "mes-235"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.236",
+        "fen": "8/8/P2K1k2/7b/8/5B2/4P2p/2b5 w - -",
+        "id": "mes-236"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.237",
+        "fen": "b7/2k5/P5P1/8/8/b2B1p1K/7P/8 w - -",
+        "id": "mes-237"
+    },
+    {
+        "bm": "d8=N",
+        "desc": "MES.238",
+        "fen": "8/3PP1P1/2b3P1/8/8/5kPp/5p1p/5BbK w - -",
+        "id": "mes-238"
+    },
+    {
+        "bm": "Bc1+",
+        "desc": "MES.239",
+        "fen": "8/8/7k/5K1P/8/B1b5/B7/8 w - -",
+        "id": "mes-239"
+    },
+    {
+        "bm": "Kb8",
+        "desc": "MES.240",
+        "fen": "2b5/K7/4p1p1/1p6/1B2B3/8/8/3k4 w - -",
+        "id": "mes-240"
+    },
+    {
+        "bm": "Bf4+",
+        "desc": "MES.241",
+        "fen": "8/2B5/7k/3p4/8/1p2P3/6K1/b6B w - -",
+        "id": "mes-241"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.242",
+        "fen": "8/6p1/6p1/5k1P/3Bp3/4PPP1/3p1PBK/4b3 w - -",
+        "id": "mes-242"
+    },
+    {
+        "bm": "Bg1",
+        "desc": "MES.243",
+        "fen": "8/6k1/1B6/4n3/8/7p/8/3K4 w - -",
+        "id": "mes-243"
+    },
+    {
+        "bm": "Kc5",
+        "desc": "MES.244",
+        "fen": "n6k/8/8/6P1/3K4/3B4/8/8 w - -",
+        "id": "mes-244"
+    },
+    {
+        "bm": "Ke6",
+        "desc": "MES.245",
+        "fen": "6B1/5P2/5Knk/8/7P/8/8/8 w - -",
+        "id": "mes-245"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.246",
+        "fen": "4k1B1/8/4P2p/3K4/7P/6np/8/8 w - -",
+        "id": "mes-246"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.247",
+        "fen": "8/8/4p3/3k1P2/3p4/8/2P5/Bn3K2 w - -",
+        "id": "mes-247"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.248",
+        "fen": "8/b7/k7/2P3pP/4p3/3N4/2K5/8 w - -",
+        "id": "mes-248"
+    },
+    {
+        "bm": "c3",
+        "desc": "MES.249",
+        "fen": "K6k/1p5B/6P1/1p6/8/4n3/2P5/8 w - -",
+        "id": "mes-249"
+    },
+    {
+        "bm": "Ke6",
+        "desc": "MES.250",
+        "fen": "8/2P2n1B/8/5K2/8/3p4/3Pkp2/8 w - -",
+        "id": "mes-250"
+    },
+    {
+        "bm": "Bc5",
+        "desc": "MES.251",
+        "fen": "8/B1p4p/2p5/8/P6k/8/2n2pK1/8 w - -",
+        "id": "mes-251"
+    },
+    {
+        "bm": "hxg6",
+        "desc": "MES.252",
+        "fen": "6nk/2p4p/3B1P1P/5KpP/8/8/8/8 w - g6",
+        "id": "mes-252"
+    },
+    {
+        "bm": "Bb7+",
+        "desc": "MES.253",
+        "fen": "B1k5/5n1P/3P3P/4p2K/4p3/4p3/8/8 w - -",
+        "id": "mes-253"
+    },
+    {
+        "bm": "Be7",
+        "desc": "MES.254",
+        "fen": "3B4/pp6/5p2/1P5n/k1K1pp2/7p/1P6/8 w - -",
+        "id": "mes-254"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.255",
+        "fen": "4nk2/2p2p2/7P/4B2p/2K2P1p/7p/5P2/8 w - -",
+        "id": "mes-255"
+    },
+    {
+        "bm": "Bd1",
+        "desc": "MES.256",
+        "fen": "8/2p1p1pp/2P1P2k/6pP/p7/P4Bp1/1P4P1/n5K1 w - -",
+        "id": "mes-256"
+    },
+    {
+        "bm": "Kg4",
+        "desc": "MES.257",
+        "fen": "3N4/8/8/3b3K/5p2/8/8/7k w - -",
+        "id": "mes-257"
+    },
+    {
+        "bm": "Nc6",
+        "desc": "MES.258",
+        "fen": "8/2K5/bP4k1/3p4/3N4/8/8/8 w - -",
+        "id": "mes-258"
+    },
+    {
+        "bm": "Nd5",
+        "desc": "MES.259",
+        "fen": "2b5/4N3/5P2/8/2k1K3/8/3p4/8 w - -",
+        "id": "mes-259"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.260",
+        "fen": "b7/2K5/8/N2P4/pk6/8/8/8 w - -",
+        "id": "mes-260"
+    },
+    {
+        "bm": "Kd5",
+        "desc": "MES.261",
+        "fen": "N2k4/p7/8/8/4K3/8/P7/6b1 w - -",
+        "id": "mes-261"
+    },
+    {
+        "bm": "f5",
+        "desc": "MES.262",
+        "fen": "5b1N/8/5k2/8/K1P1nP2/8/8/8 w - -",
+        "id": "mes-262"
+    },
+    {
+        "bm": "Nc2",
+        "desc": "MES.263",
+        "fen": "8/1p6/1Pb5/8/8/N5pk/8/6K1 w - -",
+        "id": "mes-263"
+    },
+    {
+        "bm": "Kc1",
+        "desc": "MES.264",
+        "fen": "8/8/4p3/2bP4/8/8/p7/k2KN3 w - -",
+        "id": "mes-264"
+    },
+    {
+        "bm": "Nd4+",
+        "desc": "MES.265",
+        "fen": "8/8/2k4b/P7/8/8/2N2PKp/8 w - -",
+        "id": "mes-265"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.266",
+        "fen": "4k3/3p1N2/8/P1P4b/8/8/7K/8 w - -",
+        "id": "mes-266"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.267",
+        "fen": "8/2k5/8/2P5/6N1/2K2p2/5P2/6b1 w - -",
+        "id": "mes-267"
+    },
+    {
+        "bm": "Nb3",
+        "desc": "MES.268",
+        "fen": "8/pk6/pp6/5b2/2P5/8/3N1K2/8 w - -",
+        "id": "mes-268"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.269",
+        "fen": "8/N4k2/2P2p1P/8/7p/5K2/2b5/8 w - -",
+        "id": "mes-269"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.270",
+        "fen": "K2b4/3P2pp/8/5PN1/8/6k1/8/8 w - -",
+        "id": "mes-270"
+    },
+    {
+        "bm": "c5",
+        "desc": "MES.271",
+        "fen": "8/1pN2p2/1P6/8/2P5/5k2/b7/6K1 w - -",
+        "id": "mes-271"
+    },
+    {
+        "bm": "Ng3",
+        "desc": "MES.272",
+        "fen": "8/8/8/P5PN/8/8/2bPK2p/6k1 w - -",
+        "id": "mes-272"
+    },
+    {
+        "bm": "Nf7+",
+        "desc": "MES.273",
+        "fen": "7k/7b/1P5N/6P1/7p/6pp/8/6K1 w - -",
+        "id": "mes-273"
+    },
+    {
+        "bm": "Nxb5",
+        "desc": "MES.274",
+        "fen": "8/3k1p2/P1p4P/1p6/8/N1b5/5K2/8 w - -",
+        "id": "mes-274"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.275",
+        "fen": "7N/1pp5/8/P1P1k3/1p6/4K3/8/1b6 w - -",
+        "id": "mes-275"
+    },
+    {
+        "bm": "b3+",
+        "desc": "MES.276",
+        "fen": "8/2p3Kp/1p2P3/8/k7/8/1PN3b1/8 w - -",
+        "id": "mes-276"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.277",
+        "fen": "8/3pk3/5p2/P1P1P3/8/1b6/N7/6K1 w - -",
+        "id": "mes-277"
+    },
+    {
+        "bm": "f4",
+        "desc": "MES.278",
+        "fen": "7k/7P/1p1P4/1p4pp/8/5P2/3N4/b1K5 w - -",
+        "id": "mes-278"
+    },
+    {
+        "bm": "d4",
+        "desc": "MES.279",
+        "fen": "5b1k/4p1pP/4P1P1/1p6/8/1N6/2pP4/2K5 w - -",
+        "id": "mes-279"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.280",
+        "fen": "8/5p2/p3p1P1/7b/Pk6/1p6/8/1KN5 w - -",
+        "id": "mes-280"
+    },
+    {
+        "bm": "Ng6",
+        "desc": "MES.281",
+        "fen": "8/3pPp2/3p1k1K/5p2/1b1P3N/2P5/5p2/8 w - -",
+        "id": "mes-281"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.282",
+        "fen": "8/8/P1p3N1/2Pb4/6p1/1P3pPp/8/2k2K2 w - -",
+        "id": "mes-282"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.283",
+        "fen": "8/8/5b1P/1p1Pk3/1Pp1P3/6p1/3N2p1/6K1 w - -",
+        "id": "mes-283"
+    },
+    {
+        "bm": "Nc8",
+        "desc": "MES.284",
+        "fen": "1k6/2p1NbP1/PpP5/1K6/2p3p1/3P4/8/8 w - -",
+        "id": "mes-284"
+    },
+    {
+        "bm": "Ng5",
+        "desc": "MES.285",
+        "fen": "8/2k4N/p6p/5p1P/5p2/2p1pP1b/2P1P2P/6K1 w - -",
+        "id": "mes-285"
+    },
+    {
+        "bm": "Kb7",
+        "desc": "MES.286",
+        "fen": "8/3k4/1K6/PP6/2b5/8/8/5n2 w - -",
+        "id": "mes-286"
+    },
+    {
+        "bm": "Kd8",
+        "desc": "MES.287",
+        "fen": "1b2K3/1P6/6n1/1P2k3/8/8/8/8 w - -",
+        "id": "mes-287"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.288",
+        "fen": "3n4/6k1/6P1/1KP5/8/8/8/3b4 w - -",
+        "id": "mes-288"
+    },
+    {
+        "bm": "d6+",
+        "desc": "MES.289",
+        "fen": "1n6/2k4K/5P2/3P1P2/8/8/8/4b3 w - -",
+        "id": "mes-289"
+    },
+    {
+        "bm": "Kb6",
+        "desc": "MES.290",
+        "fen": "8/P1n1kP2/4P3/2K5/8/8/8/3b4 w - -",
+        "id": "mes-290"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.291",
+        "fen": "8/3n4/P4P2/4p3/K1p5/8/2k4b/8 w - -",
+        "id": "mes-291"
+    },
+    {
+        "bm": "d4",
+        "desc": "MES.292",
+        "fen": "8/7P/2n1P1KP/3k4/8/3P4/1b6/8 w - -",
+        "id": "mes-292"
+    },
+    {
+        "bm": "Bc4+",
+        "desc": "MES.293",
+        "fen": "8/4K3/8/3k4/8/1N1B4/6p1/8 w - -",
+        "id": "mes-293"
+    },
+    {
+        "bm": "Bb7",
+        "desc": "MES.294",
+        "fen": "1NBk4/p2p4/8/3K4/8/8/8/8 w - -",
+        "id": "mes-294"
+    },
+    {
+        "bm": "Kf1",
+        "desc": "MES.295",
+        "fen": "8/6B1/8/8/8/2N1p3/p7/k5K1 w - -",
+        "id": "mes-295"
+    },
+    {
+        "bm": "Kf3",
+        "desc": "MES.296",
+        "fen": "8/6B1/8/1N6/8/4p3/p1k3K1/8 w - -",
+        "id": "mes-296"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.297",
+        "fen": "N7/1K6/8/8/2p5/5k1p/3B3P/8 w - -",
+        "id": "mes-297"
+    },
+    {
+        "bm": "Ke4",
+        "desc": "MES.298",
+        "fen": "8/8/5N2/B1pK4/1p6/k7/8/8 w - -",
+        "id": "mes-298"
+    },
+    {
+        "bm": "Nd4+",
+        "desc": "MES.299",
+        "fen": "8/1p6/8/5N2/p1K4B/p7/2k5/8 w - -",
+        "id": "mes-299"
+    },
+    {
+        "bm": "Ke1",
+        "desc": "MES.300",
+        "fen": "8/1B6/8/8/6pp/7p/4K2k/1N6 w - -",
+        "id": "mes-300"
+    },
+    {
+        "bm": "Nf4+",
+        "desc": "MES.301",
+        "fen": "8/8/4k3/8/1p6/3BP3/2K3Np/8 w - -",
+        "id": "mes-301"
+    },
+    {
+        "bm": "d3+",
+        "desc": "MES.302",
+        "fen": "8/8/8/1p6/2k3N1/4B3/p2PK3/8 w - -",
+        "id": "mes-302"
+    },
+    {
+        "bm": "Nc3",
+        "desc": "MES.303",
+        "fen": "8/8/8/3N4/8/p4K2/1pP5/3B2k1 w - -",
+        "id": "mes-303"
+    },
+    {
+        "bm": "Bc4+",
+        "desc": "MES.304",
+        "fen": "8/8/2P5/p7/K2p4/3k2N1/B1p5/8 w - -",
+        "id": "mes-304"
+    },
+    {
+        "bm": "Bf8",
+        "desc": "MES.305",
+        "fen": "8/1p1K4/1P4NB/6p1/8/4k3/6p1/8 w - -",
+        "id": "mes-305"
+    },
+    {
+        "bm": "Nc6",
+        "desc": "MES.306",
+        "fen": "1N6/8/K7/3k4/3p3B/p7/2PP4/8 w - -",
+        "id": "mes-306"
+    },
+    {
+        "bm": "Kb7",
+        "desc": "MES.307",
+        "fen": "2K2N2/2B5/p1p4p/2k5/2P5/7p/8/8 w - -",
+        "id": "mes-307"
+    },
+    {
+        "bm": "Ng3",
+        "desc": "MES.308",
+        "fen": "8/8/B7/4p2N/5pp1/1kpK4/6P1/8 w - -",
+        "id": "mes-308"
+    },
+    {
+        "bm": "Bb4+",
+        "desc": "MES.309",
+        "fen": "8/8/8/4N3/8/B1k2p1p/4Pp1P/2K5 w - -",
+        "id": "mes-309"
+    },
+    {
+        "bm": "Bf6",
+        "desc": "MES.310",
+        "fen": "8/4B2p/8/3p3P/8/3Pk1K1/p7/6N1 w - -",
+        "id": "mes-310"
+    },
+    {
+        "bm": "Nc5+",
+        "desc": "MES.311",
+        "fen": "8/1kpB1p2/3p4/4pK2/N1P3p1/7p/5P2/8 w - -",
+        "id": "mes-311"
+    },
+    {
+        "bm": "Nf3+",
+        "desc": "MES.312",
+        "fen": "8/4KBp1/1pp3p1/4k1P1/PP3p1N/P2p4/3P1pPP/8 w - -",
+        "id": "mes-312"
+    },
+    {
+        "bm": "Bxf6+",
+        "desc": "MES.313",
+        "fen": "7k/4p3/5p2/1p1p1p2/1PpP1PpB/1pP3P1/7P/6NK w - -",
+        "id": "mes-313"
+    },
+    {
+        "bm": "h8=N+",
+        "desc": "MES.314",
+        "fen": "b7/7P/4P1kb/3PK3/8/n7/8/8 w - -",
+        "id": "mes-314"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.315",
+        "fen": "1k1K2n1/2p5/2PP1P2/bP6/P7/2n5/8/8 w - -",
+        "id": "mes-315"
+    },
+    {
+        "bm": "Nf6",
+        "desc": "MES.316",
+        "fen": "4N3/2n5/1b6/8/k5p1/8/6P1/7K w - -",
+        "id": "mes-316"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.317",
+        "fen": "5k2/1K4b1/5np1/P7/8/8/8/6N1 w - -",
+        "id": "mes-317"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.318",
+        "fen": "b6k/4n3/5P1K/3p4/5N2/8/8/8 w - -",
+        "id": "mes-318"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.319",
+        "fen": "8/3b3p/pn2p3/6PP/PN3k1K/5P2/8/8 w - -",
+        "id": "mes-319"
+    },
+    {
+        "bm": "Nb6",
+        "desc": "MES.320",
+        "fen": "N7/P4n1P/p7/k4p2/1p2p1p1/7b/2P2K2/8 w - -",
+        "id": "mes-320"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.321",
+        "fen": "3n4/8/4P3/7p/P3PP1p/3Pbk1P/2p4P/2N1K3 w - -",
+        "id": "mes-321"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.322",
+        "fen": "8/8/8/7N/P5bb/K7/8/2k5 w - -",
+        "id": "mes-322"
+    },
+    {
+        "bm": "Ka1",
+        "desc": "MES.323",
+        "fen": "8/8/1p6/k5P1/1p6/1p1N2b1/bK6/8 w - -",
+        "id": "mes-323"
+    },
+    {
+        "bm": "Nh4",
+        "desc": "MES.324",
+        "fen": "8/4p3/P3p1NP/7p/K1kb4/7b/P4P2/8 w - -",
+        "id": "mes-324"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.325",
+        "fen": "8/8/b5pn/4K3/8/5k2/B7/8 w - -",
+        "id": "mes-325"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.326",
+        "fen": "K6b/8/8/k3P3/7B/8/4n3/8 w - -",
+        "id": "mes-326"
+    },
+    {
+        "bm": "g3",
+        "desc": "MES.327",
+        "fen": "5k2/3B2bK/6P1/8/2n5/8/6P1/8 w - -",
+        "id": "mes-327"
+    },
+    {
+        "bm": "Bd6+",
+        "desc": "MES.328",
+        "fen": "1kb5/3p4/P6p/1KB5/8/7P/8/n7 w - -",
+        "id": "mes-328"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.329",
+        "fen": "8/6p1/n4b1P/7P/p7/B3K3/8/4k3 w - -",
+        "id": "mes-329"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.330",
+        "fen": "8/1B3pk1/3P4/6pP/n7/5K2/8/2b5 w - -",
+        "id": "mes-330"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.331",
+        "fen": "B5k1/6P1/7P/n3K2p/2b4P/8/8/8 w - -",
+        "id": "mes-331"
+    },
+    {
+        "bm": "Kg8",
+        "desc": "MES.332",
+        "fen": "8/5P1K/3b4/8/6k1/1n4P1/1P4PB/8 w - -",
+        "id": "mes-332"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.333",
+        "fen": "7b/B7/p2P4/7P/7k/8/P1n2KP1/8 w - -",
+        "id": "mes-333"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.334",
+        "fen": "2b5/1pkp4/P1P1p3/1P3n2/8/6pp/6P1/6K1 w - -",
+        "id": "mes-334"
+    },
+    {
+        "bm": "Kc5+",
+        "desc": "MES.335",
+        "fen": "7B/1p3p1P/7n/7p/3K2p1/1P2P1Pp/1k2b3/8 w - -",
+        "id": "mes-335"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.336",
+        "fen": "8/pp5P/1p1p1P2/1K3b2/P2k4/8/p1pP4/1nB5 w - -",
+        "id": "mes-336"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.337",
+        "fen": "2b5/P1n1Ppp1/P2p4/3P2PK/5k1P/8/4B2P/8 w - -",
+        "id": "mes-337"
+    },
+    {
+        "bm": "Bg8",
+        "desc": "MES.338",
+        "fen": "8/2n2b1B/4p1pP/PP4p1/p5P1/3p2PK/3P4/7k w - -",
+        "id": "mes-338"
+    },
+    {
+        "bm": "Kb4",
+        "desc": "MES.339",
+        "fen": "6k1/6pb/N5p1/K5N1/8/8/8/8 w - -",
+        "id": "mes-339"
+    },
+    {
+        "bm": "Nb5+",
+        "desc": "MES.340",
+        "fen": "8/8/N2b4/8/K2N4/pPk5/8/8 w - -",
+        "id": "mes-340"
+    },
+    {
+        "bm": "Nf7",
+        "desc": "MES.341",
+        "fen": "K3b2N/8/2k3Np/7P/8/8/8/8 w - -",
+        "id": "mes-341"
+    },
+    {
+        "bm": "Nc4",
+        "desc": "MES.342",
+        "fen": "k4N2/8/1p3P2/pp6/8/K4b2/1N6/8 w - -",
+        "id": "mes-342"
+    },
+    {
+        "bm": "exd6",
+        "desc": "MES.343",
+        "fen": "1k6/2b5/p1Kpp3/P3PN2/8/2N5/8/8 w - -",
+        "id": "mes-343"
+    },
+    {
+        "bm": "Nf6+",
+        "desc": "MES.344",
+        "fen": "8/7N/4p2P/p3p2P/P3P1k1/2p5/7p/2b1K2N w - -",
+        "id": "mes-344"
+    },
+    {
+        "bm": "Kb6",
+        "desc": "MES.345",
+        "fen": "1k4B1/8/8/n1K3N1/8/8/8/8 w - -",
+        "id": "mes-345"
+    },
+    {
+        "bm": "Bc5",
+        "desc": "MES.346",
+        "fen": "8/8/8/8/1B2N3/8/k1K1n3/8 w - -",
+        "id": "mes-346"
+    },
+    {
+        "bm": "Nd4",
+        "desc": "MES.347",
+        "fen": "8/8/4N1k1/8/5K2/8/B2n4/8 w - -",
+        "id": "mes-347"
+    },
+    {
+        "bm": "Ne2+",
+        "desc": "MES.348",
+        "fen": "8/8/7p/8/8/2N2K2/8/1B3nk1 w - -",
+        "id": "mes-348"
+    },
+    {
+        "bm": "Be8",
+        "desc": "MES.349",
+        "fen": "8/8/8/NB6/8/5k2/2np3K/8 w - -",
+        "id": "mes-349"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.350",
+        "fen": "n7/7k/4p3/B7/6N1/8/8/6K1 w - -",
+        "id": "mes-350"
+    },
+    {
+        "bm": "Bd4",
+        "desc": "MES.351",
+        "fen": "8/8/8/8/8/p5pK/5B2/1Nn4k w - -",
+        "id": "mes-351"
+    },
+    {
+        "bm": "Be6",
+        "desc": "MES.352",
+        "fen": "8/4K2p/6kP/8/4N3/7B/8/n7 w - -",
+        "id": "mes-352"
+    },
+    {
+        "bm": "Bh2",
+        "desc": "MES.353",
+        "fen": "8/3N4/8/5K2/5B2/8/5Pp1/k3n3 w - -",
+        "id": "mes-353"
+    },
+    {
+        "bm": "Nf7+",
+        "desc": "MES.354",
+        "fen": "3N2n1/4p3/3P4/4k3/6K1/8/2B5/8 w - -",
+        "id": "mes-354"
+    },
+    {
+        "bm": "Ne8",
+        "desc": "MES.355",
+        "fen": "8/2N1k3/8/n7/B7/6p1/6Pp/7K w - -",
+        "id": "mes-355"
+    },
+    {
+        "bm": "g7+",
+        "desc": "MES.356",
+        "fen": "5B1k/7p/6P1/4NnP1/8/8/K4p2/8 w - -",
+        "id": "mes-356"
+    },
+    {
+        "bm": "Kb2",
+        "desc": "MES.357",
+        "fen": "8/8/p7/Pk6/p6p/3P1N2/8/K1n3B1 w - -",
+        "id": "mes-357"
+    },
+    {
+        "bm": "b8=N+",
+        "desc": "MES.358",
+        "fen": "B7/1P1p2p1/k2n1P2/8/N5K1/8/6p1/8 w - -",
+        "id": "mes-358"
+    },
+    {
+        "bm": "Bf8+",
+        "desc": "MES.359",
+        "fen": "8/3pB3/n4K1k/6N1/1p2P2p/1p6/1P4Pp/8 w - -",
+        "id": "mes-359"
+    },
+    {
+        "bm": "Ba3",
+        "desc": "MES.360",
+        "fen": "2n5/1P1p4/3P4/2B1P3/3P4/6p1/pp4P1/Nk5K w - -",
+        "id": "mes-360"
+    },
+    {
+        "bm": "Ne3+",
+        "desc": "MES.361",
+        "fen": "nK6/2p3pk/1pp5/1P3NP1/5P2/1P4P1/p1B5/8 w - -",
+        "id": "mes-361"
+    },
+    {
+        "bm": "Kd1",
+        "desc": "MES.362",
+        "fen": "8/6B1/8/8/3N4/4k3/8/2b1K3 w - -",
+        "id": "mes-362"
+    },
+    {
+        "bm": "Nc7",
+        "desc": "MES.363",
+        "fen": "1b5B/8/8/1N6/8/3k4/2p5/2K5 w - -",
+        "id": "mes-363"
+    },
+    {
+        "bm": "Nb5",
+        "desc": "MES.364",
+        "fen": "3K4/8/8/4k3/8/N2bB3/p7/8 w - -",
+        "id": "mes-364"
+    },
+    {
+        "bm": "Nd7",
+        "desc": "MES.365",
+        "fen": "1b6/8/1N4Pk/8/8/B6K/8/8 w - -",
+        "id": "mes-365"
+    },
+    {
+        "bm": "d5",
+        "desc": "MES.366",
+        "fen": "7K/1b6/8/8/3P4/4k3/1B1N2p1/8 w - -",
+        "id": "mes-366"
+    },
+    {
+        "bm": "Bh6",
+        "desc": "MES.367",
+        "fen": "b6k/7p/2p5/8/8/2N5/3B4/1K6 w - -",
+        "id": "mes-367"
+    },
+    {
+        "bm": "Nd3",
+        "desc": "MES.368",
+        "fen": "8/8/7k/8/7P/2p5/4KN2/3B2b1 w - -",
+        "id": "mes-368"
+    },
+    {
+        "bm": "g8=Q",
+        "desc": "MES.369",
+        "fen": "8/6P1/8/8/4k2K/8/2b4p/2N1B3 w - -",
+        "id": "mes-369"
+    },
+    {
+        "bm": "Ng3",
+        "desc": "MES.370",
+        "fen": "k7/8/B3P3/8/1K5b/8/4N2p/8 w - -",
+        "id": "mes-370"
+    },
+    {
+        "bm": "Nd2",
+        "desc": "MES.371",
+        "fen": "8/5b2/8/6B1/3k4/K7/1P4p1/1N6 w - -",
+        "id": "mes-371"
+    },
+    {
+        "bm": "Nc6+",
+        "desc": "MES.372",
+        "fen": "1k6/2p5/B7/4Np2/8/8/6p1/6Kb w - -",
+        "id": "mes-372"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.373",
+        "fen": "8/4K1p1/3N4/5P2/4B3/1k6/3pb3/8 w - -",
+        "id": "mes-373"
+    },
+    {
+        "bm": "Kb7",
+        "desc": "MES.374",
+        "fen": "K7/2b5/3p1p2/4k3/4P3/4N3/8/2B5 w - -",
+        "id": "mes-374"
+    },
+    {
+        "bm": "Bxb4",
+        "desc": "MES.375",
+        "fen": "8/8/pp6/8/kb3Np1/7P/1K6/4B3 w - -",
+        "id": "mes-375"
+    },
+    {
+        "bm": "Nh8",
+        "desc": "MES.376",
+        "fen": "8/5N2/5pP1/7b/p7/8/1Pk5/4BK2 w - -",
+        "id": "mes-376"
+    },
+    {
+        "bm": "c3",
+        "desc": "MES.377",
+        "fen": "8/8/6p1/7p/pb6/k6P/2P1pB2/NK6 w - -",
+        "id": "mes-377"
+    },
+    {
+        "bm": "Bf6",
+        "desc": "MES.378",
+        "fen": "4K3/2k1Bp1N/6p1/5PP1/8/7p/b7/8 w - -",
+        "id": "mes-378"
+    },
+    {
+        "bm": "Bc6",
+        "desc": "MES.379",
+        "fen": "4Bk2/1pp2p1K/3p4/P5Pb/4P3/5N2/8/8 w - -",
+        "id": "mes-379"
+    },
+    {
+        "bm": "Ne4+",
+        "desc": "MES.380",
+        "fen": "1b6/4P3/1P2PN2/8/2P5/P1k5/P1p2P2/K5B1 w - -",
+        "id": "mes-380"
+    },
+    {
+        "bm": "Na2",
+        "desc": "MES.381",
+        "fen": "6b1/2p1B1P1/p1K5/k7/p6p/p1Np2p1/8/8 w - -",
+        "id": "mes-381"
+    },
+    {
+        "bm": "Nc3",
+        "desc": "MES.382",
+        "fen": "3k4/3p4/P2P2P1/p1p1P3/K3p3/3P3B/P3p2P/3N3b w - -",
+        "id": "mes-382"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.383",
+        "fen": "8/1p1p4/1p1PPp2/1P1K1k1P/2PP4/4B2P/5pp1/6Nb w - -",
+        "id": "mes-383"
+    },
+    {
+        "bm": "Bg6+",
+        "desc": "MES.384",
+        "fen": "8/5BK1/8/8/p7/4B3/pn6/1k6 w - -",
+        "id": "mes-384"
+    },
+    {
+        "bm": "Bh8",
+        "desc": "MES.385",
+        "fen": "6K1/8/6B1/8/8/2B5/pP6/k2n4 w - -",
+        "id": "mes-385"
+    },
+    {
+        "bm": "Nf4+",
+        "desc": "MES.386",
+        "fen": "8/8/8/3kp3/3p4/P2B4/K1N3Np/8 w - -",
+        "id": "mes-386"
+    },
+    {
+        "bm": "Ng1",
+        "desc": "MES.387",
+        "fen": "8/B4p2/4Np2/8/3K1P2/7N/4p2k/8 w - -",
+        "id": "mes-387"
+    },
+    {
+        "bm": "Nexd6+",
+        "desc": "MES.388",
+        "fen": "2N1k3/4p3/3pKp2/5p2/4NB2/pp6/8/8 w - -",
+        "id": "mes-388"
+    },
+    {
+        "bm": "Bd2",
+        "desc": "MES.389",
+        "fen": "5N2/8/7B/8/2K5/1p1B4/p7/k7 w - -",
+        "id": "mes-389"
+    },
+    {
+        "bm": "f5",
+        "desc": "MES.390",
+        "fen": "8/8/6bk/8/4nP2/4K3/4N3/4n3 w - -",
+        "id": "mes-390"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.391",
+        "fen": "3kn1K1/1p6/P4b2/N2Pn3/8/6P1/8/8 w - -",
+        "id": "mes-391"
+    },
+    {
+        "bm": "Kb2",
+        "desc": "MES.392",
+        "fen": "8/8/7N/1k5b/3P4/K3P3/2P5/n5b1 w - -",
+        "id": "mes-392"
+    },
+    {
+        "bm": "Nd1",
+        "desc": "MES.393",
+        "fen": "8/8/P6P/5p2/8/1b6/nN4P1/k3b2K w - -",
+        "id": "mes-393"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.394",
+        "fen": "2N2n2/8/1P4P1/1P3KP1/1b6/p7/8/k6b w - -",
+        "id": "mes-394"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.395",
+        "fen": "2nn4/B7/KP1P4/8/3p3k/8/8/4b3 w - -",
+        "id": "mes-395"
+    },
+    {
+        "bm": "Nf5+",
+        "desc": "MES.396",
+        "fen": "6K1/8/Pp3p1k/1Pb4P/p2p3N/3P1PP1/4P3/3b4 w - -",
+        "id": "mes-396"
+    },
+    {
+        "bm": "h5",
+        "desc": "MES.397",
+        "fen": "b7/7P/2p3np/2P3p1/1P4PP/2B3Pk/7p/6bK w - -",
+        "id": "mes-397"
+    },
+    {
+        "bm": "Nf6+",
+        "desc": "MES.398",
+        "fen": "3n2k1/3N4/7P/6N1/8/K7/7P/4b3 w - -",
+        "id": "mes-398"
+    },
+    {
+        "bm": "c4+",
+        "desc": "MES.399",
+        "fen": "8/8/p5Pb/1kpbP3/5p2/1N6/1KPN4/8 w - -",
+        "id": "mes-399"
+    },
+    {
+        "bm": "Ne7+",
+        "desc": "MES.400",
+        "fen": "2N5/5B2/8/4nk1K/6n1/4p3/8/8 w - -",
+        "id": "mes-400"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.401",
+        "fen": "k7/n7/K1N5/2B5/8/3p4/8/4b3 w - -",
+        "id": "mes-401"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.402",
+        "fen": "kn6/8/1K6/4NP2/B7/8/2b5/8 w - -",
+        "id": "mes-402"
+    },
+    {
+        "bm": "Kd1",
+        "desc": "MES.403",
+        "fen": "8/8/6k1/4b3/4n2P/8/2K3N1/1B6 w - -",
+        "id": "mes-403"
+    },
+    {
+        "bm": "Nc8",
+        "desc": "MES.404",
+        "fen": "n7/N7/1bB5/1P6/k2p4/p7/P2K4/8 w - -",
+        "id": "mes-404"
+    },
+    {
+        "bm": "Ba2+",
+        "desc": "MES.405",
+        "fen": "5N2/8/5p2/1b1PP3/2k1n3/8/2P1K3/1B6 w - -",
+        "id": "mes-405"
+    },
+    {
+        "bm": "d7+",
+        "desc": "MES.406",
+        "fen": "bNk5/5n2/2PPp3/6B1/K7/8/1P6/8 w - -",
+        "id": "mes-406"
+    },
+    {
+        "bm": "Kf2",
+        "desc": "MES.407",
+        "fen": "1B3b2/5N2/8/8/4k3/8/6bP/4K3 w - -",
+        "id": "mes-407"
+    },
+    {
+        "bm": "Nc5+",
+        "desc": "MES.408",
+        "fen": "2b5/1kp5/3P2B1/8/N7/5P2/8/2b4K w - -",
+        "id": "mes-408"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.409",
+        "fen": "2k1N3/4p2p/P7/8/B3P3/2b2K1P/8/5b2 w - -",
+        "id": "mes-409"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.410",
+        "fen": "4b3/3p4/1P1k4/6p1/p7/5NP1/BP4K1/2b5 w - -",
+        "id": "mes-410"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.411",
+        "fen": "5N2/2pB4/P2pp3/2k5/2P3bb/P3K2p/3P4/8 w - -",
+        "id": "mes-411"
+    },
+    {
+        "bm": "Bd6+",
+        "desc": "MES.412",
+        "fen": "5kbK/8/8/8/6B1/6B1/8/6n1 w - -",
+        "id": "mes-412"
+    },
+    {
+        "bm": "Bc3+",
+        "desc": "MES.413",
+        "fen": "3b3k/2p5/Bp6/P7/8/n5K1/3B4/8 w - -",
+        "id": "mes-413"
+    },
+    {
+        "bm": "Na3",
+        "desc": "MES.414",
+        "fen": "k7/2K5/8/B2N4/2n5/8/p7/1N6 w - -",
+        "id": "mes-414"
+    },
+    {
+        "bm": "Bf7",
+        "desc": "MES.415",
+        "fen": "8/8/6Bk/7N/3N3K/3b4/8/8 w - -",
+        "id": "mes-415"
+    },
+    {
+        "bm": "Na8",
+        "desc": "MES.416",
+        "fen": "1B6/N1N5/8/5b2/7p/4K3/6k1/8 w - -",
+        "id": "mes-416"
+    },
+    {
+        "bm": "Be2",
+        "desc": "MES.417",
+        "fen": "8/b1p3p1/Bk6/4N3/8/8/8/N5K1 w - -",
+        "id": "mes-417"
+    },
+    {
+        "bm": "Bd4",
+        "desc": "MES.418",
+        "fen": "N7/8/1B2N3/3p4/8/bp2K3/1p6/1k6 w - -",
+        "id": "mes-418"
+    },
+    {
+        "bm": "Bg4",
+        "desc": "MES.419",
+        "fen": "8/2b5/8/4N3/8/4K3/8/3Bk1B1 w - -",
+        "id": "mes-419"
+    },
+    {
+        "bm": "Nb3",
+        "desc": "MES.420",
+        "fen": "3B4/7B/2k3Kp/3p4/3p4/2P3P1/2pN3P/4b3 w - -",
+        "id": "mes-420"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.421",
+        "fen": "7B/1k6/7P/8/1K6/6n1/b2PPn2/6b1 w - -",
+        "id": "mes-421"
+    },
+    {
+        "bm": "Ng5+",
+        "desc": "MES.422",
+        "fen": "8/5k1N/1NP1bP1P/8/1n2pK2/b7/8/8 w - -",
+        "id": "mes-422"
+    },
+    {
+        "bm": "Bd2",
+        "desc": "MES.423",
+        "fen": "1N3K2/2b5/8/8/8/8/1P3P1n/2n1Bk2 w - -",
+        "id": "mes-423"
+    },
+    {
+        "bm": "Ba4+",
+        "desc": "MES.424",
+        "fen": "6K1/3k4/P7/8/5B1b/6nb/2B5/8 w - -",
+        "id": "mes-424"
+    },
+    {
+        "bm": "Kb6",
+        "desc": "MES.425",
+        "fen": "6N1/n7/3kn3/K7/6N1/8/8/4B3 w - -",
+        "id": "mes-425"
+    },
+    {
+        "bm": "Nf3+",
+        "desc": "MES.426",
+        "fen": "5n1N/8/4P3/6NK/3k4/4n3/B2p4/8 w - -",
+        "id": "mes-426"
+    },
+    {
+        "bm": "Bg2+",
+        "desc": "MES.427",
+        "fen": "6b1/1k2K3/n7/8/NN6/7B/8/8 w - -",
+        "id": "mes-427"
+    },
+    {
+        "bm": "Ng7+",
+        "desc": "MES.428",
+        "fen": "4k3/B4p2/4N3/6N1/1bK5/3n4/8/8 w - -",
+        "id": "mes-428"
+    },
+    {
+        "bm": "Nb5+",
+        "desc": "MES.429",
+        "fen": "8/1K4b1/3k4/8/1P1N3n/8/6BN/8 w - -",
+        "id": "mes-429"
+    },
+    {
+        "bm": "Nh8",
+        "desc": "MES.430",
+        "fen": "4N3/bB3N2/4k3/3p1n2/8/8/3KP3/8 w - -",
+        "id": "mes-430"
+    },
+    {
+        "bm": "Ng5+",
+        "desc": "MES.431",
+        "fen": "8/5N1k/8/7b/1b5N/1K6/1B6/8 w - -",
+        "id": "mes-431"
+    },
+    {
+        "bm": "Nd5",
+        "desc": "MES.432",
+        "fen": "8/3B4/8/K6k/1N6/Nb2b3/3p4/8 w - -",
+        "id": "mes-432"
+    },
+    {
+        "bm": "b5",
+        "desc": "MES.433",
+        "fen": "8/8/b7/B1K5/1P5b/k1N5/8/6N1 w - -",
+        "id": "mes-433"
+    },
+    {
+        "bm": "cxd4+",
+        "desc": "MES.434",
+        "fen": "8/8/8/4k3/b2p1b2/2P1N2N/B3p3/7K w - -",
+        "id": "mes-434"
+    },
+    {
+        "bm": "Bd1",
+        "desc": "MES.435",
+        "fen": "k7/4p3/2N1n3/2n5/2N5/7p/K1B5/8 w - -",
+        "id": "mes-435"
+    },
+    {
+        "bm": "Nd3",
+        "desc": "MES.436",
+        "fen": "4B3/8/8/5n1P/K2p4/8/b7/2BkN3 w - -",
+        "id": "mes-436"
+    },
+    {
+        "bm": "Bf6+",
+        "desc": "MES.437",
+        "fen": "3k4/8/2K3pp/5p1B/3B3P/3b4/8/4n2N w - -",
+        "id": "mes-437"
+    },
+    {
+        "bm": "Nd4+",
+        "desc": "MES.438",
+        "fen": "8/4n3/1K1N2P1/7B/b7/5n2/2N1k3/8 w - -",
+        "id": "mes-438"
+    },
+    {
+        "bm": "Ne2+",
+        "desc": "MES.439",
+        "fen": "3b2B1/p5PP/n3P3/P6p/P3p3/p1Npp3/P1P5/Nn2K1k1 w - -",
+        "id": "mes-439"
+    },
+    {
+        "bm": "Nd3+",
+        "desc": "MES.440",
+        "fen": "8/8/1K3b1B/8/1k6/5B2/bN6/1N6 w - -",
+        "id": "mes-440"
+    },
+    {
+        "bm": "Nc6+",
+        "desc": "MES.441",
+        "fen": "1N6/k1p2B2/8/8/n1K3b1/5N2/1B6/8 w - -",
+        "id": "mes-441"
+    },
+    {
+        "bm": "Bf4",
+        "desc": "MES.442",
+        "fen": "Bb6/6k1/2K5/6Bp/6N1/6N1/2b5/8 w - -",
+        "id": "mes-442"
+    },
+    {
+        "bm": "Nf1+",
+        "desc": "MES.443",
+        "fen": "8/4p3/B1K3b1/8/7B/4N3/7k/1N4b1 w - -",
+        "id": "mes-443"
+    },
+    {
+        "bm": "f3",
+        "desc": "MES.444",
+        "fen": "8/8/8/8/8/2KP4/5P1r/1k6 w - -",
+        "id": "mes-444"
+    },
+    {
+        "bm": "a4",
+        "desc": "MES.445",
+        "fen": "8/8/8/8/1K6/P7/k1r1P3/8 w - -",
+        "id": "mes-445"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.446",
+        "fen": "4r3/Kp6/5P2/1k2P3/8/8/8/8 w - -",
+        "id": "mes-446"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.447",
+        "fen": "8/5p2/6P1/2r5/7K/8/3kP3/8 w - -",
+        "id": "mes-447"
+    },
+    {
+        "bm": "f3",
+        "desc": "MES.448",
+        "fen": "6k1/5rP1/5P1K/6P1/8/8/5P2/8 w - -",
+        "id": "mes-448"
+    },
+    {
+        "bm": "Kd7",
+        "desc": "MES.449",
+        "fen": "r7/ppK2P1P/8/2P5/3k4/8/P7/8 w - -",
+        "id": "mes-449"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.450",
+        "fen": "8/8/1rPP3p/5Pk1/1p5p/1p5P/1P6/K7 w - -",
+        "id": "mes-450"
+    },
+    {
+        "bm": "Rd2 Rd3",
+        "desc": "MES.451",
+        "fen": "8/4K3/8/3pk3/3R4/8/8/8 w - -",
+        "id": "mes-451"
+    },
+    {
+        "bm": "Rd7+",
+        "desc": "MES.452",
+        "fen": "8/6k1/4K3/8/3R4/pp6/8/8 w - -",
+        "id": "mes-452"
+    },
+    {
+        "bm": "Kh7",
+        "desc": "MES.453",
+        "fen": "7K/6p1/8/7p/8/8/R7/6k1 w - -",
+        "id": "mes-453"
+    },
+    {
+        "bm": "Ra1+",
+        "desc": "MES.454",
+        "fen": "8/k7/2K5/8/8/8/6pp/1R6 w - -",
+        "id": "mes-454"
+    },
+    {
+        "bm": "Rd2+",
+        "desc": "MES.455",
+        "fen": "8/8/8/3R4/2K5/6pp/k7/8 w - -",
+        "id": "mes-455"
+    },
+    {
+        "bm": "Rb8+",
+        "desc": "MES.456",
+        "fen": "3k4/1R6/K7/8/8/3P4/2p5/8 w - -",
+        "id": "mes-456"
+    },
+    {
+        "bm": "Rd2",
+        "desc": "MES.457",
+        "fen": "8/6p1/8/6p1/4K2p/7k/5R2/8 w - -",
+        "id": "mes-457"
+    },
+    {
+        "bm": "Rg8",
+        "desc": "MES.458",
+        "fen": "3R3K/8/8/1pk5/5pp1/8/8/8 w - -",
+        "id": "mes-458"
+    },
+    {
+        "bm": "Kf2",
+        "desc": "MES.459",
+        "fen": "8/8/8/5k2/8/8/2p1p1p1/2R3K1 w - -",
+        "id": "mes-459"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.460",
+        "fen": "8/3p4/8/2P5/8/2pK4/p6R/1k6 w - -",
+        "id": "mes-460"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.461",
+        "fen": "8/1K6/3R4/4p1p1/6P1/5p2/7k/8 w - -",
+        "id": "mes-461"
+    },
+    {
+        "bm": "h6",
+        "desc": "MES.462",
+        "fen": "8/6pp/p7/7P/8/8/p2K1R2/1k6 w - -",
+        "id": "mes-462"
+    },
+    {
+        "bm": "Re4+",
+        "desc": "MES.463",
+        "fen": "8/8/3PR3/8/1k3p2/5P2/3p2K1/8 w - -",
+        "id": "mes-463"
+    },
+    {
+        "bm": "Rb6+",
+        "desc": "MES.464",
+        "fen": "1R6/7p/7k/P7/P7/P7/1K5p/8 w - -",
+        "id": "mes-464"
+    },
+    {
+        "bm": "Rg5",
+        "desc": "MES.465",
+        "fen": "8/1p6/7p/5p1P/5P2/1p6/6RK/k7 w - -",
+        "id": "mes-465"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.466",
+        "fen": "8/8/8/2k5/8/4K3/3R3p/7r w - -",
+        "id": "mes-466"
+    },
+    {
+        "bm": "Ke7",
+        "desc": "MES.467",
+        "fen": "k3K3/8/8/8/8/8/1rp5/2R5 w - -",
+        "id": "mes-467"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.468",
+        "fen": "8/R7/3P4/6r1/8/8/8/1k5K w - -",
+        "id": "mes-468"
+    },
+    {
+        "bm": "Rf3",
+        "desc": "MES.469",
+        "fen": "1r6/8/6k1/8/8/8/1P6/1K3R2 w - -",
+        "id": "mes-469"
+    },
+    {
+        "bm": "Kb2",
+        "desc": "MES.470",
+        "fen": "r7/8/8/7k/8/8/P7/K5R1 w - -",
+        "id": "mes-470"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.471",
+        "fen": "8/8/5R1P/8/8/8/3r4/K1k5 w - -",
+        "id": "mes-471"
+    },
+    {
+        "bm": "Re7",
+        "desc": "MES.472",
+        "fen": "7r/KR5P/8/k7/8/8/8/8 w - -",
+        "id": "mes-472"
+    },
+    {
+        "bm": "Kd2",
+        "desc": "MES.473",
+        "fen": "k7/7R/7P/8/8/8/2K5/7r w - -",
+        "id": "mes-473"
+    },
+    {
+        "bm": "Kb3",
+        "desc": "MES.474",
+        "fen": "8/8/7k/8/8/P7/K4r2/6R1 w - -",
+        "id": "mes-474"
+    },
+    {
+        "bm": "Rc8",
+        "desc": "MES.475",
+        "fen": "K7/P3k3/8/8/8/8/2R5/1r6 w - -",
+        "id": "mes-475"
+    },
+    {
+        "bm": "Kb7",
+        "desc": "MES.476",
+        "fen": "K7/2P4R/8/k7/8/8/2r4p/8 w - -",
+        "id": "mes-476"
+    },
+    {
+        "bm": "Kg8",
+        "desc": "MES.477",
+        "fen": "5K2/2k2P2/7R/8/8/5r1p/8/8 w - -",
+        "id": "mes-477"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.478",
+        "fen": "4k3/8/3RK2P/8/p7/8/6r1/8 w - -",
+        "id": "mes-478"
+    },
+    {
+        "bm": "Rh3+",
+        "desc": "MES.479",
+        "fen": "8/8/P5rk/8/8/KpR5/8/8 w - -",
+        "id": "mes-479"
+    },
+    {
+        "bm": "Rg1+",
+        "desc": "MES.480",
+        "fen": "8/6pP/6R1/7r/8/8/5K2/7k w - -",
+        "id": "mes-480"
+    },
+    {
+        "bm": "Rh7",
+        "desc": "MES.481",
+        "fen": "8/p3P3/8/4r3/8/7R/k1K5/8 w - -",
+        "id": "mes-481"
+    },
+    {
+        "bm": "Rb1",
+        "desc": "MES.482",
+        "fen": "6K1/3k2P1/8/8/8/2r5/1p6/6R1 w - -",
+        "id": "mes-482"
+    },
+    {
+        "bm": "Rxc5+",
+        "desc": "MES.483",
+        "fen": "8/2k5/4KP2/1Rp5/8/2r5/8/8 w - -",
+        "id": "mes-483"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.484",
+        "fen": "3r4/8/2Pk4/1R1P2K1/8/8/8/8 w - -",
+        "id": "mes-484"
+    },
+    {
+        "bm": "Rb5",
+        "desc": "MES.485",
+        "fen": "1k3r2/1P6/6P1/8/K7/8/8/1R6 w - -",
+        "id": "mes-485"
+    },
+    {
+        "bm": "Rd2+",
+        "desc": "MES.486",
+        "fen": "1K6/1P1k4/1P6/8/8/r7/2R5/8 w - -",
+        "id": "mes-486"
+    },
+    {
+        "bm": "Rxf5+",
+        "desc": "MES.487",
+        "fen": "2K5/p7/7P/5pR1/8/5k2/r7/8 w - -",
+        "id": "mes-487"
+    },
+    {
+        "bm": "Rb7+",
+        "desc": "MES.488",
+        "fen": "8/R1p5/5pP1/8/8/7K/1k6/2r5 w - -",
+        "id": "mes-488"
+    },
+    {
+        "bm": "Kb8",
+        "desc": "MES.489",
+        "fen": "K7/2rp4/8/2p3P1/8/8/5R2/7k w - -",
+        "id": "mes-489"
+    },
+    {
+        "bm": "Rg7+",
+        "desc": "MES.490",
+        "fen": "8/1R6/1p6/4K3/6k1/7r/2pP4/8 w - -",
+        "id": "mes-490"
+    },
+    {
+        "bm": "Kb1",
+        "desc": "MES.491",
+        "fen": "2k5/2P5/8/8/8/2R4P/Kp5r/8 w - -",
+        "id": "mes-491"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.492",
+        "fen": "8/5k2/2RP4/P7/6p1/8/6K1/r7 w - -",
+        "id": "mes-492"
+    },
+    {
+        "bm": "b4",
+        "desc": "MES.493",
+        "fen": "8/r2p4/3K4/2R5/P7/8/kP6/8 w - -",
+        "id": "mes-493"
+    },
+    {
+        "bm": "Rd5",
+        "desc": "MES.494",
+        "fen": "2k5/1r4p1/3RP1P1/2K5/8/8/8/8 w - -",
+        "id": "mes-494"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.495",
+        "fen": "1k6/p7/1p1R4/1P1K4/8/8/4p1r1/8 w - -",
+        "id": "mes-495"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.496",
+        "fen": "8/2R5/3K4/4P3/2p1p1p1/2r5/8/6k1 w - -",
+        "id": "mes-496"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.497",
+        "fen": "8/8/4P2R/p7/8/4pr2/k4P2/2K5 w - -",
+        "id": "mes-497"
+    },
+    {
+        "bm": "Ra4",
+        "desc": "MES.498",
+        "fen": "3k4/2p2p2/2P2P2/3r4/4R3/8/8/4K3 w - -",
+        "id": "mes-498"
+    },
+    {
+        "bm": "Kb5",
+        "desc": "MES.499",
+        "fen": "7R/4r2P/1p6/5p2/1K6/2P1k3/8/8 w - -",
+        "id": "mes-499"
+    },
+    {
+        "bm": "d4+",
+        "desc": "MES.500",
+        "fen": "R7/4p3/P7/4k3/4p3/2rP4/8/3K4 w - -",
+        "id": "mes-500"
+    },
+    {
+        "bm": "Rg7",
+        "desc": "MES.501",
+        "fen": "8/R6K/P6p/8/7p/2P5/8/3k3r w - -",
+        "id": "mes-501"
+    },
+    {
+        "bm": "Ka4",
+        "desc": "MES.502",
+        "fen": "1k6/2r3p1/3RP1P1/6P1/8/K7/8/8 w - -",
+        "id": "mes-502"
+    },
+    {
+        "bm": "h7+",
+        "desc": "MES.503",
+        "fen": "6k1/1pR5/1K5P/2p5/P5r1/1p6/8/8 w - -",
+        "id": "mes-503"
+    },
+    {
+        "bm": "Ra7",
+        "desc": "MES.504",
+        "fen": "3k3r/4Rp2/3Pp2p/3P4/8/1K6/8/8 w - -",
+        "id": "mes-504"
+    },
+    {
+        "bm": "Ra3",
+        "desc": "MES.505",
+        "fen": "8/p6k/3P4/4p3/3p4/6r1/2P5/R6K w - -",
+        "id": "mes-505"
+    },
+    {
+        "bm": "Rc8+",
+        "desc": "MES.506",
+        "fen": "rk6/p2p4/KPRp4/8/3P4/8/8/8 w - -",
+        "id": "mes-506"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.507",
+        "fen": "8/2Rp1r2/2p5/1k2P3/3K1p2/8/3P4/8 w - -",
+        "id": "mes-507"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.508",
+        "fen": "2r5/5p2/7P/1p2K3/2p4k/6R1/5P2/8 w - -",
+        "id": "mes-508"
+    },
+    {
+        "bm": "Re4+",
+        "desc": "MES.509",
+        "fen": "8/2p5/2pP4/4p2p/7k/2K1RPr1/8/8 w - -",
+        "id": "mes-509"
+    },
+    {
+        "bm": "Rh8",
+        "desc": "MES.510",
+        "fen": "6R1/3r3p/5pP1/8/p1p5/8/2P2K1k/8 w - -",
+        "id": "mes-510"
+    },
+    {
+        "bm": "g3",
+        "desc": "MES.511",
+        "fen": "5r2/8/5p1p/5Kpk/3R4/3p4/P5P1/8 w - -",
+        "id": "mes-511"
+    },
+    {
+        "bm": "e5",
+        "desc": "MES.512",
+        "fen": "8/kp6/4pp2/5P2/4P2p/8/3R2KP/1r6 w - -",
+        "id": "mes-512"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.513",
+        "fen": "R7/pP6/k7/6P1/1Pp5/2p5/2Pr4/1K6 w - -",
+        "id": "mes-513"
+    },
+    {
+        "bm": "Re5",
+        "desc": "MES.514",
+        "fen": "8/8/pP1P3K/k2r4/Pp6/1P6/1P2R3/8 w - -",
+        "id": "mes-514"
+    },
+    {
+        "bm": "e5",
+        "desc": "MES.515",
+        "fen": "8/8/3prP1p/8/4P3/2p1pp2/k1K2P2/7R w - -",
+        "id": "mes-515"
+    },
+    {
+        "bm": "f6+",
+        "desc": "MES.516",
+        "fen": "2K5/p3kPR1/8/1pp1pP2/8/6p1/6P1/4r3 w - -",
+        "id": "mes-516"
+    },
+    {
+        "bm": "Rh8+",
+        "desc": "MES.517",
+        "fen": "3k4/5p2/1P3P1R/r7/1p1p2p1/8/4P1P1/7K w - -",
+        "id": "mes-517"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.518",
+        "fen": "8/5R1p/2kpp1PP/1p6/3P1Pr1/8/8/7K w - -",
+        "id": "mes-518"
+    },
+    {
+        "bm": "Rf8",
+        "desc": "MES.519",
+        "fen": "6R1/8/1p4pr/p4pk1/7p/P4K2/1P3PP1/8 w - -",
+        "id": "mes-519"
+    },
+    {
+        "bm": "Re2",
+        "desc": "MES.520",
+        "fen": "5K1k/1p4p1/4R3/3p1pP1/1pp5/1p3P2/3P4/r7 w - -",
+        "id": "mes-520"
+    },
+    {
+        "bm": "a5",
+        "desc": "MES.521",
+        "fen": "6k1/7p/1p1p1p2/1Pp4p/P6r/2KP3P/1P5R/8 w - -",
+        "id": "mes-521"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.522",
+        "fen": "8/1k1pp3/4P3/1p1P2p1/1p2rpP1/1P2p2p/3PK3/R7 w - -",
+        "id": "mes-522"
+    },
+    {
+        "bm": "Rf8+",
+        "desc": "MES.523",
+        "fen": "2k5/6K1/r6r/8/4P3/8/8/5R2 w - -",
+        "id": "mes-523"
+    },
+    {
+        "bm": "a5",
+        "desc": "MES.524",
+        "fen": "K7/8/1R6/8/PP6/2k5/1r6/1r6 w - -",
+        "id": "mes-524"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.525",
+        "fen": "8/3R4/Pp3K1P/8/8/5k2/8/1r4r1 w - -",
+        "id": "mes-525"
+    },
+    {
+        "bm": "b5",
+        "desc": "MES.526",
+        "fen": "2r5/2P1R1P1/7k/6r1/1P6/8/3P4/3K4 w - -",
+        "id": "mes-526"
+    },
+    {
+        "bm": "Rg2",
+        "desc": "MES.527",
+        "fen": "4r1RR/kp6/1p5P/1P6/K7/7P/8/8 w - -",
+        "id": "mes-527"
+    },
+    {
+        "bm": "Rd6+",
+        "desc": "MES.528",
+        "fen": "8/8/6k1/8/1r6/R2R1K2/2r5/8 w - -",
+        "id": "mes-528"
+    },
+    {
+        "bm": "Re7+",
+        "desc": "MES.529",
+        "fen": "3r2r1/7k/8/7K/8/8/8/3RR3 w - -",
+        "id": "mes-529"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.530",
+        "fen": "8/8/5P1k/8/2K5/pr2r3/4R3/2R5 w - -",
+        "id": "mes-530"
+    },
+    {
+        "bm": "Ra3",
+        "desc": "MES.531",
+        "fen": "3rk2r/2K3Rp/8/R6p/8/7p/8/8 w k -",
+        "id": "mes-531"
+    },
+    {
+        "bm": "Rf8+",
+        "desc": "MES.532",
+        "fen": "k7/8/p1p2R2/2p2p1r/7p/2p4K/4R2p/7r w - -",
+        "id": "mes-532"
+    },
+    {
+        "bm": "h5",
+        "desc": "MES.533",
+        "fen": "1r5k/5p1p/5p1K/5P2/7P/8/1pp3r1/1R2R3 w - -",
+        "id": "mes-533"
+    },
+    {
+        "bm": "e4",
+        "desc": "MES.534",
+        "fen": "6R1/1kp3P1/1p6/p6p/r5rP/4PK2/2P3R1/8 w - -",
+        "id": "mes-534"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.535",
+        "fen": "8/8/1KP1N3/7r/8/8/8/k7 w - -",
+        "id": "mes-535"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.536",
+        "fen": "4N3/8/1P6/K7/3rk3/8/8/8 w - -",
+        "id": "mes-536"
+    },
+    {
+        "bm": "Nd4",
+        "desc": "MES.537",
+        "fen": "6r1/3P4/8/1N5p/7k/5K2/8/8 w - -",
+        "id": "mes-537"
+    },
+    {
+        "bm": "Nf4+",
+        "desc": "MES.538",
+        "fen": "1r6/4P1P1/8/7k/8/7N/8/4K3 w - -",
+        "id": "mes-538"
+    },
+    {
+        "bm": "d4",
+        "desc": "MES.539",
+        "fen": "2k2N2/8/3rPK2/8/8/3P4/8/8 w - -",
+        "id": "mes-539"
+    },
+    {
+        "bm": "Nc1",
+        "desc": "MES.540",
+        "fen": "8/8/2P5/1Pr5/8/8/N7/k2K4 w - -",
+        "id": "mes-540"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.541",
+        "fen": "8/1p1N4/8/4P3/1K6/1P2k3/8/1r6 w - -",
+        "id": "mes-541"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.542",
+        "fen": "8/3r4/1p5k/3PP3/2N5/8/8/5K2 w - -",
+        "id": "mes-542"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.543",
+        "fen": "8/8/2N5/3P4/k2p2r1/8/2P5/3K4 w - -",
+        "id": "mes-543"
+    },
+    {
+        "bm": "Nd7",
+        "desc": "MES.544",
+        "fen": "K4N2/8/PP1r4/k7/2P5/8/8/8 w - -",
+        "id": "mes-544"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.545",
+        "fen": "8/8/p2P2k1/N1P4p/5K2/8/8/3r4 w - -",
+        "id": "mes-545"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.546",
+        "fen": "2N1K2k/6p1/2P3P1/7p/8/8/8/6r1 w - -",
+        "id": "mes-546"
+    },
+    {
+        "bm": "Ne7+",
+        "desc": "MES.547",
+        "fen": "7r/5P2/p1k2K2/5N2/p7/8/P7/8 w - -",
+        "id": "mes-547"
+    },
+    {
+        "bm": "Ke6",
+        "desc": "MES.548",
+        "fen": "7k/4NKp1/2P3P1/7P/8/8/8/2r5 w - -",
+        "id": "mes-548"
+    },
+    {
+        "bm": "Ne3",
+        "desc": "MES.549",
+        "fen": "8/8/8/3p3p/8/3P1K2/2NP3p/6kr w - -",
+        "id": "mes-549"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.550",
+        "fen": "8/5K2/7P/8/5k1p/8/p1N3PP/5r2 w - -",
+        "id": "mes-550"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.551",
+        "fen": "8/8/4P3/1k5p/N4p1P/3r1P2/5K2/8 w - -",
+        "id": "mes-551"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.552",
+        "fen": "8/6r1/7N/5P2/k4P1p/2P4p/7K/8 w - -",
+        "id": "mes-552"
+    },
+    {
+        "bm": "Nd4+",
+        "desc": "MES.553",
+        "fen": "K7/8/4Pr2/pk1p4/8/3p4/2NP4/8 w - -",
+        "id": "mes-553"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.554",
+        "fen": "8/1pp4p/2Pp3K/1P3N2/1k4r1/8/8/8 w - -",
+        "id": "mes-554"
+    },
+    {
+        "bm": "Nc6",
+        "desc": "MES.555",
+        "fen": "4k3/4r1p1/P7/6K1/p1pN4/P7/2P5/8 w - -",
+        "id": "mes-555"
+    },
+    {
+        "bm": "Ng7",
+        "desc": "MES.556",
+        "fen": "8/7p/1K1k1P2/5r1N/p2P1p2/5P2/P4P2/8 w - -",
+        "id": "mes-556"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.557",
+        "fen": "3N4/p3ppk1/K2P3p/Pp2P1rP/8/p7/8/8 w - -",
+        "id": "mes-557"
+    },
+    {
+        "bm": "a5",
+        "desc": "MES.558",
+        "fen": "1r6/1P3N2/8/2pkp2p/P1p3p1/4P3/2KP1P1P/8 w - -",
+        "id": "mes-558"
+    },
+    {
+        "bm": "Kf4",
+        "desc": "MES.559",
+        "fen": "8/8/5R2/6n1/8/2k1K3/8/8 w - -",
+        "id": "mes-559"
+    },
+    {
+        "bm": "Rb3",
+        "desc": "MES.560",
+        "fen": "4K2k/1R6/2n5/5p2/8/6p1/8/8 w - -",
+        "id": "mes-560"
+    },
+    {
+        "bm": "c8=R",
+        "desc": "MES.561",
+        "fen": "3n4/2P5/8/4K3/8/8/1kp5/R7 w - -",
+        "id": "mes-561"
+    },
+    {
+        "bm": "Rb2",
+        "desc": "MES.562",
+        "fen": "8/k7/P4p2/1R6/4K3/8/2n5/8 w - -",
+        "id": "mes-562"
+    },
+    {
+        "bm": "c5",
+        "desc": "MES.563",
+        "fen": "3R4/p1p3n1/k2p4/P7/K1P5/8/8/8 w - -",
+        "id": "mes-563"
+    },
+    {
+        "bm": "d8=N",
+        "desc": "MES.564",
+        "fen": "8/p1pPp1p1/P1P1P1P1/2p5/3P4/5P1P/K2p2pp/3R2nk w - -",
+        "id": "mes-564"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.565",
+        "fen": "K7/P3n2p/2PkP3/pP1r4/8/8/8/8 w - -",
+        "id": "mes-565"
+    },
+    {
+        "bm": "Rc2+",
+        "desc": "MES.566",
+        "fen": "8/8/8/8/5N2/p1RK4/pk6/8 w - -",
+        "id": "mes-566"
+    },
+    {
+        "bm": "Ke1",
+        "desc": "MES.567",
+        "fen": "8/8/8/3p4/1p6/3k4/p4K2/R6N w - -",
+        "id": "mes-567"
+    },
+    {
+        "bm": "Ra5",
+        "desc": "MES.568",
+        "fen": "R4N2/8/8/7p/4p3/6p1/3K4/7k w - -",
+        "id": "mes-568"
+    },
+    {
+        "bm": "g3+",
+        "desc": "MES.569",
+        "fen": "8/5p2/1N1R4/8/5k1K/8/4p1P1/8 w - -",
+        "id": "mes-569"
+    },
+    {
+        "bm": "Nc5+",
+        "desc": "MES.570",
+        "fen": "8/8/N7/8/4k2p/4p3/R4p1K/8 w - -",
+        "id": "mes-570"
+    },
+    {
+        "bm": "Ka3",
+        "desc": "MES.571",
+        "fen": "R7/p7/5p2/2N5/1K5p/1p5p/3k4/8 w - -",
+        "id": "mes-571"
+    },
+    {
+        "bm": "Rd8",
+        "desc": "MES.572",
+        "fen": "7R/7p/1K3pp1/3p1k1N/P7/8/3pP3/8 w - -",
+        "id": "mes-572"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.573",
+        "fen": "6R1/2p2pN1/p7/4p3/3k2p1/3P4/p2K3P/8 w - -",
+        "id": "mes-573"
+    },
+    {
+        "bm": "Nd8",
+        "desc": "MES.574",
+        "fen": "8/1N2p3/2nPP3/8/4K2k/8/2r1P3/8 w - -",
+        "id": "mes-574"
+    },
+    {
+        "bm": "f5",
+        "desc": "MES.575",
+        "fen": "5n1K/1Pr5/2P1p2k/8/2P2P2/8/4N3/8 w - -",
+        "id": "mes-575"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.576",
+        "fen": "8/2n1p2k/P7/2PP2K1/5N2/4r3/7P/8 w - -",
+        "id": "mes-576"
+    },
+    {
+        "bm": "Nh5+",
+        "desc": "MES.577",
+        "fen": "3nr3/1p3pkP/8/pPp1pPP1/8/P3P1N1/4K3/8 w - -",
+        "id": "mes-577"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.578",
+        "fen": "7k/8/1rP1P2r/8/4N3/3K4/8/8 w - -",
+        "id": "mes-578"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.579",
+        "fen": "8/K3N3/1P1r4/8/5kr1/8/6P1/8 w - -",
+        "id": "mes-579"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.580",
+        "fen": "4k3/3p1p2/KpPP1Pp1/4r2P/1p4r1/6P1/2PNP3/8 w - -",
+        "id": "mes-580"
+    },
+    {
+        "bm": "Rf5+",
+        "desc": "MES.581",
+        "fen": "1n6/8/8/7k/8/n7/5RP1/7K w - -",
+        "id": "mes-581"
+    },
+    {
+        "bm": "b5",
+        "desc": "MES.582",
+        "fen": "k4n2/8/np1K4/8/1P6/7R/8/8 w - -",
+        "id": "mes-582"
+    },
+    {
+        "bm": "Rb8",
+        "desc": "MES.583",
+        "fen": "R5n1/4n2p/4K2P/2k3P1/1p6/8/8/8 w - -",
+        "id": "mes-583"
+    },
+    {
+        "bm": "Ra8+",
+        "desc": "MES.584",
+        "fen": "7k/2pK2pn/5P2/5p2/8/R4Pp1/3n4/8 w - -",
+        "id": "mes-584"
+    },
+    {
+        "bm": "Rh1+",
+        "desc": "MES.585",
+        "fen": "1K6/5p2/5P2/n1P1P3/2P3n1/7R/1p6/2k5 w - -",
+        "id": "mes-585"
+    },
+    {
+        "bm": "Rxg6+",
+        "desc": "MES.586",
+        "fen": "n7/6R1/4k1pP/1P6/8/8/6K1/1r6 w - -",
+        "id": "mes-586"
+    },
+    {
+        "bm": "b8=Q+",
+        "desc": "MES.587",
+        "fen": "8/kP6/2n3P1/r5p1/8/3R4/4K3/8 w - -",
+        "id": "mes-587"
+    },
+    {
+        "bm": "a3",
+        "desc": "MES.588",
+        "fen": "6KR/3k4/P2r4/8/1p6/8/P7/4n3 w - -",
+        "id": "mes-588"
+    },
+    {
+        "bm": "Rb6+",
+        "desc": "MES.589",
+        "fen": "7n/3P4/p6R/1k4p1/2pK4/8/6r1/8 w - -",
+        "id": "mes-589"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.590",
+        "fen": "1n1r4/8/p1P3K1/k6p/1R5P/P7/8/8 w - -",
+        "id": "mes-590"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.591",
+        "fen": "8/8/4P3/k1r5/6K1/8/1NN5/8 w - -",
+        "id": "mes-591"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.592",
+        "fen": "8/8/4P3/k1N4r/8/K3N3/8/8 w - -",
+        "id": "mes-592"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.593",
+        "fen": "7K/4N2N/3P4/8/7k/8/8/r7 w - -",
+        "id": "mes-593"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.594",
+        "fen": "1N6/8/P7/8/4r2k/K6N/8/8 w - -",
+        "id": "mes-594"
+    },
+    {
+        "bm": "Ng3",
+        "desc": "MES.595",
+        "fen": "7N/5P1k/4K3/8/8/8/6r1/7N w - -",
+        "id": "mes-595"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.596",
+        "fen": "2N1r3/6KN/5P2/p2k4/8/8/8/8 w - -",
+        "id": "mes-596"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.597",
+        "fen": "6N1/5p2/7P/1r6/2N5/8/7K/4k3 w - -",
+        "id": "mes-597"
+    },
+    {
+        "bm": "Na4+",
+        "desc": "MES.598",
+        "fen": "3r4/2p4P/8/6K1/5N2/2k5/1N6/8 w - -",
+        "id": "mes-598"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.599",
+        "fen": "8/4N3/5P2/r7/p3N3/7k/8/6K1 w - -",
+        "id": "mes-599"
+    },
+    {
+        "bm": "Nd3",
+        "desc": "MES.600",
+        "fen": "8/2Pk4/3P4/5K2/8/N7/8/r1N5 w - -",
+        "id": "mes-600"
+    },
+    {
+        "bm": "Ne4",
+        "desc": "MES.601",
+        "fen": "8/1p6/4Pp2/8/r2N4/8/5N2/1k3K2 w - -",
+        "id": "mes-601"
+    },
+    {
+        "bm": "Nce4+",
+        "desc": "MES.602",
+        "fen": "7K/4p3/4rk1p/2P3N1/8/2N5/8/8 w - -",
+        "id": "mes-602"
+    },
+    {
+        "bm": "Nf5",
+        "desc": "MES.603",
+        "fen": "2K5/5pNk/N3P3/8/4P2r/8/8/8 w - -",
+        "id": "mes-603"
+    },
+    {
+        "bm": "f3",
+        "desc": "MES.604",
+        "fen": "2N5/1p4N1/8/8/P2kr3/8/3K1P2/8 w - -",
+        "id": "mes-604"
+    },
+    {
+        "bm": "Nf3",
+        "desc": "MES.605",
+        "fen": "8/1N6/p7/5p2/3rk3/P7/4K1PN/8 w - -",
+        "id": "mes-605"
+    },
+    {
+        "bm": "Rf7",
+        "desc": "MES.606",
+        "fen": "k2N2K1/8/8/8/5R2/3n4/3p4/8 w - -",
+        "id": "mes-606"
+    },
+    {
+        "bm": "Ra6+",
+        "desc": "MES.607",
+        "fen": "1K6/6n1/1R5N/8/8/8/k6p/8 w - -",
+        "id": "mes-607"
+    },
+    {
+        "bm": "Nf3",
+        "desc": "MES.608",
+        "fen": "8/8/6p1/n3N3/4R3/3K4/p7/3k4 w - -",
+        "id": "mes-608"
+    },
+    {
+        "bm": "Ke6+",
+        "desc": "MES.609",
+        "fen": "1N6/1k1K2R1/5p2/8/8/3n4/3p4/8 w - -",
+        "id": "mes-609"
+    },
+    {
+        "bm": "Rf1",
+        "desc": "MES.610",
+        "fen": "8/8/8/8/6pN/7p/7p/1KR3nk w - -",
+        "id": "mes-610"
+    },
+    {
+        "bm": "Rh1",
+        "desc": "MES.611",
+        "fen": "6k1/8/3p4/5n2/6K1/4p3/5p2/3NR3 w - -",
+        "id": "mes-611"
+    },
+    {
+        "bm": "Ra5+",
+        "desc": "MES.612",
+        "fen": "8/8/8/1R2Np2/3n1P1K/8/5p2/k7 w - -",
+        "id": "mes-612"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.613",
+        "fen": "3R4/8/4N1K1/2PpkP2/8/n7/3p4/8 w - -",
+        "id": "mes-613"
+    },
+    {
+        "bm": "Rc2",
+        "desc": "MES.614",
+        "fen": "8/5p2/8/kpN2P2/8/2R2K2/3pP3/2n5 w - -",
+        "id": "mes-614"
+    },
+    {
+        "bm": "Nd5",
+        "desc": "MES.615",
+        "fen": "2K5/4N3/n7/P1p4k/2R5/2p2p2/2Pp1P2/8 w - -",
+        "id": "mes-615"
+    },
+    {
+        "bm": "Rb8",
+        "desc": "MES.616",
+        "fen": "R7/P3p3/4n3/7P/1Kp5/2p3P1/7p/2N1k3 w - -",
+        "id": "mes-616"
+    },
+    {
+        "bm": "Ka8",
+        "desc": "MES.617",
+        "fen": "1K6/1R1N4/2p1kp1p/p1P3pP/1n2P1P1/1p5P/8/8 w - -",
+        "id": "mes-617"
+    },
+    {
+        "bm": "Nh5",
+        "desc": "MES.618",
+        "fen": "7k/R4KN1/8/8/8/8/8/7r w - -",
+        "id": "mes-618"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.619",
+        "fen": "1R3N1k/6r1/8/4K1p1/8/8/8/8 w - -",
+        "id": "mes-619"
+    },
+    {
+        "bm": "Nc3",
+        "desc": "MES.620",
+        "fen": "3k4/1R1P4/7r/1N6/3K4/8/8/8 w - -",
+        "id": "mes-620"
+    },
+    {
+        "bm": "Ne2",
+        "desc": "MES.621",
+        "fen": "2r5/8/8/6k1/5p2/8/2p2R2/6NK w - -",
+        "id": "mes-621"
+    },
+    {
+        "bm": "Kb3",
+        "desc": "MES.622",
+        "fen": "8/p7/P4N2/6r1/8/3k4/K7/7R w - -",
+        "id": "mes-622"
+    },
+    {
+        "bm": "Ne2",
+        "desc": "MES.623",
+        "fen": "8/8/8/p3p3/k1K1p3/4R3/r7/2N5 w - -",
+        "id": "mes-623"
+    },
+    {
+        "bm": "dxe6",
+        "desc": "MES.624",
+        "fen": "8/7N/1k2pp2/3P4/8/8/2r5/5K1R w - -",
+        "id": "mes-624"
+    },
+    {
+        "bm": "Rh7",
+        "desc": "MES.625",
+        "fen": "4krN1/4p3/5P2/5p2/8/7R/7p/7K w - -",
+        "id": "mes-625"
+    },
+    {
+        "bm": "Nc6",
+        "desc": "MES.626",
+        "fen": "1N6/3Pp3/3r3p/8/3p2R1/4p1K1/8/7k w - -",
+        "id": "mes-626"
+    },
+    {
+        "bm": "Rh1",
+        "desc": "MES.627",
+        "fen": "8/r1p5/8/2Np4/p5pp/7k/5K1P/R7 w - -",
+        "id": "mes-627"
+    },
+    {
+        "bm": "Rg6+",
+        "desc": "MES.628",
+        "fen": "8/8/7R/6kP/6n1/8/1K1R3p/8 w - -",
+        "id": "mes-628"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.629",
+        "fen": "k7/P2R4/8/1P5p/p6K/3n3p/3n4/3r4 w - -",
+        "id": "mes-629"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.630",
+        "fen": "4k3/Nnr5/4K3/6N1/8/8/8/8 w - -",
+        "id": "mes-630"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.631",
+        "fen": "7k/8/4P3/2N3N1/7K/r6P/8/4n3 w - -",
+        "id": "mes-631"
+    },
+    {
+        "bm": "Rh5",
+        "desc": "MES.632",
+        "fen": "3k1n2/8/2K4n/4N1R1/8/8/8/8 w - -",
+        "id": "mes-632"
+    },
+    {
+        "bm": "Rd4",
+        "desc": "MES.633",
+        "fen": "8/8/5K2/Pk2N3/2R5/2n5/4p3/n7 w - -",
+        "id": "mes-633"
+    },
+    {
+        "bm": "Rd8+",
+        "desc": "MES.634",
+        "fen": "7R/8/n1P5/7n/3k4/8/pN1K4/8 w - -",
+        "id": "mes-634"
+    },
+    {
+        "bm": "Re5+",
+        "desc": "MES.635",
+        "fen": "6K1/5p2/nn6/k7/8/P3R3/p7/3N4 w - -",
+        "id": "mes-635"
+    },
+    {
+        "bm": "Nc2",
+        "desc": "MES.636",
+        "fen": "8/8/8/n3n3/Np1p4/1Pp3R1/6p1/N1K3k1 w - -",
+        "id": "mes-636"
+    },
+    {
+        "bm": "Rd3+",
+        "desc": "MES.637",
+        "fen": "8/8/2PR4/8/1r5n/1k6/8/3KN3 w - -",
+        "id": "mes-637"
+    },
+    {
+        "bm": "Nxd3+",
+        "desc": "MES.638",
+        "fen": "8/1R2P3/8/1P6/1kp5/3n4/1NK5/4r3 w - -",
+        "id": "mes-638"
+    },
+    {
+        "bm": "Rc6+",
+        "desc": "MES.639",
+        "fen": "8/7P/R2K1pp1/pp6/2k2p1n/7r/2P5/2N5 w - -",
+        "id": "mes-639"
+    },
+    {
+        "bm": "Re2",
+        "desc": "MES.640",
+        "fen": "r3k3/p5pp/5p2/1K2n3/P4PN1/8/1R4P1/8 w q -",
+        "id": "mes-640"
+    },
+    {
+        "bm": "Rg1",
+        "desc": "MES.641",
+        "fen": "7n/RP6/8/pp6/1k6/8/2p1n1R1/K7 w - -",
+        "id": "mes-641"
+    },
+    {
+        "bm": "Rf1",
+        "desc": "MES.642",
+        "fen": "2R5/8/5R2/1k6/3nK3/8/3r4/8 w - -",
+        "id": "mes-642"
+    },
+    {
+        "bm": "Ra1",
+        "desc": "MES.643",
+        "fen": "r4k2/n7/1p6/8/8/8/8/1R1R1K2 w - -",
+        "id": "mes-643"
+    },
+    {
+        "bm": "Rh5+",
+        "desc": "MES.644",
+        "fen": "8/2Rp3r/3p3n/1p1R4/8/3K4/8/7k w - -",
+        "id": "mes-644"
+    },
+    {
+        "bm": "g8=Q",
+        "desc": "MES.645",
+        "fen": "N6N/1rPPP1P1/8/8/k1p5/2P5/1PpPpP1p/K5R1 w - -",
+        "id": "mes-645"
+    },
+    {
+        "bm": "Rf3+",
+        "desc": "MES.646",
+        "fen": "r7/8/8/8/8/2R5/n7/Nn1K1k2 w - -",
+        "id": "mes-646"
+    },
+    {
+        "bm": "Rc4",
+        "desc": "MES.647",
+        "fen": "8/p7/P2p1p2/3n4/R2P3K/1p2P1N1/P1p2P1k/Rn6 w - -",
+        "id": "mes-647"
+    },
+    {
+        "bm": "Rc7+",
+        "desc": "MES.648",
+        "fen": "1r6/k4ppp/p1R1pn2/N7/P2r3P/5P2/5PP1/1R3K2 w - -",
+        "id": "mes-648"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.649",
+        "fen": "8/8/P7/4k3/7B/8/1K6/6r1 w - -",
+        "id": "mes-649"
+    },
+    {
+        "bm": "Bd6",
+        "desc": "MES.650",
+        "fen": "8/6P1/8/5p2/1B5K/8/8/2kr4 w - -",
+        "id": "mes-650"
+    },
+    {
+        "bm": "Bc3",
+        "desc": "MES.651",
+        "fen": "7K/8/2P2B1p/8/5k2/8/8/7r w - -",
+        "id": "mes-651"
+    },
+    {
+        "bm": "Bf7",
+        "desc": "MES.652",
+        "fen": "4B3/8/k7/P7/8/8/3r3p/7K w - -",
+        "id": "mes-652"
+    },
+    {
+        "bm": "h7+",
+        "desc": "MES.653",
+        "fen": "6k1/4K3/6PP/8/7B/8/8/7r w - -",
+        "id": "mes-653"
+    },
+    {
+        "bm": "Kb4",
+        "desc": "MES.654",
+        "fen": "8/8/8/2P4P/8/2K5/7B/k4r2 w - -",
+        "id": "mes-654"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.655",
+        "fen": "5K2/8/8/1P2P3/8/4r3/k1B5/8 w - -",
+        "id": "mes-655"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.656",
+        "fen": "8/8/3K1B2/4P3/4P3/8/8/1k3r2 w - -",
+        "id": "mes-656"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.657",
+        "fen": "B7/8/P7/p7/8/K1p5/2k1r3/8 w - -",
+        "id": "mes-657"
+    },
+    {
+        "bm": "Be5",
+        "desc": "MES.658",
+        "fen": "8/p7/K5P1/8/2k1rP2/8/8/B7 w - -",
+        "id": "mes-658"
+    },
+    {
+        "bm": "a8=Q+",
+        "desc": "MES.659",
+        "fen": "8/Pk6/4K2P/8/6p1/8/8/r4B2 w - -",
+        "id": "mes-659"
+    },
+    {
+        "bm": "Be7",
+        "desc": "MES.660",
+        "fen": "4K3/8/p2B2P1/8/4kP2/8/p7/8 w - -",
+        "id": "mes-660"
+    },
+    {
+        "bm": "Bg2",
+        "desc": "MES.661",
+        "fen": "8/6Kp/3P4/2Pr1kp1/8/8/8/5B2 w - -",
+        "id": "mes-661"
+    },
+    {
+        "bm": "Kg6",
+        "desc": "MES.662",
+        "fen": "3k4/8/P4P2/5Kp1/6Bp/8/6r1/8 w - -",
+        "id": "mes-662"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.663",
+        "fen": "8/7p/B5P1/7P/5rk1/8/7P/6K1 w - -",
+        "id": "mes-663"
+    },
+    {
+        "bm": "Bd1",
+        "desc": "MES.664",
+        "fen": "5K1k/5P2/5P2/8/8/7p/2Br3P/8 w - -",
+        "id": "mes-664"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.665",
+        "fen": "8/p3B2p/1P5P/3P4/5r2/3k4/8/6K1 w - -",
+        "id": "mes-665"
+    },
+    {
+        "bm": "Kb8",
+        "desc": "MES.666",
+        "fen": "2K5/6p1/rp2P3/3p4/8/6Pk/2BP4/8 w - -",
+        "id": "mes-666"
+    },
+    {
+        "bm": "Bb4",
+        "desc": "MES.667",
+        "fen": "8/4B1pP/8/5p2/5P1p/5P1k/P3pK1P/r7 w - -",
+        "id": "mes-667"
+    },
+    {
+        "bm": "g7+",
+        "desc": "MES.668",
+        "fen": "5k2/1p3p2/1P3PPK/8/5p1p/4p2P/B3PP1p/5r2 w - -",
+        "id": "mes-668"
+    },
+    {
+        "bm": "Bc4",
+        "desc": "MES.669",
+        "fen": "K1k3B1/Pp2r2p/1Pp3p1/p1P3Pp/P6P/8/8/8 w - -",
+        "id": "mes-669"
+    },
+    {
+        "bm": "Re5",
+        "desc": "MES.670",
+        "fen": "3k2b1/8/3K4/2R5/4p3/8/8/8 w - -",
+        "id": "mes-670"
+    },
+    {
+        "bm": "Rf6",
+        "desc": "MES.671",
+        "fen": "7K/8/2b5/8/6kP/8/5R2/8 w - -",
+        "id": "mes-671"
+    },
+    {
+        "bm": "Kf4",
+        "desc": "MES.672",
+        "fen": "8/4b3/8/7k/7P/6K1/8/7R w - -",
+        "id": "mes-672"
+    },
+    {
+        "bm": "Rh3+",
+        "desc": "MES.673",
+        "fen": "K6k/8/3p4/8/8/2R5/3p4/3b4 w - -",
+        "id": "mes-673"
+    },
+    {
+        "bm": "Re4",
+        "desc": "MES.674",
+        "fen": "2k5/K7/4R3/8/3p3p/6b1/8/8 w - -",
+        "id": "mes-674"
+    },
+    {
+        "bm": "Rf2+",
+        "desc": "MES.675",
+        "fen": "8/8/8/5R2/2b5/2pp4/6k1/4K3 w - -",
+        "id": "mes-675"
+    },
+    {
+        "bm": "Rf5+",
+        "desc": "MES.676",
+        "fen": "5k2/8/8/3R4/6K1/8/3b2pP/8 w - -",
+        "id": "mes-676"
+    },
+    {
+        "bm": "Rg2",
+        "desc": "MES.677",
+        "fen": "8/6K1/7p/3k2bP/8/8/4R3/8 w - -",
+        "id": "mes-677"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.678",
+        "fen": "4k3/8/4K3/b7/8/4p3/6pP/2R5 w - -",
+        "id": "mes-678"
+    },
+    {
+        "bm": "Rb3",
+        "desc": "MES.679",
+        "fen": "3k4/8/5pb1/KR6/3P4/4p3/8/8 w - -",
+        "id": "mes-679"
+    },
+    {
+        "bm": "e4",
+        "desc": "MES.680",
+        "fen": "8/8/8/5b2/3p4/3p4/4PR1p/5K1k w - -",
+        "id": "mes-680"
+    },
+    {
+        "bm": "Rb3+",
+        "desc": "MES.681",
+        "fen": "8/4p3/4p3/8/1RK5/k5b1/p4P2/8 w - -",
+        "id": "mes-681"
+    },
+    {
+        "bm": "Rxc7",
+        "desc": "MES.682",
+        "fen": "8/bpp4p/8/K7/2R5/1p6/8/6k1 w - -",
+        "id": "mes-682"
+    },
+    {
+        "bm": "Rxf7",
+        "desc": "MES.683",
+        "fen": "6K1/5pR1/5P1k/8/8/1p1b2p1/6P1/8 w - -",
+        "id": "mes-683"
+    },
+    {
+        "bm": "exf5+",
+        "desc": "MES.684",
+        "fen": "8/p7/8/1Pp2p2/2R1P1k1/8/1p6/1b1K4 w - -",
+        "id": "mes-684"
+    },
+    {
+        "bm": "Rh8",
+        "desc": "MES.685",
+        "fen": "2b3R1/6P1/2p5/8/pP3k2/3p4/1P5p/K7 w - -",
+        "id": "mes-685"
+    },
+    {
+        "bm": "Rh7",
+        "desc": "MES.686",
+        "fen": "6b1/3R4/2pPp1p1/3k4/8/1P3P2/K6p/8 w - -",
+        "id": "mes-686"
+    },
+    {
+        "bm": "Kc6",
+        "desc": "MES.687",
+        "fen": "3b4/pK1Rp3/1p5p/k2p4/8/PP6/6p1/8 w - -",
+        "id": "mes-687"
+    },
+    {
+        "bm": "g8=Q",
+        "desc": "MES.688",
+        "fen": "8/p1ppp1P1/7b/1k2P3/1p1K4/5R2/P1P1p1Pp/8 w - -",
+        "id": "mes-688"
+    },
+    {
+        "bm": "Rh8",
+        "desc": "MES.689",
+        "fen": "3R4/p2P2b1/Pp1P1p1p/1P2p2P/p5Pp/kpP5/8/K7 w - -",
+        "id": "mes-689"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.690",
+        "fen": "6b1/1P6/6kP/8/1K6/8/6r1/8 w - -",
+        "id": "mes-690"
+    },
+    {
+        "bm": "Rg5+",
+        "desc": "MES.691",
+        "fen": "8/8/4KBk1/R7/8/8/7p/8 w - -",
+        "id": "mes-691"
+    },
+    {
+        "bm": "Rd3+",
+        "desc": "MES.692",
+        "fen": "8/8/8/8/5p2/R6B/1K2p3/3k4 w - -",
+        "id": "mes-692"
+    },
+    {
+        "bm": "Bf5+",
+        "desc": "MES.693",
+        "fen": "8/3k4/1K6/4R3/4B3/4p3/4p3/8 w - -",
+        "id": "mes-693"
+    },
+    {
+        "bm": "Bd2",
+        "desc": "MES.694",
+        "fen": "8/8/8/2K1ppB1/2R5/8/1p6/1k6 w - -",
+        "id": "mes-694"
+    },
+    {
+        "bm": "Re2",
+        "desc": "MES.695",
+        "fen": "8/8/8/1pp2B2/4R3/5K2/1k1p4/8 w - -",
+        "id": "mes-695"
+    },
+    {
+        "bm": "Bd6",
+        "desc": "MES.696",
+        "fen": "7k/6R1/8/8/p2K4/B2P4/P6p/8 w - -",
+        "id": "mes-696"
+    },
+    {
+        "bm": "a4+",
+        "desc": "MES.697",
+        "fen": "8/8/2p5/pkp3R1/7B/P7/2p3K1/8 w - -",
+        "id": "mes-697"
+    },
+    {
+        "bm": "Rg8+",
+        "desc": "MES.698",
+        "fen": "7R/3p4/5B2/1Pp5/6kP/8/3p2K1/8 w - -",
+        "id": "mes-698"
+    },
+    {
+        "bm": "Rh6+",
+        "desc": "MES.699",
+        "fen": "3B3k/5pp1/5R2/p4pK1/P7/8/p7/8 w - -",
+        "id": "mes-699"
+    },
+    {
+        "bm": "Ra3+",
+        "desc": "MES.700",
+        "fen": "8/1p6/k1p5/4p3/2K3p1/3R4/4Pp2/B7 w - -",
+        "id": "mes-700"
+    },
+    {
+        "bm": "b6",
+        "desc": "MES.701",
+        "fen": "8/2p2p1p/3p3P/1P1P2R1/5pPk/1p1p4/5PK1/6B1 w - -",
+        "id": "mes-701"
+    },
+    {
+        "bm": "Be5",
+        "desc": "MES.702",
+        "fen": "8/6B1/1r1P4/8/4K3/8/7b/2k5 w - -",
+        "id": "mes-702"
+    },
+    {
+        "bm": "Bf3",
+        "desc": "MES.703",
+        "fen": "8/6K1/2bP4/7B/4r3/8/1k6/8 w - -",
+        "id": "mes-703"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.704",
+        "fen": "4b3/8/7P/4P3/8/B7/5K1k/6r1 w - -",
+        "id": "mes-704"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.705",
+        "fen": "6BK/8/P2P3k/8/8/7b/1r6/8 w - -",
+        "id": "mes-705"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.706",
+        "fen": "4B3/8/2p2Pb1/3P2r1/8/8/6k1/2K5 w - -",
+        "id": "mes-706"
+    },
+    {
+        "bm": "Bc6+",
+        "desc": "MES.707",
+        "fen": "8/3kP3/3br1P1/6P1/7K/8/8/7B w - -",
+        "id": "mes-707"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.708",
+        "fen": "8/7b/1P5P/8/6B1/3r4/KP1k4/8 w - -",
+        "id": "mes-708"
+    },
+    {
+        "bm": "Bd1",
+        "desc": "MES.709",
+        "fen": "2K5/3pP3/3P4/8/2k5/8/2B1r1p1/6b1 w - -",
+        "id": "mes-709"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.710",
+        "fen": "K7/p7/5P2/7P/r4k2/8/5B1P/2b5 w - -",
+        "id": "mes-710"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.711",
+        "fen": "7K/8/P2P3k/5b2/1p3P2/1B6/7r/8 w - -",
+        "id": "mes-711"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.712",
+        "fen": "3r4/3pp2P/2P5/3p2Pp/kP5P/8/1P6/KBb5 w - -",
+        "id": "mes-712"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.713",
+        "fen": "8/7K/3PbP2/p1r5/k1p4p/1pP5/1P1P3P/1B6 w - -",
+        "id": "mes-713"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.714",
+        "fen": "k5K1/8/2P1r3/7B/8/rP6/8/8 w - -",
+        "id": "mes-714"
+    },
+    {
+        "bm": "Bc4+",
+        "desc": "MES.715",
+        "fen": "1r4k1/8/BPP4P/8/8/2K5/6r1/8 w - -",
+        "id": "mes-715"
+    },
+    {
+        "bm": "c6",
+        "desc": "MES.716",
+        "fen": "7k/b7/6b1/1RP5/8/K7/8/8 w - -",
+        "id": "mes-716"
+    },
+    {
+        "bm": "Kc8",
+        "desc": "MES.717",
+        "fen": "k2K4/8/1P6/8/1R6/3p4/1p2bb2/8 w - -",
+        "id": "mes-717"
+    },
+    {
+        "bm": "Rd5+",
+        "desc": "MES.718",
+        "fen": "8/1p4p1/1P1b2P1/KP5k/P3p3/1p6/3R4/7b w - -",
+        "id": "mes-718"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.719",
+        "fen": "2k5/K7/3RPr2/8/8/8/1b6/8 w - -",
+        "id": "mes-719"
+    },
+    {
+        "bm": "Rg8",
+        "desc": "MES.720",
+        "fen": "5b2/8/3P4/2K5/k7/3r1p2/8/6R1 w - -",
+        "id": "mes-720"
+    },
+    {
+        "bm": "Rg6",
+        "desc": "MES.721",
+        "fen": "k6r/P1b2P2/K1R5/8/8/8/8/8 w - -",
+        "id": "mes-721"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.722",
+        "fen": "8/6k1/1PPR4/2r5/7p/7b/3K4/8 w - -",
+        "id": "mes-722"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.723",
+        "fen": "8/8/P2PR2K/7p/8/8/7r/1k1b4 w - -",
+        "id": "mes-723"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.724",
+        "fen": "7K/7p/P2P4/k7/8/8/r3b3/7R w - -",
+        "id": "mes-724"
+    },
+    {
+        "bm": "Rb8+",
+        "desc": "MES.725",
+        "fen": "5R2/8/7P/p7/6P1/5K1b/1kP5/4r3 w - -",
+        "id": "mes-725"
+    },
+    {
+        "bm": "c3",
+        "desc": "MES.726",
+        "fen": "2k5/3R1P2/6P1/7p/8/8/1bP2r2/7K w - -",
+        "id": "mes-726"
+    },
+    {
+        "bm": "c3",
+        "desc": "MES.727",
+        "fen": "8/2p5/2p1r1P1/5b2/k1Kp4/8/2P3R1/8 w - -",
+        "id": "mes-727"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.728",
+        "fen": "8/3b4/k2p3P/1p1K3P/1P4r1/8/3R4/8 w - -",
+        "id": "mes-728"
+    },
+    {
+        "bm": "Rg2",
+        "desc": "MES.729",
+        "fen": "4r2k/4P2p/8/3pP3/3P1K2/8/R7/6b1 w - -",
+        "id": "mes-729"
+    },
+    {
+        "bm": "Rg8+",
+        "desc": "MES.730",
+        "fen": "5k2/5P2/rb3P2/1P3P2/5P2/5P2/5P1p/6RK w - -",
+        "id": "mes-730"
+    },
+    {
+        "bm": "Bd7",
+        "desc": "MES.731",
+        "fen": "1K6/4p3/8/1B1P4/8/1k4B1/3r4/8 w - -",
+        "id": "mes-731"
+    },
+    {
+        "bm": "Bd6",
+        "desc": "MES.732",
+        "fen": "5B2/1pr5/2p5/7p/8/7B/8/k3K3 w - -",
+        "id": "mes-732"
+    },
+    {
+        "bm": "h7+",
+        "desc": "MES.733",
+        "fen": "1r2B1k1/4P3/p6P/2p5/8/8/1B4K1/8 w - -",
+        "id": "mes-733"
+    },
+    {
+        "bm": "Bf5+",
+        "desc": "MES.734",
+        "fen": "2k5/6pB/1K6/P7/7B/5p1P/3p2r1/8 w - -",
+        "id": "mes-734"
+    },
+    {
+        "bm": "Ba8",
+        "desc": "MES.735",
+        "fen": "8/2K3p1/6p1/p2B2P1/3B4/P5r1/6Pp/7k w - -",
+        "id": "mes-735"
+    },
+    {
+        "bm": "Rd4+",
+        "desc": "MES.736",
+        "fen": "2BR4/8/K7/5p2/1k6/8/2p5/1b6 w - -",
+        "id": "mes-736"
+    },
+    {
+        "bm": "Bd3",
+        "desc": "MES.737",
+        "fen": "8/k1K5/b7/8/2p5/2R5/1p6/5B2 w - -",
+        "id": "mes-737"
+    },
+    {
+        "bm": "Rc6",
+        "desc": "MES.738",
+        "fen": "8/1B6/6R1/4b3/8/5K1p/6pp/7k w - -",
+        "id": "mes-738"
+    },
+    {
+        "bm": "c6+",
+        "desc": "MES.739",
+        "fen": "8/k7/7R/2P4K/4bp2/8/2p5/6B1 w - -",
+        "id": "mes-739"
+    },
+    {
+        "bm": "Re6",
+        "desc": "MES.740",
+        "fen": "8/8/3R1p1K/8/3P4/8/6bp/3B3k w - -",
+        "id": "mes-740"
+    },
+    {
+        "bm": "Rg5",
+        "desc": "MES.741",
+        "fen": "8/6p1/1B5k/2R5/8/5K2/5Pp1/5b2 w - -",
+        "id": "mes-741"
+    },
+    {
+        "bm": "Re1+",
+        "desc": "MES.742",
+        "fen": "8/8/8/8/3B4/4p2p/4RPbp/3K3k w - -",
+        "id": "mes-742"
+    },
+    {
+        "bm": "Re1",
+        "desc": "MES.743",
+        "fen": "7K/6p1/4P2k/2B4p/8/p3R3/bp6/8 w - -",
+        "id": "mes-743"
+    },
+    {
+        "bm": "Kb5",
+        "desc": "MES.744",
+        "fen": "kb2B3/1p3R2/4p2p/2P5/P1Kp4/6pp/8/8 w - -",
+        "id": "mes-744"
+    },
+    {
+        "bm": "h7+",
+        "desc": "MES.745",
+        "fen": "5Bk1/2R5/2p4P/p4p2/1p3P2/1P6/7p/1bK5 w - -",
+        "id": "mes-745"
+    },
+    {
+        "bm": "Rb7",
+        "desc": "MES.746",
+        "fen": "5B2/7R/p3kp2/p5pP/1b2P1P1/1p4P1/4P3/6K1 w - -",
+        "id": "mes-746"
+    },
+    {
+        "bm": "Kc8+",
+        "desc": "MES.747",
+        "fen": "1R1B4/1K6/8/8/8/8/1k3p2/7r w - -",
+        "id": "mes-747"
+    },
+    {
+        "bm": "Bc5",
+        "desc": "MES.748",
+        "fen": "r2k1B2/7R/p7/8/8/8/8/4K3 w - -",
+        "id": "mes-748"
+    },
+    {
+        "bm": "Rh1",
+        "desc": "MES.749",
+        "fen": "8/8/8/6B1/K6R/4p3/k3rp2/8 w - -",
+        "id": "mes-749"
+    },
+    {
+        "bm": "Bh4",
+        "desc": "MES.750",
+        "fen": "3B4/8/8/1r6/8/7k/p6p/R6K w - -",
+        "id": "mes-750"
+    },
+    {
+        "bm": "Bf5",
+        "desc": "MES.751",
+        "fen": "4kr2/R4p2/6p1/8/1K6/3B4/8/8 w - -",
+        "id": "mes-751"
+    },
+    {
+        "bm": "Rg7+",
+        "desc": "MES.752",
+        "fen": "5rkB/5p1R/6P1/8/8/5K2/8/8 w - -",
+        "id": "mes-752"
+    },
+    {
+        "bm": "Rh8+",
+        "desc": "MES.753",
+        "fen": "1k6/rp6/p7/p5B1/K7/8/8/7R w - -",
+        "id": "mes-753"
+    },
+    {
+        "bm": "Bf2",
+        "desc": "MES.754",
+        "fen": "8/8/8/8/1p6/p3B2k/6rp/R6K w - -",
+        "id": "mes-754"
+    },
+    {
+        "bm": "Bd5",
+        "desc": "MES.755",
+        "fen": "k6r/1R6/8/7p/7p/7p/6Bp/7K w - -",
+        "id": "mes-755"
+    },
+    {
+        "bm": "f8=Q",
+        "desc": "MES.756",
+        "fen": "3kB3/R4P2/8/8/1p6/pp6/5r2/1K6 w - -",
+        "id": "mes-756"
+    },
+    {
+        "bm": "Ra1",
+        "desc": "MES.757",
+        "fen": "7r/2B2Kpk/R7/8/6P1/6Pp/2p5/8 w - -",
+        "id": "mes-757"
+    },
+    {
+        "bm": "Rh1",
+        "desc": "MES.758",
+        "fen": "8/5B2/8/r2P1p1P/k4p1R/8/p4K2/8 w - -",
+        "id": "mes-758"
+    },
+    {
+        "bm": "Bb5",
+        "desc": "MES.759",
+        "fen": "R6R/1p1Bp2P/p3Ppp1/2pP1P1p/8/P6K/1P2p1P1/4k3 w - -",
+        "id": "mes-759"
+    },
+    {
+        "bm": "Bh4",
+        "desc": "MES.760",
+        "fen": "1r1B3k/3B4/8/8/8/2b5/8/7K w - -",
+        "id": "mes-760"
+    },
+    {
+        "bm": "Bf5+",
+        "desc": "MES.761",
+        "fen": "2k1K3/4B2B/7P/8/3r4/8/7b/8 w - -",
+        "id": "mes-761"
+    },
+    {
+        "bm": "Ba4+",
+        "desc": "MES.762",
+        "fen": "8/K2Pb3/2k5/8/1P3B2/1B3r2/3p4/8 w - -",
+        "id": "mes-762"
+    },
+    {
+        "bm": "Bg7+",
+        "desc": "MES.763",
+        "fen": "5B2/2P5/2p4P/2P5/1r4Pr/p5p1/p1B3Pp/k6K w - -",
+        "id": "mes-763"
+    },
+    {
+        "bm": "Bf2",
+        "desc": "MES.764",
+        "fen": "k4b2/8/8/8/6b1/6B1/6R1/6K1 w - -",
+        "id": "mes-764"
+    },
+    {
+        "bm": "Ke2",
+        "desc": "MES.765",
+        "fen": "1k6/8/8/7R/8/4K3/2b3B1/4b3 w - -",
+        "id": "mes-765"
+    },
+    {
+        "bm": "Rb2",
+        "desc": "MES.766",
+        "fen": "7k/pR6/8/8/2K1p3/8/2b1B2b/8 w - -",
+        "id": "mes-766"
+    },
+    {
+        "bm": "Bf3+",
+        "desc": "MES.767",
+        "fen": "8/8/8/p6B/R7/3b4/2p5/4K1bk w - -",
+        "id": "mes-767"
+    },
+    {
+        "bm": "Rf2",
+        "desc": "MES.768",
+        "fen": "K2b2B1/2p2R2/4p3/P7/k7/8/4b3/8 w - -",
+        "id": "mes-768"
+    },
+    {
+        "bm": "Rb3+",
+        "desc": "MES.769",
+        "fen": "1k3b2/4B2K/5r2/8/8/R7/8/8 w - -",
+        "id": "mes-769"
+    },
+    {
+        "bm": "Bc5+",
+        "desc": "MES.770",
+        "fen": "2b5/2ppB3/8/8/5R1P/2K5/7r/6k1 w - -",
+        "id": "mes-770"
+    },
+    {
+        "bm": "f8=Q+",
+        "desc": "MES.771",
+        "fen": "3k4/5Pbr/1KB5/8/1P6/8/7p/7R w - -",
+        "id": "mes-771"
+    },
+    {
+        "bm": "Bf1",
+        "desc": "MES.772",
+        "fen": "k7/Pb6/8/1B4K1/6R1/6pP/8/6r1 w - -",
+        "id": "mes-772"
+    },
+    {
+        "bm": "Ba6",
+        "desc": "MES.773",
+        "fen": "6r1/6b1/8/8/8/p1P5/P3B1R1/4k1K1 w - -",
+        "id": "mes-773"
+    },
+    {
+        "bm": "Be5",
+        "desc": "MES.774",
+        "fen": "4k2r/2K2p2/6P1/2R2P2/8/8/7B/b7 w k -",
+        "id": "mes-774"
+    },
+    {
+        "bm": "Ra6+",
+        "desc": "MES.775",
+        "fen": "8/kPp2B2/5R2/3K4/1r1bp3/P7/8/8 w - -",
+        "id": "mes-775"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.776",
+        "fen": "8/6p1/R2P2p1/7k/2B4P/4K3/6b1/1r6 w - -",
+        "id": "mes-776"
+    },
+    {
+        "bm": "Rg8",
+        "desc": "MES.777",
+        "fen": "5R2/3p1P2/1p3k2/3K4/4P3/1B1b4/4p3/r7 w - -",
+        "id": "mes-777"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.778",
+        "fen": "b6K/P4p2/3P3k/1p4p1/8/r7/B2P4/3R4 w - -",
+        "id": "mes-778"
+    },
+    {
+        "bm": "f5+",
+        "desc": "MES.779",
+        "fen": "8/8/2P1kpp1/1R2p3/1b3PP1/4B1K1/8/1r6 w - -",
+        "id": "mes-779"
+    },
+    {
+        "bm": "Rf4+",
+        "desc": "MES.780",
+        "fen": "6b1/2p5/2p1P3/p1P4p/k5B1/3r4/1P4K1/5R2 w - -",
+        "id": "mes-780"
+    },
+    {
+        "bm": "e8=Q",
+        "desc": "MES.781",
+        "fen": "kr6/4P3/1pb5/p5p1/P4p2/P3R3/5P2/2K2B2 w - -",
+        "id": "mes-781"
+    },
+    {
+        "bm": "Rb1+",
+        "desc": "MES.782",
+        "fen": "8/8/8/8/8/1k6/3r4/R4KBr w - -",
+        "id": "mes-782"
+    },
+    {
+        "bm": "Ba7",
+        "desc": "MES.783",
+        "fen": "KB6/1PRp2P1/k7/r7/8/8/6rp/8 w - -",
+        "id": "mes-783"
+    },
+    {
+        "bm": "Bd5",
+        "desc": "MES.784",
+        "fen": "8/2P5/p4k2/2r4p/3pB3/3P3K/rP1P4/7R w - -",
+        "id": "mes-784"
+    },
+    {
+        "bm": "Rd3+",
+        "desc": "MES.785",
+        "fen": "8/8/3R2R1/6K1/8/7k/1b1p1p2/3b4 w - -",
+        "id": "mes-785"
+    },
+    {
+        "bm": "Rg6+",
+        "desc": "MES.786",
+        "fen": "3r4/8/3b1k1K/R7/8/8/6R1/8 w - -",
+        "id": "mes-786"
+    },
+    {
+        "bm": "Rgxf2",
+        "desc": "MES.787",
+        "fen": "8/7p/4p3/4Pp2/b4r2/8/1R3pR1/5K1k w - -",
+        "id": "mes-787"
+    },
+    {
+        "bm": "Be3+",
+        "desc": "MES.788",
+        "fen": "7R/K6p/7k/8/6r1/7p/6B1/6B1 w - -",
+        "id": "mes-788"
+    },
+    {
+        "bm": "Ke4",
+        "desc": "MES.789",
+        "fen": "6kB/3p2PR/1p4PR/7P/P7/5K1b/8/8 w - -",
+        "id": "mes-789"
+    },
+    {
+        "bm": "Rg7",
+        "desc": "MES.790",
+        "fen": "k7/1RR5/8/1B6/8/r7/5p2/1K6 w - -",
+        "id": "mes-790"
+    },
+    {
+        "bm": "Ka4",
+        "desc": "MES.791",
+        "fen": "k7/2bP1b2/8/1K4R1/8/1B6/1r6/8 w - -",
+        "id": "mes-791"
+    },
+    {
+        "bm": "Bg2",
+        "desc": "MES.792",
+        "fen": "3Bb3/4P3/PP4P1/5pr1/7p/Rp2k2P/pP5P/5B1K w - -",
+        "id": "mes-792"
+    },
+    {
+        "bm": "Rh5+",
+        "desc": "MES.793",
+        "fen": "2b1r2k/8/3pP3/3P1R2/2R5/7K/r7/4b3 w - -",
+        "id": "mes-793"
+    },
+    {
+        "bm": "b3",
+        "desc": "MES.794",
+        "fen": "1r4k1/r4p2/4pBpp/1pR1P3/2b1P3/5PKP/1P6/3R4 w - -",
+        "id": "mes-794"
+    },
+    {
+        "bm": "Nc4+",
+        "desc": "MES.795",
+        "fen": "8/8/3P4/8/8/kr2N3/b7/4K3 w - -",
+        "id": "mes-795"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.796",
+        "fen": "1N6/5P2/P4r1b/8/8/8/8/K6k w - -",
+        "id": "mes-796"
+    },
+    {
+        "bm": "Nd6",
+        "desc": "MES.797",
+        "fen": "4N3/p3P3/2K5/4k3/1rP5/3b4/8/8 w - -",
+        "id": "mes-797"
+    },
+    {
+        "bm": "Nf7+",
+        "desc": "MES.798",
+        "fen": "7k/6b1/Pr5N/1P6/8/8/3P4/4K3 w - -",
+        "id": "mes-798"
+    },
+    {
+        "bm": "Ng5+",
+        "desc": "MES.799",
+        "fen": "8/7N/3P4/5P2/8/5kPb/6r1/1K6 w - -",
+        "id": "mes-799"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.800",
+        "fen": "6r1/P4N2/1b2P3/1k6/8/1p6/1P1K4/8 w - -",
+        "id": "mes-800"
+    },
+    {
+        "bm": "Nc3+",
+        "desc": "MES.801",
+        "fen": "8/4b3/1P4Pp/5r2/k7/8/7P/1N1K4 w - -",
+        "id": "mes-801"
+    },
+    {
+        "bm": "h7+",
+        "desc": "MES.802",
+        "fen": "6k1/3p1r2/2P3KP/1P6/8/2b5/8/6N1 w - -",
+        "id": "mes-802"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.803",
+        "fen": "7K/7p/P2P3k/8/r6P/8/5N2/3b4 w - -",
+        "id": "mes-803"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.804",
+        "fen": "1N3k2/8/p1P5/1P5P/p7/8/5r2/3K1b2 w - -",
+        "id": "mes-804"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.805",
+        "fen": "8/5P2/pNPp4/4k3/8/2P2r2/3K4/5b2 w - -",
+        "id": "mes-805"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.806",
+        "fen": "8/8/1P6/2r2P2/K3p3/2P2P2/8/b2kN3 w - -",
+        "id": "mes-806"
+    },
+    {
+        "bm": "Nd4",
+        "desc": "MES.807",
+        "fen": "8/1P6/5P2/1N1p4/1P5k/3r4/5P1b/2K5 w - -",
+        "id": "mes-807"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.808",
+        "fen": "8/1N5p/2P4k/6pP/3P1r2/7P/8/3bK3 w - -",
+        "id": "mes-808"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.809",
+        "fen": "3k2N1/8/P4p2/p6P/5rP1/8/K3b1P1/8 w - -",
+        "id": "mes-809"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.810",
+        "fen": "7K/3k4/P6P/8/pr1P4/p6b/P2N4/8 w - -",
+        "id": "mes-810"
+    },
+    {
+        "bm": "Nf7+",
+        "desc": "MES.811",
+        "fen": "8/p5p1/P1P1P2k/3r2Np/2p4P/6P1/2b2P2/6K1 w - -",
+        "id": "mes-811"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.812",
+        "fen": "8/p7/P3P3/K2B4/P7/3k4/n6r/8 w - -",
+        "id": "mes-812"
+    },
+    {
+        "bm": "Kd2",
+        "desc": "MES.813",
+        "fen": "8/8/8/3R4/8/3K4/n3p2b/1k6 w - -",
+        "id": "mes-813"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.814",
+        "fen": "8/8/5P2/2n5/5K1R/8/k7/5b2 w - -",
+        "id": "mes-814"
+    },
+    {
+        "bm": "Rb3",
+        "desc": "MES.815",
+        "fen": "1n6/7k/8/b7/8/4R3/6P1/3K4 w - -",
+        "id": "mes-815"
+    },
+    {
+        "bm": "Ke3",
+        "desc": "MES.816",
+        "fen": "6k1/8/8/4R3/5K2/8/1P2b3/2n5 w - -",
+        "id": "mes-816"
+    },
+    {
+        "bm": "Kf3",
+        "desc": "MES.817",
+        "fen": "1k6/8/3P4/3n4/3R4/8/6K1/1b6 w - -",
+        "id": "mes-817"
+    },
+    {
+        "bm": "Rc1",
+        "desc": "MES.818",
+        "fen": "8/1k6/1n6/K1R5/8/3p4/1P5b/8 w - -",
+        "id": "mes-818"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.819",
+        "fen": "1R6/8/P3b1p1/k7/8/7n/p5K1/8 w - -",
+        "id": "mes-819"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.820",
+        "fen": "8/1n6/6P1/7k/8/pp6/3R4/1K3b2 w - -",
+        "id": "mes-820"
+    },
+    {
+        "bm": "Kc8",
+        "desc": "MES.821",
+        "fen": "RK6/PPP5/8/2n5/7b/5pk1/8/8 w - -",
+        "id": "mes-821"
+    },
+    {
+        "bm": "Bf4",
+        "desc": "MES.822",
+        "fen": "8/8/4K2B/1P6/1k6/8/r7/3N4 w - -",
+        "id": "mes-822"
+    },
+    {
+        "bm": "Bh5",
+        "desc": "MES.823",
+        "fen": "4N3/r7/5P1k/8/6BK/8/8/8 w - -",
+        "id": "mes-823"
+    },
+    {
+        "bm": "Bf4",
+        "desc": "MES.824",
+        "fen": "1k6/1P1r4/1K1N4/8/8/8/3B4/8 w - -",
+        "id": "mes-824"
+    },
+    {
+        "bm": "Nc6+",
+        "desc": "MES.825",
+        "fen": "1NB5/8/6P1/6r1/3k4/8/7P/7K w - -",
+        "id": "mes-825"
+    },
+    {
+        "bm": "Nh5",
+        "desc": "MES.826",
+        "fen": "4B3/6N1/5rPk/8/7P/8/8/6K1 w - -",
+        "id": "mes-826"
+    },
+    {
+        "bm": "Nd6",
+        "desc": "MES.827",
+        "fen": "4N3/4Pr2/2p5/8/p7/k7/8/1K2B3 w - -",
+        "id": "mes-827"
+    },
+    {
+        "bm": "Nb4+",
+        "desc": "MES.828",
+        "fen": "8/7p/4Kp2/1P2B3/8/3k4/N2r4/8 w - -",
+        "id": "mes-828"
+    },
+    {
+        "bm": "Bd1",
+        "desc": "MES.829",
+        "fen": "8/4N3/8/4p3/B3p1rk/8/1P6/7K w - -",
+        "id": "mes-829"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.830",
+        "fen": "7B/8/4k2P/P7/1p6/r1N5/1K6/8 w - -",
+        "id": "mes-830"
+    },
+    {
+        "bm": "Kd3",
+        "desc": "MES.831",
+        "fen": "8/8/8/1B6/6p1/8/4KPpp/3N2kr w - -",
+        "id": "mes-831"
+    },
+    {
+        "bm": "Nd5",
+        "desc": "MES.832",
+        "fen": "4k3/8/pN4P1/8/5r2/5p2/1P3B2/1K6 w - -",
+        "id": "mes-832"
+    },
+    {
+        "bm": "a8=R",
+        "desc": "MES.833",
+        "fen": "2N5/P7/2p5/2k5/8/2P1p2K/4B2p/7r w - -",
+        "id": "mes-833"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.834",
+        "fen": "k3r3/2pp3p/2p1p3/4NP2/8/4K3/4B3/8 w - -",
+        "id": "mes-834"
+    },
+    {
+        "bm": "Bf3+",
+        "desc": "MES.835",
+        "fen": "8/8/2p5/3k4/p1p5/PpP5/1P2B3/r1NK4 w - -",
+        "id": "mes-835"
+    },
+    {
+        "bm": "Nxg6",
+        "desc": "MES.836",
+        "fen": "5N2/1K6/5ppp/1p1p1r1k/6pP/5pP1/5P2/3B4 w - -",
+        "id": "mes-836"
+    },
+    {
+        "bm": "Rg8+",
+        "desc": "MES.837",
+        "fen": "2k5/6R1/N7/8/8/6K1/7p/5b2 w - -",
+        "id": "mes-837"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.838",
+        "fen": "R7/8/3bN3/7p/7K/p1k5/6p1/8 w - -",
+        "id": "mes-838"
+    },
+    {
+        "bm": "Nc3",
+        "desc": "MES.839",
+        "fen": "8/8/8/6b1/1R2p2p/7p/5pPK/1N3k2 w - -",
+        "id": "mes-839"
+    },
+    {
+        "bm": "b7+",
+        "desc": "MES.840",
+        "fen": "k2N4/8/1P6/8/4R3/8/KPp3bp/8 w - -",
+        "id": "mes-840"
+    },
+    {
+        "bm": "Ra6",
+        "desc": "MES.841",
+        "fen": "5b2/R4P2/8/1p6/1p6/1K1p2p1/8/N1k5 w - -",
+        "id": "mes-841"
+    },
+    {
+        "bm": "Nc5",
+        "desc": "MES.842",
+        "fen": "R1b5/8/5k2/6p1/N7/4pp1P/7P/7K w - -",
+        "id": "mes-842"
+    },
+    {
+        "bm": "Rg3",
+        "desc": "MES.843",
+        "fen": "5k1N/1pK5/8/8/p7/1p5R/1Pb4P/8 w - -",
+        "id": "mes-843"
+    },
+    {
+        "bm": "Nc4",
+        "desc": "MES.844",
+        "fen": "k7/8/P7/N1p5/8/R1P1P3/1K5p/5b2 w - -",
+        "id": "mes-844"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.845",
+        "fen": "K7/8/k2bP3/p7/8/1p3p1R/P2P2p1/6N1 w - -",
+        "id": "mes-845"
+    },
+    {
+        "bm": "Rc2",
+        "desc": "MES.846",
+        "fen": "5k2/p1p1p3/2p1p2N/P1R5/P3KP2/8/p6P/b7 w - -",
+        "id": "mes-846"
+    },
+    {
+        "bm": "Be5+",
+        "desc": "MES.847",
+        "fen": "7R/8/3Bn3/8/5pK1/8/6p1/k7 w - -",
+        "id": "mes-847"
+    },
+    {
+        "bm": "Bd3+",
+        "desc": "MES.848",
+        "fen": "8/8/8/RB6/4p3/K7/7p/1kn5 w - -",
+        "id": "mes-848"
+    },
+    {
+        "bm": "Bd3",
+        "desc": "MES.849",
+        "fen": "1R6/8/B7/8/8/1K6/1p2p3/k3n3 w - -",
+        "id": "mes-849"
+    },
+    {
+        "bm": "Rb8+",
+        "desc": "MES.850",
+        "fen": "2k5/BR6/6n1/7p/7p/7K/p7/8 w - -",
+        "id": "mes-850"
+    },
+    {
+        "bm": "Ra3",
+        "desc": "MES.851",
+        "fen": "8/8/p7/8/P1k5/2n3p1/R1P5/KB6 w - -",
+        "id": "mes-851"
+    },
+    {
+        "bm": "Be4",
+        "desc": "MES.852",
+        "fen": "4K2k/6p1/6P1/3p4/8/8/2B2P1p/5Rn1 w - -",
+        "id": "mes-852"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.853",
+        "fen": "5N1k/8/2nPP3/P7/5p1r/3b4/5P2/3K4 w - -",
+        "id": "mes-853"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.854",
+        "fen": "8/8/1P2P3/6r1/2k1B1P1/7b/7n/3K4 w - -",
+        "id": "mes-854"
+    },
+    {
+        "bm": "Rg6+",
+        "desc": "MES.855",
+        "fen": "8/6k1/7R/5bK1/8/4n1b1/8/8 w - -",
+        "id": "mes-855"
+    },
+    {
+        "bm": "Ra7",
+        "desc": "MES.856",
+        "fen": "8/1b2n2k/8/8/5K2/2b5/R7/8 w - -",
+        "id": "mes-856"
+    },
+    {
+        "bm": "Rd7",
+        "desc": "MES.857",
+        "fen": "6k1/5R2/1P1n4/8/8/4b1K1/7r/8 w - -",
+        "id": "mes-857"
+    },
+    {
+        "bm": "Rh5+",
+        "desc": "MES.858",
+        "fen": "8/8/3P4/1b2R3/8/8/4p1rk/1n2K3 w - -",
+        "id": "mes-858"
+    },
+    {
+        "bm": "Nc6",
+        "desc": "MES.859",
+        "fen": "3N4/3P1b2/5Nk1/8/8/K7/7r/8 w - -",
+        "id": "mes-859"
+    },
+    {
+        "bm": "Nh2",
+        "desc": "MES.860",
+        "fen": "1b6/1P6/1p3P2/1N1p4/p6k/3r4/KP6/5N2 w - -",
+        "id": "mes-860"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.861",
+        "fen": "k6K/P3p2p/P1P3P1/1p6/8/pN2r1N1/2b5/8 w - -",
+        "id": "mes-861"
+    },
+    {
+        "bm": "Nb3",
+        "desc": "MES.862",
+        "fen": "8/pP1p3p/Pr3P1P/5p1K/5k2/5P1p/2N2b1P/N7 w - -",
+        "id": "mes-862"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.863",
+        "fen": "4K3/8/NP1p2n1/8/5k2/2B3r1/4P3/8 w - -",
+        "id": "mes-863"
+    },
+    {
+        "bm": "f5+",
+        "desc": "MES.864",
+        "fen": "3B4/5N1p/4kPr1/7p/4nP2/5K2/7P/8 w - -",
+        "id": "mes-864"
+    },
+    {
+        "bm": "Bg6",
+        "desc": "MES.865",
+        "fen": "K3B3/8/8/3N4/3k4/8/2r5/2b5 w - -",
+        "id": "mes-865"
+    },
+    {
+        "bm": "Bg4",
+        "desc": "MES.866",
+        "fen": "8/3K3k/8/1r5B/8/6P1/2b5/3N4 w - -",
+        "id": "mes-866"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.867",
+        "fen": "5k2/8/3P4/8/4N3/8/b7/rB1K4 w - -",
+        "id": "mes-867"
+    },
+    {
+        "bm": "Bg7",
+        "desc": "MES.868",
+        "fen": "4N3/8/7B/7r/8/1k6/1Pb5/4K3 w - -",
+        "id": "mes-868"
+    },
+    {
+        "bm": "Kf6",
+        "desc": "MES.869",
+        "fen": "8/8/8/3B2K1/8/8/5p1p/2k2Nbr w - -",
+        "id": "mes-869"
+    },
+    {
+        "bm": "Nd6+",
+        "desc": "MES.870",
+        "fen": "3B4/3b1p2/K7/8/2k1N3/8/1P4r1/8 w - -",
+        "id": "mes-870"
+    },
+    {
+        "bm": "Bd5+",
+        "desc": "MES.871",
+        "fen": "B5k1/8/1P1p1p1K/2N5/b7/r7/8/8 w - -",
+        "id": "mes-871"
+    },
+    {
+        "bm": "Bd4+",
+        "desc": "MES.872",
+        "fen": "8/P7/8/8/2p5/1pk3b1/2P1r3/N1K3B1 w - -",
+        "id": "mes-872"
+    },
+    {
+        "bm": "Nd5+",
+        "desc": "MES.873",
+        "fen": "6r1/P1P1k3/b2p4/2p4B/4KN2/8/8/8 w - -",
+        "id": "mes-873"
+    },
+    {
+        "bm": "Ba4",
+        "desc": "MES.874",
+        "fen": "2N1b3/2P1P1K1/4k3/p7/4p1p1/r7/2B5/8 w - -",
+        "id": "mes-874"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.875",
+        "fen": "8/6p1/P1p2N2/8/5PB1/3Pr3/8/1k3K1b w - -",
+        "id": "mes-875"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.876",
+        "fen": "KBr2k2/PN3P2/1p5P/1P3P2/8/8/8/7b w - -",
+        "id": "mes-876"
+    },
+    {
+        "bm": "Nc7+",
+        "desc": "MES.877",
+        "fen": "b7/pr6/k2PN3/p1P5/P7/7B/1p4P1/7K w - -",
+        "id": "mes-877"
+    },
+    {
+        "bm": "Ne8",
+        "desc": "MES.878",
+        "fen": "2B3K1/8/3N1p1p/6pk/5P1P/6P1/7r/5r2 w - -",
+        "id": "mes-878"
+    },
+    {
+        "bm": "Bf2+",
+        "desc": "MES.879",
+        "fen": "6n1/8/2p4P/8/8/r1p3K1/B7/4B1k1 w - -",
+        "id": "mes-879"
+    },
+    {
+        "bm": "Bd7+",
+        "desc": "MES.880",
+        "fen": "8/2B5/8/5B2/k7/P4n2/2Kp1rP1/8 w - -",
+        "id": "mes-880"
+    },
+    {
+        "bm": "Bf4",
+        "desc": "MES.881",
+        "fen": "8/1B5K/4Pp1p/8/k1r5/p2n4/P7/2B5 w - -",
+        "id": "mes-881"
+    },
+    {
+        "bm": "Nf7+",
+        "desc": "MES.882",
+        "fen": "8/8/7N/6k1/7b/8/1nK5/R7 w - -",
+        "id": "mes-882"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.883",
+        "fen": "8/4k3/4N3/n7/7b/4K3/8/R7 w - -",
+        "id": "mes-883"
+    },
+    {
+        "bm": "Rb3",
+        "desc": "MES.884",
+        "fen": "KR6/4n2k/8/8/8/b5N1/8/8 w - -",
+        "id": "mes-884"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.885",
+        "fen": "k7/3nN2R/8/8/8/8/1b6/3K4 w - -",
+        "id": "mes-885"
+    },
+    {
+        "bm": "Ra2",
+        "desc": "MES.886",
+        "fen": "R7/6N1/8/4p3/4k3/6n1/7b/3K4 w - -",
+        "id": "mes-886"
+    },
+    {
+        "bm": "Rd1",
+        "desc": "MES.887",
+        "fen": "1K6/8/1b1N1p2/3R4/8/8/7k/n7 w - -",
+        "id": "mes-887"
+    },
+    {
+        "bm": "Nc4",
+        "desc": "MES.888",
+        "fen": "k7/bRKp4/2n5/8/3p4/3PN3/8/8 w - -",
+        "id": "mes-888"
+    },
+    {
+        "bm": "Rb4",
+        "desc": "MES.889",
+        "fen": "8/8/8/1RP5/3n4/p7/P2p3k/2b1NK2 w - -",
+        "id": "mes-889"
+    },
+    {
+        "bm": "Rh8+",
+        "desc": "MES.890",
+        "fen": "4k3/n1P1p2R/p3p2P/4P1bN/4K1p1/8/1p6/8 w - -",
+        "id": "mes-890"
+    },
+    {
+        "bm": "f4",
+        "desc": "MES.891",
+        "fen": "2k1K2n/1p1p4/1Pp3p1/1N2b1P1/8/p4PR1/2P5/8 w - -",
+        "id": "mes-891"
+    },
+    {
+        "bm": "Rf3",
+        "desc": "MES.892",
+        "fen": "7k/5R2/K7/8/8/b6b/8/7N w - -",
+        "id": "mes-892"
+    },
+    {
+        "bm": "Ra1",
+        "desc": "MES.893",
+        "fen": "8/8/6b1/R2KNkb1/8/8/8/8 w - -",
+        "id": "mes-893"
+    },
+    {
+        "bm": "Ra7",
+        "desc": "MES.894",
+        "fen": "5k2/7R/b7/8/1K3N2/8/1b6/8 w - -",
+        "id": "mes-894"
+    },
+    {
+        "bm": "Ra6",
+        "desc": "MES.895",
+        "fen": "3k2b1/8/2R5/b3pN2/4p3/4K3/8/8 w - -",
+        "id": "mes-895"
+    },
+    {
+        "bm": "Nf4",
+        "desc": "MES.896",
+        "fen": "5k2/2pK4/8/2p3b1/2R5/8/4N1b1/8 w - -",
+        "id": "mes-896"
+    },
+    {
+        "bm": "Rd7",
+        "desc": "MES.897",
+        "fen": "4N1kb/2P2R2/b7/4pK2/4P3/6p1/8/8 w - -",
+        "id": "mes-897"
+    },
+    {
+        "bm": "Kc5",
+        "desc": "MES.898",
+        "fen": "1k3b1r/8/3N4/6p1/1K2R3/7P/8/8 w - -",
+        "id": "mes-898"
+    },
+    {
+        "bm": "Nf5",
+        "desc": "MES.899",
+        "fen": "8/4P3/4r3/k7/8/4N3/6p1/1R4Kb w - -",
+        "id": "mes-899"
+    },
+    {
+        "bm": "Nf5",
+        "desc": "MES.900",
+        "fen": "8/4P3/k7/3p4/3Nr3/8/6p1/3R2Kb w - -",
+        "id": "mes-900"
+    },
+    {
+        "bm": "Ka4",
+        "desc": "MES.901",
+        "fen": "8/1Pb3PR/8/8/2p5/K7/4k1r1/7N w - -",
+        "id": "mes-901"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.902",
+        "fen": "8/p6p/4P3/k7/3Nr1p1/6p1/6Kb/5R2 w - -",
+        "id": "mes-902"
+    },
+    {
+        "bm": "Rc8+",
+        "desc": "MES.903",
+        "fen": "1r3k2/7p/1P1K3P/8/1P6/8/2RN1p2/6b1 w - -",
+        "id": "mes-903"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.904",
+        "fen": "k4r2/1pp5/3bP3/3N4/5p2/1P6/4R1P1/K7 w - -",
+        "id": "mes-904"
+    },
+    {
+        "bm": "Rh3+",
+        "desc": "MES.905",
+        "fen": "8/8/n7/2n1P2k/1p6/B2R4/pP1K4/8 w - -",
+        "id": "mes-905"
+    },
+    {
+        "bm": "Bf6+",
+        "desc": "MES.906",
+        "fen": "3b3k/4n3/8/8/7B/8/8/5KR1 w - -",
+        "id": "mes-906"
+    },
+    {
+        "bm": "Rg4",
+        "desc": "MES.907",
+        "fen": "k7/8/3n4/8/7b/8/6R1/B5K1 w - -",
+        "id": "mes-907"
+    },
+    {
+        "bm": "Rc1",
+        "desc": "MES.908",
+        "fen": "8/2B5/k7/8/2b2K2/5n2/8/7R w - -",
+        "id": "mes-908"
+    },
+    {
+        "bm": "Re6+",
+        "desc": "MES.909",
+        "fen": "8/8/5k1K/5B2/4R2n/8/1bp5/8 w - -",
+        "id": "mes-909"
+    },
+    {
+        "bm": "Rd8",
+        "desc": "MES.910",
+        "fen": "6b1/1k6/3Rp3/8/2K3n1/8/8/B7 w - -",
+        "id": "mes-910"
+    },
+    {
+        "bm": "Rd5",
+        "desc": "MES.911",
+        "fen": "8/8/4n3/5R2/B6K/5P2/p5b1/7k w - -",
+        "id": "mes-911"
+    },
+    {
+        "bm": "Rc7+",
+        "desc": "MES.912",
+        "fen": "2R5/k2Bn3/1pP5/8/b7/2K5/8/8 w - -",
+        "id": "mes-912"
+    },
+    {
+        "bm": "Re5",
+        "desc": "MES.913",
+        "fen": "8/5k2/8/2BR4/b7/8/1P2p1Kp/1n6 w - -",
+        "id": "mes-913"
+    },
+    {
+        "bm": "d7+",
+        "desc": "MES.914",
+        "fen": "4b3/7K/2kPR3/8/4n3/B1pp4/3P4/8 w - -",
+        "id": "mes-914"
+    },
+    {
+        "bm": "Rh8+",
+        "desc": "MES.915",
+        "fen": "5k2/8/4B3/8/n7/r7/p1K4R/8 w - -",
+        "id": "mes-915"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.916",
+        "fen": "8/3p3B/1n2P2r/8/8/7k/R4P2/7K w - -",
+        "id": "mes-916"
+    },
+    {
+        "bm": "Rc4",
+        "desc": "MES.917",
+        "fen": "2k5/r4n2/1pB5/8/1R2P3/6P1/2p4K/8 w - -",
+        "id": "mes-917"
+    },
+    {
+        "bm": "Kf2",
+        "desc": "MES.918",
+        "fen": "8/8/8/3k3B/8/8/N3N1K1/4r3 w - -",
+        "id": "mes-918"
+    },
+    {
+        "bm": "Nb4+",
+        "desc": "MES.919",
+        "fen": "8/8/k7/8/8/N4B2/N2r4/6K1 w - -",
+        "id": "mes-919"
+    },
+    {
+        "bm": "Nd2",
+        "desc": "MES.920",
+        "fen": "8/2N5/8/8/4rk2/8/5K2/1N1B4 w - -",
+        "id": "mes-920"
+    },
+    {
+        "bm": "Bc6+",
+        "desc": "MES.921",
+        "fen": "8/1B6/8/5N2/k4B2/8/5r2/2K5 w - -",
+        "id": "mes-921"
+    },
+    {
+        "bm": "Be4",
+        "desc": "MES.922",
+        "fen": "8/8/8/1p4B1/8/4K3/8/1BkN3r w - -",
+        "id": "mes-922"
+    },
+    {
+        "bm": "Bf5",
+        "desc": "MES.923",
+        "fen": "kB6/p2r3B/5p2/1N6/5K2/8/8/8 w - -",
+        "id": "mes-923"
+    },
+    {
+        "bm": "Bb6",
+        "desc": "MES.924",
+        "fen": "k1r5/B7/5p2/2p5/2p5/2K5/4B3/5N2 w - -",
+        "id": "mes-924"
+    },
+    {
+        "bm": "Kg7",
+        "desc": "MES.925",
+        "fen": "Bk6/1P6/1P1N3K/8/5r2/5P2/7B/8 w - -",
+        "id": "mes-925"
+    },
+    {
+        "bm": "Be7",
+        "desc": "MES.926",
+        "fen": "3Br3/7P/8/6p1/2p3p1/2P2pPk/N4P2/3B3K w - -",
+        "id": "mes-926"
+    },
+    {
+        "bm": "Rf1",
+        "desc": "MES.927",
+        "fen": "N5K1/1N6/4k3/5R2/7b/8/7p/8 w - -",
+        "id": "mes-927"
+    },
+    {
+        "bm": "Bf5",
+        "desc": "MES.928",
+        "fen": "7N/3bp3/6K1/p5pp/7k/8/Pp3PP1/RB6 w - -",
+        "id": "mes-928"
+    },
+    {
+        "bm": "Bg1",
+        "desc": "MES.929",
+        "fen": "8/5kp1/7P/4ppPp/4P2P/5pKR/5PpB/3b3N w - -",
+        "id": "mes-929"
+    },
+    {
+        "bm": "Ba8",
+        "desc": "MES.930",
+        "fen": "8/2K5/N4r2/8/8/5B2/6R1/7k w - -",
+        "id": "mes-930"
+    },
+    {
+        "bm": "Rf6",
+        "desc": "MES.931",
+        "fen": "8/5p2/k1B4p/8/6K1/8/2r4N/5R2 w - -",
+        "id": "mes-931"
+    },
+    {
+        "bm": "Bf2",
+        "desc": "MES.932",
+        "fen": "8/ppn5/8/K1R5/P6k/6R1/2p1p3/6B1 w - -",
+        "id": "mes-932"
+    },
+    {
+        "bm": "Ne5+",
+        "desc": "MES.933",
+        "fen": "8/2N2NP1/2K3b1/8/2k5/4b3/6r1/8 w - -",
+        "id": "mes-933"
+    },
+    {
+        "bm": "e3",
+        "desc": "MES.934",
+        "fen": "2B5/3P1K1p/n7/6k1/1n1r3p/2N5/4P3/8 w - -",
+        "id": "mes-934"
+    },
+    {
+        "bm": "Bg7",
+        "desc": "MES.935",
+        "fen": "1k3B1r/N7/7P/8/3n4/7K/1b6/8 w - -",
+        "id": "mes-935"
+    },
+    {
+        "bm": "Nc7+",
+        "desc": "MES.936",
+        "fen": "4N3/Pp2P3/8/3k4/2b4r/2Pn4/1B1P4/K7 w - -",
+        "id": "mes-936"
+    },
+    {
+        "bm": "Be2+",
+        "desc": "MES.937",
+        "fen": "1K4br/N3P3/5p2/3P4/2k5/1p6/3P4/b2B4 w - -",
+        "id": "mes-937"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.938",
+        "fen": "1rb5/1P3kp1/P7/2p3K1/3b2P1/6PB/4P3/6N1 w - -",
+        "id": "mes-938"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.939",
+        "fen": "2N5/7p/3P3P/3P2r1/6p1/r3P3/p1p1P3/k1KbB3 w - -",
+        "id": "mes-939"
+    },
+    {
+        "bm": "Bf7",
+        "desc": "MES.940",
+        "fen": "2n4k/r6p/4BK2/p7/8/4p2n/1B6/8 w - -",
+        "id": "mes-940"
+    },
+    {
+        "bm": "Ba4+",
+        "desc": "MES.941",
+        "fen": "3B4/1r2p3/r2p1p2/bkp1P1p1/1p1P1PPp/p1P1K2P/PPB5/8 w - -",
+        "id": "mes-941"
+    },
+    {
+        "bm": "Rg8+",
+        "desc": "MES.942",
+        "fen": "4br1k/p5Rp/5PpN/6K1/6P1/n7/8/8 w - -",
+        "id": "mes-942"
+    },
+    {
+        "bm": "Ke3",
+        "desc": "MES.943",
+        "fen": "N3k1nR/p1p1Pp2/2P1pPr1/b2pP3/P1pP1K2/2P3p1/6P1/8 w - -",
+        "id": "mes-943"
+    },
+    {
+        "bm": "Nf7",
+        "desc": "MES.944",
+        "fen": "2br4/r2pp3/8/1p1p1kN1/pP1P4/2P3R1/PP3PP1/2K5 w - -",
+        "id": "mes-944"
+    },
+    {
+        "bm": "Rc8+",
+        "desc": "MES.945",
+        "fen": "7k/3p4/3nP2K/2R3p1/5n2/4r3/7B/8 w - -",
+        "id": "mes-945"
+    },
+    {
+        "bm": "b8=N+",
+        "desc": "MES.946",
+        "fen": "7r/1P5B/k2Pr3/1n1K4/8/2R5/8/8 w - -",
+        "id": "mes-946"
+    },
+    {
+        "bm": "Rb4+",
+        "desc": "MES.947",
+        "fen": "1k1r4/8/3P4/5K2/R1p5/n4R2/5pb1/8 w - -",
+        "id": "mes-947"
+    },
+    {
+        "bm": "Rc8+",
+        "desc": "MES.948",
+        "fen": "k2n4/p4pb1/1p1p1r2/3P4/K1R2RP1/3P4/1P6/8 w - -",
+        "id": "mes-948"
+    },
+    {
+        "bm": "Ba3+",
+        "desc": "MES.949",
+        "fen": "N7/4P3/8/2k5/b7/8/7r/K1B1N3 w - -",
+        "id": "mes-949"
+    },
+    {
+        "bm": "Bg2+",
+        "desc": "MES.950",
+        "fen": "k7/4P3/P3r3/7p/2N5/8/2K1b3/4NB2 w - -",
+        "id": "mes-950"
+    },
+    {
+        "bm": "d6",
+        "desc": "MES.951",
+        "fen": "r3k1K1/P1bpB2N/8/p2P4/1N6/8/8/8 w q -",
+        "id": "mes-951"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.952",
+        "fen": "1N6/1r1B3b/5P2/3K4/7B/8/6p1/6k1 w - -",
+        "id": "mes-952"
+    },
+    {
+        "bm": "Bd5",
+        "desc": "MES.953",
+        "fen": "6N1/6P1/2pk4/Kp2pp2/b6B/8/2r3B1/8 w - -",
+        "id": "mes-953"
+    },
+    {
+        "bm": "b8=N",
+        "desc": "MES.954",
+        "fen": "7r/PP1PP1N1/B1b5/2P5/3B1P2/5kP1/5p1P/7K w - -",
+        "id": "mes-954"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.955",
+        "fen": "8/8/1rP5/8/4B2r/B7/4N3/k1K5 w - -",
+        "id": "mes-955"
+    },
+    {
+        "bm": "Ng3+",
+        "desc": "MES.956",
+        "fen": "6R1/pN6/p7/2p4k/3r4/2K1b3/8/7N w - -",
+        "id": "mes-956"
+    },
+    {
+        "bm": "Bd2",
+        "desc": "MES.957",
+        "fen": "8/8/5n1K/8/2Pn1B1R/7N/2k1p3/8 w - -",
+        "id": "mes-957"
+    },
+    {
+        "bm": "Ra7",
+        "desc": "MES.958",
+        "fen": "8/3N1b2/1p6/Rp6/4B3/1p6/8/2Knk3 w - -",
+        "id": "mes-958"
+    },
+    {
+        "bm": "fxe5+",
+        "desc": "MES.959",
+        "fen": "8/2p1b3/2Pk4/4p3/2R1KP2/1p5N/1p6/3Bn3 w - -",
+        "id": "mes-959"
+    },
+    {
+        "bm": "Bc8",
+        "desc": "MES.960",
+        "fen": "k7/pR1Bb3/8/8/b5p1/4N1p1/8/2K5 w - -",
+        "id": "mes-960"
+    },
+    {
+        "bm": "a6",
+        "desc": "MES.961",
+        "fen": "3K2B1/8/6R1/P1n5/8/r7/N7/7k w - -",
+        "id": "mes-961"
+    },
+    {
+        "bm": "Ne4+",
+        "desc": "MES.962",
+        "fen": "4R1b1/4p3/3kp3/B6K/8/8/1r3N2/8 w - -",
+        "id": "mes-962"
+    },
+    {
+        "bm": "Ne4+",
+        "desc": "MES.963",
+        "fen": "4R1b1/2p5/3kp3/B6K/8/8/1r3N2/8 w - -",
+        "id": "mes-963"
+    },
+    {
+        "bm": "Rb5+",
+        "desc": "MES.964",
+        "fen": "1knB4/8/7p/5R2/7K/8/3r4/7B w - -",
+        "id": "mes-964"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.965",
+        "fen": "5n2/5NN1/2r4P/8/6k1/3PK2b/8/4n3 w - -",
+        "id": "mes-965"
+    },
+    {
+        "bm": "Bg8+",
+        "desc": "MES.966",
+        "fen": "7N/1Pp4B/3P4/5P2/2k4p/2bn2P1/1r4P1/3n2K1 w - -",
+        "id": "mes-966"
+    },
+    {
+        "bm": "b7+",
+        "desc": "MES.967",
+        "fen": "k7/8/1P1N1K2/8/7B/bN2r3/8/6n1 w - -",
+        "id": "mes-967"
+    },
+    {
+        "bm": "Na7+",
+        "desc": "MES.968",
+        "fen": "2kr4/3n4/1P4p1/NN2b1K1/B7/8/8/8 w - -",
+        "id": "mes-968"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.969",
+        "fen": "bN2N3/7k/1Pr1rp2/2P3P1/8/5K2/B7/8 w - -",
+        "id": "mes-969"
+    },
+    {
+        "bm": "Bb1",
+        "desc": "MES.970",
+        "fen": "8/4B3/P7/bNr5/3n4/8/B1P5/K1k5 w - -",
+        "id": "mes-970"
+    },
+    {
+        "bm": "Nb6+",
+        "desc": "MES.971",
+        "fen": "k3B2r/rn6/8/3N4/7B/1K6/8/8 w - -",
+        "id": "mes-971"
+    },
+    {
+        "bm": "Kg2",
+        "desc": "MES.972",
+        "fen": "1b5N/6p1/6B1/6k1/4n3/8/8/1bR2K2 w - -",
+        "id": "mes-972"
+    },
+    {
+        "bm": "f8=B",
+        "desc": "MES.973",
+        "fen": "1r5N/2PPPP1P/6r1/8/B4p2/4pPk1/3pRpP1/R6K w - -",
+        "id": "mes-973"
+    },
+    {
+        "bm": "Kc2",
+        "desc": "MES.974",
+        "fen": "4n2r/P2PPP1P/2PB4/7R/p5bp/1BK1P2k/1p6/b7 w - -",
+        "id": "mes-974"
+    },
+    {
+        "bm": "b8=N",
+        "desc": "MES.975",
+        "fen": "2r5/PPPnP1PP/2b3Pn/2P5/8/5kBp/5p1p/2N2RbK w - -",
+        "id": "mes-975"
+    },
+    {
+        "bm": "bxa8=R",
+        "desc": "MES.976",
+        "fen": "r6r/PPPPPP2/2N3P1/R4pP1/p4p2/R1NB1n1k/1p1p4/7K w - -",
+        "id": "mes-976"
+    },
+    {
+        "bm": "Qa8",
+        "desc": "MES.977",
+        "fen": "8/8/8/8/8/7p/3p2pp/Q2K3k w - -",
+        "id": "mes-977"
+    },
+    {
+        "bm": "Qe3",
+        "desc": "MES.978",
+        "fen": "8/8/8/5pp1/8/1K6/2pp1Q2/2k5 w - -",
+        "id": "mes-978"
+    },
+    {
+        "bm": "Kf3",
+        "desc": "MES.979",
+        "fen": "Q7/8/8/7P/4K3/8/3ppp2/7k w - -",
+        "id": "mes-979"
+    },
+    {
+        "bm": "Qb4",
+        "desc": "MES.980",
+        "fen": "K7/1P6/k1q5/8/8/1Q6/8/8 w - -",
+        "id": "mes-980"
+    },
+    {
+        "bm": "Ka1",
+        "desc": "MES.981",
+        "fen": "8/6pk/6q1/7p/7P/8/2Q5/1K6 w - -",
+        "id": "mes-981"
+    },
+    {
+        "bm": "Kg6",
+        "desc": "MES.982",
+        "fen": "6k1/3p4/5Q2/1q3pKp/8/8/P7/8 w - -",
+        "id": "mes-982"
+    },
+    {
+        "bm": "Qc3",
+        "desc": "MES.983",
+        "fen": "5K1k/8/2Q2P2/p7/8/7p/q5p1/8 w - -",
+        "id": "mes-983"
+    },
+    {
+        "bm": "h6+",
+        "desc": "MES.984",
+        "fen": "8/6k1/8/3pKQpP/3p4/8/8/3q4 w - -",
+        "id": "mes-984"
+    },
+    {
+        "bm": "Qf3+",
+        "desc": "MES.985",
+        "fen": "8/5K2/3pp3/8/5k1p/3p3Q/q3P3/8 w - -",
+        "id": "mes-985"
+    },
+    {
+        "bm": "Qb1",
+        "desc": "MES.986",
+        "fen": "8/7q/2K2p2/4p3/2k1P2p/8/3P4/7Q w - -",
+        "id": "mes-986"
+    },
+    {
+        "bm": "Qf7+",
+        "desc": "MES.987",
+        "fen": "8/p3K3/8/2pk3P/q2p4/8/p3P3/5Q2 w - -",
+        "id": "mes-987"
+    },
+    {
+        "bm": "c4",
+        "desc": "MES.988",
+        "fen": "8/1kPp1pp1/p1pP1p1p/Pq3P1P/4p3/8/2PQ4/K7 w - -",
+        "id": "mes-988"
+    },
+    {
+        "bm": "g5+",
+        "desc": "MES.989",
+        "fen": "8/5p2/6qk/2KN4/4P1PP/8/8/8 w - -",
+        "id": "mes-989"
+    },
+    {
+        "bm": "d3+",
+        "desc": "MES.990",
+        "fen": "2N5/8/2q4p/3N3P/1pk5/4P2P/K2P4/8 w - -",
+        "id": "mes-990"
+    },
+    {
+        "bm": "Ng4+",
+        "desc": "MES.991",
+        "fen": "8/1N3q2/3p4/pPp1k3/8/K2PN1P1/1P2P3/8 w - -",
+        "id": "mes-991"
+    },
+    {
+        "bm": "Nf7",
+        "desc": "MES.992",
+        "fen": "3N4/p2N4/q5p1/6p1/P1k1Pp2/7K/1PP2P2/8 w - -",
+        "id": "mes-992"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.993",
+        "fen": "8/2p2N2/6p1/1q4Np/pP1k1P1P/8/K1PP4/8 w - -",
+        "id": "mes-993"
+    },
+    {
+        "bm": "Nf4+",
+        "desc": "MES.994",
+        "fen": "4N3/7q/1Pp2pkp/7p/K7/3P2PP/2P1N2P/5n2 w - -",
+        "id": "mes-994"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.995",
+        "fen": "6n1/8/1K1kp2P/8/6Q1/Pp1q4/5P2/8 w - -",
+        "id": "mes-995"
+    },
+    {
+        "bm": "Qe7",
+        "desc": "MES.996",
+        "fen": "5Q2/8/8/7q/1KNk4/8/8/8 w - -",
+        "id": "mes-996"
+    },
+    {
+        "bm": "Qc7+",
+        "desc": "MES.997",
+        "fen": "1k2q3/8/4N3/8/2Q5/3K4/8/8 w - -",
+        "id": "mes-997"
+    },
+    {
+        "bm": "Nc5",
+        "desc": "MES.998",
+        "fen": "5k2/2Q5/q7/6K1/8/1N6/8/8 w - -",
+        "id": "mes-998"
+    },
+    {
+        "bm": "Ne1+",
+        "desc": "MES.999",
+        "fen": "8/8/8/7K/3Q4/5k2/q1N5/8 w - -",
+        "id": "mes-999"
+    },
+    {
+        "bm": "Nc3+",
+        "desc": "MES.1000",
+        "fen": "8/8/2Q5/2K5/4N3/6p1/k5q1/8 w - -",
+        "id": "mes-1000"
+    },
+    {
+        "bm": "Qf1+",
+        "desc": "MES.1001",
+        "fen": "2K5/1pp5/8/8/2Q5/4N3/3q4/6k1 w - -",
+        "id": "mes-1001"
+    },
+    {
+        "bm": "Qe8+",
+        "desc": "MES.1002",
+        "fen": "2k5/6K1/8/4N1pQ/8/p5q1/8/8 w - -",
+        "id": "mes-1002"
+    },
+    {
+        "bm": "Ne5+",
+        "desc": "MES.1003",
+        "fen": "3K4/8/p1k3N1/1p6/6Q1/1q6/8/8 w - -",
+        "id": "mes-1003"
+    },
+    {
+        "bm": "Qf4+",
+        "desc": "MES.1004",
+        "fen": "q7/4K3/8/4k3/1Q6/8/1p2N2p/8 w - -",
+        "id": "mes-1004"
+    },
+    {
+        "bm": "Qg2",
+        "desc": "MES.1005",
+        "fen": "QN6/P4q2/1p6/8/8/3k4/8/1K6 w - -",
+        "id": "mes-1005"
+    },
+    {
+        "bm": "Ne5+",
+        "desc": "MES.1006",
+        "fen": "8/1ppk4/q7/P2p4/1Pp1p1NQ/8/8/4K3 w - -",
+        "id": "mes-1006"
+    },
+    {
+        "bm": "Ne3+",
+        "desc": "MES.1007",
+        "fen": "8/4q3/2p5/2n2Q2/p5N1/7k/8/1K6 w - -",
+        "id": "mes-1007"
+    },
+    {
+        "bm": "Nc6+",
+        "desc": "MES.1008",
+        "fen": "8/K3N3/8/4p3/1k6/p4q1n/3P4/2Q5 w - -",
+        "id": "mes-1008"
+    },
+    {
+        "bm": "Ne4",
+        "desc": "MES.1009",
+        "fen": "8/K7/p7/1q6/1P6/1n1p2NQ/8/4k3 w - -",
+        "id": "mes-1009"
+    },
+    {
+        "bm": "Qf8+",
+        "desc": "MES.1010",
+        "fen": "1Q6/8/3N1k2/q2p4/P3p1K1/8/8/n7 w - -",
+        "id": "mes-1010"
+    },
+    {
+        "bm": "Qh6+",
+        "desc": "MES.1011",
+        "fen": "4nk2/7K/3P1p2/3p4/q5N1/8/8/2Q5 w - -",
+        "id": "mes-1011"
+    },
+    {
+        "bm": "Qe8",
+        "desc": "MES.1012",
+        "fen": "8/8/8/1p4pQ/n1p2kP1/7P/1Pq2PpK/6N1 w - -",
+        "id": "mes-1012"
+    },
+    {
+        "bm": "Qh2+",
+        "desc": "MES.1013",
+        "fen": "7k/3q4/8/8/6N1/8/n5Q1/Kn6 w - -",
+        "id": "mes-1013"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.1014",
+        "fen": "8/q7/8/p3Q1Nk/P2p4/8/1n6/Kn6 w - -",
+        "id": "mes-1014"
+    },
+    {
+        "bm": "b3+",
+        "desc": "MES.1015",
+        "fen": "8/5B2/p7/q5B1/k7/3K4/1P6/8 w - -",
+        "id": "mes-1015"
+    },
+    {
+        "bm": "Qxb2",
+        "desc": "MES.1016",
+        "fen": "8/K7/8/kp6/4b3/4p3/1p2Q3/6b1 w - -",
+        "id": "mes-1016"
+    },
+    {
+        "bm": "Qh7+",
+        "desc": "MES.1017",
+        "fen": "8/1Pq1k3/8/8/2b5/8/2Q5/1K6 w - -",
+        "id": "mes-1017"
+    },
+    {
+        "bm": "Qd4+",
+        "desc": "MES.1018",
+        "fen": "6bq/8/p4P2/1p6/1k6/1P6/2P2QK1/8 w - -",
+        "id": "mes-1018"
+    },
+    {
+        "bm": "Qd7+",
+        "desc": "MES.1019",
+        "fen": "8/8/8/K2k4/Q6B/8/8/7q w - -",
+        "id": "mes-1019"
+    },
+    {
+        "bm": "Qc5",
+        "desc": "MES.1020",
+        "fen": "8/1B3k2/8/6K1/q7/8/8/6Q1 w - -",
+        "id": "mes-1020"
+    },
+    {
+        "bm": "Qc3+",
+        "desc": "MES.1021",
+        "fen": "8/2p4p/8/4B2P/6q1/4k3/1Q6/5K2 w - -",
+        "id": "mes-1021"
+    },
+    {
+        "bm": "Qa5+",
+        "desc": "MES.1022",
+        "fen": "4K3/p5p1/8/2k5/5p2/8/p2Q4/qB6 w - -",
+        "id": "mes-1022"
+    },
+    {
+        "bm": "Qd4+",
+        "desc": "MES.1023",
+        "fen": "8/3b2Bq/8/7p/6k1/8/6K1/Q7 w - -",
+        "id": "mes-1023"
+    },
+    {
+        "bm": "Qd3+",
+        "desc": "MES.1024",
+        "fen": "8/8/K7/8/2B4p/2k2p2/7b/5Qq1 w - -",
+        "id": "mes-1024"
+    },
+    {
+        "bm": "Qe1+",
+        "desc": "MES.1025",
+        "fen": "7K/4Q3/b7/8/6B1/2p5/q4P2/7k w - -",
+        "id": "mes-1025"
+    },
+    {
+        "bm": "Qf6+",
+        "desc": "MES.1026",
+        "fen": "1q6/2b2p1p/7k/8/1p1Q4/8/1K3B2/8 w - -",
+        "id": "mes-1026"
+    },
+    {
+        "bm": "Bd3+",
+        "desc": "MES.1027",
+        "fen": "7K/8/3q4/1B1b4/4k3/2Q1Pp2/6p1/8 w - -",
+        "id": "mes-1027"
+    },
+    {
+        "bm": "Qh5+",
+        "desc": "MES.1028",
+        "fen": "4Q3/3p4/4b3/5k2/B1p5/5pK1/1q2P3/8 w - -",
+        "id": "mes-1028"
+    },
+    {
+        "bm": "Qa2+",
+        "desc": "MES.1029",
+        "fen": "K7/1p4p1/B7/8/k7/5p1P/1Q5b/6q1 w - -",
+        "id": "mes-1029"
+    },
+    {
+        "bm": "Qh6",
+        "desc": "MES.1030",
+        "fen": "q5b1/2p1p3/B7/3p4/p2k4/6K1/1P1P4/7Q w - -",
+        "id": "mes-1030"
+    },
+    {
+        "bm": "Bxe5+",
+        "desc": "MES.1031",
+        "fen": "8/5pB1/3q4/4pPp1/2Pk2P1/5K2/p7/1bQ5 w - -",
+        "id": "mes-1031"
+    },
+    {
+        "bm": "f4",
+        "desc": "MES.1032",
+        "fen": "q7/p7/4b3/B6p/7k/7P/5P1K/5B2 w - -",
+        "id": "mes-1032"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.1033",
+        "fen": "8/K4b2/3P1P2/1B2k1P1/8/4B3/4PP2/4bq2 w - -",
+        "id": "mes-1033"
+    },
+    {
+        "bm": "Bb3",
+        "desc": "MES.1034",
+        "fen": "7k/1b6/5p2/8/B1Q3KB/q7/1bp5/8 w - -",
+        "id": "mes-1034"
+    },
+    {
+        "bm": "a8=B",
+        "desc": "MES.1035",
+        "fen": "5q2/PP6/n7/1P3p2/pb3P2/4p3/4Pp1p/5K1k w - -",
+        "id": "mes-1035"
+    },
+    {
+        "bm": "a7",
+        "desc": "MES.1036",
+        "fen": "7k/7p/P4P1K/6PP/7q/5P1b/N4P2/8 w - -",
+        "id": "mes-1036"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.1037",
+        "fen": "4k2q/4p2P/pP2P1p1/6N1/5P2/b7/4P3/5K2 w - -",
+        "id": "mes-1037"
+    },
+    {
+        "bm": "Bf6",
+        "desc": "MES.1038",
+        "fen": "2n4K/3P2PP/4P2k/4q3/3p2PB/p2P4/3P4/8 w - -",
+        "id": "mes-1038"
+    },
+    {
+        "bm": "Bc3+",
+        "desc": "MES.1039",
+        "fen": "3K3k/p7/7P/3N1P2/1B6/6q1/8/8 w - -",
+        "id": "mes-1039"
+    },
+    {
+        "bm": "a8=Q",
+        "desc": "MES.1040",
+        "fen": "3N4/P6p/1P6/8/5k2/8/7p/q3B2K w - -",
+        "id": "mes-1040"
+    },
+    {
+        "bm": "d7",
+        "desc": "MES.1041",
+        "fen": "8/1N6/3P3K/7p/2k5/2P4q/2BP4/8 w - -",
+        "id": "mes-1041"
+    },
+    {
+        "bm": "Kf5",
+        "desc": "MES.1042",
+        "fen": "4N2q/3B3p/5p1p/7k/4K2p/7P/8/8 w - -",
+        "id": "mes-1042"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.1043",
+        "fen": "8/8/p7/kqB5/6pK/3N4/1PP1P3/8 w - -",
+        "id": "mes-1043"
+    },
+    {
+        "bm": "Bg3",
+        "desc": "MES.1044",
+        "fen": "8/5K2/8/P4pkp/3N4/5P1P/7B/4q3 w - -",
+        "id": "mes-1044"
+    },
+    {
+        "bm": "Nb5",
+        "desc": "MES.1045",
+        "fen": "k1K5/3p2p1/8/7P/3N1P1q/6p1/6P1/2B5 w - -",
+        "id": "mes-1045"
+    },
+    {
+        "bm": "Ne5+",
+        "desc": "MES.1046",
+        "fen": "1q6/2pk4/6N1/p1P5/4K3/Pp3B2/1P6/8 w - -",
+        "id": "mes-1046"
+    },
+    {
+        "bm": "Bd3+",
+        "desc": "MES.1047",
+        "fen": "5K2/1p6/6k1/3N3q/1P3P2/6pP/6P1/5B2 w - -",
+        "id": "mes-1047"
+    },
+    {
+        "bm": "Nh6",
+        "desc": "MES.1048",
+        "fen": "1B5k/4q2p/8/4p3/p2p2N1/1P1P4/2P5/K7 w - -",
+        "id": "mes-1048"
+    },
+    {
+        "bm": "Ne4+",
+        "desc": "MES.1049",
+        "fen": "8/2pq1p1K/2pPpk1B/5P2/5P2/2N5/4P3/8 w - -",
+        "id": "mes-1049"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.1050",
+        "fen": "2N5/6p1/1P2k1B1/p5P1/1P3P2/4P2q/8/1K6 w - -",
+        "id": "mes-1050"
+    },
+    {
+        "bm": "Nd7+",
+        "desc": "MES.1051",
+        "fen": "5N2/4pp1K/5k2/3p2p1/1B3qPP/8/2P3P1/8 w - -",
+        "id": "mes-1051"
+    },
+    {
+        "bm": "Nd6+",
+        "desc": "MES.1052",
+        "fen": "4N3/3p4/B3p3/1pP2kPK/5p2/2P5/4P1q1/8 w - -",
+        "id": "mes-1052"
+    },
+    {
+        "bm": "Nxb4",
+        "desc": "MES.1053",
+        "fen": "1K6/5p2/5p2/k2N1p2/Pp6/1PB2P2/1P3P2/7q w - -",
+        "id": "mes-1053"
+    },
+    {
+        "bm": "Be2+",
+        "desc": "MES.1054",
+        "fen": "8/2p1q3/p3P3/2P4p/1PBP2kP/2N3P1/7K/8 w - -",
+        "id": "mes-1054"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.1055",
+        "fen": "8/q7/p6P/B2p1p1p/3N3k/p1PP4/P4K1P/8 w - -",
+        "id": "mes-1055"
+    },
+    {
+        "bm": "c3",
+        "desc": "MES.1056",
+        "fen": "8/8/8/2k4K/3b4/8/2P3p1/3Q3n w - -",
+        "id": "mes-1056"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.1057",
+        "fen": "3k4/P7/3P2P1/2P1P3/3P2P1/N1p3p1/K4p2/5nqb w - -",
+        "id": "mes-1057"
+    },
+    {
+        "bm": "b8=Q+",
+        "desc": "MES.1058",
+        "fen": "b6n/kP3p1q/p2K1Pp1/P5Pp/7P/8/7B/8 w - -",
+        "id": "mes-1058"
+    },
+    {
+        "bm": "b3",
+        "desc": "MES.1059",
+        "fen": "8/K2Pk1P1/1Nqp4/6N1/8/8/bPP5/8 w - -",
+        "id": "mes-1059"
+    },
+    {
+        "bm": "Ngxf6+",
+        "desc": "MES.1060",
+        "fen": "6k1/p1p1ppP1/5b1K/3N1P1P/6Nq/8/P1P5/8 w - -",
+        "id": "mes-1060"
+    },
+    {
+        "bm": "a3+",
+        "desc": "MES.1061",
+        "fen": "2N5/1n6/6pP/5q2/1k1p4/1P1p1B2/PK6/8 w - -",
+        "id": "mes-1061"
+    },
+    {
+        "bm": "Ng4",
+        "desc": "MES.1062",
+        "fen": "3n3k/1p5p/2pP3q/2P1NP1P/1B2p2K/4P1P1/3P4/8 w - -",
+        "id": "mes-1062"
+    },
+    {
+        "bm": "dxe7",
+        "desc": "MES.1063",
+        "fen": "n7/4p3/1q1Pp1p1/1p4P1/1N2k1P1/4PpBK/1P3P1P/8 w - -",
+        "id": "mes-1063"
+    },
+    {
+        "bm": "Nd7",
+        "desc": "MES.1064",
+        "fen": "1b5q/5Pp1/8/1BN4k/8/7P/6K1/8 w - -",
+        "id": "mes-1064"
+    },
+    {
+        "bm": "b7",
+        "desc": "MES.1065",
+        "fen": "2b5/8/1P2q3/6p1/3p2pk/3p2N1/3P2PB/6K1 w - -",
+        "id": "mes-1065"
+    },
+    {
+        "bm": "Be4+",
+        "desc": "MES.1066",
+        "fen": "k2n4/p1BK4/8/1p6/8/1P1B4/q7/8 w - -",
+        "id": "mes-1066"
+    },
+    {
+        "bm": "Nd4+",
+        "desc": "MES.1067",
+        "fen": "3q4/8/6K1/8/4kb2/8/4N3/4Q3 w - -",
+        "id": "mes-1067"
+    },
+    {
+        "bm": "Nd5+",
+        "desc": "MES.1068",
+        "fen": "8/8/3b1N2/2p1p3/5k1K/Q7/2P5/3q4 w - -",
+        "id": "mes-1068"
+    },
+    {
+        "bm": "Qe2",
+        "desc": "MES.1069",
+        "fen": "8/4p2K/pp6/5k2/3bp2P/P4N2/1P4QP/3q4 w - -",
+        "id": "mes-1069"
+    },
+    {
+        "bm": "Qf7+",
+        "desc": "MES.1070",
+        "fen": "5B2/6pq/p7/8/8/1k6/8/2K1nQ2 w - -",
+        "id": "mes-1070"
+    },
+    {
+        "bm": "Qf4+",
+        "desc": "MES.1071",
+        "fen": "1Q3n2/p7/8/1B3p2/3k4/q7/3Kp3/8 w - -",
+        "id": "mes-1071"
+    },
+    {
+        "bm": "Qa4+",
+        "desc": "MES.1072",
+        "fen": "5B2/8/4p2p/p5q1/2k4n/4p3/4K3/Q7 w - -",
+        "id": "mes-1072"
+    },
+    {
+        "bm": "c4+",
+        "desc": "MES.1073",
+        "fen": "5nq1/1p1p2p1/8/B3p3/k7/5K2/2P2PP1/3Q4 w - -",
+        "id": "mes-1073"
+    },
+    {
+        "bm": "Kc6+",
+        "desc": "MES.1074",
+        "fen": "3q4/k2N4/N7/2K5/8/8/5B2/8 w - -",
+        "id": "mes-1074"
+    },
+    {
+        "bm": "Nb4",
+        "desc": "MES.1075",
+        "fen": "8/5N2/2q5/5p2/3p1k2/8/2N1BK2/8 w - -",
+        "id": "mes-1075"
+    },
+    {
+        "bm": "Be1+",
+        "desc": "MES.1076",
+        "fen": "8/7N/2p5/8/1k2q1pB/8/8/1N3K2 w - -",
+        "id": "mes-1076"
+    },
+    {
+        "bm": "Ne5",
+        "desc": "MES.1077",
+        "fen": "3N1kBK/5P2/2N4p/3p4/3Pq3/8/8/8 w - -",
+        "id": "mes-1077"
+    },
+    {
+        "bm": "b5+",
+        "desc": "MES.1078",
+        "fen": "4q3/p5p1/k5P1/8/1PN4K/8/1N2B3/8 w - -",
+        "id": "mes-1078"
+    },
+    {
+        "bm": "Nf7+",
+        "desc": "MES.1079",
+        "fen": "3N4/4p3/q3Bpp1/1N2k3/P6P/6P1/3K4/8 w - -",
+        "id": "mes-1079"
+    },
+    {
+        "bm": "Nc5+",
+        "desc": "MES.1080",
+        "fen": "8/p7/kq1B4/8/8/2KN4/4B3/8 w - -",
+        "id": "mes-1080"
+    },
+    {
+        "bm": "Bd4",
+        "desc": "MES.1081",
+        "fen": "3K1k2/2N5/8/3B1p2/5p2/8/5B2/q7 w - -",
+        "id": "mes-1081"
+    },
+    {
+        "bm": "Bg2",
+        "desc": "MES.1082",
+        "fen": "k7/8/2N5/3B4/3p3p/7q/7B/7K w - -",
+        "id": "mes-1082"
+    },
+    {
+        "bm": "Bc5+",
+        "desc": "MES.1083",
+        "fen": "5N2/B2Pk3/6B1/pq6/1p6/1Kp5/8/8 w - -",
+        "id": "mes-1083"
+    },
+    {
+        "bm": "Nf8+",
+        "desc": "MES.1084",
+        "fen": "8/3N1Ppk/7q/1b6/3K4/8/B2b4/8 w - -",
+        "id": "mes-1084"
+    },
+    {
+        "bm": "Qb4+",
+        "desc": "MES.1085",
+        "fen": "8/8/1Q1N3q/8/5k2/5p2/8/3bK1b1 w - -",
+        "id": "mes-1085"
+    },
+    {
+        "bm": "Be1+",
+        "desc": "MES.1086",
+        "fen": "3n1q2/5p2/7p/5b2/P2Q4/2B2pk1/8/3K4 w - -",
+        "id": "mes-1086"
+    },
+    {
+        "bm": "Qh2+",
+        "desc": "MES.1087",
+        "fen": "8/n5q1/B7/5pp1/P4k2/8/2pK4/1b5Q w - -",
+        "id": "mes-1087"
+    },
+    {
+        "bm": "Bb5+",
+        "desc": "MES.1088",
+        "fen": "4q3/n7/8/7P/k1B1N3/P3N3/8/K7 w - -",
+        "id": "mes-1088"
+    },
+    {
+        "bm": "g5+",
+        "desc": "MES.1089",
+        "fen": "4B3/6bp/5k1q/B7/1p4P1/5p2/5N2/5K2 w - -",
+        "id": "mes-1089"
+    },
+    {
+        "bm": "g3+",
+        "desc": "MES.1090",
+        "fen": "8/3N4/5P2/5q2/1Kp4k/2P5/1b1BP1PP/5B2 w - -",
+        "id": "mes-1090"
+    },
+    {
+        "bm": "Bf7+",
+        "desc": "MES.1091",
+        "fen": "N3kb2/pq4p1/4B1P1/1p1P2B1/p7/3P4/2P5/2K5 w - -",
+        "id": "mes-1091"
+    },
+    {
+        "bm": "Ne3",
+        "desc": "MES.1092",
+        "fen": "2B5/8/5q1k/2Q5/2N4n/6K1/8/8 w - -",
+        "id": "mes-1092"
+    },
+    {
+        "bm": "Bc4",
+        "desc": "MES.1093",
+        "fen": "1n6/5kPp/7P/3K2p1/8/1B4nQ/4q3/3b4 w - -",
+        "id": "mes-1093"
+    },
+    {
+        "bm": "Nf4+",
+        "desc": "MES.1094",
+        "fen": "3b1K2/NP6/4k3/n4p2/3p4/1P2qBP1/4N3/8 w - -",
+        "id": "mes-1094"
+    },
+    {
+        "bm": "Ne2",
+        "desc": "MES.1095",
+        "fen": "8/8/N4n2/8/8/6N1/1npQ1K2/bk6 w - -",
+        "id": "mes-1095"
+    },
+    {
+        "bm": "Qg5",
+        "desc": "MES.1096",
+        "fen": "5q2/n2P1k2/2b5/8/8/3N4/4BK2/6Q1 w - -",
+        "id": "mes-1096"
+    },
+    {
+        "bm": "Qxc7+",
+        "desc": "MES.1097",
+        "fen": "1Nk5/KNp5/4n2P/7B/1q4p1/6Q1/8/8 w - -",
+        "id": "mes-1097"
+    },
+    {
+        "bm": "Be6+",
+        "desc": "MES.1098",
+        "fen": "8/8/K7/Bp5N/2k5/6pB/6N1/6qb w - -",
+        "id": "mes-1098"
+    },
+    {
+        "bm": "e4",
+        "desc": "MES.1099",
+        "fen": "B5bB/pNp2p2/2k2N2/K2p2q1/P2p4/4P3/6PP/8 w - -",
+        "id": "mes-1099"
+    },
+    {
+        "bm": "Qc3+",
+        "desc": "MES.1100",
+        "fen": "4q3/K2n1n1p/7p/p2NkN2/2p4p/PP3b1P/2Q5/8 w - -",
+        "id": "mes-1100"
+    },
+    {
+        "bm": "Nc8+",
+        "desc": "MES.1101",
+        "fen": "7Q/k4pn1/3N4/2bq4/8/n2B3K/8/8 w - -",
+        "id": "mes-1101"
+    },
+    {
+        "bm": "Bxe5",
+        "desc": "MES.1102",
+        "fen": "8/1N2k3/4p1n1/4p3/n3Q1B1/1q6/p6B/K7 w - -",
+        "id": "mes-1102"
+    },
+    {
+        "bm": "Nd7+",
+        "desc": "MES.1103",
+        "fen": "8/8/5Nq1/3Nk3/8/K3BB2/3n4/4bn2 w - -",
+        "id": "mes-1103"
+    },
+    {
+        "bm": "Rc5",
+        "desc": "MES.1104",
+        "fen": "2k5/2P5/2K5/8/3q4/8/8/2R5 w - -",
+        "id": "mes-1104"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.1105",
+        "fen": "8/K3p3/4pP2/8/4R3/2P5/8/2q4k w - -",
+        "id": "mes-1105"
+    },
+    {
+        "bm": "Re8",
+        "desc": "MES.1106",
+        "fen": "5R2/4K3/5P2/4k1pp/1Pp5/2P1P2P/1P3q1P/8 w - -",
+        "id": "mes-1106"
+    },
+    {
+        "bm": "Qg1+",
+        "desc": "MES.1107",
+        "fen": "3r2kr/8/8/5K2/8/8/8/Q7 w - -",
+        "id": "mes-1107"
+    },
+    {
+        "bm": "Rh7+",
+        "desc": "MES.1108",
+        "fen": "5q1k/1RR5/8/8/8/8/4K3/8 w - -",
+        "id": "mes-1108"
+    },
+    {
+        "bm": "Ra3+",
+        "desc": "MES.1109",
+        "fen": "8/R7/6q1/8/8/7k/8/2KR4 w - -",
+        "id": "mes-1109"
+    },
+    {
+        "bm": "Rcb6",
+        "desc": "MES.1110",
+        "fen": "8/q7/2RKp3/1R6/8/k7/8/8 w - -",
+        "id": "mes-1110"
+    },
+    {
+        "bm": "Rb4+",
+        "desc": "MES.1111",
+        "fen": "8/1k3K2/8/8/2R1R3/q6p/8/8 w - -",
+        "id": "mes-1111"
+    },
+    {
+        "bm": "Rb8+",
+        "desc": "MES.1112",
+        "fen": "3R4/R7/8/8/8/3p1K2/8/1k4q1 w - -",
+        "id": "mes-1112"
+    },
+    {
+        "bm": "Rf7",
+        "desc": "MES.1113",
+        "fen": "8/8/p5p1/6Pk/4p3/2q5/P5RK/5R2 w - -",
+        "id": "mes-1113"
+    },
+    {
+        "bm": "Qc2",
+        "desc": "MES.1114",
+        "fen": "6k1/8/4p1K1/p2p4/3p1q2/8/6Rp/1Q6 w - -",
+        "id": "mes-1114"
+    },
+    {
+        "bm": "Rc7+",
+        "desc": "MES.1115",
+        "fen": "1q1r4/4k3/8/2R3K1/8/8/8/2Q5 w - -",
+        "id": "mes-1115"
+    },
+    {
+        "bm": "Qd1+",
+        "desc": "MES.1116",
+        "fen": "8/3k3p/6q1/5r2/1P4Qp/7P/p1r3P1/R3K2R w KQ -",
+        "id": "mes-1116"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.1117",
+        "fen": "k7/7K/8/5P2/8/8/3R4/6qn w - -",
+        "id": "mes-1117"
+    },
+    {
+        "bm": "Rh8+",
+        "desc": "MES.1118",
+        "fen": "q3N1R1/p7/8/8/4P2k/8/4K2P/8 w - -",
+        "id": "mes-1118"
+    },
+    {
+        "bm": "e7",
+        "desc": "MES.1119",
+        "fen": "8/2K5/4P2p/P7/8/N1k5/1q6/6R1 w - -",
+        "id": "mes-1119"
+    },
+    {
+        "bm": "Nf6+",
+        "desc": "MES.1120",
+        "fen": "7R/7N/8/q7/4k3/7P/1PP2K2/8 w - -",
+        "id": "mes-1120"
+    },
+    {
+        "bm": "Re2",
+        "desc": "MES.1121",
+        "fen": "7k/5p1p/8/7N/P1P5/8/K1R5/6q1 w - -",
+        "id": "mes-1121"
+    },
+    {
+        "bm": "Rc8",
+        "desc": "MES.1122",
+        "fen": "5q2/2R5/5p2/1k3N2/2p1P3/2P5/2K5/8 w - -",
+        "id": "mes-1122"
+    },
+    {
+        "bm": "Rb8",
+        "desc": "MES.1123",
+        "fen": "5R2/k2p1P2/p7/N7/3p4/8/K2P4/7q w - -",
+        "id": "mes-1123"
+    },
+    {
+        "bm": "e6",
+        "desc": "MES.1124",
+        "fen": "q4k2/p2pp2K/8/2R1P3/4N3/3P4/P7/8 w - -",
+        "id": "mes-1124"
+    },
+    {
+        "bm": "Rf8",
+        "desc": "MES.1125",
+        "fen": "R7/P7/4p3/k6q/p5p1/4N3/P1KP4/8 w - -",
+        "id": "mes-1125"
+    },
+    {
+        "bm": "Nh6+",
+        "desc": "MES.1126",
+        "fen": "3q2k1/p2pR3/1p6/4PN2/4PK2/8/5P2/8 w - -",
+        "id": "mes-1126"
+    },
+    {
+        "bm": "cxb7",
+        "desc": "MES.1127",
+        "fen": "7k/1p1N4/p1P5/P7/P2R4/1K6/3P1q2/8 w - -",
+        "id": "mes-1127"
+    },
+    {
+        "bm": "Rxb3",
+        "desc": "MES.1128",
+        "fen": "5kN1/3p1q2/5P2/5PP1/2pK4/1p1R4/1P6/8 w - -",
+        "id": "mes-1128"
+    },
+    {
+        "bm": "Rh8",
+        "desc": "MES.1129",
+        "fen": "k1K5/Np6/pP5R/P6p/5P2/8/2P5/5q2 w - -",
+        "id": "mes-1129"
+    },
+    {
+        "bm": "Nd6+",
+        "desc": "MES.1130",
+        "fen": "4k3/3p2q1/p4R2/2P1p3/4N3/5PP1/1K2P3/8 w - -",
+        "id": "mes-1130"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.1131",
+        "fen": "5k2/7p/p2p4/3P4/3N3p/5P1q/P4P2/1R4K1 w - -",
+        "id": "mes-1131"
+    },
+    {
+        "bm": "g6",
+        "desc": "MES.1132",
+        "fen": "R7/3p3p/8/3P2P1/3k4/1p5p/1P1NKP1P/7q w - -",
+        "id": "mes-1132"
+    },
+    {
+        "bm": "Re8+",
+        "desc": "MES.1133",
+        "fen": "R7/1p4p1/2q4p/1N6/4kP2/6P1/2PPp3/4K3 w - -",
+        "id": "mes-1133"
+    },
+    {
+        "bm": "b3+",
+        "desc": "MES.1134",
+        "fen": "8/1p5N/1p1pp3/1P1q4/K1k3P1/4P2R/1P6/8 w - -",
+        "id": "mes-1134"
+    },
+    {
+        "bm": "d8=Q",
+        "desc": "MES.1135",
+        "fen": "1N3q2/3P2R1/2p2p2/1k6/1p2P3/8/1P1PKP2/8 w - -",
+        "id": "mes-1135"
+    },
+    {
+        "bm": "Nd6",
+        "desc": "MES.1136",
+        "fen": "2Nq4/8/2R2p2/p2pp3/3kp2p/8/P3PK1P/8 w - -",
+        "id": "mes-1136"
+    },
+    {
+        "bm": "Rd4",
+        "desc": "MES.1137",
+        "fen": "8/1p6/p2R4/P3k1N1/2P2q2/p7/P2P1pP1/5K2 w - -",
+        "id": "mes-1137"
+    },
+    {
+        "bm": "Re2+",
+        "desc": "MES.1138",
+        "fen": "q3N3/1p6/1P1p3p/1p2kppP/3p2p1/1P1P4/2R3PK/8 w - -",
+        "id": "mes-1138"
+    },
+    {
+        "bm": "Rg8+",
+        "desc": "MES.1139",
+        "fen": "3k4/1p3p2/1N2q2p/1p3p2/1p1K1p1p/1P3P1P/1P1P4/6R1 w - -",
+        "id": "mes-1139"
+    },
+    {
+        "bm": "Rh3+",
+        "desc": "MES.1140",
+        "fen": "4q3/3Nnp2/6P1/8/7R/1P1k4/8/3K4 w - -",
+        "id": "mes-1140"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.1141",
+        "fen": "8/6N1/3k2pP/8/R7/1P3n2/KP1q4/8 w - -",
+        "id": "mes-1141"
+    },
+    {
+        "bm": "Rh7",
+        "desc": "MES.1142",
+        "fen": "4k3/2R5/1p6/1P2p3/4NP1q/P3P3/3K4/7n w - -",
+        "id": "mes-1142"
+    },
+    {
+        "bm": "Na5",
+        "desc": "MES.1143",
+        "fen": "8/1qp5/p1p1pn1P/4k3/5pP1/1N5K/PR3P2/8 w - -",
+        "id": "mes-1143"
+    },
+    {
+        "bm": "Re6+",
+        "desc": "MES.1144",
+        "fen": "8/3K4/1pR2ppn/4k3/p7/1PP2PP1/P1N5/7q w - -",
+        "id": "mes-1144"
+    },
+    {
+        "bm": "Re1+",
+        "desc": "MES.1145",
+        "fen": "4k3/1q6/6P1/8/3p2Rn/3K4/8/R7 w - -",
+        "id": "mes-1145"
+    },
+    {
+        "bm": "Qa3+",
+        "desc": "MES.1146",
+        "fen": "7q/K3p3/4Nr2/k3p2P/8/7Q/8/8 w - -",
+        "id": "mes-1146"
+    },
+    {
+        "bm": "Qa7+",
+        "desc": "MES.1147",
+        "fen": "2KN4/4k2p/7q/8/5p1r/7P/Q7/8 w - -",
+        "id": "mes-1147"
+    },
+    {
+        "bm": "Ne6+",
+        "desc": "MES.1148",
+        "fen": "Q2N3k/5p2/1r4q1/1p4p1/5PP1/1K3p2/8/8 w - -",
+        "id": "mes-1148"
+    },
+    {
+        "bm": "Nc3+",
+        "desc": "MES.1149",
+        "fen": "8/2K5/8/1k2N3/4Nq2/8/8/7R w - -",
+        "id": "mes-1149"
+    },
+    {
+        "bm": "Rf1+",
+        "desc": "MES.1150",
+        "fen": "8/8/1N6/3K4/3N2q1/7p/5R2/3k4 w - -",
+        "id": "mes-1150"
+    },
+    {
+        "bm": "gxh7+",
+        "desc": "MES.1151",
+        "fen": "5rk1/3NP2n/4rpP1/2P2q2/4P3/6K1/8/8 w - -",
+        "id": "mes-1151"
+    },
+    {
+        "bm": "Nh4+",
+        "desc": "MES.1152",
+        "fen": "8/4P3/6Nn/5n1K/R7/5k2/2q5/8 w - -",
+        "id": "mes-1152"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.1153",
+        "fen": "7k/1n4q1/2P5/8/5N2/3R4/2n5/7K w - -",
+        "id": "mes-1153"
+    },
+    {
+        "bm": "Ng2+",
+        "desc": "MES.1154",
+        "fen": "6Q1/8/8/1n6/2K4k/1r5q/4p3/4N3 w - -",
+        "id": "mes-1154"
+    },
+    {
+        "bm": "Ne5+",
+        "desc": "MES.1155",
+        "fen": "8/3k1Ppq/6n1/2K2p2/6N1/6R1/6N1/8 w - -",
+        "id": "mes-1155"
+    },
+    {
+        "bm": "Ra4",
+        "desc": "MES.1156",
+        "fen": "5k1q/6p1/6Pb/5K1p/4R3/8/8/8 w - -",
+        "id": "mes-1156"
+    },
+    {
+        "bm": "Kd5+",
+        "desc": "MES.1157",
+        "fen": "qb2k3/2p2p2/p1P2Pp1/Pp4P1/1P2K3/6p1/6P1/4R3 w - -",
+        "id": "mes-1157"
+    },
+    {
+        "bm": "Kg5",
+        "desc": "MES.1158",
+        "fen": "k7/rpp5/p7/8/7K/1b6/8/7Q w - -",
+        "id": "mes-1158"
+    },
+    {
+        "bm": "Kh6",
+        "desc": "MES.1159",
+        "fen": "4kr2/5p1K/3p1Q2/1p4P1/4P3/1PP5/7b/8 w - -",
+        "id": "mes-1159"
+    },
+    {
+        "bm": "Qxc3",
+        "desc": "MES.1160",
+        "fen": "7k/8/8/3p2p1/pP1PprPb/P1p4K/3Q1P2/8 w - -",
+        "id": "mes-1160"
+    },
+    {
+        "bm": "Bg3",
+        "desc": "MES.1161",
+        "fen": "4k3/4q3/8/4B3/3R4/8/8/7K w - -",
+        "id": "mes-1161"
+    },
+    {
+        "bm": "Be6+",
+        "desc": "MES.1162",
+        "fen": "1RB4k/1p6/5Kpp/8/8/8/6p1/1q6 w - -",
+        "id": "mes-1162"
+    },
+    {
+        "bm": "g3+",
+        "desc": "MES.1163",
+        "fen": "8/8/4q3/4p1pp/B4k2/3R4/4K1P1/8 w - -",
+        "id": "mes-1163"
+    },
+    {
+        "bm": "Rc4+",
+        "desc": "MES.1164",
+        "fen": "1qk5/3p1p1p/8/8/P6R/2B4K/2P5/8 w - -",
+        "id": "mes-1164"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.1165",
+        "fen": "5R2/8/2p1qP2/3p4/k7/8/3Pp3/2K1B3 w - -",
+        "id": "mes-1165"
+    },
+    {
+        "bm": "Ra8",
+        "desc": "MES.1166",
+        "fen": "6q1/6p1/2k4p/R6B/p7/8/2P3P1/2K5 w - -",
+        "id": "mes-1166"
+    },
+    {
+        "bm": "f5+",
+        "desc": "MES.1167",
+        "fen": "8/2K5/4kpq1/8/B4P1R/3p4/1P3P2/8 w - -",
+        "id": "mes-1167"
+    },
+    {
+        "bm": "Bc2",
+        "desc": "MES.1168",
+        "fen": "5q2/6p1/6k1/5pPp/1P2BR2/8/6P1/7K w - -",
+        "id": "mes-1168"
+    },
+    {
+        "bm": "Re7+",
+        "desc": "MES.1169",
+        "fen": "8/2k2q2/2PpR2p/2P4P/6p1/8/6p1/4B1K1 w - -",
+        "id": "mes-1169"
+    },
+    {
+        "bm": "Bc6+",
+        "desc": "MES.1170",
+        "fen": "1K2k3/6p1/p4p2/2pB1PP1/1P5R/q7/P6p/8 w - -",
+        "id": "mes-1170"
+    },
+    {
+        "bm": "gxh8=R",
+        "desc": "MES.1171",
+        "fen": "b6q/p2PPPP1/kp6/1p4P1/1P1P3p/4B2P/6r1/7K w - -",
+        "id": "mes-1171"
+    },
+    {
+        "bm": "Bb8+",
+        "desc": "MES.1172",
+        "fen": "8/k3N3/2PB1r2/3q2p1/6P1/6P1/6P1/6K1 w - -",
+        "id": "mes-1172"
+    },
+    {
+        "bm": "g7",
+        "desc": "MES.1173",
+        "fen": "8/2k1q3/6P1/3P4/8/2B4p/pR5P/Kb6 w - -",
+        "id": "mes-1173"
+    },
+    {
+        "bm": "hxg7+",
+        "desc": "MES.1174",
+        "fen": "2B4k/5pp1/3R1P1P/8/6P1/3b3q/1P6/6K1 w - -",
+        "id": "mes-1174"
+    },
+    {
+        "bm": "h8=Q+",
+        "desc": "MES.1175",
+        "fen": "5k2/4bP1P/B7/5P2/1p5p/4pPB1/1q6/4K1R1 w - -",
+        "id": "mes-1175"
+    },
+    {
+        "bm": "Bc4",
+        "desc": "MES.1176",
+        "fen": "3k4/P2p2P1/p1bPq3/2p5/p2P4/PpP5/1K1P1p2/R4B2 w - -",
+        "id": "mes-1176"
+    },
+    {
+        "bm": "Bf7",
+        "desc": "MES.1177",
+        "fen": "q4kBK/p2p2R1/P3p3/2P1p1P1/2P1b2p/7P/8/8 w - -",
+        "id": "mes-1177"
+    },
+    {
+        "bm": "Rf5+",
+        "desc": "MES.1178",
+        "fen": "8/p3b3/3q4/2k5/K7/1p3R2/8/4R3 w - -",
+        "id": "mes-1178"
+    },
+    {
+        "bm": "Kc5+",
+        "desc": "MES.1179",
+        "fen": "8/8/7q/6p1/k2KR1P1/8/bP6/5R2 w - -",
+        "id": "mes-1179"
+    },
+    {
+        "bm": "Bd3+",
+        "desc": "MES.1180",
+        "fen": "8/5b1B/kr6/7p/8/7P/1pp3KQ/8 w - -",
+        "id": "mes-1180"
+    },
+    {
+        "bm": "e4",
+        "desc": "MES.1181",
+        "fen": "8/k6p/7p/2P2Kbp/8/4P2Q/3p3B/2r5 w - -",
+        "id": "mes-1181"
+    },
+    {
+        "bm": "Qb7",
+        "desc": "MES.1182",
+        "fen": "r7/6Q1/P5p1/4p2p/1p6/2b5/2P4p/k1K2B2 w - -",
+        "id": "mes-1182"
+    },
+    {
+        "bm": "Qb1+",
+        "desc": "MES.1183",
+        "fen": "6B1/q4P2/1r6/2K5/8/pk6/8/5Q2 w - -",
+        "id": "mes-1183"
+    },
+    {
+        "bm": "Bh7",
+        "desc": "MES.1184",
+        "fen": "6Bk/Q7/7P/3p2r1/4q3/1p6/1P6/K7 w - -",
+        "id": "mes-1184"
+    },
+    {
+        "bm": "Re2+",
+        "desc": "MES.1185",
+        "fen": "3bk2K/3p4/3P1P2/1Q6/8/p1p2qp1/2R5/8 w - -",
+        "id": "mes-1185"
+    },
+    {
+        "bm": "Bh7+",
+        "desc": "MES.1186",
+        "fen": "5rk1/3qPb2/8/7P/8/3B4/8/1K1R4 w - -",
+        "id": "mes-1186"
+    },
+    {
+        "bm": "Bb3+",
+        "desc": "MES.1187",
+        "fen": "7r/2Kp2P1/q2Pk2p/8/6p1/5pPP/2B1nP2/8 w - -",
+        "id": "mes-1187"
+    },
+    {
+        "bm": "Re7+",
+        "desc": "MES.1188",
+        "fen": "2b1R3/1k6/q7/1pKN4/8/8/8/8 w - -",
+        "id": "mes-1188"
+    },
+    {
+        "bm": "c7+",
+        "desc": "MES.1189",
+        "fen": "1k1q4/8/2P2R1K/b7/3N4/8/8/8 w - -",
+        "id": "mes-1189"
+    },
+    {
+        "bm": "Nd8",
+        "desc": "MES.1190",
+        "fen": "5K2/1q1b3p/2N4k/2p3p1/6P1/R7/8/8 w - -",
+        "id": "mes-1190"
+    },
+    {
+        "bm": "Nc6+",
+        "desc": "MES.1191",
+        "fen": "2q3b1/p7/PR5p/4kppP/1N1p4/3P3K/3P2P1/8 w - -",
+        "id": "mes-1191"
+    },
+    {
+        "bm": "Bb2",
+        "desc": "MES.1192",
+        "fen": "8/1R4pk/3p3p/8/2P4K/q1BP4/2n3P1/8 w - -",
+        "id": "mes-1192"
+    },
+    {
+        "bm": "Re4+",
+        "desc": "MES.1193",
+        "fen": "8/8/5p2/6pp/Bqn3k1/6P1/1P3P1P/4R1K1 w - -",
+        "id": "mes-1193"
+    },
+    {
+        "bm": "Kb3",
+        "desc": "MES.1194",
+        "fen": "1R2B3/1p1p4/1p1P1p1p/kp1P1p2/5P2/2p3q1/K1P2n2/8 w - -",
+        "id": "mes-1194"
+    },
+    {
+        "bm": "Qb5",
+        "desc": "MES.1195",
+        "fen": "8/8/QP6/8/2n5/2p1k3/1p2Br2/3K4 w - -",
+        "id": "mes-1195"
+    },
+    {
+        "bm": "Na5+",
+        "desc": "MES.1196",
+        "fen": "1q6/8/8/8/2N4R/1k2B3/8/2K5 w - -",
+        "id": "mes-1196"
+    },
+    {
+        "bm": "gxh7+",
+        "desc": "MES.1197",
+        "fen": "5bk1/4P2n/1P4P1/4r2q/1Bp3P1/2Pp4/3P4/3K4 w - -",
+        "id": "mes-1197"
+    },
+    {
+        "bm": "f7+",
+        "desc": "MES.1198",
+        "fen": "4B1k1/7N/5PP1/4n2q/8/8/4r1P1/5K2 w - -",
+        "id": "mes-1198"
+    },
+    {
+        "bm": "b6+",
+        "desc": "MES.1199",
+        "fen": "1b3nq1/P1kp4/8/KP6/8/8/8/3R1B2 w - -",
+        "id": "mes-1199"
+    },
+    {
+        "bm": "Rg7+",
+        "desc": "MES.1200",
+        "fen": "6Rn/5k1K/1R6/8/4Pq2/5p2/8/1b6 w - -",
+        "id": "mes-1200"
+    },
+    {
+        "bm": "Ne4",
+        "desc": "MES.1201",
+        "fen": "6k1/8/4K3/1R5p/8/2N5/n2q3B/8 w - -",
+        "id": "mes-1201"
+    },
+    {
+        "bm": "Rd8",
+        "desc": "MES.1202",
+        "fen": "5K1k/7p/3R3p/7N/3p4/1B2p3/4P3/6qn w - -",
+        "id": "mes-1202"
+    },
+    {
+        "bm": "Re4+",
+        "desc": "MES.1203",
+        "fen": "8/4q3/5p2/B1N1b2p/P6k/P4P1p/8/4R2K w - -",
+        "id": "mes-1203"
+    },
+    {
+        "bm": "Ra2+",
+        "desc": "MES.1204",
+        "fen": "4rN1K/5pP1/5qB1/8/8/8/7R/k7 w - -",
+        "id": "mes-1204"
+    },
+    {
+        "bm": "Nd5+",
+        "desc": "MES.1205",
+        "fen": "4B2q/P1k2p2/3p3R/4r3/8/4N2K/8/8 w - -",
+        "id": "mes-1205"
+    },
+    {
+        "bm": "Bc6",
+        "desc": "MES.1206",
+        "fen": "4B3/8/6N1/5p2/1r4p1/6pk/7b/4K2Q w - -",
+        "id": "mes-1206"
+    },
+    {
+        "bm": "Rxb2",
+        "desc": "MES.1207",
+        "fen": "1Q6/1B5p/6nK/8/4p2p/2p1k3/1p1R4/r7 w - -",
+        "id": "mes-1207"
+    },
+    {
+        "bm": "h8=B",
+        "desc": "MES.1208",
+        "fen": "3nbK2/2nqp1PP/4pkP1/5pp1/6r1/b7/1p6/8 w - -",
+        "id": "mes-1208"
+    },
+    {
+        "bm": "h8=Q+",
+        "desc": "MES.1209",
+        "fen": "4K3/6kP/3B2P1/4N3/1n6/4rb2/8/4q3 w - -",
+        "id": "mes-1209"
+    },
+    {
+        "bm": "Na7+",
+        "desc": "MES.1210",
+        "fen": "2N5/3Nq3/p2p4/1k1P2p1/4p3/4K1p1/1PP1P3/1nr1B3 w - -",
+        "id": "mes-1210"
+    },
+    {
+        "bm": "Bc4+",
+        "desc": "MES.1211",
+        "fen": "r4bk1/P7/B2P4/6p1/3B1P2/2N3P1/1q6/7K w - -",
+        "id": "mes-1211"
+    },
+    {
+        "bm": "Rg4+",
+        "desc": "MES.1212",
+        "fen": "8/q1b5/8/p2B4/K3R3/8/2n5/4N2k w - -",
+        "id": "mes-1212"
+    },
+    {
+        "bm": "Nf5+",
+        "desc": "MES.1213",
+        "fen": "3R4/7n/K2N3k/1B1p2bP/8/8/8/3q4 w - -",
+        "id": "mes-1213"
+    },
+    {
+        "bm": "Nd8+",
+        "desc": "MES.1214",
+        "fen": "4n2q/1p1k2b1/1R2N3/8/6B1/6P1/6K1/8 w - -",
+        "id": "mes-1214"
+    },
+    {
+        "bm": "Re4+",
+        "desc": "MES.1215",
+        "fen": "3N4/6pp/n7/1B4b1/K4k2/3PR3/3P1PP1/6q1 w - -",
+        "id": "mes-1215"
+    },
+    {
+        "bm": "Nd6+",
+        "desc": "MES.1216",
+        "fen": "4N1Q1/8/7p/1ppp4/2k1q3/P1p4P/Pn2PP1b/2KB4 w - -",
+        "id": "mes-1216"
+    },
+    {
+        "bm": "Nc6+",
+        "desc": "MES.1217",
+        "fen": "8/8/1p4Q1/kpp1N3/1n6/1Kb1p3/2RpP3/r7 w - -",
+        "id": "mes-1217"
+    },
+    {
+        "bm": "Qe4+",
+        "desc": "MES.1218",
+        "fen": "k2r1q2/2b2p1Q/7R/pK6/2N5/1P6/8/8 w - -",
+        "id": "mes-1218"
+    },
+    {
+        "bm": "Nec3+",
+        "desc": "MES.1219",
+        "fen": "2q5/5R2/7B/4P3/N7/P4p1p/k3NP1P/4n2K w - -",
+        "id": "mes-1219"
+    },
+    {
+        "bm": "Nd5+",
+        "desc": "MES.1220",
+        "fen": "2R5/1pN5/1Bk5/8/4N3/3K4/8/4q1b1 w - -",
+        "id": "mes-1220"
+    },
+    {
+        "bm": "Rd2+",
+        "desc": "MES.1221",
+        "fen": "5Q2/PP1B1P2/1P6/2B5/1p1P4/7p/nPR1bp1P/3k3K w - -",
+        "id": "mes-1221"
+    },
+    {
+        "bm": "Nb1+",
+        "desc": "MES.1222",
+        "fen": "8/1Q1p4/5n1r/1K2p3/p7/kpN5/1pPPPPP1/r5b1 w - -",
+        "id": "mes-1222"
+    },
+    {
+        "bm": "Ne2+",
+        "desc": "MES.1223",
+        "fen": "8/6b1/4ppP1/3p1Pn1/1p1P1kBR/1p5P/3K2Pq/r1N5 w - -",
+        "id": "mes-1223"
+    },
+    {
+        "bm": "e8=Q+",
+        "desc": "MES.1224",
+        "fen": "r5n1/R3Pkpb/5P2/8/8/2p5/8/KBB3q1 w - -",
+        "id": "mes-1224"
+    },
+    {
+        "bm": "f4+",
+        "desc": "MES.1225",
+        "fen": "4r3/b3p1P1/2b2p1p/1q3PkP/1P6/5P2/4QP1B/6KN w - -",
+        "id": "mes-1225"
+    },
+    {
+        "bm": "Ra4+",
+        "desc": "MES.1226",
+        "fen": "n1bq3r/kp1p1K1p/1p1P3p/1P5P/3R3P/3P4/5B2/2Q5 w - -",
+        "id": "mes-1226"
+    },
+    {
+        "bm": "Qf3",
+        "desc": "MES.1227",
+        "fen": "k5n1/P3p2b/KpP1Ppp1/pPr3r1/2pp2Q1/p7/8/q1n3b1 w - -",
+        "id": "mes-1227"
+    },
+    {
+        "bm": "Qe2+",
+        "desc": "MES.1228",
+        "fen": "3q1rB1/p3b3/1pb1r1P1/2Ppp3/2k1N2P/P5K1/P2P4/4Q3 w - -",
+        "id": "mes-1228"
+    },
+    {
+        "bm": "Ke7",
+        "desc": "MES.1229",
+        "fen": "5K1k/5RRp/6pb/5p2/4p3/p5n1/5p2/Q4bqr w - -",
+        "id": "mes-1229"
+    },
+    {
+        "bm": "axb8=B",
+        "desc": "MES.1230",
+        "fen": "1q3r2/PrPPP1BP/1N2P3/8/1p2P3/1k4PN/2p5/K5RB w - -",
+        "id": "mes-1230"
+    },
+    {
+        "bm": "Rc4",
+        "desc": "MES.1231",
+        "fen": "6bq/1B3nrn/6pb/8/4R3/2N1pp2/7p/5K1k w - -",
+        "id": "mes-1231"
+    },
+    {
+        "bm": "Be3",
+        "desc": "MES.1232",
+        "fen": "8/7r/7k/7p/2NQ1q1P/bK1n4/Pp6/Nb4B1 w - -",
+        "id": "mes-1232"
+    },
+    {
+        "bm": "a8=Q+",
+        "desc": "MES.1233",
+        "fen": "2k2b2/P5r1/4R3/5B2/pN6/K3nq2/n6r/3R3b w - -",
+        "id": "mes-1233"
+    },
+    {
+        "bm": "a8=Q+",
+        "desc": "MES.1234",
+        "fen": "2k2b2/P5r1/4R3/5B2/pN6/K3nq2/n6r/3R3b w - -",
+        "id": "mes-1234"
+    },
+    {
+        "bm": "Ng6",
+        "desc": "MES.1235",
+        "fen": "4B3/2p5/8/4N3/4k3/2p1p3/K7/2b5 w - -",
+        "id": "mes-1235"
+    },
+    {
+        "bm": "Be7",
+        "desc": "MES.1236",
+        "fen": "b2B4/k7/5K2/4p3/8/6p1/B7/8 w - -",
+        "id": "mes-1236"
+    },
+    {
+        "bm": "f7",
+        "desc": "MES.1237",
+        "fen": "5q1k/4p1p1/4PPP1/2p3PK/p1Pp2P1/p2P4/P3R3/8 w - -",
+        "id": "mes-1237"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.1238",
+        "fen": "4BK2/8/2P2p1k/8/8/1p5P/1b6/8 w - -",
+        "id": "mes-1238"
+    },
+    {
+        "bm": "Nb3",
+        "desc": "MES.1239",
+        "fen": "7k/8/8/2b5/2P5/p2p4/8/2N2K2 w - -",
+        "id": "mes-1239"
+    },
+    {
+        "bm": "Ra1",
+        "desc": "MES.1240",
+        "fen": "k7/r5p1/1K3Pp1/1P3pn1/5R2/1b5p/8/5R2 w - -",
+        "id": "mes-1240"
+    },
+    {
+        "bm": "f6",
+        "desc": "MES.1241",
+        "fen": "k7/3Np3/8/1K3P2/1P5p/B2p4/8/4b3 w - -",
+        "id": "mes-1241"
+    },
+    {
+        "bm": "Kg3",
+        "desc": "MES.1242",
+        "fen": "8/8/8/3k3p/7P/7K/4P3/8 w - -",
+        "id": "mes-1242"
+    },
+    {
+        "bm": "Kb3",
+        "desc": "MES.1243",
+        "fen": "8/3pp3/8/8/2K5/8/4P3/k7 w - -",
+        "id": "mes-1243"
+    },
+    {
+        "bm": "Nc6",
+        "desc": "MES.1244",
+        "fen": "3b4/3P4/8/4N3/4K3/k7/8/8 w - -",
+        "id": "mes-1244"
+    },
+    {
+        "bm": "Ne5+",
+        "desc": "MES.1245",
+        "fen": "8/5k2/1KP5/8/2Nr4/8/8/8 w - -",
+        "id": "mes-1245"
+    },
+    {
+        "bm": "c7",
+        "desc": "MES.1246",
+        "fen": "8/4p3/2P2P1k/7p/8/3b4/R4P1K/1r6 w - -",
+        "id": "mes-1246"
+    },
+    {
+        "bm": "b4",
+        "desc": "MES.1247",
+        "fen": "8/6p1/5p2/4pP2/4P3/1P1P4/3P4/k1K2n2 w - -",
+        "id": "mes-1247"
+    },
+    {
+        "bm": "Rd8",
+        "desc": "MES.1248",
+        "fen": "2R5/2P5/1k6/8/7r/1K5P/1P6/8 w - -",
+        "id": "mes-1248"
+    },
+    {
+        "bm": "Bxc4",
+        "desc": "MES.1249",
+        "fen": "8/5bPK/P7/7k/2pP3P/8/B6p/8 w - -",
+        "id": "mes-1249"
+    },
+    {
+        "bm": "Bh1",
+        "desc": "MES.1250",
+        "fen": "B1K5/P7/8/8/8/kpp5/8/8 w - -",
+        "id": "mes-1250"
+    },
+    {
+        "bm": "b5",
+        "desc": "MES.1251",
+        "fen": "8/2p2p2/p7/2p5/PP6/3KP3/8/5k2 w - -",
+        "id": "mes-1251"
+    },
+    {
+        "bm": "h7",
+        "desc": "MES.1252",
+        "fen": "5k2/8/3N1p1P/8/7K/8/6pP/8 w - -",
+        "id": "mes-1252"
+    },
+    {
+        "bm": "Bg8",
+        "desc": "MES.1253",
+        "fen": "8/r3k2B/7P/n1K5/7P/8/8/8 w - -",
+        "id": "mes-1253"
+    },
+    {
+        "bm": "c5+",
+        "desc": "MES.1254",
+        "fen": "8/K6N/3k2P1/8/2P5/8/2N5/5r2 w - -",
+        "id": "mes-1254"
+    },
+    {
+        "bm": "Rh1+",
+        "desc": "MES.1255",
+        "fen": "8/1B2p2K/1P5p/6r1/8/7b/7k/2R5 w - -",
+        "id": "mes-1255"
+    },
+    {
+        "bm": "Nb4",
+        "desc": "MES.1256",
+        "fen": "4n3/2b5/N6P/3K4/7B/pk6/8/8 w - -",
+        "id": "mes-1256"
+    },
+    {
+        "bm": "Ne3",
+        "desc": "MES.1257",
+        "fen": "7K/7p/1P6/8/6rB/8/4k3/5N2 w - -",
+        "id": "mes-1257"
+    },
+    {
+        "bm": "Nc4",
+        "desc": "MES.1258",
+        "fen": "K1k5/P7/8/7P/8/4N1b1/8/8 w - -",
+        "id": "mes-1258"
+    }
+]
